@@ -204,7 +204,8 @@ class PresentationBuilder:
                 "<p>Fixes between the runs: every chunk labelled with its document title (premium tables and conditions no longer "
                 "get attributed to the wrong product), legacy Thai PUA characters mapped to standard Thai, and a routing rule so "
                 "that a product question mentioning \"สมัคร\" (apply) is answered instead of starting lead capture, plus a note in the answer "
-                "prompt that the car tables' \"Dealer\" / \"Insurer\" columns mean ซ่อมห้าง / ซ่อมอู่. One answer "
+                "prompt that the car tables' \"Dealer\" / \"Insurer\" columns mean ซ่อมห้าง / ซ่อมอู่, and chunks enlarged from 700 to 1000 characters after a "
+                "comparison (logs/chunk_comparison.md). One answer "
                 "key was relaxed from \"1-24\" to \"24\" because the answer \"ปีที่ 1 ถึงปีที่ 24\" was correct.</p>")
         return dict(
             guide_css=(self.dir / "assets" / "guide.css").read_text(encoding="utf-8"),

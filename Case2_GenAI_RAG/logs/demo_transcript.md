@@ -1,6 +1,6 @@
 # Demo transcript
 
-Generated 2026-10-05 01:09 · chat model `qwen3:14b` · embeddings `bge-m3` · sample knowledge base
+Generated 2026-10-05 02:20 · chat model `qwen3:14b` · embeddings `bge-m3` · sample knowledge base
 
 
 ## Session `alice`
@@ -9,25 +9,25 @@ Generated 2026-10-05 01:09 · chat model `qwen3:14b` · embeddings `bge-m3` · s
 
 > **Assistant:** Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?
 
-<sub>Demonstrates: Small talk · graph path: `classify → smalltalk → update_memory` · mode: `qa` · 2.0s</sub>
+<sub>Demonstrates: Small talk · graph path: `classify → smalltalk → update_memory` · mode: `qa` · 2.2s</sub>
 
 **Customer:** How long do I pay premiums for Khum Aomsook, and how long is the cover?
 
 > **Assistant:** For Khum Aomsook, you pay premiums for 15 years, and the coverage lasts for 25 years [Khum_Aomsook.pdf, p.2].
 
-<sub>Demonstrates: English question, answer with citation from a Thai document · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 6.6s</sub>
+<sub>Demonstrates: English question, answer with citation from a Thai document · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 6.8s</sub>
 
 **Customer:** And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?
 
 > **Assistant:** For a 30-year-old man with a 300,000 THB sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].
 
-<sub>Demonstrates: Follow-up resolved from memory ('it' = Khum Aomsook) · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 4.4s</sub>
+<sub>Demonstrates: Follow-up resolved from memory ('it' = Khum Aomsook) · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 6.8s</sub>
 
 **Customer:** Do you sell travel insurance?
 
 > **Assistant:** Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.
 
-<sub>Demonstrates: Not in the knowledge base: retrieve > grade > rewrite > retrieve cycle, then fallback · graph path: `classify → contextualize → retrieve → grade → rewrite_query → retrieve → grade → not_found → update_memory` · mode: `qa` · 3.9s</sub>
+<sub>Demonstrates: Not in the knowledge base: retrieve > grade > rewrite > retrieve cycle, then fallback · graph path: `classify → contextualize → retrieve → grade → rewrite_query → retrieve → grade → not_found → update_memory` · mode: `qa` · 4.2s</sub>
 
 **Customer:** I'm interested in Khum Aomsook. Can an agent contact me?
 
@@ -39,21 +39,21 @@ Generated 2026-10-05 01:09 · chat model `qwen3:14b` · embeddings `bge-m3` · s
 
 > **Assistant:** Thank you Alice Wong! Could you also share your monthly income (THB) and a contact phone number?
 
-<sub>Demonstrates: Partial lead details extracted · graph path: `classify → extract_lead → ask_missing → update_memory` · mode: `lead_collection` · 3.2s</sub>
+<sub>Demonstrates: Partial lead details extracted · graph path: `classify → extract_lead → ask_missing → update_memory` · mode: `lead_collection` · 3.1s</sub>
 
 **Customer:** Before that - is the premium fixed or does it go up with age?
 
-> **Assistant:** The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].
+> **Assistant:** The premium for Khum Aomsook does not increase with age; it remains fixed throughout the policy term [Khum_Aomsook.pdf, p.2].
 > 
 > To continue with your application, could you share your monthly income (THB) and a contact phone number?
 
-<sub>Demonstrates: Side question answered during lead collection, then reminder · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `lead_collection` · 10.1s</sub>
+<sub>Demonstrates: Side question answered during lead collection, then reminder · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `lead_collection` · 10.4s</sub>
 
 **Customer:** I earn about 32,000 baht a month, my number is 089-765-4321
 
 > **Assistant:** Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.
 
-<sub>Demonstrates: Lead complete: validated and saved through the MCP tool · graph path: `classify → extract_lead → save_lead → update_memory` · mode: `qa` · 3.5s</sub>
+<sub>Demonstrates: Lead complete: validated and saved through the MCP tool · graph path: `classify → extract_lead → save_lead → update_memory` · mode: `qa` · 3.4s</sub>
 
 **Customer:** What's my name, and what did I ask about first?
 
@@ -66,16 +66,16 @@ Generated 2026-10-05 01:09 · chat model `qwen3:14b` · embeddings `bge-m3` · s
 
 **Customer:** อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม
 
-> **Assistant:** ผลตอบแทน (IRR) ของ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  
+> **Assistant:** ผลตอบแทน (IRR) ของอีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  
 > ไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]
 
-<sub>Demonstrates: Thai question, two facts from one document · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 6.6s</sub>
+<sub>Demonstrates: Thai question, two facts from one document · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 6.5s</sub>
 
 **Customer:** JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่
 
-> **Assistant:** เบี้ยประกันภัย JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เท่ากับ 42,600 บาท [justone_leaflets.pdf, p.2]
+> **Assistant:** เบี้ยประกันภัยสำหรับ JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ คือ 42,600 บาท [justone_leaflets.pdf, p.2]
 
-<sub>Demonstrates: Car insurance premium table lookup · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 7.1s</sub>
+<sub>Demonstrates: Car insurance premium table lookup · graph path: `classify → contextualize → retrieve → grade → generate → update_memory` · mode: `qa` · 8.1s</sub>
 
 **Customer:** สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678
 
@@ -102,7 +102,7 @@ Generated 2026-10-05 01:09 · chat model `qwen3:14b` · embeddings `bge-m3` · s
 
 > **Assistant:** Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.
 
-<sub>Demonstrates: Corrected value accepted and saved · graph path: `classify → extract_lead → save_lead → update_memory` · mode: `qa` · 2.9s</sub>
+<sub>Demonstrates: Corrected value accepted and saved · graph path: `classify → extract_lead → save_lead → update_memory` · mode: `qa` · 2.8s</sub>
 
 
 ## Session `bob`

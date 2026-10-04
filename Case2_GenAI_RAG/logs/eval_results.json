@@ -1,11 +1,11 @@
 {
- "generated": "2026-10-05T01:09:32",
+ "generated": "2026-10-05T01:55:07",
  "chat_model": "qwen3:14b",
  "embed_model": "bge-m3",
  "top_k": 4,
  "metrics": {
   "retrieval_hit": 1.0,
-  "answer_accuracy": 0.8941176470588236,
+  "answer_accuracy": 0.9529411764705882,
   "out_of_scope_refused": 1.0,
   "answerable": 85,
   "out_of_scope": 15
@@ -17,7 +17,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันเป็นระยะเวลา 3 ปี [Easy_E-Save_10-3.pdf, p.1]."
+   "answer": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันเป็นระยะเวลา 3 ปี [Easy_E-Save_10-3.pdf, p.1]"
   },
   {
    "question": "อีซี่ อีเซฟ 10/3 คุ้มครองนานกี่ปี",
@@ -41,7 +41,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ในสิ้นปีกรมธรรม์ที่ 1-9 [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ของทุนประกันทุกสิ้นปีกรมธรรม์ที่ 1-9 [Easy_E-Save_10-3.pdf, p.1]"
   },
   {
    "question": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุดกี่เปอร์เซ็นต์ของทุน",
@@ -49,7 +49,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุด 303% ของทุนประกันสะสมทรัพย์ [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "ครบกำหนดสัญญาได้เงินคืนสูงสุด 303% ของทุนประกันสะสมทรัพย์ [Easy_E-Save_10-3.pdf, p.1]"
   },
   {
    "question": "อีซี่ อีเซฟ 10/3 เลือกเบี้ยประกันต่อปีได้ตั้งแต่เท่าไหร่ถึงเท่าไหร่",
@@ -65,7 +65,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ถ้าเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จ่ายสูงสุด 300% ของทุนประกันสะสมทรัพย์ หรือ 101% ของค่าเบี้ยประกันที่ชำระมาแล้วทั้งหมด หรือมูลค่าเวนคืน แล้วแต่จำนวนใดจะมากกว่า [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "หากเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จะจ่ายสูงสุด 300% ของทุนประกันสะสมทรัพย์ [Easy_E-Save_10-3.pdf, p.1]."
   },
   {
    "question": "อีซี่ อีเซฟ 10/3 กรณีเสียชีวิตจ่ายกี่เปอร์เซ็นต์ของเบี้ยที่ชำระมาแล้ว",
@@ -81,7 +81,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 ให้ผลตอบแทน IRR เท่ากับ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "ผลตอบแทน (IRR) ของประกันสะสมทรัพย์ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]"
   },
   {
    "question": "สมัครอีซี่ อีเซฟ 10/3 ต้องตอบคำถามสุขภาพไหม",
@@ -105,7 +105,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The maturity benefit of Easy E-Save 10/3 is up to 303% of the sum assured [Easy_E-Save_10-3.pdf, p.1]."
+   "answer": "The maturity benefit of Easy E-Save 10/3 is 303% of the sum assured [Easy_E-Save_10-3.pdf, p.1]."
   },
   {
    "question": "What is the minimum annual premium for Easy E-Save 10/3?",
@@ -113,7 +113,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The minimum annual premium for Easy E-Save 10/3 is 30,000 บาท [Easy_E-Save_10-3.pdf, p.1]."
+   "answer": "The minimum annual premium for Easy E-Save 10/3 is 30,000 THB [Easy_E-Save_10-3.pdf, p.1]."
   },
   {
    "question": "คุ้มมั่งมี 18/9 ชำระเบี้ยกี่ปี",
@@ -121,7 +121,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 สามารถชำระเบี้ยประกันภัยได้เป็นระยะเวลา 9 ปี [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "คุ้มมั่งมี 18/9 ชำระเบี้ยประกันภัยเป็นระยะเวลา 9 ปี [Khum_Mangmee_18-9.pdf, p.2]."
   },
   {
    "question": "คุ้มมั่งมี 18/9 คุ้มครองกี่ปี",
@@ -129,7 +129,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 คุ้มครองเป็นระยะเวลา 18 ปี [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "คุ้มมั่งมี 18/9 คุ้มครองเป็นระยะเวลา 18 ปี [Khum_Mangmee_18-9.pdf, p.1]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญากี่เปอร์เซ็นต์ของทุนประกัน",
@@ -137,7 +137,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รับเงินคืนรวมตลอดสัญญา 379% ของทุนประกันภัย [Khum_Mangmee_18-9.pdf, p.1]."
+   "answer": "รับเงินคืนรวมตลอดสัญญา 379% ของทุนประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์",
@@ -145,7 +145,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุด 360% ของจำนวนเงินเอาประกันภัย หรือ มูลค่าเวนคืนเงินสด หรือ เบี้ยประกันภัยที่บริษัทได้รับชำระมาแล้ว [Khum_Mangmee_18-9.pdf, p.1]"
+   "answer": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดถึง 360% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 สิ้นปีที่ 1-9 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
@@ -153,7 +153,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "สิ้นปีที่ 1-9 ได้เงินคืนปีละ 1% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
+   "answer": "สิ้นปีที่ 1-9 ผู้ถือกรมธรรม์จะได้รับเงินคืนปีละ 1% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 สิ้นปีที่ 10-18 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
@@ -169,7 +169,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 ครบสัญญาจะรับเงินก้อน 325% ของทุน [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "ครบสัญญา รับเงินก้อน 325% ของทุน [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
@@ -193,7 +193,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายปีสำหรับแผนประกัน \"คุ้มมั่งมี 18/9\" ทุนประกัน 100,000 บาท อายุ 30 ปี เท่ากับ 36,500 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "เบี้ยประกันรายปีสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี เท่ากับ 36,500 บาท [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี จ่ายรายเดือนเดือนละเท่าไหร่",
@@ -209,7 +209,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายปีสำหรับแผนประกัน \"คุ้มมั่งมี 18/9\" ทุนประกัน 1,000,000 บาท และผู้เอาประกันภัยอายุ 30 ปี เท่ากับ 362,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "เบี้ยประกันรายปีสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุนประกัน 1,000,000 บาท และผู้เอาประกันภัยอายุ 30 ปี เท่ากับ 362,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เบี้ยรายเดือนเท่าไหร่ (อายุ 30)",
@@ -217,7 +217,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผน \"คุ้มมั่งมี 18/9\" ทุนประกัน 500,000 บาท และอายุ 30 ปี คือ 16,380 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "เบี้ยประกันรายเดือนสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุน 500,000 บาท และอายุ 30 ปี คือ 16,380 บาท [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท ถ้าเสียชีวิตในปีกรมธรรม์ที่ 1-3 ได้เท่าไหร่",
@@ -225,7 +225,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 1-3 สำหรับทุนประกัน 1,000,000 บาท จะได้รับผลประโยชน์ 1,200,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 1-3 สำหรับทุนประกัน 1,000,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 1,200,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท เสียชีวิตปีกรมธรรม์ที่ 4-6 ได้รับเท่าไหร่",
@@ -233,7 +233,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 4-6 สำหรับทุนประกัน 300,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 720,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 4-6 สำหรับทุนประกัน 300,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 720,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เสียชีวิตปีที่ 7-18 ได้เท่าไหร่",
@@ -265,7 +265,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The minimum sum assured for Khum Mangmee 18/9 is 100,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "The minimum sum assured for Khum Mangmee 18/9 is 100,000 THB [Khum_Mangmee_18-9.pdf, p.2]."
   },
   {
    "question": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
@@ -289,7 +289,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "In the first years (years 1-3), Khum Mangmee 18/9 provides life cover of 120% of the sum assured [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "In the first 3 years of the Khum Mangmee 18/9 plan, the life cover is 120% of the sum assured [Khum_Mangmee_18-9.pdf, p.2]."
   },
   {
    "question": "คุ้มออมสุข จ่ายเบี้ยกี่ปี",
@@ -313,7 +313,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข รับเงินคืนรวม 174% ของทุน [Khum_Aomsook.pdf, p.1]"
+   "answer": "คุ้มออมสุข รับเงินคืนรวม 174% ของทุน [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์ของทุน",
@@ -321,7 +321,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดถึง 200% ของจำนวนเงินเอาประกันภัย ตั้งแต่ปีที่ 11 เป็นต้นไป [Khum_Aomsook.pdf, p.1]"
+   "answer": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดถึง 200% ของจำนวนเงินเอาประกันภัย [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
@@ -337,7 +337,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข ให้เงินคืนรายปี 1% ของจำนวนเงินเอาประกันภัยตั้งแต่สิ้นปีกรมธรรม์ที่ 1-24 [Khum_Aomsook.pdf, p.1]."
+   "answer": "คุ้มออมสุข ให้เงินคืนรายปี 1% ของจำนวนเงินเอาประกันภัยตั้งแต่สิ้นปีกรมธรรม์ที่ 1-24 [Khum_Aomsook.pdf, p.2]."
   },
   {
    "question": "คุ้มออมสุข รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่เท่าไหร่ถึงเท่าไหร่",
@@ -345,7 +345,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่ 1 ถึงปีที่ 24 [Khum_Aomsook.pdf, p.1]."
+   "answer": "รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่ 1-24 [Khum_Aomsook.pdf, p.2]."
   },
   {
    "question": "คุ้มออมสุข รับประกันอายุสูงสุดกี่ปี",
@@ -353,7 +353,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข รับประกันอายุสูงสุด 60 ปี [Khum_Aomsook.pdf, p.2]"
+   "answer": "คุ้มออมสุข รับประกันอายุสูงสุดถึง 60 ปี [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ทุนประกันขั้นต่ำเท่าไหร่",
@@ -361,7 +361,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข มีจำนวนเงินเอาประกันภัยขั้นต่ำ 150,000 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "จำนวนเงินเอาประกันภัยขั้นต่ำคือ 150,000 บาท [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข เริ่มเก็บเงินได้วันละกี่บาท",
@@ -377,7 +377,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 1 คุ้มออมสุข ทุน 100,000 บาท เพศชายอายุ 30 ปี คือ 878 บาท [Khum_Aomsook.pdf, p.2]."
+   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 1 คือ 878 บาท [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ทุน 100,000 บาท ผู้หญิงอายุ 30 ปี จ่ายเดือนละเท่าไหร่",
@@ -393,7 +393,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 2 คุ้มออมสุข ทุน 300,000 บาท ผู้ชายอายุ 30 ปี คือ 2,635 บาท [Khum_Aomsook.pdf, p.2]."
+   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 2 คุ้มออมสุข ทุน 300,000 บาท สำหรับผู้ชายอายุ 30 ปี คือ 2,635 บาท [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
@@ -401,7 +401,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 3 (ทุน 500,000 บาท) สำหรับผู้หญิงอายุ 30 ปี คือ 4,256 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 3 คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี คือ 4,256 บาท [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ทุน 300,000 บาท เสียชีวิตในปีกรมธรรม์ที่ 1-10 ได้เท่าไหร่",
@@ -409,7 +409,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข ทุน 300,000 บาท เสียชีวิตในปีกรมธรรม์ที่ 1-10 จะได้รับผลประโยชน์ 450,000 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 1-10 สำหรับทุน 300,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 450,000 บาท [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "คุ้มออมสุข ทุน 500,000 บาท รวมเงินคืนตลอดสัญญาเท่าไหร่",
@@ -431,9 +431,9 @@
    "question": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันอะไร",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
+   "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันสะสมทรัพย์ [Khum_Aomsook.pdf, p.1]"
+   "answer": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกัน \"เอฟดับบลิวดี ฟอร์ เซฟวิ่ง 25/15\" [Khum_Aomsook.pdf, p.2]"
   },
   {
    "question": "What is the minimum sum assured for Khum Aomsook?",
@@ -447,9 +447,9 @@
    "question": "What is the monthly premium of Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured?",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
+   "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The monthly premium for a 30-year-old man with a 500,000 baht sum assured is not explicitly listed in the provided context. However, the example shows that for a 30-year-old man, the monthly premium for a lower sum assured (likely 150,000 baht, the minimum) is 878 THB. The exact premium for 500,000 baht is not available in the given information [Khum_Aomsook.pdf, p.2]."
+   "answer": "The monthly premium for Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured is 4,346 THB [Khum_Aomsook.pdf, p.2]."
   },
   {
    "question": "เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดกี่ปี",
@@ -473,7 +473,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละไม่ต่ำกว่า 5,000 บาทต่อครั้ง [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]."
+   "answer": "ชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละ 5,000 บาท [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]"
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 เลือกคุ้มครองชีวิตได้สูงสุดกี่เท่าของเบี้ยประกันภัยหลัก",
@@ -481,7 +481,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 เลือกคุ้มครองชีวิตได้สูงสุดถึง 50 เท่าของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.3]."
+   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถเลือกคุ้มครองชีวิตได้สูงสุดถึง 50 เท่าของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.3]."
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ได้โบนัสพิเศษกี่เปอร์เซ็นต์ของเบี้ยหลัก",
@@ -497,7 +497,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถต่ออายุกรมธรรม์ได้จนถึงอายุ 99 ปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]."
+   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถต่ออายุกรมธรรม์ได้จนถึงอายุครบ 99 ปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]."
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ผู้เอาประกันอายุ 61-65 ปี เลือกทุนประกันได้กี่เท่าของเบี้ยหลัก",
@@ -505,7 +505,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ผู้เอาประกันภัยอายุ 61-65 ปี สามารถเลือกทุนประกันภัยได้ระหว่าง 5 เท่าถึง 8 เท่าของเบี้ยประกันภัยหลักต่อปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]."
+   "answer": "ผู้เอาประกันภัยอายุ 61-65 ปี สามารถเลือกทุนประกันได้ระหว่าง 5 เท่าถึง 8 เท่าของเบี้ยประกันภัยหลักต่อปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]."
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าใช้จ่ายในการดำเนินการปีแรกหักกี่เปอร์เซ็นต์ของเบี้ยหลัก",
@@ -513,7 +513,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ค่าใช้จ่ายในการดำเนินการปีแรกหัก 8% ของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]"
+   "answer": "ค่าใช้จ่ายในการดำเนินการปีแรกหักร้อยละ 8 ของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]"
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีเท่าไหร่",
@@ -521,7 +521,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ค่าธรรมเนียมการบริหารกรมธรรม์ของฟรีดอม ลิงค์ พลัส 15/5 คือ 0.69 ต่อปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
+   "answer": "ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีของฟรีดอม ลิงค์ พลัส 15/5 คือ 0.69 [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 เสียค่าธรรมเนียมกี่เปอร์เซ็นต์",
@@ -529,7 +529,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 จะเสียค่าธรรมเนียม 50% [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
+   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 จะเสียค่าธรรมเนียม 50 เปอร์เซ็นต์ [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]"
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 สับเปลี่ยนกองทุนขั้นต่ำเท่าไหร่",
@@ -545,7 +545,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถหยุดพักชำระเบี้ยได้หลังจากชำระเบี้ยประกันภัยครบ 36 งวดสำหรับรายเดือน [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.6]."
+   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถหยุดพักชำระเบี้ยได้หลังจากชำระเบี้ยครบ 36 งวดสำหรับรายเดือน [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.6]."
   },
   {
    "question": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินบางส่วนแล้วมูลค่ากรมธรรม์ต้องเหลือไม่น้อยกว่าเท่าไหร่",
@@ -561,7 +561,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "การยกเลิกกรมธรรม์ (Free Look Period) ของฟรีดอม ลิงค์ พลัส 15/5 จะถูกหักค่าใช้จ่าย 500 บาทต่อกรมธรรม์ [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]"
+   "answer": "การยกเลิกกรมธรรม์ (Free Look Period) ของฟรีดอม ลิงค์ พลัส 15/5 จะถูกหักค่าใช้จ่ายของบริษัทฯ 500 บาทต่อกรมธรรม์ [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]"
   },
   {
    "question": "What is the FWD customer service hotline number?",
@@ -583,9 +583,9 @@
    "question": "What fee is charged on top-up premiums for FWD Freedom Link Plus 15/5?",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > generate > update_memory",
+   "answer": "The fee charged on top-up premiums for FWD Freedom Link Plus 15/5 is 1.5% of the top-up premium [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
   },
   {
    "question": "ประกันรถยนต์ JustOne คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกครั้งละเท่าไหร่",
@@ -599,9 +599,9 @@
    "question": "JustOne ความรับผิดต่อชีวิตร่างกายบุคคลภายนอก ต่อครั้งสูงสุดเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
+   "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ความรับผิดต่อชีวิตร่างกายบุคคลภายนอกต่อครั้งสูงสุดอยู่ที่ 1,000,000 บาท [justone_leaflets.pdf, p.1]"
+   "answer": "ความรับผิดต่อชีวิตร่างกายบุคคลภายนอกต่อครั้งสูงสุดอยู่ที่ 20,000,000 บาท [justone_leaflets.pdf, p.1]."
   },
   {
    "question": "JustOne แบบซ่อมห้าง คุ้มครองชีวิตร่างกายบุคคลภายนอกต่อคนเท่าไหร่",
@@ -615,9 +615,9 @@
    "question": "JustOne ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งคือ 300,000 บาท [justone_leaflets.pdf, p.1]."
   },
   {
    "question": "JustOne คุ้มครองอุปกรณ์ตกแต่งเพิ่มเติมมูลค่าเท่าไหร่",
@@ -639,9 +639,9 @@
    "question": "JustOne ระยะเวลาแจ้งงานสิ้นสุดวันไหน",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "JustOne ระยะเวลาแจ้งงานสิ้นสุดวันที่ 24 ธันวาคม 2569 [justone_leaflets.pdf, p.1]"
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
   },
   {
    "question": "ประกันรถยนต์ JustOne รับประกันโดยบริษัทอะไร",
@@ -657,7 +657,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบอร์โทรติดต่อสอบถามของ JustOne คือ 02 - 039 - 5720 [justone_leaflets.pdf, p.1]"
+   "answer": "เบอร์โทรติดต่อสอบถามของ JustOne คือ 02 - 039 - 5720 [justone_leaflets.pdf, p.1]."
   },
   {
    "question": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
@@ -679,9 +679,9 @@
    "question": "What is the personal accident cover (ร.ย.01) per person in the JustOne car insurance?",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "The personal accident cover (ร.ย.01) per person in the JustOne car insurance is 200,000 บาท [justone_leaflets.pdf, p.1]."
   },
   {
    "question": "Which roadside assistance plan is included in JustOne?",
@@ -689,7 +689,7 @@
    "retrieval_hit": true,
    "correct": false,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The JustOne 2026 insurance plan includes a Roadside Assistance plan [justone_leaflets.pdf, p.1]."
+   "answer": "JustOne includes a Roadside Assistance plan as part of its insurance coverage [justone_leaflets.pdf, p.1]."
   },
   {
    "question": "How much is travel insurance for a trip to Japan?",

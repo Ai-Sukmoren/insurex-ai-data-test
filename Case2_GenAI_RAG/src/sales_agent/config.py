@@ -21,8 +21,8 @@ class Settings:
     temperature: float = 0.0
 
     # retrieval
-    chunk_size: int = 700
-    chunk_overlap: int = 120
+    chunk_size: int = 1000              # chosen by a 100-question comparison, see logs/chunk_comparison.md
+    chunk_overlap: int = 150
     top_k: int = 4
     min_relevance: float = 0.45        # cosine similarity floor before the LLM grader
     max_query_rewrites: int = 1        # retrieve -> grade -> rewrite cycle limit

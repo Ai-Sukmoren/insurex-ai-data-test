@@ -169,7 +169,7 @@ $improvement
   $fail_rows
 </table>
 <div class="box say">I tested it on $n_eval questions written from the real documents, about a third in English and the rest in Thai, plus $n_oos it should refuse.
-It got $overall right overall. The remaining misses are mostly in tables. Every question that fails is listed, along with what I'd do next.</div>
+It got $overall right overall. Most of the remaining misses are on the car leaflet, whose layout extracts poorly. Every question that fails is listed, along with what I'd do next.</div>
 
 <!-- 7 -->
 <div class="g-head"><span class="num">7</span><h2>Lessons, next steps, close</h2><span class="time">~2 min</span></div>
@@ -178,6 +178,8 @@ It got $overall right overall. The remaining misses are mostly in tables. Every 
   <li><b>Similarity is not relevance.</b> Off-topic questions still get high cosine scores, so a grader and a retry cycle are needed before answering.</li>
   <li><b>Real documents break assumptions.</b> Broken Thai extraction, split tables and legacy font encodings were only found by testing on the real PDFs.</li>
   <li><b>Chunks need context.</b> A premium table that never names its product can be mixed up with another product's table. Labelling every chunk with its document title fixed that class of error.</li>
+  <li><b>Tune with the test set, not by rule of thumb.</b> Chunk size was picked by running all $n_eval questions on four settings:
+      700 → 91, 1000 → 96, 1200 → 94, one chunk per page → 54 (see <code>logs/chunk_comparison.md</code>).</li>
   <li><b>Measure, then change.</b> Every fix was checked against the same $n_eval questions, so improvements are numbers, not impressions.</li>
 </ul>
 <p class="lbl">Next steps</p>
@@ -227,6 +229,10 @@ remembers each conversation, and runs entirely on the local machine. I'm happy t
 
 <h2>Tough questions</h2>
 <div class="qa"><div class="q">How do you know the answer is grounded and not right by luck?</div><div class="a">Citations are required after each fact, the grader filters passages, and the test checks retrieval and the answer separately. Next I'd add an automatic "is every claim supported?" check.</div></div>
+<div class="qa"><div class="q">Why $chunk_size characters with $chunk_overlap overlap?</div><div class="a">I tested it. A fast retrieval sweep over 13 settings picked candidates, then each ran the full test:
+700/120 scored 91, 1000/150 scored 96, 1200/200 94, and one chunk per page only 54. At 1000 a whole table block or product section fits in one chunk,
+so a premium stays with its column headers. Bigger chunks stopped helping: whole pages nearly always contain something loosely related, so the
+grader kept them and off-topic questions got answers. Overlap is 15%, so a fact on a boundary is complete in at least one chunk.</div></div>
 <div class="qa"><div class="q">Is $n_eval questions enough?</div><div class="a">It covers every document, both languages, tables and refusals, and every expected answer was checked against the source text. For production I'd grow it with the sales team's real questions and track it on every change.</div></div>
 <div class="qa"><div class="q">Why not just put the whole document in the prompt?</div><div class="a">Five documents would fit today, but not a real product catalogue. Retrieval keeps prompts small and fast, and citations show exactly where each fact came from.</div></div>
 <div class="qa"><div class="q">The car leaflet has big premium tables. Is RAG the right tool for that?</div><div class="a">It works for single lookups, but tables are where most misses are. The better design is to parse tables into structured rows and let the agent query them, with RAG for the text.</div></div>

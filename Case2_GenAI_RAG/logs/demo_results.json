@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T01:10:42",
+ "generated": "2026-10-05T02:22:07",
  "turns": [
   {
    "session_id": "alice",
@@ -10,7 +10,7 @@
     "smalltalk",
     "update_memory"
    ],
-   "seconds": 2.019488300080411,
+   "seconds": 2.1817872999235988,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -30,7 +30,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 6.552582799922675,
+   "seconds": 6.786295800004154,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -50,7 +50,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 4.3866148999659345,
+   "seconds": 6.8169628999894485,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -73,7 +73,7 @@
     "not_found",
     "update_memory"
    ],
-   "seconds": 3.946327400044538,
+   "seconds": 4.1606218999950215,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -91,7 +91,7 @@
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.6499119999352843,
+   "seconds": 1.6413555999752134,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -114,7 +114,7 @@
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 3.1576350999530405,
+   "seconds": 3.115185200003907,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -131,7 +131,7 @@
   {
    "session_id": "alice",
    "user": "Before that - is the premium fixed or does it go up with age?",
-   "reply": "The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
+   "reply": "The premium for Khum Aomsook does not increase with age; it remains fixed throughout the policy term [Khum_Aomsook.pdf, p.2].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "contextualize",
@@ -140,7 +140,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 10.107204400002956,
+   "seconds": 10.412841300014406,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -164,7 +164,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 3.458461600006558,
+   "seconds": 3.4095598000567406,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -186,7 +186,7 @@
     "recall",
     "update_memory"
    ],
-   "seconds": 1.6224430999718606,
+   "seconds": 1.5984870999818668,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -202,7 +202,7 @@
   {
    "session_id": "somchai",
    "user": "อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม",
-   "reply": "ผลตอบแทน (IRR) ของ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  \nไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]",
+   "reply": "ผลตอบแทน (IRR) ของอีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  \nไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]",
    "path": [
     "classify",
     "contextualize",
@@ -211,7 +211,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 6.611274699913338,
+   "seconds": 6.52148449991364,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -222,7 +222,7 @@
   {
    "session_id": "somchai",
    "user": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
-   "reply": "เบี้ยประกันภัย JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เท่ากับ 42,600 บาท [justone_leaflets.pdf, p.2]",
+   "reply": "เบี้ยประกันภัยสำหรับ JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ คือ 42,600 บาท [justone_leaflets.pdf, p.2]",
    "path": [
     "classify",
     "contextualize",
@@ -231,7 +231,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 7.099668100010604,
+   "seconds": 8.060775400022976,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -249,7 +249,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.682470200001262,
+   "seconds": 2.6950943000847474,
    "mode": "qa",
    "lead": {
     "name": "สมชาย ใจดี",
@@ -272,7 +272,7 @@
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.597543100011535,
+   "seconds": 1.5949622000334784,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -295,7 +295,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.558569199987687,
+   "seconds": 2.553756200009957,
    "mode": "lead_collection",
    "lead": {
     "name": "Dave Miller",
@@ -319,7 +319,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.8841303000226617,
+   "seconds": 2.846752900048159,
    "mode": "qa",
    "lead": {
     "name": "Dave Miller",
@@ -341,7 +341,7 @@
     "recall",
     "update_memory"
    ],
-   "seconds": 1.4160890000639483,
+   "seconds": 1.3937979000620544,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -358,7 +358,7 @@
     "recall",
     "update_memory"
    ],
-   "seconds": 1.931796499993652,
+   "seconds": 1.9318245999747887,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -381,7 +381,7 @@
    "phone": "0915550123",
    "interested_product": "FWD Freedom Link Plus 15/5",
    "session_id": "dave",
-   "created_at": "2026-10-05T01:10:37"
+   "created_at": "2026-10-05T02:22:01"
   },
   {
    "lead_id": 2,
@@ -391,7 +391,7 @@
    "phone": "0812345678",
    "interested_product": "JustOne",
    "session_id": "somchai",
-   "created_at": "2026-10-05T01:10:30"
+   "created_at": "2026-10-05T02:21:54"
   },
   {
    "lead_id": 1,
@@ -401,7 +401,7 @@
    "phone": "0897654321",
    "interested_product": "Khum Aomsook",
    "session_id": "alice",
-   "created_at": "2026-10-05T01:10:12"
+   "created_at": "2026-10-05T02:21:35"
   }
  ]
 }

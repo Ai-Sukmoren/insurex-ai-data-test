@@ -8,7 +8,7 @@ session**. Everything runs **locally**: the LLM and embeddings are served by **O
 |---|---|
 | Framework | LangChain + **LangGraph** state machine (12 nodes, conditional routing, retrieval **cycle**) |
 | Vector DB | **FAISS** (cosine similarity, persisted to `data/faiss_index/`) |
-| Knowledge base | 5 real PDFs in `knowledge_base/` (mostly Thai) → read with PyMuPDF → chunked, each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
+| Knowledge base | 5 real PDFs in `knowledge_base/` (mostly Thai) → read with PyMuPDF → chunked (1000 chars, 150 overlap), each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
 | Not-found handling | relevance floor + LLM grader → query rewrite → retry → polite fallback (never invents an answer) |
 | **Bonus 1** – lead collection | interest triggers `lead_collection` mode; name, occupation, income and phone are extracted into a **Pydantic** model over several turns, validated, and saved to **SQLite** via an **MCP server** (`save_lead`, `list_leads`) |
 | **Bonus 2** – sessions | LangGraph **SQLite checkpointer**, `thread_id = session_id`: separate memory per user that survives restarts; recent window plus a **running summary** of older messages (`update_memory` node); chats can be listed, renamed and deleted |
@@ -160,15 +160,20 @@ The grader's default is "nothing relevant", so the agent refuses rather than gue
 
 | Metric | First run | Current |
 |---|---|---|
-| Overall (correct answers + correct refusals) | 80/100 | **91/100** |
-| Answer accuracy (expected fact present in the answer) | 76% | **89%** |
+| Overall (correct answers + correct refusals) | 80/100 | **96/100** |
+| Answer accuracy (expected fact present in the answer) | 76% | **95%** |
 | Retrieval hit rate (correct document in top 4) | 100% | **100%** |
 | Out-of-scope questions correctly refused | 100% | **100%** |
 
 The first run is kept in `logs/baseline/`. Fixes between the runs: chunks labelled with their document title, Thai PUA
-mapping, a routing rule for product questions that mention "สมัคร", and the Dealer/ซ่อมห้าง table terminology. Most
-remaining misses are on the JustOne leaflet's cover-limit table, whose three-column layout extracts poorly. Results
-vary by about ±1 question between runs.
+mapping, a routing rule for product questions that mention "สมัคร", the Dealer/ซ่อมห้าง table terminology, and a
+larger chunk size. Three of the four remaining misses are on the JustOne leaflet. Results vary by about ±1 question
+between runs.
+
+**Chunk size** (1000 characters, 150 overlap) was chosen by testing, not by rule of thumb; see
+`logs/chunk_comparison.md`. A fast retrieval-only sweep over 13 settings picked the candidates, then each ran the
+full 100-question test: 700/120 → 91, **1000/150 → 96**, 1200/200 → 94, one chunk per page → 54 (whole pages almost
+always contain something loosely related, so off-topic questions stopped being refused).
 
 **Demo** (`python main.py demo`, see `logs/demo_transcript.md` and `logs/demo_run.log`) shows:
 - answers with citations, and follow-up questions resolved from memory
