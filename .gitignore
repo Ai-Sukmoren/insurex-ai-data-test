@@ -1,6 +1,6 @@
 # Confidential inputs provided by InsureX (not redistributed)
 00_Brief/
-InsureX_Savings_PDFs/
+Case2_GenAI_RAG/knowledge_base/
 Case1A_Data_Analysis/data/raw/*
 !Case1A_Data_Analysis/data/raw/README.md
 

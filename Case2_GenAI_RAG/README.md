@@ -8,12 +8,12 @@ session**. Everything runs **locally**: the LLM and embeddings are served by **O
 |---|---|
 | Framework | LangChain + **LangGraph** state machine (12 nodes, conditional routing, retrieval **cycle**) |
 | Vector DB | **FAISS** (cosine similarity, persisted to `data/faiss_index/`) |
-| Knowledge base | 5 real PDFs in `../InsureX_Savings_PDFs/` (mostly Thai) → read with PyMuPDF → chunked, each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
+| Knowledge base | 5 real PDFs in `knowledge_base/` (mostly Thai) → read with PyMuPDF → chunked, each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
 | Not-found handling | relevance floor + LLM grader → query rewrite → retry → polite fallback (never invents an answer) |
 | **Bonus 1** – lead collection | interest triggers `lead_collection` mode; name, occupation, income and phone are extracted into a **Pydantic** model over several turns, validated, and saved to **SQLite** via an **MCP server** (`save_lead`, `list_leads`) |
 | **Bonus 2** – sessions | LangGraph **SQLite checkpointer**, `thread_id = session_id`: separate memory per user that survives restarts; recent window plus a **running summary** of older messages (`update_memory` node); chats can be listed, renamed and deleted |
 
-**Knowledge base** (folder set by `KNOWLEDGE_DIR`, default `../InsureX_Savings_PDFs/`):
+**Knowledge base** (folder set by `KNOWLEDGE_DIR`, default `knowledge_base/`):
 
 | PDF | Content |
 |---|---|
@@ -42,7 +42,7 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows   (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 
-# 3. build the vector index from the PDFs in KNOWLEDGE_DIR (default ../InsureX_Savings_PDFs)
+# 3. build the vector index from the PDFs in KNOWLEDGE_DIR (default knowledge_base/)
 python main.py ingest
 ```
 To use smaller models, set `CHAT_MODEL` / `EMBED_MODEL` (see `.env.example`).
@@ -186,6 +186,7 @@ Typical latency on an RTX 4070 SUPER: 1–2 s for routing and lead turns, 2–6 
 Case2_GenAI_RAG/
 ├── main.py                      # CLI
 ├── requirements.txt · .env.example
+├── knowledge_base/              # the 5 real PDFs (not committed, see .gitignore)
 ├── eval/questions.json          # evaluation set: 85 answerable + 15 out-of-scope questions
 ├── src/sales_agent/
 │   ├── config.py                # Settings (env overridable)

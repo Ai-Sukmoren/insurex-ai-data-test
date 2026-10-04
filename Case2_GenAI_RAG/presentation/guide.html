@@ -43,7 +43,7 @@ $guide_css
   <li>Ollama is running and both models are pulled: <code>ollama list</code> shows <code>$chat_model</code> and <code>$embed_model</code>.</li>
   <li>Double-click <code>start_chatbot.bat</code> (or <code>python main.py serve</code>) and open <code>http://127.0.0.1:8000</code>.</li>
   <li>Send one warm-up question and delete that chat. The first answer loads the model (about 30 s); after that answers take a few seconds.</li>
-  <li>Open these in tabs: <code>logs/eval_report.md</code>, the folder <code>InsureX_Savings_PDFs/</code> with one PDF open,
+  <li>Open these in tabs: <code>logs/eval_report.md</code>, the folder <code>knowledge_base/</code> with one PDF open,
       and VS Code on <code>src/sales_agent/agent.py</code> (method <code>build</code>), <code>knowledge_base.py</code> (<code>PdfLoader</code>) and <code>prompts.py</code>.</li>
   <li>Keep this guide on a second screen or printed. Close notifications.</li>
 </ul>
@@ -81,7 +81,7 @@ how it avoids wrong answers, how the real Thai documents are read, and how leads
 
 <!-- 3 -->
 <div class="g-head"><span class="num">3</span><h2>The real data and how it is read</h2><span class="time">~2.5 min</span></div>
-<p><b>Show</b> the folder <code>InsureX_Savings_PDFs/</code>: $n_docs PDFs → $n_chunks chunks ($chunk_size characters, $chunk_overlap overlap), embedded with $embed_model (multilingual, so English questions find Thai text).</p>
+<p><b>Show</b> the folder <code>knowledge_base/</code>: $n_docs PDFs → $n_chunks chunks ($chunk_size characters, $chunk_overlap overlap), embedded with $embed_model (multilingual, so English questions find Thai text).</p>
 <table>
   <tr><th>Document</th><th>What it is</th></tr>
   <tr><td>Easy_E-Save_10-3.pdf, Khum_Mangmee_18-9.pdf, Khum_Aomsook.pdf</td><td>The three savings plans listed on insurex.co.th (ประกันสะสมทรัพย์), scraped from the site's product data into one PDF each</td></tr>
