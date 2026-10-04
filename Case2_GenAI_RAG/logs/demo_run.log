@@ -540,3 +540,189 @@ To continue with your application, could you share your monthly income (THB) and
 00:01:46 INFO    sales_agent | LEAD {'lead_id': 2, 'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '0812345678', 'interested_product': 'Life Secure', 'session_id': 'somchai', 'created_at': '2026-10-04T00:01:33'}
 00:01:46 INFO    sales_agent | LEAD {'lead_id': 3, 'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '0915550123', 'interested_product': 'Health Care Plus', 'session_id': 'dave', 'created_at': '2026-10-04T00:01:40'}
 00:01:46 INFO    sales_agent | === DEMO END: 3 leads saved | transcript: C:\Users\User\Desktop\AI Staff 2\Case2_GenAI_RAG\logs\demo_transcript.md ===
+01:01:05 INFO    sales_agent | === DEMO START 2026-10-05T01:01:05 | chat=qwen3:14b embed=bge-m3 ===
+01:01:06 INFO    sales_agent | [alice] USER: Hi there!
+01:01:07 INFO    sales_agent | intent=greeting product=None mode=qa
+01:01:08 INFO    sales_agent | [alice] BOT (classify > smalltalk > update_memory, 2.2s): Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?
+01:01:08 INFO    sales_agent | [alice] USER: How long do I pay premiums for Khum Aomsook, and how long is the cover?
+01:01:09 INFO    sales_agent | intent=question product=Khum Aomsook mode=qa
+01:01:09 INFO    sales_agent | standalone query: คุ้มออมสุข ระยะเวลาการจ่ายเบี้ยประกันและระยะเวลาความคุ้มครองคือเท่าไร
+01:01:11 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.779), ('Khum_Aomsook.pdf, p.2', 0.738), ('Khum_Mangmee_18-9.pdf, p.2', 0.719), ('Khum_Aomsook.pdf, p.1', 0.718)]
+01:01:13 INFO    sales_agent | grader kept 3/4 passages
+01:01:14 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 6.6s): For Khum Aomsook, the premium payment period is 15 years, and the coverage period is 25 years [Khum_Aomsook.pdf, p.2].
+01:01:14 INFO    sales_agent | [alice] USER: And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?
+01:01:15 INFO    sales_agent | intent=question product=Khum Aomsook mode=qa
+01:01:16 INFO    sales_agent | standalone query: คุ้มออมสุข เบี้ยประกันรายเดือนสำหรับผู้ชายอายุ 30 ปี ที่มีผลรวมความคุ้มครอง 300,000 บาท เป็นเท่าไร
+01:01:19 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.743), ('Khum_Aomsook.pdf, p.2', 0.741), ('Khum_Aomsook.pdf, p.1', 0.676), ('Khum_Mangmee_18-9.pdf, p.2', 0.672)]
+01:01:20 INFO    sales_agent | grader kept 2/4 passages
+01:01:21 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 6.9s): For a 30-year-old man with a 300,000 baht sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].
+01:01:21 INFO    sales_agent | [alice] USER: Do you sell travel insurance?
+01:01:22 INFO    sales_agent | intent=question product=None mode=qa
+01:01:23 INFO    sales_agent | standalone query: คุณขายประกันการเดินทางไหม
+01:01:23 INFO    sales_agent | retrieved 4 chunks: [('justone_leaflets.pdf, p.4', 0.521), ('justone_leaflets.pdf, p.2', 0.52), ('justone_leaflets.pdf, p.4', 0.517), ('Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.9', 0.516)]
+01:01:24 INFO    sales_agent | grader kept 0/4 passages
+01:01:24 INFO    sales_agent | rewrite #1: คุณมีประกันการเดินทางไหม
+01:01:24 INFO    sales_agent | retrieved 4 chunks: [('Khum_Mangmee_18-9.pdf, p.2', 0.566), ('Khum_Aomsook.pdf, p.2', 0.557), ('Khum_Mangmee_18-9.pdf, p.1', 0.55), ('Khum_Aomsook.pdf, p.1', 0.542)]
+01:01:25 INFO    sales_agent | grader kept 0/4 passages
+01:01:25 WARNING sales_agent | no relevant documents after 1 rewrite(s) - fallback answer
+01:01:25 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory, 4.0s): Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.
+01:01:25 INFO    sales_agent | [alice] USER: I'm interested in Khum Aomsook. Can an agent contact me?
+01:01:26 INFO    sales_agent | intent=buy_interest product=Khum Aomsook mode=qa
+01:01:27 INFO    sales_agent | lead draft: {} | missing: ['name', 'occupation', 'monthly_income', 'phone']
+01:01:27 INFO    sales_agent | [alice] BOT (classify > extract_lead > ask_missing > update_memory, 1.7s): Great to hear you're interested in Khum Aomsook! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?
+01:01:27 INFO    sales_agent | [alice] USER: My name is Alice Wong and I work as a nurse
+01:01:30 INFO    sales_agent | intent=lead_info product=Khum Aomsook mode=lead_collection
+01:01:30 INFO    sales_agent | lead draft: {'name': 'Alice Wong', 'occupation': 'nurse'} | missing: ['monthly_income', 'phone']
+01:01:30 INFO    sales_agent | [alice] BOT (classify > extract_lead > ask_missing > update_memory, 3.2s): Thank you Alice Wong! Could you also share your monthly income (THB) and a contact phone number?
+01:01:30 INFO    sales_agent | [alice] USER: Before that - is the premium fixed or does it go up with age?
+01:01:31 INFO    sales_agent | intent=question product=Khum Aomsook mode=lead_collection
+01:01:32 INFO    sales_agent | standalone query: เบี้ยประกันคุ้มออมสุขเป็นเบี้ยคงที่หรือจะเพิ่มขึ้นเมื่ออายุเพิ่มขึ้น
+01:01:34 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.659), ('Khum_Aomsook.pdf, p.2', 0.659), ('Khum_Aomsook.pdf, p.2', 0.655), ('Khum_Aomsook.pdf, p.1', 0.636)]
+01:01:36 INFO    sales_agent | grader kept 1/4 passages
+01:01:41 INFO    sales_agent | memory: summarised messages 0-8 (637 chars)
+01:01:41 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 10.5s): The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].
+
+To continue with your application, could you share your monthly income (THB) and a contact phone number?
+01:01:41 INFO    sales_agent | [alice] USER: I earn about 32,000 baht a month, my number is 089-765-4321
+01:01:42 INFO    sales_agent | intent=lead_info product=Khum Aomsook mode=lead_collection
+01:01:43 INFO    sales_agent | lead draft: {'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '089-765-4321'} | missing: []
+01:01:44 INFO    sales_agent | lead saved via MCP: id=1 {'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '0897654321', 'interested_product': 'Khum Aomsook', 'session_id': 'alice'}
+01:01:44 INFO    sales_agent | [alice] BOT (classify > extract_lead > save_lead > update_memory, 3.6s): Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.
+01:01:44 INFO    sales_agent | [alice] USER: What's my name, and what did I ask about first?
+01:01:45 INFO    sales_agent | intent=recall product=Khum Aomsook mode=qa
+01:01:46 INFO    sales_agent | [alice] BOT (classify > recall > update_memory, 1.7s): Your name is Alice Wong, and you first asked about the premium payment period and coverage duration for Khum Aomsook.
+01:01:46 INFO    sales_agent | [somchai] USER: อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม
+01:01:47 INFO    sales_agent | intent=question product=Easy E-Save 10/3 mode=qa
+01:01:49 INFO    sales_agent | retrieved 4 chunks: [('Easy_E-Save_10-3.pdf, p.1', 0.662), ('Easy_E-Save_10-3.pdf, p.1', 0.629), ('Khum_Aomsook.pdf, p.2', 0.503), ('Khum_Mangmee_18-9.pdf, p.2', 0.498)]
+01:01:50 INFO    sales_agent | grader kept 2/4 passages
+01:01:53 INFO    sales_agent | [somchai] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 6.6s): ผลตอบแทน (IRR) ของอีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  
+ไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]
+01:01:53 INFO    sales_agent | [somchai] USER: JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่
+01:01:53 INFO    sales_agent | intent=question product=JustOne mode=qa
+01:01:54 INFO    sales_agent | standalone query: JustOne ประกันรถยนต์ประเภท 1 รถ Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยประกันเท่าไหร่
+01:01:56 INFO    sales_agent | retrieved 4 chunks: [('justone_leaflets.pdf, p.2', 0.793), ('justone_leaflets.pdf, p.3', 0.779), ('justone_leaflets.pdf, p.4', 0.765), ('justone_leaflets.pdf, p.1', 0.731)]
+01:01:58 INFO    sales_agent | grader kept 1/4 passages
+01:02:00 INFO    sales_agent | [somchai] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 7.1s): เบี้ยประกันภัยสำหรับ JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ คือ 31,600 บาท [justone_leaflets.pdf, p.2]
+01:02:00 INFO    sales_agent | [somchai] USER: สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678
+01:02:00 INFO    sales_agent | intent=buy_interest product=None mode=qa
+01:02:02 INFO    sales_agent | lead draft: {'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '081-234-5678'} | missing: []
+01:02:02 INFO    sales_agent | lead saved via MCP: id=2 {'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '0812345678', 'interested_product': 'JustOne', 'session_id': 'somchai'}
+01:02:02 INFO    sales_agent | [somchai] BOT (classify > extract_lead > save_lead > update_memory, 2.7s): ขอบคุณค่ะ คุณสมชาย ใจดี บันทึกข้อมูลเรียบร้อยแล้ว (หมายเลข 2) ตัวแทนจะติดต่อกลับที่เบอร์ 0812345678 เร็ว ๆ นี้ค่ะ
+01:02:02 INFO    sales_agent | [dave] USER: I'd like to apply for FWD Freedom Link Plus 15/5
+01:02:03 INFO    sales_agent | intent=buy_interest product=FWD Freedom Link Plus 15/5 mode=qa
+01:02:04 INFO    sales_agent | lead draft: {} | missing: ['name', 'occupation', 'monthly_income', 'phone']
+01:02:04 INFO    sales_agent | [dave] BOT (classify > extract_lead > ask_missing > update_memory, 1.6s): Great to hear you're interested in FWD Freedom Link Plus 15/5! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?
+01:02:04 INFO    sales_agent | [dave] USER: Dave Miller, software developer, 85000 per month, phone 12345
+01:02:05 INFO    sales_agent | intent=lead_info product=FWD Freedom Link Plus 15/5 mode=lead_collection
+01:02:06 INFO    sales_agent | lead draft: {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '12345'} | missing: []
+01:02:07 WARNING sales_agent | lead rejected by MCP tool: ["phone: Value error, '12345' is not a valid Thai phone number"]
+01:02:07 INFO    sales_agent | [dave] BOT (classify > extract_lead > save_lead > update_memory, 2.6s): Sorry, some details don't look right. Could you check a contact phone number again?
+01:02:07 INFO    sales_agent | [dave] USER: Sorry, it's 091-555-0123
+01:02:08 INFO    sales_agent | intent=lead_info product=FWD Freedom Link Plus 15/5 mode=lead_collection
+01:02:09 INFO    sales_agent | lead draft: {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '091-555-0123'} | missing: []
+01:02:09 INFO    sales_agent | lead saved via MCP: id=3 {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '0915550123', 'interested_product': 'FWD Freedom Link Plus 15/5', 'session_id': 'dave'}
+01:02:09 INFO    sales_agent | [dave] BOT (classify > extract_lead > save_lead > update_memory, 2.9s): Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.
+01:02:09 INFO    sales_agent | [bob] USER: What's my name? What did I ask you before?
+01:02:11 INFO    sales_agent | intent=recall product=None mode=qa
+01:02:11 INFO    sales_agent | [bob] BOT (classify > recall > update_memory, 1.4s): I don't have any previous conversation history to reference.
+01:02:11 INFO    sales_agent | === Assistant closed and re-opened (simulates a restart) ===
+01:02:12 INFO    sales_agent | [alice] USER: Can you remind me what the monthly premium was?
+01:02:14 INFO    sales_agent | intent=recall product=Khum Aomsook (คุ้มออมสุข) mode=qa
+01:02:15 INFO    sales_agent | [alice] BOT (classify > recall > update_memory, 3.4s): The monthly premium for a 30-year-old man with a 300,000 baht sum assured is 2,635 THB.
+01:02:17 INFO    sales_agent | LEAD {'lead_id': 1, 'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '0897654321', 'interested_product': 'Khum Aomsook', 'session_id': 'alice', 'created_at': '2026-10-05T01:01:44'}
+01:02:17 INFO    sales_agent | LEAD {'lead_id': 2, 'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '0812345678', 'interested_product': 'JustOne', 'session_id': 'somchai', 'created_at': '2026-10-05T01:02:02'}
+01:02:17 INFO    sales_agent | LEAD {'lead_id': 3, 'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '0915550123', 'interested_product': 'FWD Freedom Link Plus 15/5', 'session_id': 'dave', 'created_at': '2026-10-05T01:02:09'}
+01:02:17 INFO    sales_agent | === DEMO END: 3 leads saved | transcript: C:\Users\User\Desktop\AI Staff 2\Case2_GenAI_RAG\logs\demo_transcript.md ===
+01:09:36 INFO    sales_agent | === DEMO START 2026-10-05T01:09:36 | chat=qwen3:14b embed=bge-m3 ===
+01:09:37 INFO    sales_agent | [alice] USER: Hi there!
+01:09:38 INFO    sales_agent | intent=greeting product=None mode=qa
+01:09:39 INFO    sales_agent | [alice] BOT (classify > smalltalk > update_memory, 2.0s): Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?
+01:09:39 INFO    sales_agent | [alice] USER: How long do I pay premiums for Khum Aomsook, and how long is the cover?
+01:09:39 INFO    sales_agent | intent=question product=Khum Aomsook mode=qa
+01:09:40 INFO    sales_agent | standalone query: คุ้มออมสุข ระยะเวลาการจ่ายเบี้ยประกันและระยะเวลาความคุ้มครองคือเท่าไร
+01:09:42 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.779), ('Khum_Aomsook.pdf, p.2', 0.738), ('Khum_Mangmee_18-9.pdf, p.2', 0.719), ('Khum_Aomsook.pdf, p.1', 0.718)]
+01:09:44 INFO    sales_agent | grader kept 3/4 passages
+01:09:45 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 6.6s): For Khum Aomsook, you pay premiums for 15 years, and the coverage lasts for 25 years [Khum_Aomsook.pdf, p.2].
+01:09:45 INFO    sales_agent | [alice] USER: And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?
+01:09:46 INFO    sales_agent | intent=question product=Khum Aomsook mode=qa
+01:09:47 INFO    sales_agent | standalone query: คุ้มออมสุข เบี้ยประกันรายเดือนสำหรับชายอายุ 30 ปี ความคุ้มครอง 300,000 บาท เป็นเท่าไร
+01:09:47 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.739), ('Khum_Aomsook.pdf, p.2', 0.731), ('Khum_Aomsook.pdf, p.1', 0.675), ('Khum_Mangmee_18-9.pdf, p.2', 0.662)]
+01:09:48 INFO    sales_agent | grader kept 2/4 passages
+01:09:50 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 4.4s): For a 30-year-old man with a 300,000 THB sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].
+01:09:50 INFO    sales_agent | [alice] USER: Do you sell travel insurance?
+01:09:51 INFO    sales_agent | intent=question product=None mode=qa
+01:09:51 INFO    sales_agent | standalone query: คุณขายประกันการเดินทางไหม
+01:09:51 INFO    sales_agent | retrieved 4 chunks: [('justone_leaflets.pdf, p.4', 0.521), ('justone_leaflets.pdf, p.2', 0.52), ('justone_leaflets.pdf, p.4', 0.517), ('Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.9', 0.516)]
+01:09:52 INFO    sales_agent | grader kept 0/4 passages
+01:09:52 INFO    sales_agent | rewrite #1: คุณมีประกันการเดินทางไหม
+01:09:52 INFO    sales_agent | retrieved 4 chunks: [('Khum_Mangmee_18-9.pdf, p.2', 0.566), ('Khum_Aomsook.pdf, p.2', 0.557), ('Khum_Mangmee_18-9.pdf, p.1', 0.55), ('Khum_Aomsook.pdf, p.1', 0.542)]
+01:09:54 INFO    sales_agent | grader kept 0/4 passages
+01:09:54 WARNING sales_agent | no relevant documents after 1 rewrite(s) - fallback answer
+01:09:54 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory, 3.9s): Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.
+01:09:54 INFO    sales_agent | [alice] USER: I'm interested in Khum Aomsook. Can an agent contact me?
+01:09:54 INFO    sales_agent | intent=buy_interest product=Khum Aomsook mode=qa
+01:09:55 INFO    sales_agent | lead draft: {} | missing: ['name', 'occupation', 'monthly_income', 'phone']
+01:09:55 INFO    sales_agent | [alice] BOT (classify > extract_lead > ask_missing > update_memory, 1.6s): Great to hear you're interested in Khum Aomsook! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?
+01:09:55 INFO    sales_agent | [alice] USER: My name is Alice Wong and I work as a nurse
+01:09:58 INFO    sales_agent | intent=lead_info product=Khum Aomsook mode=lead_collection
+01:09:58 INFO    sales_agent | lead draft: {'name': 'Alice Wong', 'occupation': 'nurse'} | missing: ['monthly_income', 'phone']
+01:09:58 INFO    sales_agent | [alice] BOT (classify > extract_lead > ask_missing > update_memory, 3.2s): Thank you Alice Wong! Could you also share your monthly income (THB) and a contact phone number?
+01:09:58 INFO    sales_agent | [alice] USER: Before that - is the premium fixed or does it go up with age?
+01:09:59 INFO    sales_agent | intent=question product=Khum Aomsook mode=lead_collection
+01:10:00 INFO    sales_agent | standalone query: เบี้ยประกันคุ้มออมสุขเป็นเบี้ยคงที่หรือจะเพิ่มขึ้นเมื่ออายุเพิ่มขึ้น
+01:10:03 INFO    sales_agent | retrieved 4 chunks: [('Khum_Aomsook.pdf, p.2', 0.659), ('Khum_Aomsook.pdf, p.2', 0.659), ('Khum_Aomsook.pdf, p.2', 0.655), ('Khum_Aomsook.pdf, p.1', 0.636)]
+01:10:04 INFO    sales_agent | grader kept 1/4 passages
+01:10:08 INFO    sales_agent | memory: summarised messages 0-8 (575 chars)
+01:10:08 INFO    sales_agent | [alice] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 10.1s): The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].
+
+To continue with your application, could you share your monthly income (THB) and a contact phone number?
+01:10:08 INFO    sales_agent | [alice] USER: I earn about 32,000 baht a month, my number is 089-765-4321
+01:10:09 INFO    sales_agent | intent=lead_info product=Khum Aomsook mode=lead_collection
+01:10:11 INFO    sales_agent | lead draft: {'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '089-765-4321'} | missing: []
+01:10:12 INFO    sales_agent | lead saved via MCP: id=1 {'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '0897654321', 'interested_product': 'Khum Aomsook', 'session_id': 'alice'}
+01:10:12 INFO    sales_agent | [alice] BOT (classify > extract_lead > save_lead > update_memory, 3.5s): Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.
+01:10:12 INFO    sales_agent | [alice] USER: What's my name, and what did I ask about first?
+01:10:13 INFO    sales_agent | intent=recall product=None mode=qa
+01:10:14 INFO    sales_agent | [alice] BOT (classify > recall > update_memory, 1.6s): Your name is Alice Wong, and you first asked about the premium payment period and coverage duration for Khum Aomsook.
+01:10:14 INFO    sales_agent | [somchai] USER: อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม
+01:10:14 INFO    sales_agent | intent=question product=Easy E-Save 10/3 mode=qa
+01:10:16 INFO    sales_agent | retrieved 4 chunks: [('Easy_E-Save_10-3.pdf, p.1', 0.662), ('Easy_E-Save_10-3.pdf, p.1', 0.629), ('Khum_Aomsook.pdf, p.2', 0.503), ('Khum_Mangmee_18-9.pdf, p.2', 0.498)]
+01:10:18 INFO    sales_agent | grader kept 2/4 passages
+01:10:20 INFO    sales_agent | [somchai] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 6.6s): ผลตอบแทน (IRR) ของ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  
+ไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]
+01:10:20 INFO    sales_agent | [somchai] USER: JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่
+01:10:21 INFO    sales_agent | intent=question product=JustOne mode=qa
+01:10:22 INFO    sales_agent | standalone query: JustOne ประกันรถยนต์ประเภท 1 รถ Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยประกันเท่าไหร่
+01:10:24 INFO    sales_agent | retrieved 4 chunks: [('justone_leaflets.pdf, p.2', 0.793), ('justone_leaflets.pdf, p.3', 0.779), ('justone_leaflets.pdf, p.4', 0.765), ('justone_leaflets.pdf, p.1', 0.731)]
+01:10:25 INFO    sales_agent | grader kept 1/4 passages
+01:10:27 INFO    sales_agent | [somchai] BOT (classify > contextualize > retrieve > grade > generate > update_memory, 7.1s): เบี้ยประกันภัย JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เท่ากับ 42,600 บาท [justone_leaflets.pdf, p.2]
+01:10:27 INFO    sales_agent | [somchai] USER: สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678
+01:10:28 INFO    sales_agent | intent=buy_interest product=None mode=qa
+01:10:29 INFO    sales_agent | lead draft: {'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '081-234-5678'} | missing: []
+01:10:30 INFO    sales_agent | lead saved via MCP: id=2 {'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '0812345678', 'interested_product': 'JustOne', 'session_id': 'somchai'}
+01:10:30 INFO    sales_agent | [somchai] BOT (classify > extract_lead > save_lead > update_memory, 2.7s): ขอบคุณค่ะ คุณสมชาย ใจดี บันทึกข้อมูลเรียบร้อยแล้ว (หมายเลข 2) ตัวแทนจะติดต่อกลับที่เบอร์ 0812345678 เร็ว ๆ นี้ค่ะ
+01:10:30 INFO    sales_agent | [dave] USER: I'd like to apply for FWD Freedom Link Plus 15/5
+01:10:31 INFO    sales_agent | intent=buy_interest product=FWD Freedom Link Plus 15/5 mode=qa
+01:10:32 INFO    sales_agent | lead draft: {} | missing: ['name', 'occupation', 'monthly_income', 'phone']
+01:10:32 INFO    sales_agent | [dave] BOT (classify > extract_lead > ask_missing > update_memory, 1.6s): Great to hear you're interested in FWD Freedom Link Plus 15/5! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?
+01:10:32 INFO    sales_agent | [dave] USER: Dave Miller, software developer, 85000 per month, phone 12345
+01:10:32 INFO    sales_agent | intent=lead_info product=FWD Freedom Link Plus 15/5 mode=lead_collection
+01:10:33 INFO    sales_agent | lead draft: {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '12345'} | missing: []
+01:10:34 WARNING sales_agent | lead rejected by MCP tool: ["phone: Value error, '12345' is not a valid Thai phone number"]
+01:10:34 INFO    sales_agent | [dave] BOT (classify > extract_lead > save_lead > update_memory, 2.6s): Sorry, some details don't look right. Could you check a contact phone number again?
+01:10:34 INFO    sales_agent | [dave] USER: Sorry, it's 091-555-0123
+01:10:35 INFO    sales_agent | intent=lead_info product=FWD Freedom Link Plus 15/5 mode=lead_collection
+01:10:36 INFO    sales_agent | lead draft: {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '091-555-0123'} | missing: []
+01:10:37 INFO    sales_agent | lead saved via MCP: id=3 {'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '0915550123', 'interested_product': 'FWD Freedom Link Plus 15/5', 'session_id': 'dave'}
+01:10:37 INFO    sales_agent | [dave] BOT (classify > extract_lead > save_lead > update_memory, 2.9s): Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.
+01:10:37 INFO    sales_agent | [bob] USER: What's my name? What did I ask you before?
+01:10:38 INFO    sales_agent | intent=recall product=None mode=qa
+01:10:38 INFO    sales_agent | [bob] BOT (classify > recall > update_memory, 1.4s): I don't have any previous conversation history to reference.
+01:10:38 INFO    sales_agent | === Assistant closed and re-opened (simulates a restart) ===
+01:10:39 INFO    sales_agent | [alice] USER: Can you remind me what the monthly premium was?
+01:10:40 INFO    sales_agent | intent=recall product=Khum Aomsook mode=qa
+01:10:41 INFO    sales_agent | [alice] BOT (classify > recall > update_memory, 1.9s): The monthly premium for a 30-year-old man with a 300,000 THB sum assured is 2,635 THB.
+01:10:42 INFO    sales_agent | LEAD {'lead_id': 1, 'name': 'Alice Wong', 'occupation': 'nurse', 'monthly_income': 32000.0, 'phone': '0897654321', 'interested_product': 'Khum Aomsook', 'session_id': 'alice', 'created_at': '2026-10-05T01:10:12'}
+01:10:42 INFO    sales_agent | LEAD {'lead_id': 2, 'name': 'สมชาย ใจดี', 'occupation': 'วิศวกร', 'monthly_income': 50000.0, 'phone': '0812345678', 'interested_product': 'JustOne', 'session_id': 'somchai', 'created_at': '2026-10-05T01:10:30'}
+01:10:42 INFO    sales_agent | LEAD {'lead_id': 3, 'name': 'Dave Miller', 'occupation': 'software developer', 'monthly_income': 85000.0, 'phone': '0915550123', 'interested_product': 'FWD Freedom Link Plus 15/5', 'session_id': 'dave', 'created_at': '2026-10-05T01:10:37'}
+01:10:42 INFO    sales_agent | === DEMO END: 3 leads saved | transcript: C:\Users\User\Desktop\AI Staff 2\Case2_GenAI_RAG\logs\demo_transcript.md ===

@@ -1,20 +1,659 @@
 [
-  {"q": "What is the annual premium of PA Plus Silver for occupation class 3?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["2,490"]},
-  {"q": "What is the maximum entry age for PA Plus?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["65"]},
-  {"q": "Is an injury covered if the insured was drunk?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["150"]},
-  {"q": "What is the Life Secure 20 premium for a 40-year-old male non-smoker per 1 million sum assured?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["5,600"]},
-  {"q": "How much more do smokers pay for Life Secure?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["40%"]},
-  {"q": "Above what sum assured is a medical examination required for Life Secure?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["3,000,000"]},
-  {"q": "What is the general waiting period of Health Care Plus?", "source": "03_Health_Care_Plus.pdf", "expect": ["30"]},
-  {"q": "What is the waiting period for cataract surgery?", "source": "03_Health_Care_Plus.pdf", "expect": ["120"]},
-  {"q": "How much is Health Care Plus Plan Plus per year for a 35-year-old?", "source": "03_Health_Care_Plus.pdf", "expect": ["15,900"]},
-  {"q": "How long is the free-look period for a new policy?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["15"]},
-  {"q": "Is there an extra charge for paying monthly?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["3%"]},
-  {"q": "Is there a discount for buying two products?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["5%"]},
-  {"q": "How quickly are claims paid after all documents are received?", "source": "05_Claims_and_Service_Guide.pdf", "expect": ["15"]},
-  {"q": "What is the call centre phone number?", "source": "05_Claims_and_Service_Guide.pdf", "expect": ["02-123-4567"]},
-  {"q": "ประกันสุขภาพลดหย่อนภาษีได้สูงสุดเท่าไหร่", "source": "03_Health_Care_Plus.pdf", "expect": ["25,000"]},
-  {"q": "ถ้าจ่ายเบี้ยไม่ตรงเวลา มีระยะเวลาผ่อนผันกี่วัน", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["31"]},
-  {"q": "Do you offer car insurance?", "out_of_scope": true},
-  {"q": "How much is travel insurance for a trip to Japan?", "out_of_scope": true}
+ {
+  "q": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันกี่ปี",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "3"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 คุ้มครองนานกี่ปี",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "10"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 ได้เงินคืนทุกปีกี่เปอร์เซ็นต์",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "3%"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ในสิ้นปีกรมธรรม์ที่เท่าไหร่บ้าง",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "1-9"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุดกี่เปอร์เซ็นต์ของทุน",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "303%"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 เลือกเบี้ยประกันต่อปีได้ตั้งแต่เท่าไหร่ถึงเท่าไหร่",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "30,000",
+   "350,000"
+  ]
+ },
+ {
+  "q": "ถ้าเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จ่ายสูงสุดกี่เปอร์เซ็นต์ของทุนประกัน",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "300%"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 กรณีเสียชีวิตจ่ายกี่เปอร์เซ็นต์ของเบี้ยที่ชำระมาแล้ว",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "101%"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 ให้ผลตอบแทน IRR เท่าไหร่",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "1.24%"
+  ]
+ },
+ {
+  "q": "สมัครอีซี่ อีเซฟ 10/3 ต้องตอบคำถามสุขภาพไหม",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "ไม่ต้อง"
+  ]
+ },
+ {
+  "q": "What is the IRR of Easy E-Save 10/3?",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "1.24%"
+  ]
+ },
+ {
+  "q": "What is the maturity benefit of Easy E-Save 10/3 as a percentage of the sum assured?",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "303%"
+  ]
+ },
+ {
+  "q": "What is the minimum annual premium for Easy E-Save 10/3?",
+  "source": "Easy_E-Save_10-3.pdf",
+  "expect": [
+   "30,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ชำระเบี้ยกี่ปี",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "9"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 คุ้มครองกี่ปี",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "18"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญากี่เปอร์เซ็นต์ของทุนประกัน",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "379%"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "360%"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 สิ้นปีที่ 1-9 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "1%"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 สิ้นปีที่ 10-18 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "5%"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ครบสัญญารับเงินก้อนกี่เปอร์เซ็นต์",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "325%"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "70"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุนประกันขั้นต่ำเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "100,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี เบี้ยรายปีเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "36,500"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี จ่ายรายเดือนเดือนละเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "3,285"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท เบี้ยรายปีของคนอายุ 30 ปีเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "362,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เบี้ยรายเดือนเท่าไหร่ (อายุ 30)",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "16,380"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท ถ้าเสียชีวิตในปีกรมธรรม์ที่ 1-3 ได้เท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "1,200,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท เสียชีวิตปีกรมธรรม์ที่ 4-6 ได้รับเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "720,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เสียชีวิตปีที่ 7-18 ได้เท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "1,800,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท ครบสัญญาได้เงินก้อนเท่าไหร่",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "975,000"
+  ]
+ },
+ {
+  "q": "คุ้มมั่งมี 18/9 มีชื่อแบบประกันอย่างเป็นทางการว่าอะไร",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "เซฟวิ่ง18/9"
+  ]
+ },
+ {
+  "q": "What is the minimum sum assured for Khum Mangmee 18/9?",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "100,000"
+  ]
+ },
+ {
+  "q": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "32,580"
+  ]
+ },
+ {
+  "q": "What is the maximum entry age for Khum Mangmee 18/9?",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "70"
+  ]
+ },
+ {
+  "q": "How much life cover does Khum Mangmee 18/9 give in the first years, as a percentage of the sum assured?",
+  "source": "Khum_Mangmee_18-9.pdf",
+  "expect": [
+   "120%"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข จ่ายเบี้ยกี่ปี",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "15"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข คุ้มครองกี่ปี",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "25"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข รับเงินคืนรวมกี่เปอร์เซ็นต์ของทุน",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "174%"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์ของทุน",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "200%"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "150%"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ได้เงินคืนรายปีกี่เปอร์เซ็นต์",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "1%"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่เท่าไหร่ถึงเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "24"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข รับประกันอายุสูงสุดกี่ปี",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "60"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุนประกันขั้นต่ำเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "150,000"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข เริ่มเก็บเงินได้วันละกี่บาท",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "30"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 100,000 บาท เพศชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "878"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 100,000 บาท ผู้หญิงอายุ 30 ปี จ่ายเดือนละเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "860"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 300,000 บาท ผู้ชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "2,635"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "4,256"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 300,000 บาท เสียชีวิตในปีกรมธรรม์ที่ 1-10 ได้เท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "450,000"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ทุน 500,000 บาท รวมเงินคืนตลอดสัญญาเท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "870,000"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข ความคุ้มครองชีวิต 200% เริ่มตั้งแต่ปีที่เท่าไหร่",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "11"
+  ]
+ },
+ {
+  "q": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันอะไร",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "25/15"
+  ]
+ },
+ {
+  "q": "What is the minimum sum assured for Khum Aomsook?",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "150,000"
+  ]
+ },
+ {
+  "q": "What is the monthly premium of Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured?",
+  "source": "Khum_Aomsook.pdf",
+  "expect": [
+   "4,346"
+  ]
+ },
+ {
+  "q": "เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดกี่ปี",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "65"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 เบี้ยประกันภัยหลักเริ่มต้นปีละเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "50,000"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "5,000"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 เลือกคุ้มครองชีวิตได้สูงสุดกี่เท่าของเบี้ยประกันภัยหลัก",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "50"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ได้โบนัสพิเศษกี่เปอร์เซ็นต์ของเบี้ยหลัก",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "2%"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ต่ออายุกรมธรรม์ได้ถึงอายุเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "99"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ผู้เอาประกันอายุ 61-65 ปี เลือกทุนประกันได้กี่เท่าของเบี้ยหลัก",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "5",
+   "8"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าใช้จ่ายในการดำเนินการปีแรกหักกี่เปอร์เซ็นต์ของเบี้ยหลัก",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "8"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "0.69"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 เสียค่าธรรมเนียมกี่เปอร์เซ็นต์",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "50"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 สับเปลี่ยนกองทุนขั้นต่ำเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "1,000"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 หยุดพักชำระเบี้ยได้หลังจ่ายรายเดือนครบกี่งวด",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "36"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินบางส่วนแล้วมูลค่ากรมธรรม์ต้องเหลือไม่น้อยกว่าเท่าไหร่",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "10,000"
+  ]
+ },
+ {
+  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ยกเลิกกรมธรรม์ (Free Look) จะถูกหักค่าใช้จ่ายกี่บาท",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "500"
+  ]
+ },
+ {
+  "q": "What is the FWD customer service hotline number?",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "1351"
+  ]
+ },
+ {
+  "q": "How many days is the free look period for FWD Freedom Link Plus 15/5?",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "15"
+  ]
+ },
+ {
+  "q": "What fee is charged on top-up premiums for FWD Freedom Link Plus 15/5?",
+  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "expect": [
+   "1.5"
+  ]
+ },
+ {
+  "q": "ประกันรถยนต์ JustOne คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกครั้งละเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "5,000,000"
+  ]
+ },
+ {
+  "q": "JustOne ความรับผิดต่อชีวิตร่างกายบุคคลภายนอก ต่อครั้งสูงสุดเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "20,000,000"
+  ]
+ },
+ {
+  "q": "JustOne แบบซ่อมห้าง คุ้มครองชีวิตร่างกายบุคคลภายนอกต่อคนเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "1,000,000"
+  ]
+ },
+ {
+  "q": "JustOne ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "300,000"
+  ]
+ },
+ {
+  "q": "JustOne คุ้มครองอุปกรณ์ตกแต่งเพิ่มเติมมูลค่าเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "25,000"
+  ]
+ },
+ {
+  "q": "JustOne แบบซ่อมอู่ รับประกันรถอายุสูงสุดกี่ปี",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "20"
+  ]
+ },
+ {
+  "q": "JustOne ระยะเวลาแจ้งงานสิ้นสุดวันไหน",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "24"
+  ]
+ },
+ {
+  "q": "ประกันรถยนต์ JustOne รับประกันโดยบริษัทอะไร",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "ชับบ"
+  ]
+ },
+ {
+  "q": "JustOne เบอร์โทรติดต่อสอบถามคืออะไร",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "02-039-5720"
+  ]
+ },
+ {
+  "q": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "42,600"
+  ]
+ },
+ {
+  "q": "JustOne Toyota Commuter อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยประกันเท่าไหร่",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "42,400"
+  ]
+ },
+ {
+  "q": "What is the personal accident cover (ร.ย.01) per person in the JustOne car insurance?",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "200,000"
+  ]
+ },
+ {
+  "q": "Which roadside assistance plan is included in JustOne?",
+  "source": "justone_leaflets.pdf",
+  "expect": [
+   "Gold"
+  ]
+ },
+ {
+  "q": "How much is travel insurance for a trip to Japan?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันสัตว์เลี้ยงสำหรับสุนัขราคาเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันสุขภาพ OPD คุ้มครองค่ารักษาผู้ป่วยนอกปีละเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันอัคคีภัยบ้านเบี้ยปีละเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "พ.ร.บ. รถจักรยานยนต์ราคาเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันโรคมะเร็งจ่ายเงินก้อนเท่าไหร่เมื่อตรวจพบ",
+  "out_of_scope": true
+ },
+ {
+  "q": "What is the waiting period for maternity coverage?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันบำนาญ จ่ายเงินบำนาญปีละกี่เปอร์เซ็นต์",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันรถยนต์ชั้น 3 ราคาเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันเดินทางไปยุโรป Schengen คุ้มครองค่ารักษาพยาบาลเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "What is the premium for a term life plan with a 5 million baht sum assured?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันสุขภาพเด็กมีระยะเวลารอคอยกี่วัน",
+  "out_of_scope": true
+ },
+ {
+  "q": "Do you sell earthquake insurance for condominiums?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันโควิดยังมีขายอยู่ไหม",
+  "out_of_scope": true
+ },
+ {
+  "q": "How much does dental insurance cover per year?",
+  "out_of_scope": true
+ }
 ]

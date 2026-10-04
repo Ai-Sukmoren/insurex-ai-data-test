@@ -8,13 +8,23 @@ session**. Everything runs **locally**: the LLM and embeddings are served by **O
 |---|---|
 | Framework | LangChain + **LangGraph** state machine (12 nodes, conditional routing, retrieval **cycle**) |
 | Vector DB | **FAISS** (cosine similarity, persisted to `data/faiss_index/`) |
-| Knowledge base | 5 PDFs in `knowledge_base/` → chunked → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
+| Knowledge base | 5 real PDFs in `../InsureX_Savings_PDFs/` (mostly Thai) → read with PyMuPDF → chunked, each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
 | Not-found handling | relevance floor + LLM grader → query rewrite → retry → polite fallback (never invents an answer) |
 | **Bonus 1** – lead collection | interest triggers `lead_collection` mode; name, occupation, income and phone are extracted into a **Pydantic** model over several turns, validated, and saved to **SQLite** via an **MCP server** (`save_lead`, `list_leads`) |
 | **Bonus 2** – sessions | LangGraph **SQLite checkpointer**, `thread_id = session_id`: separate memory per user that survives restarts; recent window plus a **running summary** of older messages (`update_memory` node); chats can be listed, renamed and deleted |
 
-> ⚠️ The 5 PDFs in `knowledge_base/` are **sample documents with fictional products**, created because the real files
-> were not provided. To use the real ones, replace the PDFs and run `python main.py ingest`. No code change is needed.
+**Knowledge base** (folder set by `KNOWLEDGE_DIR`, default `../InsureX_Savings_PDFs/`):
+
+| PDF | Content |
+|---|---|
+| `Easy_E-Save_10-3.pdf`, `Khum_Mangmee_18-9.pdf`, `Khum_Aomsook.pdf` | the 3 savings plans (ประกันสะสมทรัพย์) on insurex.co.th, scraped from the site's product data |
+| `Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf` | FWD's 9-page brochure for a unit-linked plan (fees, rights, warnings) |
+| `justone_leaflets.pdf` | Chubb "JustOne 2026" type 1 car insurance leaflet (cover limits, premium tables) |
+
+Reading real Thai PDFs needed three fixes in `PdfLoader`: PyMuPDF instead of pypdf (pypdf dropped tone marks and
+upper vowels), joining text that shares a baseline so table rows stay on one line, and mapping legacy Thai
+Private Use Area glyphs (U+F700–U+F71A, used by the JustOne leaflet's font) back to standard Thai. To change documents,
+replace the PDFs and run `python main.py ingest`.
 
 ---
 
@@ -32,7 +42,7 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows   (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 
-# 3. build the vector index from knowledge_base/*.pdf
+# 3. build the vector index from the PDFs in KNOWLEDGE_DIR (default ../InsureX_Savings_PDFs)
 python main.py ingest
 ```
 To use smaller models, set `CHAT_MODEL` / `EMBED_MODEL` (see `.env.example`).
@@ -61,11 +71,11 @@ npm run build                         # type-check + production build → fronte
 ```bash
 python main.py chat --session alice   # interactive chat; each --session has its own memory
 python main.py demo                   # scripted demo → logs/demo_run.log + logs/demo_transcript.md
-python main.py eval                   # RAG accuracy test (18 questions) → logs/eval_report.md
+python main.py eval                   # RAG accuracy test (100 questions) → logs/eval_report.md
 python main.py leads                  # list captured leads (through the MCP list_leads tool)
 python main.py graph                  # print the LangGraph structure (Mermaid)
-python main.py present                # slide deck + presenter guide PDFs → output/ (after eval + demo)
-python -m pytest -q                   # 32 tests (the integration test is skipped if Ollama is off)
+python main.py present                # presenter direction + cheat sheet PDF → output/ (after eval + demo)
+python -m pytest -q                   # 34 tests (the integration test is skipped if Ollama is off)
 ```
 In chat, type `history` to see what the session remembers and `exit` to quit. Run `chat --session alice` again
 later and the conversation continues where it stopped.
@@ -127,9 +137,9 @@ graph TD
 | Node | What it does |
 |---|---|
 | `classify` | LLM router (structured output) picks the intent, using the mode and recent history |
-| `contextualize` | rewrites follow-ups into standalone queries using memory ("how much is *it*?" → "PA Plus Gold premium") |
+| `contextualize` | rewrites follow-ups into standalone queries using memory ("how much is *it* per month?" → "คุ้มออมสุข เบี้ยประกันรายเดือน"); queries are written in Thai to match the documents |
 | `retrieve` | FAISS top-k with a cosine-similarity floor |
-| `grade` | LLM keeps only passages that **directly** answer the question; needed because similarity alone cannot detect off-topic questions (e.g. car insurance still scores 0.52) |
+| `grade` | LLM keeps only passages that **directly** answer the question; needed because similarity alone cannot detect off-topic questions (off-topic questions still get high cosine scores) |
 | `rewrite_query` → `retrieve` | **the cycle**: one alternative query before giving up (`max_query_rewrites`) |
 | `generate` | grounded answer with `[file, page]` citations, in the user's language; during lead collection it also reminds the customer what is still missing |
 | `not_found` | safe fallback: says the information isn't in the documents |
@@ -144,20 +154,27 @@ The grader's default is "nothing relevant", so the agent refuses rather than gue
 
 ## 4. Results
 
-**Evaluation** (`python main.py eval`, report in `logs/eval_report.md`): 16 answerable questions (2 in Thai) and
-2 out-of-scope questions.
+**Evaluation** (`python main.py eval`, report in `logs/eval_report.md`): 100 questions written from the real PDFs:
+85 answerable (Thai and English, every expected value checked against the source text) and 15 out of scope
+(travel, pet, health, fire, …). Each runs in a fresh session through the full graph.
 
-| Metric | Result |
-|---|---|
-| Retrieval hit rate (correct document in top 4) | **100%** |
-| Answer accuracy (expected fact present in the answer) | **100%** |
-| Out-of-scope questions correctly refused | **100%** |
+| Metric | First run | Current |
+|---|---|---|
+| Overall (correct answers + correct refusals) | 80/100 | **91/100** |
+| Answer accuracy (expected fact present in the answer) | 76% | **89%** |
+| Retrieval hit rate (correct document in top 4) | 100% | **100%** |
+| Out-of-scope questions correctly refused | 100% | **100%** |
+
+The first run is kept in `logs/baseline/`. Fixes between the runs: chunks labelled with their document title, Thai PUA
+mapping, a routing rule for product questions that mention "สมัคร", and the Dealer/ซ่อมห้าง table terminology. Most
+remaining misses are on the JustOne leaflet's cover-limit table, whose three-column layout extracts poorly. Results
+vary by about ±1 question between runs.
 
 **Demo** (`python main.py demo`, see `logs/demo_transcript.md` and `logs/demo_run.log`) shows:
 - answers with citations, and follow-up questions resolved from memory
-- the retrieve → grade → rewrite → retrieve cycle ending in a safe fallback ("Do you sell car insurance?")
+- the retrieve → grade → rewrite → retrieve cycle ending in a safe fallback ("Do you sell travel insurance?")
 - lead mode with details given over several turns, plus a side question answered mid-collection
-- a Thai conversation, with a full lead captured in one message
+- a Thai conversation (savings plan facts, a car insurance premium table lookup), with a full lead captured in one message
 - an invalid phone rejected by the MCP tool's validation, then corrected
 - session separation (Bob cannot see Alice's chat) and memory surviving a restart
 - the final leads table read back through MCP
@@ -169,12 +186,10 @@ Typical latency on an RTX 4070 SUPER: 1–2 s for routing and lead turns, 2–6 
 Case2_GenAI_RAG/
 ├── main.py                      # CLI
 ├── requirements.txt · .env.example
-├── knowledge_base/              # the 5 PDFs (samples - replace with the real ones)
-├── scripts/make_sample_pdfs.py  # generator for the sample PDFs
-├── eval/questions.json          # evaluation set
+├── eval/questions.json          # evaluation set: 85 answerable + 15 out-of-scope questions
 ├── src/sales_agent/
 │   ├── config.py                # Settings (env overridable)
-│   ├── knowledge_base.py        # PdfLoader, TextChunker, FaissVectorStore, KnowledgeBase
+│   ├── knowledge_base.py        # PdfLoader (PyMuPDF, rows, Thai PUA, titles), TextChunker, FaissVectorStore, KnowledgeBase
 │   ├── leads.py                 # LeadDraft / Lead (Pydantic), LeadRepository (SQLite)
 │   ├── mcp_server.py            # MCP server: save_lead, list_leads
 │   ├── mcp_client.py            # LeadToolClient (langchain-mcp-adapters, stdio)
@@ -186,9 +201,9 @@ Case2_GenAI_RAG/
 │   ├── demo.py · evaluation.py  # DemoRunner, RagEvaluator
 │   └── logging_setup.py
 ├── frontend/                    # React + TypeScript UI (Vite); dist/ = built app served by FastAPI
-├── presentation/                # slide deck + presenter guide templates (python main.py present)
-├── output/                      # Case 2 Presentation.pdf, Case 2 Presenter Guide.pdf
-├── tests/                       # 32 pytest tests (unit, MCP over stdio, web API, sessions, integration)
-├── logs/                        # demo_run.log, demo_transcript.md, eval_report.md
+├── presentation/                # presenter direction + cheat sheet template (python main.py present)
+├── output/                      # Case 2 Presenter Direction and Cheat Sheet.pdf
+├── tests/                       # 34 pytest tests (unit, MCP over stdio, web API, sessions, integration)
+├── logs/                        # demo_run.log, demo_transcript.md, eval_report.md, baseline/ (first run before the fixes)
 └── data/                        # generated: faiss_index/, sessions.db, leads.db
 ```

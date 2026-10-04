@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case 2 Presenter Direction and Cheat Sheet</title>
+<style>
+/* Case 2 presenter guide - A4 portrait */
+@page { size: A4; margin: 14mm 13mm; }
+:root { --ink: #12162a; --ink-2: #464d63; --muted: #7b8196; --line: #e3e5ee; --wash: #f4f6fb; --a1: #2f6fe8; --a2: #7c4ddb;
+        --lead: #b4461c; --mem: #047857; --ok: #047857; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: #fff; font: 13px/1.55 "Segoe UI", "Leelawadee UI", system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 19px; margin: 26px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--a1); }
+h3 { font-size: 14.5px; margin: 14px 0 4px; }
+p { margin: 5px 0; }
+code { font-family: Consolas, ui-monospace, monospace; font-size: .92em; }
+.cover { padding: 30px 0 12px; border-bottom: 4px solid var(--a2); margin-bottom: 8px; }
+.cover .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--a1); }
+.cover p { font-size: 15px; color: var(--ink-2); }
+.box { border-radius: 8px; padding: 10px 14px; margin: 8px 0; break-inside: avoid; }
+.box.say { background: #f3f2ee; border-left: 4px solid var(--ink); font-style: italic; }
+.box.say::before { content: "Say: "; font-style: normal; font-weight: 700; }
+.box.warn { background: #fdf3e7; border-left: 4px solid var(--lead); }
+.box.tip { background: #eef3fd; border-left: 4px solid var(--a1); }
+.g-slide { break-before: page; }
+.g-head { display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid var(--a1); padding-bottom: 4px; margin: 0 0 8px; }
+.g-head .num { font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--a1), var(--a2)); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.g-head h2 { border: 0; margin: 0; padding: 0; font-size: 17.5px; flex: 1; }
+.g-head .time { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.lbl { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+ul, ol { margin: 4px 0; padding-left: 20px; } li { margin: 3px 0; }
+.qa { margin: 7px 0; break-inside: avoid; }
+.qa .q { font-weight: 700; } .qa .q::before { content: "Q: "; color: var(--a1); }
+.qa .a::before { content: "A: "; font-weight: 700; color: var(--ok); }
+table { border-collapse: collapse; width: 100%; font-size: 12px; margin: 6px 0; }
+th, td { text-align: left; padding: 4px 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--wash); color: var(--ink-2); }
+td.num, th.num { text-align: right; white-space: nowrap; } td.c { text-align: center; }
+code.path { font-size: 10px; color: var(--ink-2); }
+.fig { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; break-inside: avoid; }
+.fig img, .fig svg { width: 100%; display: block; }
+.demo-table td { font-size: 11px; }
+.part { break-before: page; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--a2); margin-top: 0; }
+.order td:first-child { font-weight: 700; color: var(--a1); white-space: nowrap; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
+.kpis div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--wash); break-inside: avoid; }
+.kpis b { display: block; font-size: 22px; color: var(--a1); }
+.kpis span { font-size: 11px; color: var(--ink-2); }
+.step { display: grid; grid-template-columns: 26px 1fr; gap: 8px; margin: 8px 0; break-inside: avoid; }
+.step .n { width: 24px; height: 24px; border-radius: 50%; background: var(--a1); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.msg { font-family: "Leelawadee UI", "Segoe UI", sans-serif; background: #eef3fd; border-radius: 6px; padding: 2px 8px; display: inline-block; margin: 2px 0; }
+.facts td:first-child { font-weight: 700; width: 22%; }
+.check li { list-style: "☐  "; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 2</div>
+  <h1>Presenter Direction &amp; Cheat Sheet</h1>
+  <p>How to present the InsureX RAG sales assistant on the <b>real product documents</b>: the running order, what to show,
+  what to say, the live demo script, and one-page facts and answers to keep next to you.</p>
+</div>
+
+<div class="kpis">
+  <div><b>91%</b><span>overall accuracy on the 100-question test (91/100)</span></div>
+  <div><b>89%</b><span>answer accuracy, 85 answerable questions</span></div>
+  <div><b>100%</b><span>right document in the top 4 results</span></div>
+  <div><b>100%</b><span>15 out-of-scope questions refused</span></div>
+</div>
+<p style="font-size:11px;color:#7b8196">All numbers in this document come from the latest runs (2026-10-05): <code>python main.py eval</code>,
+<code>python main.py demo</code> and <code>pytest</code>, with <code>qwen3:14b</code> + <code>bge-m3</code> on an RTX 4070 SUPER.</p>
+
+<h2>What the panel grades</h2>
+<p>The brief grades four things. Tie every part of the talk back to one of them.</p>
+<table>
+  <tr><th>Criterion</th><th>Your evidence</th></tr>
+  <tr><td><b>RAG precision</b></td><td>100-question test on the real PDFs, citations on every fact, grader + retry + refusal path</td></tr>
+  <tr><td><b>Workflow logic</b></td><td>14-node LangGraph: conditional routing, a retrieval cycle, typed state, checkpointed per session</td></tr>
+  <tr><td><b>Data integrity</b></td><td>Leads validated inside the MCP tool (Pydantic): Thai phone format, positive income, trimmed names</td></tr>
+  <tr><td><b>Code quality</b></td><td>Small single-purpose classes, one Settings object, all prompts in one file, 34 automated tests</td></tr>
+</table>
+
+<!-- ================================================================== PART 1 -->
+<p class="part">Part 1 · Direction</p>
+<h2 style="margin-top:4px">Before you start (10 minutes before)</h2>
+<ul class="check">
+  <li>Ollama is running and both models are pulled: <code>ollama list</code> shows <code>qwen3:14b</code> and <code>bge-m3</code>.</li>
+  <li>Double-click <code>start_chatbot.bat</code> (or <code>python main.py serve</code>) and open <code>http://127.0.0.1:8000</code>.</li>
+  <li>Send one warm-up question and delete that chat. The first answer loads the model (about 30 s); after that answers take a few seconds.</li>
+  <li>Open these in tabs: <code>logs/eval_report.md</code>, the folder <code>InsureX_Savings_PDFs/</code> with one PDF open,
+      and VS Code on <code>src/sales_agent/agent.py</code> (method <code>build</code>), <code>knowledge_base.py</code> (<code>PdfLoader</code>) and <code>prompts.py</code>.</li>
+  <li>Keep this guide on a second screen or printed. Close notifications.</li>
+</ul>
+
+<h2>Running order (about 17 minutes + Q&amp;A)</h2>
+<table class="order">
+  <tr><th>#</th><th>Part</th><th>Show on screen</th><th class="num">Min</th></tr>
+  <tr><td>1</td><td>Opening: the story in 60 seconds</td><td>Web chat, empty</td><td class="num">1</td></tr>
+  <tr><td>2</td><td>The brief and how it is covered</td><td>README table</td><td class="num">1.5</td></tr>
+  <tr><td>3</td><td>The real data and how it is read</td><td>The PDF folder, one PDF</td><td class="num">2.5</td></tr>
+  <tr><td>4</td><td>Architecture and the LangGraph flow</td><td>Diagram on the next page, <code>agent.py</code></td><td class="num">3</td></tr>
+  <tr><td>5</td><td>Live demo (includes both bonus tasks)</td><td>Web chat</td><td class="num">5</td></tr>
+  <tr><td>6</td><td>Results of the 100-question test</td><td><code>logs/eval_report.md</code></td><td class="num">2</td></tr>
+  <tr><td>7</td><td>Lessons, next steps, close</td><td>Web chat or VS Code</td><td class="num">2</td></tr>
+</table>
+
+<!-- 1 -->
+<div class="g-head"><span class="num">1</span><h2>Opening: the story in 60 seconds</h2><span class="time">~1 min</span></div>
+<div class="box say">I built a sales assistant for InsureX that answers only from the company's product documents and cites the page for every fact.
+It runs on five real PDFs: three savings plans from the InsureX website, an FWD unit-linked brochure and a Chubb car insurance leaflet, mostly in Thai.
+It's a LangGraph state machine: it routes each message, searches a FAISS index, checks that the passages really answer the question, retries once with a better query,
+and if there's still nothing it says so instead of guessing. When a customer is interested it collects their details and saves a validated lead through an MCP tool,
+and every chat has its own memory. Everything runs locally. On a 100-question test it scored 91% overall.</div>
+
+<!-- 2 -->
+<div class="g-head"><span class="num">2</span><h2>The brief and how it is covered</h2><span class="time">~1.5 min</span></div>
+<ul>
+  <li><b>Framework:</b> LangChain for models, prompts and splitting; LangGraph for the workflow (state, nodes, conditional edges, a cycle).</li>
+  <li><b>Vector DB:</b> FAISS, chosen over ChromaDB because it is an in-process library with no server, saved as one file. It is wrapped in my own <code>FaissVectorStore</code> class, so switching is one class.</li>
+  <li><b>Not-found handling:</b> similarity floor → LLM grader → query rewrite → retry → polite refusal. It never invents an answer.</li>
+  <li><b>Bonus 1</b> (lead collection via MCP) and <b>bonus 2</b> (session memory) are both done; you show them in the demo.</li>
+</ul>
+<div class="box say">Here's the brief and how I covered it. Everything required is there and I did both bonus tasks. I'll go deeper on three things:
+how it avoids wrong answers, how the real Thai documents are read, and how leads and memory work.</div>
+
+<!-- 3 -->
+<div class="g-head"><span class="num">3</span><h2>The real data and how it is read</h2><span class="time">~2.5 min</span></div>
+<p><b>Show</b> the folder <code>InsureX_Savings_PDFs/</code>: 5 PDFs → 66 chunks (700 characters, 120 overlap), embedded with bge-m3 (multilingual, so English questions find Thai text).</p>
+<table>
+  <tr><th>Document</th><th>What it is</th></tr>
+  <tr><td>Easy_E-Save_10-3.pdf, Khum_Mangmee_18-9.pdf, Khum_Aomsook.pdf</td><td>The three savings plans listed on insurex.co.th (ประกันสะสมทรัพย์), scraped from the site's product data into one PDF each</td></tr>
+  <tr><td>Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf</td><td>FWD's official 9-page brochure for a unit-linked plan: fees, rights, warnings</td></tr>
+  <tr><td>justone_leaflets.pdf</td><td>Chubb "JustOne 2026" type 1 car insurance leaflet: cover limits and premium tables by car model</td></tr>
+</table>
+<p class="lbl">Three data problems you found and fixed (this is the strongest part of the story)</p>
+<ol>
+  <li><b>Thai text was broken.</b> pypdf dropped tone marks and upper vowels ("เบี ย" instead of "เบี้ย"). Switched the loader to <b>PyMuPDF</b>, which reads the text correctly.</li>
+  <li><b>Tables fell apart.</b> Each table cell came out on its own line, so a premium lost its row. The loader now <b>joins text that shares a baseline</b>, so "รายปี 36,500 109,500 182,000 362,000" stays one row.</li>
+  <li><b>The car leaflet hid its tone marks.</b> Its font stores marks as Private Use Area characters (U+F70A, U+F70E…). A 27-entry table maps them back to standard Thai, so "ซอมอู" becomes "ซ่อมอู่".</li>
+</ol>
+<div class="box say">The real documents were harder than sample ones. Thai PDFs are tricky: the first library I used lost the tone marks, tables came out one cell per line,
+and the Chubb leaflet uses a legacy font encoding. I fixed all three in the loader and wrote tests for each, so they can't come back.</div>
+<div class="qa"><div class="q">What if a document is a scanned image?</div><div class="a">The loader only reads text layers. I'd add OCR (Tesseract with Thai, or a document-AI service) before chunking; the rest of the pipeline stays the same.</div></div>
+
+<!-- 4 -->
+<div class="g-head g-slide"><span class="num">4</span><h2>Architecture and the LangGraph flow</h2><span class="time">~3 min</span></div>
+<div class="fig"><svg viewBox="0 0 980 486" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif" role="img" aria-label="LangGraph flow"><defs><marker id="ga" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9z" fill="#8b8a84"/></marker><marker id="gl" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9z" fill="#b4461c"/></marker></defs><path d="M156,216.0 C196,216.0 180,60.0 218,60.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="224" y="35" text-anchor="start" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">question</text><path d="M156,216.0 C196,216.0 180,234.0 218,234.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="224" y="209" text-anchor="start" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">interest / details</text><path d="M156,216.0 C196,216.0 180,338.0 218,338.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="224" y="313" text-anchor="start" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">recall</text><path d="M156,216.0 C196,216.0 180,398.0 218,398.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="224" y="373" text-anchor="start" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">decline</text><path d="M156,216.0 C196,216.0 180,452.0 218,452.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="224" y="427" text-anchor="start" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">greeting</text><path d="M352,60.0 C392,60.0 360,60.0 398,60.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><path d="M532,60.0 C572,60.0 540,60.0 578,60.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><path d="M712,60.0 C752,60.0 760,26.0 798,26.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="756.0" y="36.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">relevant</text><path d="M712,60.0 C752,60.0 760,102.0 798,102.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="756.0" y="74.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">none, give up</text><path d="M352,234.0 C392,234.0 380,206.0 418,206.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="386.0" y="213.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">missing</text><path d="M352,234.0 C392,234.0 380,264.0 418,264.0" fill="none" stroke="#8b8a84" stroke-width="1.5" marker-end="url(#ga)"/><text x="386.0" y="242.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">complete</text><path d="M552,264.0 C592,264.0 580,264.0 618,264.0" fill="none" stroke="#8b8a84" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ga)"/><text x="586.0" y="257.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">stdio</text><path d="M752,264.0 C792,264.0 780,264.0 818,264.0" fill="none" stroke="#8b8a84" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ga)"/><path d="M352,338.0 C392,338.0 380,338.0 418,338.0" fill="none" stroke="#8b8a84" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ga)"/><text x="386.0" y="331.0" text-anchor="middle" font-size="11" fill="#55544f" stroke="#fff" stroke-width="4" paint-order="stroke">reads</text><path d="M646.0,80 C646.0,144 652,144 624,144" fill="none" stroke="#b4461c" stroke-width="1.8" marker-end="url(#gl)"/><path d="M490,144 C466.0,144 466.0,124 466.0,82" fill="none" stroke="#b4461c" stroke-width="1.8" marker-end="url(#gl)"/><text x="654.0" y="114" font-size="11" fill="#b4461c" font-weight="700">none, retry</text><circle cx="8" cy="216.0" r="6" fill="#141413"/><path d="M14,216.0 L22,216.0" stroke="#141413" stroke-width="1.5"/><text x="866.0" y="378" text-anchor="middle" font-size="11" fill="#0b7a0b">every terminal node →</text><text x="866.0" y="448" text-anchor="middle" font-size="11" fill="#0b7a0b">→ END (running summary)</text><rect x="24" y="196" width="132" height="40" rx="9" fill="#fff" stroke="#52514e" stroke-width="2" /><text x="90.0" y="221" text-anchor="middle" font-size="13" font-weight="700" fill="#52514e" font-family="Consolas, monospace">classify</text><rect x="128" y="188" width="30" height="15" rx="7" fill="#52514e"/><text x="143" y="199" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="220" y="40" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="286.0" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">contextualize</text><rect x="324" y="32" width="30" height="15" rx="7" fill="#1c5cab"/><text x="339" y="43" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="400" y="40" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="466.0" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">retrieve</text><rect x="580" y="40" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="646.0" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">grade</text><rect x="684" y="32" width="30" height="15" rx="7" fill="#1c5cab"/><text x="699" y="43" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="800" y="6" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="866.0" y="31" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">generate</text><rect x="904" y="-2" width="30" height="15" rx="7" fill="#1c5cab"/><text x="919" y="9" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="800" y="82" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="866.0" y="107" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">not_found</text><rect x="490" y="124" width="132" height="40" rx="9" fill="#fff" stroke="#1c5cab" stroke-width="2" /><text x="556.0" y="149" text-anchor="middle" font-size="13" font-weight="700" fill="#1c5cab" font-family="Consolas, monospace">rewrite_query</text><rect x="594" y="116" width="30" height="15" rx="7" fill="#1c5cab"/><text x="609" y="127" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="220" y="214" width="132" height="40" rx="9" fill="#fff" stroke="#b4461c" stroke-width="2" /><text x="286.0" y="239" text-anchor="middle" font-size="13" font-weight="700" fill="#b4461c" font-family="Consolas, monospace">extract_lead</text><rect x="324" y="206" width="30" height="15" rx="7" fill="#b4461c"/><text x="339" y="217" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="420" y="186" width="132" height="40" rx="9" fill="#fff" stroke="#b4461c" stroke-width="2" /><text x="486.0" y="211" text-anchor="middle" font-size="13" font-weight="700" fill="#b4461c" font-family="Consolas, monospace">ask_missing</text><rect x="420" y="244" width="132" height="40" rx="9" fill="#fff" stroke="#b4461c" stroke-width="2" /><text x="486.0" y="269" text-anchor="middle" font-size="13" font-weight="700" fill="#b4461c" font-family="Consolas, monospace">save_lead</text><rect x="620" y="244" width="132" height="40" rx="9" fill="#f4f3ef" stroke="#6b6a64" stroke-width="1.2" stroke-dasharray="4 3"/><text x="686.0" y="269" text-anchor="middle" font-size="13" font-weight="400" fill="#6b6a64" font-family="Consolas, monospace">MCP: save_lead</text><rect x="820" y="244" width="132" height="40" rx="9" fill="#f4f3ef" stroke="#6b6a64" stroke-width="1.2" stroke-dasharray="4 3"/><text x="886.0" y="269" text-anchor="middle" font-size="13" font-weight="400" fill="#6b6a64" font-family="Consolas, monospace">SQLite: leads</text><rect x="220" y="318" width="132" height="40" rx="9" fill="#fff" stroke="#0b7a0b" stroke-width="2" /><text x="286.0" y="343" text-anchor="middle" font-size="13" font-weight="700" fill="#0b7a0b" font-family="Consolas, monospace">recall</text><rect x="324" y="310" width="30" height="15" rx="7" fill="#0b7a0b"/><text x="339" y="321" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="420" y="318" width="132" height="40" rx="9" fill="#f4f3ef" stroke="#6b6a64" stroke-width="1.2" stroke-dasharray="4 3"/><text x="486.0" y="343" text-anchor="middle" font-size="13" font-weight="400" fill="#6b6a64" font-family="Consolas, monospace">session memory</text><rect x="220" y="378" width="132" height="40" rx="9" fill="#fff" stroke="#52514e" stroke-width="2" /><text x="286.0" y="403" text-anchor="middle" font-size="13" font-weight="700" fill="#52514e" font-family="Consolas, monospace">exit_lead</text><rect x="220" y="432" width="132" height="40" rx="9" fill="#fff" stroke="#52514e" stroke-width="2" /><text x="286.0" y="457" text-anchor="middle" font-size="13" font-weight="700" fill="#52514e" font-family="Consolas, monospace">smalltalk</text><rect x="324" y="424" width="30" height="15" rx="7" fill="#52514e"/><text x="339" y="435" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text><rect x="800" y="392" width="132" height="40" rx="9" fill="#fff" stroke="#0b7a0b" stroke-width="2" /><text x="866.0" y="417" text-anchor="middle" font-size="13" font-weight="700" fill="#0b7a0b" font-family="Consolas, monospace">update_memory</text><rect x="904" y="384" width="30" height="15" rx="7" fill="#0b7a0b"/><text x="919" y="395" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">LLM</text></svg></div>
+<p class="lbl">How to walk through it</p>
+<ol>
+  <li><b>classify</b> (LLM, structured output) picks the intent: question, interest, details, recall, decline or greeting. It sees the mode and recent history.</li>
+  <li><b>Question path:</b> contextualize (rewrites follow-ups using memory, in Thai, with the Thai product names) → retrieve (top 4, floor 0.45) → grade → generate with citations.</li>
+  <li><b>The cycle:</b> if the grader keeps nothing, rewrite_query → retrieve once more, then not_found. The retry counter lives in the state, so it can't loop forever.</li>
+  <li><b>Lead path:</b> extract_lead → ask_missing (fields missing) or save_lead (complete, through the MCP server).</li>
+  <li><b>Memory:</b> recall answers questions about the chat itself; every turn ends at update_memory, which keeps a running summary.</li>
+</ol>
+<p class="lbl">State (AgentState)</p>
+<p><code>messages</code> (add_messages reducer) · <code>mode</code> (qa / lead_collection, persists across turns) · <code>lead</code> (partial draft) ·
+<code>query</code>, <code>attempts</code>, <code>documents</code> (per turn) · <code>summary</code>, <code>summarized_upto</code> (memory).</p>
+<div class="box say">This is the heart of it. Every message goes to a router first. Questions take the RAG path: rewrite the question using memory, search, grade, answer with citations.
+The orange loop is the cycle: if nothing relevant comes back, it rephrases and searches once more before refusing. Interest switches the agent into lead mode, which persists in the state.
+The badges show which steps call the model; the routing itself is plain Python, which I unit-test.</div>
+<div class="qa"><div class="q">Why not a ReAct agent that picks its own tools?</div><div class="a">A free-form agent is harder to predict and test. Here the LLM classifies, grades and writes, but the control flow is code, so every turn's path is logged and rules like "never answer without relevant passages" are guaranteed.</div></div>
+<div class="qa"><div class="q">Why a local model?</div><div class="a">Customer income and phone numbers never leave the machine, and there's no per-call cost. The model is one setting (<code>CHAT_MODEL</code>), so a hosted model is a configuration change.</div></div>
+
+<!-- 5 -->
+<div class="g-head g-slide"><span class="num">5</span><h2>Live demo script</h2><span class="time">~5 min</span></div>
+<p>Type these messages in the web chat, in order. Point at the <b>source chips</b> and the <b>Agent pipeline</b> panel lighting up each node.
+The full recorded run is in the table that follows, so you know what each answer should look like.</p>
+
+<div class="step"><div class="n">1</div><div><span class="msg">How long do I pay premiums for Khum Aomsook, and how long is the cover?</span><br>
+English question, Thai document. Expect 15 years / 25 years with a citation to <code>Khum_Aomsook.pdf</code>. Point at classify → contextualize → retrieve → grade → generate.</div></div>
+<div class="step"><div class="n">2</div><div><span class="msg">And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?</span><br>
+<b>Memory:</b> "it" is resolved to Khum Aomsook. Expect 2,635 baht per month.</div></div>
+<div class="step"><div class="n">3</div><div><span class="msg">Do you sell travel insurance?</span><br>
+<b>Not-found path:</b> point at the orange retry (rewrite_query → retrieve) and the polite refusal. It doesn't invent a product.</div></div>
+<div class="step"><div class="n">4</div><div><span class="msg">JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่</span><br>
+<b>Table lookup in Thai</b> from the Chubb leaflet. Expect 42,600 baht.</div></div>
+<div class="step"><div class="n">5</div><div><span class="msg">I'm interested in Khum Aomsook. Can an agent contact me?</span><br>
+<b>Bonus 1:</b> the lead badge appears and the progress ring starts at 0/4.</div></div>
+<div class="step"><div class="n">6</div><div><span class="msg">I'm Mai, a nurse, 30,000 a month, phone 12345</span><br>
+<b>Data integrity:</b> the MCP tool rejects the phone; name, job and income are kept. Then send <span class="msg">sorry, 081-234-5678</span>: the lead is saved, a toast appears, and it shows under Saved leads.</div></div>
+<div class="step"><div class="n">7</div><div>Click <b>New chat</b> and ask <span class="msg">What's my name?</span><br>
+<b>Bonus 2:</b> the new chat knows nothing about Mai (separate sessions). Go back to the first chat: its history is still there.</div></div>
+<div class="step"><div class="n">8</div><div>Hover the first chat and click <b>delete</b>. Say that this erases its memory, while the saved lead stays as a business record.</div></div>
+
+<div class="box warn"><b>If something goes wrong live:</b> say "the model is local, so let me show the recorded run", and open <code>logs/demo_transcript.md</code>
+or the table below. The same script replays with <code>python main.py demo</code>. If Ollama stopped, restart it; the chat history survives.</div>
+
+<h3>Recorded demo run (17 turns, 3 leads saved)</h3>
+<table class="demo-table">
+  <tr><th>Session</th><th>Customer</th><th>Assistant (shortened)</th><th>Path</th><th class="num">Time</th></tr>
+  <tr><td><code>alice</code></td><td>Hi there!</td><td>Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?</td><td><code class='path'>classify → smalltalk → update_memory</code></td><td class='num'>2.0s</td></tr><tr><td><code>alice</code></td><td>How long do I pay premiums for Khum Aomsook, and how long is the cover?</td><td>For Khum Aomsook, you pay premiums for 15 years, and the coverage lasts for 25 years [Khum_Aomsook.pdf, p.2].</td><td><code class='path'>classify → contextualize → retrieve → grade → generate → update_memory</code></td><td class='num'>6.6s</td></tr><tr><td><code>alice</code></td><td>And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?</td><td>For a 30-year-old man with a 300,000 THB sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].</td><td><code class='path'>classify → contextualize → retrieve → grade → generate → update_memory</code></td><td class='num'>4.4s</td></tr><tr><td><code>alice</code></td><td>Do you sell travel insurance?</td><td>Sorry, I couldn&#x27;t find this in the InsureX product documents, so I can&#x27;t give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.</td><td><code class='path'>classify → contextualize → retrieve → grade → rewrite_query → retrieve → grade → not_found → update_memory</code></td><td class='num'>3.9s</td></tr><tr><td><code>alice</code></td><td>I&#x27;m interested in Khum Aomsook. Can an agent contact me?</td><td>Great to hear you&#x27;re interested in Khum Aomsook! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?</td><td><code class='path'>classify → extract_lead → ask_missing → update_memory</code></td><td class='num'>1.6s</td></tr><tr><td><code>alice</code></td><td>My name is Alice Wong and I work as a nurse</td><td>Thank you Alice Wong! Could you also share your monthly income (THB) and a contact phone number?</td><td><code class='path'>classify → extract_lead → ask_missing → update_memory</code></td><td class='num'>3.2s</td></tr><tr><td><code>alice</code></td><td>Before that - is the premium fixed or does it go up with age?</td><td>The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].  To continue with your application, could you share your monthly income (THB) and a contact phone number?</td><td><code class='path'>classify → contextualize → retrieve → grade → generate → update_memory</code></td><td class='num'>10.1s</td></tr><tr><td><code>alice</code></td><td>I earn about 32,000 baht a month, my number is 089-765-4321</td><td>Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.</td><td><code class='path'>classify → extract_lead → save_lead → update_memory</code></td><td class='num'>3.5s</td></tr><tr><td><code>alice</code></td><td>What&#x27;s my name, and what did I ask about first?</td><td>Your name is Alice Wong, and you first asked about the premium payment period and coverage duration for Khum Aomsook.</td><td><code class='path'>classify → recall → update_memory</code></td><td class='num'>1.6s</td></tr><tr><td><code>somchai</code></td><td>อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม</td><td>ผลตอบแทน (IRR) ของ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]   ไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]</td><td><code class='path'>classify → contextualize → retrieve → grade → generate → update_memory</code></td><td class='num'>6.6s</td></tr><tr><td><code>somchai</code></td><td>JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่</td><td>เบี้ยประกันภัย JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เท่ากับ 42,600 บาท [justone_leaflets.pdf, p.2]</td><td><code class='path'>classify → contextualize → retrieve → grade → generate → update_memory</code></td><td class='num'>7.1s</td></tr><tr><td><code>somchai</code></td><td>สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678</td><td>ขอบคุณค่ะ คุณสมชาย ใจดี บันทึกข้อมูลเรียบร้อยแล้ว (หมายเลข 2) ตัวแทนจะติดต่อกลับที่เบอร์ 0812345678 เร็ว ๆ นี้ค่ะ</td><td><code class='path'>classify → extract_lead → save_lead → update_memory</code></td><td class='num'>2.7s</td></tr><tr><td><code>dave</code></td><td>I&#x27;d like to apply for FWD Freedom Link Plus 15/5</td><td>Great to hear you&#x27;re interested in FWD Freedom Link Plus 15/5! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?</td><td><code class='path'>classify → extract_lead → ask_missing → update_memory</code></td><td class='num'>1.6s</td></tr><tr><td><code>dave</code></td><td>Dave Miller, software developer, 85000 per month, phone 12345</td><td>Sorry, some details don&#x27;t look right. Could you check a contact phone number again?</td><td><code class='path'>classify → extract_lead → save_lead → update_memory</code></td><td class='num'>2.6s</td></tr><tr><td><code>dave</code></td><td>Sorry, it&#x27;s 091-555-0123</td><td>Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.</td><td><code class='path'>classify → extract_lead → save_lead → update_memory</code></td><td class='num'>2.9s</td></tr><tr><td><code>bob</code></td><td>What&#x27;s my name? What did I ask you before?</td><td>I don&#x27;t have any previous conversation history to reference.</td><td><code class='path'>classify → recall → update_memory</code></td><td class='num'>1.4s</td></tr><tr><td><code>alice</code></td><td>Can you remind me what the monthly premium was?</td><td>The monthly premium for a 30-year-old man with a 300,000 THB sum assured is 2,635 THB.</td><td><code class='path'>classify → recall → update_memory</code></td><td class='num'>1.9s</td></tr>
+</table>
+<h3>Leads saved in that run</h3>
+<table class="demo-table">
+  <tr><th>#</th><th>Name</th><th>Occupation</th><th class="num">Income</th><th>Phone</th><th>Product</th><th>Session</th></tr>
+  <tr><td>1</td><td>Alice Wong</td><td>nurse</td><td class='num'>32,000</td><td>0897654321</td><td>Khum Aomsook</td><td><code>alice</code></td></tr><tr><td>2</td><td>สมชาย ใจดี</td><td>วิศวกร</td><td class='num'>50,000</td><td>0812345678</td><td>JustOne</td><td><code>somchai</code></td></tr><tr><td>3</td><td>Dave Miller</td><td>software developer</td><td class='num'>85,000</td><td>0915550123</td><td>FWD Freedom Link Plus 15/5</td><td><code>dave</code></td></tr>
+</table>
+
+<!-- 6 -->
+<div class="g-head g-slide"><span class="num">6</span><h2>Results of the 100-question test</h2><span class="time">~2 min</span></div>
+<p><b>How the test works:</b> 85 questions with a known answer from the PDFs (Thai and English, every expected value checked against the source text)
+plus 15 questions about products that aren't in the documents (travel, pet, health, fire…). Each question runs in a fresh session through the full graph.
+A question passes if the expected fact appears in the answer, or, for out-of-scope questions, if the assistant refuses.</p>
+<table>
+  <tr><th>Document</th><th class="num">Chunks</th><th class="num">Questions</th><th class="num">Retrieval</th><th class="num">Correct</th></tr>
+  <tr><td>Easy_E-Save_10-3.pdf</td><td class='num'>3</td><td class='num'>13</td><td class='num'>100%</td><td class='num'><b>100%</b></td></tr><tr><td>Khum_Mangmee_18-9.pdf</td><td class='num'>8</td><td class='num'>22</td><td class='num'>100%</td><td class='num'><b>100%</b></td></tr><tr><td>Khum_Aomsook.pdf</td><td class='num'>7</td><td class='num'>20</td><td class='num'>100%</td><td class='num'><b>90%</b></td></tr><tr><td>Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf</td><td class='num'>33</td><td class='num'>17</td><td class='num'>100%</td><td class='num'><b>88%</b></td></tr><tr><td>justone_leaflets.pdf</td><td class='num'>15</td><td class='num'>13</td><td class='num'>100%</td><td class='num'><b>62%</b></td></tr><tr><td>Out of scope (should refuse)</td><td class='num'>–</td><td class='num'>15</td><td class='num'>–</td><td class='num'><b>100%</b></td></tr>
+</table>
+<h3>Before and after the fixes</h3><table><tr><th>Run</th><th class='num'>Overall</th><th class='num'>Answers</th><th class='num'>Retrieval</th><th class='num'>Refusals</th></tr><tr><td>First run on the real PDFs</td><td class='num'>80%</td><td class='num'>76%</td><td class='num'>100%</td><td class='num'>100%</td></tr><tr><td><b>After the fixes (current)</b></td><td class='num'><b>91%</b></td><td class='num'><b>89%</b></td><td class='num'>100%</td><td class='num'>100%</td></tr></table><p>Fixes between the runs: every chunk labelled with its document title (premium tables and conditions no longer get attributed to the wrong product), legacy Thai PUA characters mapped to standard Thai, and a routing rule so that a product question mentioning "สมัคร" (apply) is answered instead of starting lead capture, plus a note in the answer prompt that the car tables' "Dealer" / "Insurer" columns mean ซ่อมห้าง / ซ่อมอู่. One answer key was relaxed from "1-24" to "24" because the answer "ปีที่ 1 ถึงปีที่ 24" was correct.</p>
+<h3>Questions that still fail (9)</h3>
+<table class="demo-table">
+  <tr><th>#</th><th>Question</th><th>Expected</th><th>Retr.</th><th>Answer given</th></tr>
+  <tr><td>53</td><td>คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันอะไร</td><td>25/15</td><td class='c'>✓</td><td>คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันสะสมทรัพย์ [Khum_Aomsook.pdf, p.1]</td></tr><tr><td>55</td><td>What is the monthly premium of Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured?</td><td>4,346</td><td class='c'>✓</td><td>The monthly premium for a 30-year-old man with a 500,000 baht sum assured is not explicitly listed in the provided context. However, the example shows that for a 30-year-old man, the monthly premium for a lower sum assu…</td></tr><tr><td>56</td><td>เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดกี่ปี</td><td>65</td><td class='c'>✓</td><td>เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดไม่เกินปีกรมธรรม์ที่ผู้เอาประกันภัยอายุครบ 99 ปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7].</td></tr><tr><td>72</td><td>What fee is charged on top-up premiums for FWD Freedom Link Plus 15/5?</td><td>1.5</td><td class='c'>✓</td><td>Sorry, I couldn&#x27;t find this in the InsureX product documents, so I can&#x27;t give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.</td></tr><tr><td>74</td><td>JustOne ความรับผิดต่อชีวิตร่างกายบุคคลภายนอก ต่อครั้งสูงสุดเท่าไหร่</td><td>20,000,000</td><td class='c'>✓</td><td>ความรับผิดต่อชีวิตร่างกายบุคคลภายนอกต่อครั้งสูงสุดอยู่ที่ 1,000,000 บาท [justone_leaflets.pdf, p.1]</td></tr><tr><td>76</td><td>JustOne ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งเท่าไหร่</td><td>300,000</td><td class='c'>✓</td><td>ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustO…</td></tr><tr><td>80</td><td>ประกันรถยนต์ JustOne รับประกันโดยบริษัทอะไร</td><td>ชับบ</td><td class='c'>✓</td><td>ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustO…</td></tr><tr><td>84</td><td>What is the personal accident cover (ร.ย.01) per person in the JustOne car insurance?</td><td>200,000</td><td class='c'>✓</td><td>ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustO…</td></tr><tr><td>85</td><td>Which roadside assistance plan is included in JustOne?</td><td>Gold</td><td class='c'>✓</td><td>The JustOne 2026 insurance plan includes a Roadside Assistance plan [justone_leaflets.pdf, p.1].</td></tr>
+</table>
+<div class="box say">I tested it on 100 questions written from the real documents, about a third in English and the rest in Thai, plus 15 it should refuse.
+It got 91% right overall. The remaining misses are mostly in tables. Every question that fails is listed, along with what I'd do next.</div>
+
+<!-- 7 -->
+<div class="g-head"><span class="num">7</span><h2>Lessons, next steps, close</h2><span class="time">~2 min</span></div>
+<p class="lbl">Lessons (show engineering judgement)</p>
+<ul>
+  <li><b>Similarity is not relevance.</b> Off-topic questions still get high cosine scores, so a grader and a retry cycle are needed before answering.</li>
+  <li><b>Real documents break assumptions.</b> Broken Thai extraction, split tables and legacy font encodings were only found by testing on the real PDFs.</li>
+  <li><b>Chunks need context.</b> A premium table that never names its product can be mixed up with another product's table. Labelling every chunk with its document title fixed that class of error.</li>
+  <li><b>Measure, then change.</b> Every fix was checked against the same 100 questions, so improvements are numbers, not impressions.</li>
+</ul>
+<p class="lbl">Next steps</p>
+<ul>
+  <li>Build the test set with the sales team, and add LLM-as-judge scoring for answer quality.</li>
+  <li>Hybrid search (BM25 + vectors) and a reranker, which help with exact numbers and car model names.</li>
+  <li>Parse tables into structured rows (or a small SQL table) for premium lookups.</li>
+  <li>Log-in per agent, PDPA consent before collecting details, encrypted leads, CRM integration through the same MCP tool, Docker deployment.</li>
+</ul>
+<div class="box say">To sum up: a LangGraph agent that answers only from InsureX's documents and refuses when it can't, reads real Thai PDFs correctly, captures validated leads through MCP,
+remembers each conversation, and runs entirely on the local machine. I'm happy to go into the code or try any question you like.</div>
+
+<!-- ================================================================== PART 2 -->
+<p class="part">Part 2 · Cheat sheet</p>
+<h2 style="margin-top:4px">Numbers</h2>
+<table class="facts">
+  <tr><td>Models</td><td>qwen3:14b (chat, tool calling, thinking off) + bge-m3 (embeddings, 1024-d, multilingual) via Ollama</td></tr>
+  <tr><td>Knowledge base</td><td>5 real PDFs → 66 chunks (700 chars, 120 overlap), each labelled with its document title</td></tr>
+  <tr><td>PDF reading</td><td>PyMuPDF; rows joined by baseline (3 pt tolerance); Thai PUA → standard Thai (27 code points)</td></tr>
+  <tr><td>Retrieval</td><td>FAISS inner product on L2-normalised vectors (= cosine), top 4, floor 0.45, LLM grader, max 1 rewrite</td></tr>
+  <tr><td>Graph</td><td>14 nodes, one cycle (rewrite_query → retrieve), recursion limit 25</td></tr>
+  <tr><td>Memory</td><td>SQLite checkpointer, thread = session; last 8 messages + running summary after 12 (keep 6)</td></tr>
+  <tr><td>Test</td><td>100 questions: overall 91% · answers 89% · retrieval 100% · refusals 100%</td></tr>
+  <tr><td>Demo</td><td>17 turns, 4 customers + a restart, 3 leads saved; RAG answers ≈ 7.0 s</td></tr>
+  <tr><td>Tests</td><td>34 pytest tests (MCP over real stdio, web API, PDF reading, end-to-end when Ollama is up)</td></tr>
+</table>
+<h3>Latency by turn type (demo run)</h3>
+<table>
+  <tr><th>Turn type</th><th class="num">Turns</th><th class="num">Average</th><th class="num">Range</th></tr>
+  <tr><td>Memory / small talk</td><td class='num'>4</td><td class='num'>1.7 s</td><td class='num'>1.4–2.0 s</td></tr><tr><td>RAG answer</td><td class='num'>5</td><td class='num'>7.0 s</td><td class='num'>4.4–10.1 s</td></tr><tr><td>Not found (with retry)</td><td class='num'>1</td><td class='num'>3.9 s</td><td class='num'>3.9–3.9 s</td></tr><tr><td>Lead question</td><td class='num'>3</td><td class='num'>2.1 s</td><td class='num'>1.6–3.2 s</td></tr><tr><td>Lead saved / validated</td><td class='num'>4</td><td class='num'>2.9 s</td><td class='num'>2.6–3.5 s</td></tr>
+</table>
+
+<h2>Product facts (in case the panel asks)</h2>
+<table class="facts">
+  <tr><td>Easy E-Save 10/3<br><small>FWD, sold online</small></td><td>Pay 3 years, covered 10. Premium 30,000–350,000 baht/year. 3% back at the end of years 1–9; up to 303% at year 10.
+  Death: the highest of 300% of sum assured, 101% of premiums paid, or surrender value. IRR 1.24%. No health questions. Tax deduction up to 100,000.</td></tr>
+  <tr><td>Khum Mangmee 18/9<br><small>FWD Life Saving 18/9</small></td><td>Pay 9, covered 18. Age 1 month 1 day – 70. Minimum sum assured 100,000. 1% back years 1–9, 5% years 10–18, 325% at maturity: 379% in total.
+  Death 120% → 240% → 360%. Age 30, SA 100,000: 36,500/year or 3,285/month. Premium waived on disability.</td></tr>
+  <tr><td>Khum Aomsook<br><small>FWD For Saving 25/15</small></td><td>Pay 15, covered 25. Age 1 month 1 day – 60. Minimum sum assured 150,000. 1% back years 1–24, 150% at maturity: 174% in total.
+  Death 150% (years 1–10), 200% (years 11–25). Age 30, SA 100,000: 878/month (male), 860 (female). "About 30 baht a day".</td></tr>
+  <tr><td>FWD Freedom Link Plus 15/5<br><small>unit-linked</small></td><td>Age 1 month 1 day – 65. Pay 5, covered 15, renewable every 15 years to 99. Premium from 50,000/year; top-up 5,000 to 150 million.
+  Cover 5–50× premium by age; 2% bonus at year 5. Premium charge 8/5/3/0%, top-up 1.5%, admin 0.69%/year, withdrawal 50/30/20/5%, switching free.
+  Free look 15 days (500 baht deducted). No guarantee on the investment part. Hotline 1351.</td></tr>
+  <tr><td>JustOne 2026<br><small>Chubb, car type 1</small></td><td>Garage repair for cars up to 20 years, dealer repair up to 5. Third-party injury 500,000 (garage) / 1,000,000 (dealer) per person, 20 million per accident; property 5 million.
+  PA, medical 200,000 each; bail 300,000; accessories 25,000; Roadside Assistance Gold. Notify 15 June – 24 December 2569. Example: Alphard, 2–5 years, dealer, Bangkok: 42,600. Tel 02-039-5720.</td></tr>
+</table>
+
+<h2>Tough questions</h2>
+<div class="qa"><div class="q">How do you know the answer is grounded and not right by luck?</div><div class="a">Citations are required after each fact, the grader filters passages, and the test checks retrieval and the answer separately. Next I'd add an automatic "is every claim supported?" check.</div></div>
+<div class="qa"><div class="q">Is 100 questions enough?</div><div class="a">It covers every document, both languages, tables and refusals, and every expected answer was checked against the source text. For production I'd grow it with the sales team's real questions and track it on every change.</div></div>
+<div class="qa"><div class="q">Why not just put the whole document in the prompt?</div><div class="a">Five documents would fit today, but not a real product catalogue. Retrieval keeps prompts small and fast, and citations show exactly where each fact came from.</div></div>
+<div class="qa"><div class="q">The car leaflet has big premium tables. Is RAG the right tool for that?</div><div class="a">It works for single lookups, but tables are where most misses are. The better design is to parse tables into structured rows and let the agent query them, with RAG for the text.</div></div>
+<div class="qa"><div class="q">Can the agent save a lead with wrong data?</div><div class="a">It only extracts what the customer typed (the prompt forbids guessing), and the MCP tool rejects invalid phones, empty names and non-positive income. A human agent calling back is the final check.</div></div>
+<div class="qa"><div class="q">What about prompt injection inside a document?</div><div class="a">The documents are company-controlled; the answer prompt treats context as facts only; the graph, not the LLM, decides the flow; and the only write action uses validated fields.</div></div>
+<div class="qa"><div class="q">How would it scale?</div><div class="a">FAISS handles millions of vectors (IVF/HNSW index); move the checkpointer to Postgres, run several API workers, serve the model with vLLM or a hosted endpoint. The graph code doesn't change.</div></div>
+<div class="qa"><div class="q">What happens if Ollama crashes mid-chat?</div><div class="a">The service catches it, returns "the model service is not reachable", logs it, and the session carries on when Ollama is back.</div></div>
+<div class="qa"><div class="q">PDPA?</div><div class="a">In production: a consent line before collecting details, encrypted leads, retention rules. Deleting a chat already erases its conversation memory.</div></div>
+
+<h2>Glossary</h2>
+<table class="facts">
+  <tr><td>RAG</td><td>Retrieval-Augmented Generation: find relevant passages first, then let the LLM answer only from them.</td></tr>
+  <tr><td>Embedding / cosine</td><td>A vector that represents meaning; cosine similarity measures how close two meanings are (1 = identical).</td></tr>
+  <tr><td>Chunk</td><td>A piece of a document (about 700 characters) that is embedded and retrieved.</td></tr>
+  <tr><td>Grader</td><td>An LLM step that keeps only passages that directly answer the question.</td></tr>
+  <tr><td>Conditional edge / cycle</td><td>A transition chosen from the state; a cycle goes back to an earlier node (the retry).</td></tr>
+  <tr><td>Checkpointer / thread</td><td>LangGraph saves the state after each step under a thread ID; one thread = one conversation.</td></tr>
+  <tr><td>MCP</td><td>Model Context Protocol: an open standard for exposing tools to AI apps (here over stdio).</td></tr>
+  <tr><td>PUA</td><td>Unicode Private Use Area: code points a font can use for its own glyphs; old Thai fonts put positioned tone marks there.</td></tr>
+  <tr><td>Unit-linked</td><td>Life insurance combined with investment in mutual funds; returns are not guaranteed (the FWD Freedom Link plan).</td></tr>
+</table>
+
+</div>
+</body>
+</html>

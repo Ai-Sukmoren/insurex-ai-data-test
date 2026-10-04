@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, HeartPulse, Menu, Moon, PanelRight, ShieldPlus, Sparkles, Sun, UserPlus } from "lucide-react";
+import { ArrowUp, Car, Menu, Moon, PanelRight, PiggyBank, Sparkles, Sun, UserPlus } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import type { Message } from "../types";
 
 const SUGGESTIONS = [
-  { icon: ShieldPlus, title: "PA Plus Gold price", text: "How much does PA Plus Gold cost per year?" },
-  { icon: HeartPulse, title: "Health waiting period", text: "What is the waiting period for Health Care Plus?" },
-  { icon: Sparkles, title: "ถามเป็นภาษาไทย", text: "Life Secure ลดหย่อนภาษีได้เท่าไหร่" },
-  { icon: UserPlus, title: "Capture a lead", text: "I'm interested in Life Secure, can an agent call me?" },
+  { icon: PiggyBank, title: "Savings plan", text: "How long do I pay premiums for Khum Aomsook, and how long is the cover?" },
+  { icon: Car, title: "Car insurance premium", text: "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่" },
+  { icon: Sparkles, title: "ถามเป็นภาษาไทย", text: "อีซี่ อีเซฟ 10/3 ได้เงินคืนเท่าไหร่ ต้องตอบคำถามสุขภาพไหม" },
+  { icon: UserPlus, title: "Capture a lead", text: "I'm interested in Khum Mangmee 18/9, can an agent call me?" },
 ];
 
 interface Props {
@@ -77,7 +77,7 @@ export function ChatView(p: Props) {
 
       <form className="composer glass" onSubmit={e => { e.preventDefault(); send(); }}>
         <textarea ref={input} rows={1} value={text} maxLength={2000}
-                  placeholder="Ask about PA Plus, Life Secure, Health Care Plus… (English or ภาษาไทย)"
+                  placeholder="Ask about Khum Aomsook, Easy E-Save, FWD Freedom Link, JustOne… (English or ภาษาไทย)"
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
                   aria-label="Message" />

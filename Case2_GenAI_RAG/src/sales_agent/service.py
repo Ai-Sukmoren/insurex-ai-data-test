@@ -42,7 +42,7 @@ class TurnResult:
 class SalesAssistant:
     """
     async with SalesAssistant(settings) as bot:
-        result = await bot.chat("alice", "How much is PA Plus?")
+        result = await bot.chat("alice", "How much is Khum Aomsook?")
     Each session_id is a LangGraph thread: its history and lead draft are persisted in SQLite,
     so sessions are isolated from each other and survive restarts.
     """

@@ -1,16 +1,16 @@
 {
- "generated": "2026-10-04T00:01:46",
+ "generated": "2026-10-05T01:10:42",
  "turns": [
   {
    "session_id": "alice",
    "user": "Hi there!",
-   "reply": "Hi there! How can I assist you today? I'm here to help with InsureX products like PA Plus, Life Secure, and Health Care Plus.",
+   "reply": "Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?",
    "path": [
     "classify",
     "smalltalk",
     "update_memory"
    ],
-   "seconds": 1.872633000020869,
+   "seconds": 2.019488300080411,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -20,8 +20,8 @@
   },
   {
    "session_id": "alice",
-   "user": "How much does PA Plus Gold cost per year?",
-   "reply": "The annual premium for PA Plus Gold is 3,490 THB for occupation classes 1-2 and 4,590 THB for occupation class 3 [01_PA_Plus_Personal_Accident.pdf, p.1].",
+   "user": "How long do I pay premiums for Khum Aomsook, and how long is the cover?",
+   "reply": "For Khum Aomsook, you pay premiums for 15 years, and the coverage lasts for 25 years [Khum_Aomsook.pdf, p.2].",
    "path": [
     "classify",
     "contextualize",
@@ -30,18 +30,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 4.664430900011212,
+   "seconds": 6.552582799922675,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "RAG answer with citation"
+   "purpose": "English question, answer with citation from a Thai document"
   },
   {
    "session_id": "alice",
-   "user": "And how much does it pay for medical expenses?",
-   "reply": "PA Plus Gold covers medical expenses up to 50,000 THB per accident [01_PA_Plus_Personal_Accident.pdf, p.1].",
+   "user": "And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?",
+   "reply": "For a 30-year-old man with a 300,000 THB sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].",
    "path": [
     "classify",
     "contextualize",
@@ -50,18 +50,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 2.2370882999384776,
+   "seconds": 4.3866148999659345,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Follow-up resolved from memory ('it' = PA Plus Gold)"
+   "purpose": "Follow-up resolved from memory ('it' = Khum Aomsook)"
   },
   {
    "session_id": "alice",
-   "user": "Do you sell car insurance?",
-   "reply": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with PA Plus, Life Secure and Health Care Plus, or you can call our contact centre on 02-123-4567.",
+   "user": "Do you sell travel insurance?",
+   "reply": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.",
    "path": [
     "classify",
     "contextualize",
@@ -73,7 +73,7 @@
     "not_found",
     "update_memory"
    ],
-   "seconds": 2.0578426000429317,
+   "seconds": 3.946327400044538,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -83,15 +83,15 @@
   },
   {
    "session_id": "alice",
-   "user": "I'm interested in PA Plus. Can an agent contact me?",
-   "reply": "Great to hear you're interested in PA Plus! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "user": "I'm interested in Khum Aomsook. Can an agent contact me?",
+   "reply": "Great to hear you're interested in Khum Aomsook! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "extract_lead",
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.4712997999740764,
+   "seconds": 1.6499119999352843,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -114,7 +114,7 @@
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.3517974000424147,
+   "seconds": 3.1576350999530405,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -130,8 +130,8 @@
   },
   {
    "session_id": "alice",
-   "user": "Before that - is riding a motorcycle covered?",
-   "reply": "Yes, riding a motorcycle is covered under PA Plus, and there is no extra premium for this coverage [01_PA_Plus_Personal_Accident.pdf, p.1].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
+   "user": "Before that - is the premium fixed or does it go up with age?",
+   "reply": "The premium for Khum Aomsook is fixed and does not increase with age [Khum_Aomsook.pdf, p.2].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "contextualize",
@@ -140,7 +140,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 5.358883399982005,
+   "seconds": 10.107204400002956,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -157,14 +157,14 @@
   {
    "session_id": "alice",
    "user": "I earn about 32,000 baht a month, my number is 089-765-4321",
-   "reply": "Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about PA Plus shortly.",
+   "reply": "Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.",
    "path": [
     "classify",
     "extract_lead",
     "save_lead",
     "update_memory"
    ],
-   "seconds": 3.326034800033085,
+   "seconds": 3.458461600006558,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -180,13 +180,13 @@
   {
    "session_id": "alice",
    "user": "What's my name, and what did I ask about first?",
-   "reply": "Your name is Alice Wong, and you first asked about the cost of PA Plus Gold.",
+   "reply": "Your name is Alice Wong, and you first asked about the premium payment period and coverage duration for Khum Aomsook.",
    "path": [
     "classify",
     "recall",
     "update_memory"
    ],
-   "seconds": 1.170071900007315,
+   "seconds": 1.6224430999718606,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -201,8 +201,8 @@
   },
   {
    "session_id": "somchai",
-   "user": "Life Secure ลดหย่อนภาษีได้สูงสุดเท่าไหร่",
-   "reply": "Life Secure สามารถลดหย่อนภาษีได้สูงสุด 100,000 บาทต่อปี ตามกฎของกรมสรรพากร [02_Life_Secure_Term_Life.pdf, p.1]",
+   "user": "อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม",
+   "reply": "ผลตอบแทน (IRR) ของ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  \nไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]",
    "path": [
     "classify",
     "contextualize",
@@ -211,18 +211,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 4.528089500032365,
+   "seconds": 6.611274699913338,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Thai question, answer from English documents"
+   "purpose": "Thai question, two facts from one document"
   },
   {
    "session_id": "somchai",
-   "user": "ผู้หญิงอายุ 30 ไม่สูบบุหรี่ ทุน 1 ล้าน แบบ 10 ปี เบี้ยปีละเท่าไหร่",
-   "reply": "ผู้หญิงอายุ 30 ไม่สูบบุหรี่ ทุน 1 ล้าน แบบ 10 ปี เบี้ยประกันต่อปีคือ 1,900 บาท [02_Life_Secure_Term_Life.pdf, p.1]",
+   "user": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
+   "reply": "เบี้ยประกันภัย JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เท่ากับ 42,600 บาท [justone_leaflets.pdf, p.2]",
    "path": [
     "classify",
     "contextualize",
@@ -231,13 +231,13 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 5.25134119996801,
+   "seconds": 7.099668100010604,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Premium table lookup"
+   "purpose": "Car insurance premium table lookup"
   },
   {
    "session_id": "somchai",
@@ -249,7 +249,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.687781300046481,
+   "seconds": 2.682470200001262,
    "mode": "qa",
    "lead": {
     "name": "สมชาย ใจดี",
@@ -264,15 +264,15 @@
   },
   {
    "session_id": "dave",
-   "user": "I'd like to apply for Health Care Plus",
-   "reply": "Great to hear you're interested in Health Care Plus! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "user": "I'd like to apply for FWD Freedom Link Plus 15/5",
+   "reply": "Great to hear you're interested in FWD Freedom Link Plus 15/5! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "extract_lead",
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.4337708000093699,
+   "seconds": 1.597543100011535,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -295,7 +295,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.441811400000006,
+   "seconds": 2.558569199987687,
    "mode": "lead_collection",
    "lead": {
     "name": "Dave Miller",
@@ -312,14 +312,14 @@
   {
    "session_id": "dave",
    "user": "Sorry, it's 091-555-0123",
-   "reply": "Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about Health Care Plus shortly.",
+   "reply": "Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.",
    "path": [
     "classify",
     "extract_lead",
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.668099100003019,
+   "seconds": 2.8841303000226617,
    "mode": "qa",
    "lead": {
     "name": "Dave Miller",
@@ -341,7 +341,7 @@
     "recall",
     "update_memory"
    ],
-   "seconds": 0.9321667000185698,
+   "seconds": 1.4160890000639483,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -351,14 +351,14 @@
   },
   {
    "session_id": "alice",
-   "user": "Can you remind me how much the Gold plan was?",
-   "reply": "The annual premium for PA Plus Gold is 3,490 THB for occupation classes 1-2 and 4,590 THB for occupation class 3.",
+   "user": "Can you remind me what the monthly premium was?",
+   "reply": "The monthly premium for a 30-year-old man with a 300,000 THB sum assured is 2,635 THB.",
    "path": [
     "classify",
     "recall",
     "update_memory"
    ],
-   "seconds": 3.017251299927011,
+   "seconds": 1.931796499993652,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -379,9 +379,9 @@
    "occupation": "software developer",
    "monthly_income": 85000.0,
    "phone": "0915550123",
-   "interested_product": "Health Care Plus",
+   "interested_product": "FWD Freedom Link Plus 15/5",
    "session_id": "dave",
-   "created_at": "2026-10-04T00:01:40"
+   "created_at": "2026-10-05T01:10:37"
   },
   {
    "lead_id": 2,
@@ -389,9 +389,9 @@
    "occupation": "วิศวกร",
    "monthly_income": 50000.0,
    "phone": "0812345678",
-   "interested_product": "Life Secure",
+   "interested_product": "JustOne",
    "session_id": "somchai",
-   "created_at": "2026-10-04T00:01:33"
+   "created_at": "2026-10-05T01:10:30"
   },
   {
    "lead_id": 1,
@@ -399,9 +399,9 @@
    "occupation": "nurse",
    "monthly_income": 32000.0,
    "phone": "0897654321",
-   "interested_product": "PA Plus",
+   "interested_product": "Khum Aomsook",
    "session_id": "alice",
-   "created_at": "2026-10-04T00:01:20"
+   "created_at": "2026-10-05T01:10:12"
   }
  ]
 }

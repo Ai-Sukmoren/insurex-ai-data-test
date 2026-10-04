@@ -1,5 +1,6 @@
 # Confidential inputs provided by InsureX (not redistributed)
 00_Brief/
+InsureX_Savings_PDFs/
 Case1A_Data_Analysis/data/raw/*
 !Case1A_Data_Analysis/data/raw/README.md
 

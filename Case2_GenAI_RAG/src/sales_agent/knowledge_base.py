@@ -8,9 +8,9 @@ from pathlib import Path
 
 import faiss
 import numpy as np
+import pymupdf
 from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from pypdf import PdfReader
 
 from .config import Settings
 
@@ -35,8 +35,54 @@ class RetrievedChunk:
     score: float          # cosine similarity, 1.0 = identical
 
 
+# Legacy Thai fonts draw shifted tone marks / vowels as Private Use Area glyphs (U+F700-U+F71A); map them back to
+# standard Thai, e.g. U+F70A -> U+0E48 (mai ek) and U+F70E -> U+0E4C (thanthakhat), so the JustOne leaflet
+# reads "ซ่อมอู่" and "กรมธรรม์" instead of "ซอมอู" and "กรมธรรม".
+THAI_PUA = {
+    0xF700: 0x0E10, 0xF701: 0x0E34, 0xF702: 0x0E35, 0xF703: 0x0E36, 0xF704: 0x0E37, 0xF705: 0x0E48,
+    0xF706: 0x0E49, 0xF707: 0x0E4A, 0xF708: 0x0E4B, 0xF709: 0x0E4C, 0xF70A: 0x0E48, 0xF70B: 0x0E49,
+    0xF70C: 0x0E4A, 0xF70D: 0x0E4B, 0xF70E: 0x0E4C, 0xF70F: 0x0E0D, 0xF710: 0x0E31, 0xF711: 0x0E4D,
+    0xF712: 0x0E47, 0xF713: 0x0E48, 0xF714: 0x0E49, 0xF715: 0x0E4A, 0xF716: 0x0E4B, 0xF717: 0x0E4C,
+    0xF718: 0x0E38, 0xF719: 0x0E39, 0xF71A: 0x0E3A}
+
+
 class PdfLoader:
-    """Extracts text page by page from every PDF in a folder."""
+    """Extracts text page by page from every PDF in a folder, plus a title per document.
+
+    PyMuPDF is used because pypdf drops Thai tone marks and upper vowels. Text lines that share a baseline are
+    joined, so a table row ("รายปี 36,500 109,500 ...") stays on one line instead of one line per cell.
+    The title (largest text on page 1, usually the product name) is used to label every chunk of the document."""
+
+    ROW_TOLERANCE = 3.0     # points: lines whose baselines differ by less than this belong to the same row
+
+    def __init__(self):
+        self.titles: dict[str, str] = {}
+
+    @staticmethod
+    def _lines(page: pymupdf.Page) -> list[tuple[float, float, float, str]]:
+        """(baseline y, x, font size, text) for every non-empty text line."""
+        return [(line["bbox"][3], line["bbox"][0], max(span["size"] for span in line["spans"]), text)
+                for block in page.get_text("dict")["blocks"] for line in block.get("lines", [])
+                if (text := "".join(span["text"] for span in line["spans"]).translate(THAI_PUA).strip())]
+
+    @classmethod
+    def title(cls, page: pymupdf.Page) -> str:
+        lines = cls._lines(page)
+        if not lines:
+            return ""
+        top = max(size for _, _, size, _ in lines)
+        return next(text for _, _, size, text in lines if size >= top - 0.5)
+
+    @classmethod
+    def page_text(cls, page: pymupdf.Page) -> str:
+        rows: list[list[tuple[float, str]]] = []
+        row_y = None
+        for y, x, _, text in sorted(cls._lines(page)):
+            if row_y is None or abs(y - row_y) > cls.ROW_TOLERANCE:
+                rows.append([])
+                row_y = y
+            rows[-1].append((x, text))
+        return "\n".join(" ".join(text for _, text in sorted(row)) for row in rows)
 
     def load(self, folder: Path) -> list[tuple[str, int, str]]:
         pdfs = sorted(Path(folder).glob("*.pdf"))
@@ -44,11 +90,13 @@ class PdfLoader:
             raise FileNotFoundError(f"No PDF files found in {folder}")
         pages = []
         for pdf in pdfs:
-            for number, page in enumerate(PdfReader(pdf).pages, start=1):
-                text = (page.extract_text() or "").strip()
+            doc = pymupdf.open(pdf)
+            self.titles[pdf.name] = self.title(doc[0]) if len(doc) else ""
+            for number, page in enumerate(doc, start=1):
+                text = self.page_text(page).strip()
                 if text:
                     pages.append((pdf.name, number, text))
-            log.info("Loaded %s", pdf.name)
+            log.info("Loaded %s (title: %s)", pdf.name, self.titles[pdf.name])
         return pages
 
 
@@ -59,10 +107,15 @@ class TextChunker:
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=size, chunk_overlap=overlap,
                                                        separators=["\n\n", "\n", ". ", " ", ""])
 
-    def split(self, pages: list[tuple[str, int, str]]) -> list[Chunk]:
+    def split(self, pages: list[tuple[str, int, str]], titles: dict[str, str] | None = None) -> list[Chunk]:
+        """With titles, each chunk starts with its document title, so a passage such as a premium table that never
+        names its product is still matched to (and read as) the right product."""
         chunks = []
         for source, page, text in pages:
+            title = (titles or {}).get(source, "")
             for piece in self.splitter.split_text(text):
+                if title and not piece.startswith(title):
+                    piece = f"{title}\n{piece}"
                 chunks.append(Chunk(piece, source, page, len(chunks)))
         return chunks
 
@@ -115,8 +168,9 @@ class KnowledgeBase:
         self.store = FaissVectorStore(OllamaEmbeddings(model=settings.embed_model, base_url=settings.ollama_base_url))
 
     def ingest(self) -> int:
-        pages = PdfLoader().load(self.settings.knowledge_dir)
-        chunks = TextChunker(self.settings.chunk_size, self.settings.chunk_overlap).split(pages)
+        loader = PdfLoader()
+        pages = loader.load(self.settings.knowledge_dir)
+        chunks = TextChunker(self.settings.chunk_size, self.settings.chunk_overlap).split(pages, loader.titles)
         log.info("Embedding %d chunks from %d pages with %s", len(chunks), len(pages), self.settings.embed_model)
         self.store.build(chunks)
         self.store.save(self.settings.index_dir)

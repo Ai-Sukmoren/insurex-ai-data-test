@@ -34,7 +34,7 @@ class Settings:
 
     # paths
     root: Path = PROJECT_ROOT
-    knowledge_dir: Path = PROJECT_ROOT / "knowledge_base"
+    knowledge_dir: Path = field(default_factory=lambda: Path(_env("KNOWLEDGE_DIR", str(PROJECT_ROOT.parent / "InsureX_Savings_PDFs"))))
     data_dir: Path = PROJECT_ROOT / "data"
     logs_dir: Path = PROJECT_ROOT / "logs"
 

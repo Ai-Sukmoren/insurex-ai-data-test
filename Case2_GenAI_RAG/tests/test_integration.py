@@ -13,13 +13,13 @@ def test_rag_answer_memory_and_session_separation(tmp_path):
 
     async def run():
         async with SalesAssistant(settings) as bot:
-            first = await bot.chat("alice", "How much is PA Plus Bronze per year for occupation class 1?")
+            first = await bot.chat("alice", "What is the minimum sum assured for Khum Aomsook?")
             recall = await bot.chat("alice", "What did I just ask about?")
             other = await bot.chat("bob", "What did I just ask about?")
             return first, recall, other
 
     first, recall, other = asyncio.run(run())
-    assert "890" in first.reply and "01_PA_Plus" in first.reply
+    assert "150,000" in first.reply and "Khum_Aomsook" in first.reply
     assert "retrieve" in first.path and "generate" in first.path
-    assert "PA Plus" in recall.reply
-    assert "PA Plus" not in other.reply                                # bob cannot see alice's history
+    assert "Aomsook" in recall.reply or "ออมสุข" in recall.reply
+    assert "Aomsook" not in other.reply and "ออมสุข" not in other.reply                               # bob cannot see alice's history

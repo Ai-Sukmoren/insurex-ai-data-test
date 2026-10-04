@@ -57,7 +57,7 @@ class AgentState(TypedDict, total=False):
 
 class IntentResult(BaseModel):
     intent: Literal["question", "buy_interest", "lead_info", "decline", "greeting", "recall"]
-    product: str | None = Field(None, description="PA Plus, Life Secure, Health Care Plus or null")
+    product: str | None = Field(None, description="Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5, JustOne or null")
 
 
 class GradeResult(BaseModel):
@@ -210,10 +210,11 @@ class SalesAgent:
     async def not_found(self, state: AgentState) -> dict:
         lang = lang_of(last_user_text(state))
         text = ("ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ "
-                "กรุณาสอบถามเกี่ยวกับ PA Plus, Life Secure หรือ Health Care Plus หรือติดต่อ Call Centre 02-123-4567"
+                "กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
                 if lang == "th" else
                 "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. "
-                "I can help with PA Plus, Life Secure and Health Care Plus, or you can call our contact centre on 02-123-4567.")
+                "I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 "
+                "and JustOne car insurance.")
         log.warning("no relevant documents after %d rewrite(s) - fallback answer", state.get("attempts", 0))
         return {"messages": [AIMessage(text + self._lead_reminder(state))]}
 

@@ -3,7 +3,7 @@
 :root { --ink: #12162a; --ink-2: #464d63; --muted: #7b8196; --line: #e3e5ee; --wash: #f4f6fb; --a1: #2f6fe8; --a2: #7c4ddb;
         --lead: #b4461c; --mem: #047857; --ok: #047857; }
 * { box-sizing: border-box; }
-body { margin: 0; color: var(--ink); background: #fff; font: 13px/1.55 "Segoe UI", system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; color: var(--ink); background: #fff; font: 13px/1.55 "Segoe UI", "Leelawadee UI", system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
 h1 { font-size: 30px; margin: 0 0 4px; }
 h2 { font-size: 19px; margin: 26px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--a1); }
@@ -36,3 +36,14 @@ code.path { font-size: 10px; color: var(--ink-2); }
 .fig { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; break-inside: avoid; }
 .fig img, .fig svg { width: 100%; display: block; }
 .demo-table td { font-size: 11px; }
+.part { break-before: page; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--a2); margin-top: 0; }
+.order td:first-child { font-weight: 700; color: var(--a1); white-space: nowrap; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
+.kpis div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--wash); break-inside: avoid; }
+.kpis b { display: block; font-size: 22px; color: var(--a1); }
+.kpis span { font-size: 11px; color: var(--ink-2); }
+.step { display: grid; grid-template-columns: 26px 1fr; gap: 8px; margin: 8px 0; break-inside: avoid; }
+.step .n { width: 24px; height: 24px; border-radius: 50%; background: var(--a1); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.msg { font-family: "Leelawadee UI", "Segoe UI", sans-serif; background: #eef3fd; border-radius: 6px; padding: 2px 8px; display: inline-block; margin: 2px 0; }
+.facts td:first-child { font-weight: 700; width: 22%; }
+.check li { list-style: "☐  "; }

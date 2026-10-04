@@ -1,12 +1,11 @@
 """
-Builds the Case 2 slide deck and presenter guide (HTML -> PDF) from real run data:
-logs/eval_results.json, logs/demo_results.json, the FAISS index metadata, the test suite and UI screenshots.
+Builds the Case 2 presenter direction and cheat sheet (HTML -> PDF) from real run data:
+logs/eval_results.json, logs/demo_results.json, eval/questions.json, the FAISS index metadata and the test suite.
 
 Run `python main.py eval` and `python main.py demo` first, then `python main.py present`.
 """
 from __future__ import annotations
 
-import base64
 import html
 import json
 import re
@@ -105,6 +104,10 @@ class GraphDiagram:
 
 
 class PresentationBuilder:
+    """Renders presentation/guide.html (presenter direction + cheat sheet) with numbers from the latest runs."""
+
+    STEM = "Case 2 Presenter Direction and Cheat Sheet"
+
     def __init__(self, settings: Settings):
         self.s = settings
         self.dir = settings.root / "presentation"
@@ -116,9 +119,6 @@ class PresentationBuilder:
         if not path.exists():
             raise FileNotFoundError(f"{path} missing - run `python main.py {name.split('_')[0]}` first")
         return json.loads(path.read_text(encoding="utf-8"))
-
-    def _image(self, name: str) -> str:
-        return "data:image/png;base64," + base64.b64encode((self.dir / "assets" / name).read_bytes()).decode()
 
     def _test_count(self) -> int:
         res = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
@@ -138,65 +138,98 @@ class PresentationBuilder:
             return "Lead question"
         return "Memory / small talk"
 
+    @staticmethod
+    def _short(text: str, n: int) -> str:
+        text = text.replace("\n", " ")
+        return text if len(text) <= n else text[:n - 1] + "…"
+
+    @staticmethod
+    def _pct(part: int, whole: int) -> str:
+        return f"{part / whole:.0%}" if whole else "–"
+
     def context(self) -> dict:
         ev, demo = self._json("eval_results.json"), self._json("demo_results.json")
+        questions = json.loads((self.s.root / "eval" / "questions.json").read_text(encoding="utf-8"))
         chunks = json.loads((self.s.index_dir / "chunks.json").read_text(encoding="utf-8"))
-        per_doc = Counter(c["source"] for c in chunks)
-        m = ev["metrics"]
-        turns = demo["turns"]
+        per_doc_chunks = Counter(c["source"] for c in chunks)
+        m, rows, turns = ev["metrics"], ev["rows"], demo["turns"]
+
+        # accuracy per source document (questions.json and the eval rows are in the same order)
+        per_doc: dict[str, list[dict]] = {}
+        for q, r in zip(questions, rows):
+            per_doc.setdefault(q.get("source", "Out of scope (should refuse)"), []).append(r)
+        doc_rows = ""
+        for doc, rs in per_doc.items():
+            hits = [r["retrieval_hit"] for r in rs if r["retrieval_hit"] is not None]
+            doc_rows += (f"<tr><td>{esc(doc)}</td><td class='num'>{per_doc_chunks.get(doc, '–')}</td><td class='num'>{len(rs)}</td>"
+                         f"<td class='num'>{self._pct(sum(hits), len(hits)) if hits else '–'}</td>"
+                         f"<td class='num'><b>{self._pct(sum(r['correct'] for r in rs), len(rs))}</b></td></tr>")
+
+        fails = [(i, q, r) for i, (q, r) in enumerate(zip(questions, rows), start=1) if not r["correct"]]
+        fail_rows = "".join(
+            f"<tr><td>{i}</td><td>{esc(q['q'])}</td><td>{esc(', '.join(q.get('expect', [])) or 'refusal')}</td>"
+            f"<td class='c'>{'–' if r['retrieval_hit'] is None else ('✓' if r['retrieval_hit'] else '✗')}</td>"
+            f"<td>{esc(self._short(r['answer'], 220))}</td></tr>" for i, q, r in fails) or \
+            "<tr><td colspan='5'>No failures.</td></tr>"
+
         by_kind: dict[str, list[float]] = {}
         for t in turns:
             by_kind.setdefault(self._kind(t["path"]), []).append(t["seconds"])
         latency_rows = "".join(f"<tr><td>{k}</td><td class='num'>{len(v)}</td><td class='num'>{mean(v):.1f} s</td>"
                                f"<td class='num'>{min(v):.1f}–{max(v):.1f} s</td></tr>" for k, v in by_kind.items())
-
-        def turn_row(t, full=False):
-            path = " → ".join(t["path"])
-            reply = t["reply"].replace("\n", " ")
-            if not full and len(reply) > 150:
-                reply = reply[:147] + "…"
-            return (f"<tr><td><code>{esc(t['session_id'])}</code></td><td>{esc(t['user'])}</td><td>{esc(reply)}</td>"
-                    f"<td><code class='path'>{esc(path)}</code></td><td class='num'>{t['seconds']:.1f}s</td></tr>")
-
-        pick = [1, 2, 3, 7, 9, 11, 13, 15, 16]          # representative turns for the slide
-        eval_rows = "".join(
-            f"<tr><td>{i}</td><td>{esc(r['question'])}</td><td class='c'>{'–' if r['retrieval_hit'] is None else ('✓' if r['retrieval_hit'] else '✗')}</td>"
-            f"<td class='c'>{'✓' if r['correct'] else '✗'}</td><td>{esc(r['answer'][:170] + ('…' if len(r['answer']) > 170 else ''))}</td></tr>"
-            for i, r in enumerate(ev["rows"], start=1))
+        demo_rows = "".join(
+            f"<tr><td><code>{esc(t['session_id'])}</code></td><td>{esc(t['user'])}</td><td>{esc(self._short(t['reply'], 260))}</td>"
+            f"<td><code class='path'>{esc(' → '.join(t['path']))}</code></td><td class='num'>{t['seconds']:.1f}s</td></tr>"
+            for t in turns)
         leads = "".join(f"<tr><td>{l['lead_id']}</td><td>{esc(l['name'])}</td><td>{esc(l['occupation'])}</td>"
                         f"<td class='num'>{l['monthly_income']:,.0f}</td><td>{l['phone']}</td><td>{esc(l['interested_product'] or '')}</td>"
                         f"<td><code>{l['session_id']}</code></td></tr>" for l in sorted(demo["leads"], key=lambda x: x["lead_id"]))
         rag = by_kind.get("RAG answer", [0])
+        n_correct = sum(r["correct"] for r in rows)
+        improvement = ""
+        baseline_file = self.s.logs_dir / "baseline" / "eval_results_before_fix.json"
+        if baseline_file.exists():                      # first run on the real PDFs, kept to show the effect of the fixes
+            b = json.loads(baseline_file.read_text(encoding="utf-8"))
+            b_correct = sum(r["correct"] for r in b["rows"])
+            bm = b["metrics"]
+            improvement = (
+                "<h3>Before and after the fixes</h3><table><tr><th>Run</th><th class='num'>Overall</th><th class='num'>Answers</th>"
+                "<th class='num'>Retrieval</th><th class='num'>Refusals</th></tr>"
+                f"<tr><td>First run on the real PDFs</td><td class='num'>{self._pct(b_correct, len(b['rows']))}</td>"
+                f"<td class='num'>{bm['answer_accuracy']:.0%}</td><td class='num'>{bm['retrieval_hit']:.0%}</td>"
+                f"<td class='num'>{bm['out_of_scope_refused']:.0%}</td></tr>"
+                f"<tr><td><b>After the fixes (current)</b></td><td class='num'><b>{self._pct(n_correct, len(rows))}</b></td>"
+                f"<td class='num'><b>{m['answer_accuracy']:.0%}</b></td><td class='num'>{m['retrieval_hit']:.0%}</td>"
+                f"<td class='num'>{m['out_of_scope_refused']:.0%}</td></tr></table>"
+                "<p>Fixes between the runs: every chunk labelled with its document title (premium tables and conditions no longer "
+                "get attributed to the wrong product), legacy Thai PUA characters mapped to standard Thai, and a routing rule so "
+                "that a product question mentioning \"สมัคร\" (apply) is answered instead of starting lead capture, plus a note in the answer "
+                "prompt that the car tables' \"Dealer\" / \"Insurer\" columns mean ซ่อมห้าง / ซ่อมอู่. One answer "
+                "key was relaxed from \"1-24\" to \"24\" because the answer \"ปีที่ 1 ถึงปีที่ 24\" was correct.</p>")
         return dict(
-            deck_css=(self.dir / "assets" / "deck.css").read_text(encoding="utf-8"),
             guide_css=(self.dir / "assets" / "guide.css").read_text(encoding="utf-8"),
             graph_svg=GraphDiagram().render(),
-            img_chat=self._image("web_chat.png"), img_new=self._image("web_new.png"),
             chat_model=self.s.chat_model, embed_model=self.s.embed_model,
             hit=f"{m['retrieval_hit']:.0%}", acc=f"{m['answer_accuracy']:.0%}", rej=f"{m['out_of_scope_refused']:.0%}",
-            n_answerable=m["answerable"], n_oos=m["out_of_scope"], n_eval=m["answerable"] + m["out_of_scope"],
-            eval_rows=eval_rows,
-            n_chunks=len(chunks), n_docs=len(per_doc), chunk_size=self.s.chunk_size, chunk_overlap=self.s.chunk_overlap,
+            overall=self._pct(n_correct, len(rows)), n_correct=n_correct, n_fail=len(rows) - n_correct,
+            n_answerable=m["answerable"], n_oos=m["out_of_scope"], n_eval=len(rows), eval_date=ev["generated"][:10],
+            doc_rows=doc_rows, fail_rows=fail_rows, improvement=improvement,
+            n_chunks=len(chunks), n_docs=len(per_doc_chunks), chunk_size=self.s.chunk_size, chunk_overlap=self.s.chunk_overlap,
             top_k=self.s.top_k, min_rel=self.s.min_relevance, window=self.s.history_window,
-            doc_rows="".join(f"<tr><td>{esc(d)}</td><td class='num'>{n}</td></tr>" for d, n in sorted(per_doc.items())),
-            demo_rows="".join(turn_row(turns[i]) for i in pick if i < len(turns)),
-            demo_rows_full="".join(turn_row(t, full=True) for t in turns),
-            n_turns=len(turns), n_leads=len(demo["leads"]), lead_rows=leads,
-            latency_rows=latency_rows, rag_avg=f"{mean(rag):.1f}", n_tests=self._test_count(),
             summarize_after=self.s.summarize_after, keep_recent=self.s.keep_recent, n_nodes=14,
+            demo_rows=demo_rows, n_turns=len(turns), n_leads=len(demo["leads"]), lead_rows=leads,
+            latency_rows=latency_rows, rag_avg=f"{mean(rag):.1f}", n_tests=self._test_count(),
         )
 
     # ------------------------------------------------------------ output
     def build(self, export_pdf: bool = True) -> list[Path]:
-        ctx = self.context()
         self.out.mkdir(exist_ok=True)
-        files = []
-        for template, stem in (("slides.html", "Case 2 Presentation"), ("guide.html", "Case 2 Presenter Guide")):
-            html_path = self.out / f"{stem}.html"
-            html_path.write_text(Template((self.dir / template).read_text(encoding="utf-8")).substitute(ctx), encoding="utf-8")
-            files.append(html_path)
-            if export_pdf and self._export(html_path):
-                files.append(html_path.with_suffix(".pdf"))
+        html_path = self.out / f"{self.STEM}.html"
+        html_path.write_text(Template((self.dir / "guide.html").read_text(encoding="utf-8")).substitute(self.context()),
+                             encoding="utf-8")
+        files = [html_path]
+        if export_pdf and self._export(html_path):
+            files.append(html_path.with_suffix(".pdf"))
         return files
 
     @staticmethod

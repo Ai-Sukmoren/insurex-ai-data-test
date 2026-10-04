@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { FileText } from "lucide-react";
 
-/** Friendly document name: "01_PA_Plus_Personal_Accident.pdf" -> "PA Plus Personal Accident". */
+/** Friendly document name: "Khum_Mangmee_18-9.pdf" -> "Khum Mangmee 18-9". */
 export const docName = (file: string) => file.replace(/^\d+_/, "").replace(/\.pdf$/i, "").replace(/_/g, " ");
 
 const CITE = /\[([^[\]]+?\.pdf),\s*p\.(\d+)\]/gi;

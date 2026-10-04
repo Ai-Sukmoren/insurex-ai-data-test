@@ -1,14 +1,32 @@
 from dataclasses import replace
 
-from conftest import ROOT, FakeEmbeddings
+from conftest import FakeEmbeddings
 from sales_agent.config import Settings
 from sales_agent.knowledge_base import Chunk, FaissVectorStore, KnowledgeBase, PdfLoader, TextChunker
 
 
-def test_loader_reads_all_sample_pdfs():
-    pages = PdfLoader().load(ROOT / "knowledge_base")
-    assert len({source for source, _, _ in pages}) == 5
+def test_loader_reads_all_pdfs_with_clean_thai():
+    folder = Settings().knowledge_dir
+    pages = PdfLoader().load(folder)
+    assert {source for source, _, _ in pages} == {p.name for p in folder.glob("*.pdf")}
     assert all(text for _, _, text in pages)
+    text = "\n".join(t for source, _, t in pages if source == "Khum_Mangmee_18-9.pdf")
+    assert "เบี้ยประกัน" in text                                       # tone mark kept (pypdf gave "เบี ย")
+    assert "รายปี 36,500 109,500 182,000 362,000" in text               # table row kept on one line
+    leaflet = "\n".join(t for source, _, t in pages if source == "justone_leaflets.pdf")
+    assert "ซ่อมอู่" in leaflet and not any(0xF700 <= ord(ch) <= 0xF71F for ch in leaflet)   # legacy PUA marks mapped
+
+
+def test_loader_titles_are_product_names():
+    loader = PdfLoader()
+    loader.load(Settings().knowledge_dir)
+    assert loader.titles["Khum_Aomsook.pdf"] == "คุ้มออมสุข"
+    assert loader.titles["Khum_Mangmee_18-9.pdf"] == "คุ้มมั่งมี 18/9"
+
+
+def test_chunker_prefixes_document_title():
+    chunks = TextChunker(size=200, overlap=20).split([("a.pdf", 2, "รายเดือน 878 2,635 4,346 " * 20)], {"a.pdf": "คุ้มออมสุข"})
+    assert len(chunks) > 1 and all(c.text.startswith("คุ้มออมสุข\n") for c in chunks)
 
 
 def test_chunker_keeps_source_and_page():
