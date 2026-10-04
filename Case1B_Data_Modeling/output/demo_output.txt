@@ -1,0 +1,51 @@
+SCENARIOS
+  A001 Anan    start=SALARY     Always passes, so stays SALARY
+  A002 Busaba  start=SALARY     Fails Feb–Apr → COMMISSION, passes May–Jul → back to SALARY
+  A003 Chai    start=SALARY     March pass resets the fail streak; fails Apr–Jun → COMMISSION; cancelled policy ignored
+  A004 Duang   start=COMMISSION Boundary values fail; passes Mar–May → SALARY; fails Jun–Aug → COMMISSION
+
+agent_monthly_kpi
+agent month      premium  pol  result pass fail  contract   action         next
+A001  2026-01     25,000    7  PASS      1    0  SALARY                    SALARY
+A001  2026-02     25,000    7  PASS      2    0  SALARY                    SALARY
+A001  2026-03     25,000    7  PASS      3    0  SALARY                    SALARY
+A001  2026-04     25,000    7  PASS      4    0  SALARY                    SALARY
+A001  2026-05     25,000    7  PASS      5    0  SALARY                    SALARY
+A001  2026-06     25,000    7  PASS      6    0  SALARY                    SALARY
+A001  2026-07     25,000    7  PASS      7    0  SALARY                    SALARY
+A001  2026-08     25,000    7  PASS      8    0  SALARY                    SALARY
+A002  2026-01     25,000    7  PASS      1    0  SALARY                    SALARY
+A002  2026-02      9,000    3  FAIL      0    1  SALARY                    SALARY
+A002  2026-03      9,000    3  FAIL      0    2  SALARY                    SALARY
+A002  2026-04      9,000    3  FAIL      0    3  SALARY     TO_COMMISSION  COMMISSION
+A002  2026-05     25,000    7  PASS      1    0  COMMISSION                COMMISSION
+A002  2026-06     25,000    7  PASS      2    0  COMMISSION                COMMISSION
+A002  2026-07     25,000    7  PASS      3    0  COMMISSION TO_SALARY      SALARY
+A002  2026-08     25,000    7  PASS      4    0  SALARY                    SALARY
+A003  2026-01      9,000    3  FAIL      0    1  SALARY                    SALARY
+A003  2026-02      9,000    3  FAIL      0    2  SALARY                    SALARY
+A003  2026-03     25,000    7  PASS      1    0  SALARY                    SALARY
+A003  2026-04      9,000    3  FAIL      0    1  SALARY                    SALARY
+A003  2026-05      9,000    3  FAIL      0    2  SALARY                    SALARY
+A003  2026-06      9,000    3  FAIL      0    3  SALARY     TO_COMMISSION  COMMISSION
+A003  2026-07     25,000    7  PASS      1    0  COMMISSION                COMMISSION
+A003  2026-08      9,000    3  FAIL      0    1  COMMISSION                COMMISSION
+A004  2026-01     15,000    6  FAIL      0    1  COMMISSION                COMMISSION
+A004  2026-02     30,000    5  FAIL      0    2  COMMISSION                COMMISSION
+A004  2026-03     25,000    7  PASS      1    0  COMMISSION                COMMISSION
+A004  2026-04     25,000    7  PASS      2    0  COMMISSION                COMMISSION
+A004  2026-05     25,000    7  PASS      3    0  COMMISSION TO_SALARY      SALARY
+A004  2026-06      9,000    3  FAIL      0    1  SALARY                    SALARY
+A004  2026-07      9,000    3  FAIL      0    2  SALARY                    SALARY
+A004  2026-08      9,000    3  FAIL      0    3  SALARY     TO_COMMISSION  COMMISSION
+
+agent_contract_history
+  A001  SALARY     2025-06-01 → (current)   INITIAL
+  A002  SALARY     2025-06-01 → <10  INITIAL
+  A002  COMMISSION 2026-05-01 → <10  FAIL_3_CONSECUTIVE
+  A002  SALARY     2026-08-01 → (current)   PASS_3_CONSECUTIVE
+  A003  SALARY     2025-06-01 → <10  INITIAL
+  A003  COMMISSION 2026-07-01 → (current)   FAIL_3_CONSECUTIVE
+  A004  COMMISSION 2025-06-01 → <10  INITIAL
+  A004  SALARY     2026-06-01 → <10  PASS_3_CONSECUTIVE
+  A004  COMMISSION 2026-09-01 → (current)   FAIL_3_CONSECUTIVE

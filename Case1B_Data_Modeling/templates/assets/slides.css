@@ -1,0 +1,58 @@
+/* 16:9 slide deck - 1280 x 720 px per page. Tokens come from styles.css (forced light theme). */
+@page { size: 1280px 720px; margin: 0; }
+html, body { background: #e9e8e4; }
+body { margin: 0; font-size: 15px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.deck { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+.slide { width: 1280px; height: 720px; background: #fff; position: relative; overflow: hidden;
+         padding: 40px 60px 54px; display: flex; flex-direction: column; box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+         break-after: page; page-break-after: always; }
+.slide:last-child { break-after: auto; page-break-after: auto; }
+@media print { html, body { background: #fff; } .deck { display: block; padding: 0; } .slide { box-shadow: none; } }
+.kicker { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+.slide h2 { font-size: 30px; line-height: 1.2; margin: 6px 0 4px; border: 0; padding: 0; letter-spacing: -0.01em; }
+.lede { font-size: 16px; color: var(--ink-2); margin: 0 0 14px; }
+.body { flex: 1; display: grid; gap: 28px; min-height: 0; align-items: start; }
+.c2 { grid-template-columns: 1fr 1fr; }
+.c-wide { grid-template-columns: 1.4fr 1fr; }
+.foot { position: absolute; left: 60px; right: 60px; bottom: 18px; display: flex; justify-content: space-between;
+        font-size: 12px; color: var(--muted); border-top: 1px solid var(--grid); padding-top: 8px; }
+.takeaway { margin-top: 10px; padding: 10px 16px; background: var(--salary); border-left: 4px solid var(--brand); border-radius: 6px; font-size: 15px; }
+.points { margin: 0; padding: 0; list-style: none; counter-reset: pt; }
+.points li { position: relative; padding: 11px 0 11px 30px; border-bottom: 1px solid var(--grid); font-size: 17px; line-height: 1.45; }
+.slide td { white-space: nowrap; }
+.points li::before { content: counter(pt); counter-increment: pt; position: absolute; left: 0; top: 10px; width: 20px; height: 20px;
+                     border-radius: 50%; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700;
+                     display: flex; align-items: center; justify-content: center; }
+.fig-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+table { font-size: 14px; }
+th, td { padding: 6px 9px; }
+pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code-bg); border-radius: 8px; padding: 12px 14px; margin: 6px 0; white-space: pre-wrap; }
+.rule-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; }
+.rule-card .big { font-size: 22px; font-weight: 700; margin: 2px 0 6px; }
+.flow4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 4px 0 16px; }
+.flow4 div { background: var(--salary); border-radius: 10px; padding: 14px; position: relative; }
+.flow4 div b { display: block; font-size: 17px; margin-bottom: 4px; color: var(--salary-ink); }
+.flow4 div span { font-size: 14px; color: var(--ink-2); }
+.flow4 div:not(:last-child)::after { content: "→"; position: absolute; right: -12px; top: 38%; font-size: 18px; color: var(--muted); }
+.groups { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.group { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; border-top: 4px solid var(--brand); }
+.group h4 { margin: 0 0 6px; font-size: 15px; }
+.group code { display: block; font-size: 13px; line-height: 1.6; }
+.group p { margin: 6px 0 0; font-size: 13px; color: var(--ink-2); }
+.erd-wrap { width: 790px; max-width: 100%; margin: 0 auto; }
+.calendar { font-size: 12px; }
+.calendar td.pass, .calendar td.fail { min-width: 104px; }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.tile { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 34px; font-weight: 700; }
+.tile .sub { color: var(--muted); font-size: 12.5px; }
+
+.slide.cover { background: #0d366b; color: #fff; justify-content: center; }
+.slide.cover .kicker { color: #9ec5f4; }
+.slide.cover h1 { font-size: 52px; line-height: 1.1; margin: 14px 0 18px; max-width: 1000px; letter-spacing: -0.02em; }
+.slide.cover p { font-size: 20px; color: #cde2fb; margin: 0; max-width: 940px; }
+.slide.cover .foot { color: #9ec5f4; border-color: rgba(255,255,255,0.2); }
+.slide.cover .stats { display: flex; gap: 52px; margin-top: 44px; }
+.slide.cover .stats div { font-size: 15px; color: #cde2fb; }
+.slide.cover .stats b { display: block; font-size: 34px; color: #fff; }

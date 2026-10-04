@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Case 1B Presenter Guide</title>
+<style>
+$styles
+$guide_css
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 1B</div>
+  <h1>Presenter Guide</h1>
+  <p>How to present the agent KPI data model: what each slide and diagram means, what to say, the design reasoning behind every
+  table, and answers to the questions a technical panel is likely to ask.</p>
+</div>
+
+<h2>How to use this guide</h2>
+<ul>
+  <li>One section per slide, in the same order as <i>Case 1B Presentation.pdf</i>: <b>purpose</b>, <b>how to read it</b>, <b>key points</b>, a short <b>script</b> and <b>likely questions</b>.</li>
+  <li>Case 1B is a <b>design</b> task, so the panel will judge your <b>reasoning</b>: why each table exists, and how the design handles change and edge cases. The "Design reasoning" and "Tough questions" sections at the end matter most.</li>
+</ul>
+
+<h3>Timing plan (about 12 minutes + Q&amp;A)</h3>
+<table>
+  <tr><th>Slides</th><th>Part</th><th class="num">Minutes</th></tr>
+  <tr><td>1–3</td><td>Problem and assumptions</td><td class="num">2.5</td></tr>
+  <tr><td>4–7</td><td>The design: tables, ERD, core table, monthly process</td><td class="num">4.5</td></tr>
+  <tr><td>8–9</td><td>Worked example and demo</td><td class="num">2</td></tr>
+  <tr><td>10–12</td><td>Edge cases, verification, reporting</td><td class="num">2.5</td></tr>
+  <tr><td>13–14</td><td>Extensibility and close</td><td class="num">1</td></tr>
+</table>
+
+<h3>The story in 60 seconds</h3>
+<div class="box say">The sales KPI changed: each month an agent must sell more than 15,000 baht in premium and more than five new policies. Three failed months in a row move them to a commission-only contract, and three passes move them back to salary. My design stores one row per agent per month with the result and the running pass and fail streaks, so each month's decision needs only the previous month. Rules are stored as data, so the next KPI change needs no code change, and every contract change is kept in a history table. I built it in SQL and checked it against a separate Python version on thousands of random cases. They agree exactly, and the check even caught a bug with mid-month hires.</div>
+
+<h3>Colour code</h3>
+<table>
+  <tr><td><span style="background:var(--good-wash);color:var(--good-ink);padding:1px 8px;border-radius:4px;font-weight:700">✓ PASS</span></td><td>Monthly KPI passed</td></tr>
+  <tr><td><span style="background:var(--bad-wash);color:var(--bad-ink);padding:1px 8px;border-radius:4px;font-weight:700">✗ FAIL</span></td><td>Monthly KPI failed</td></tr>
+  <tr><td><span style="background:var(--salary);color:var(--salary-ink);padding:1px 8px;border-radius:4px;font-weight:700">Salary</span></td><td>Salary-based contract in force</td></tr>
+  <tr><td><span style="background:var(--commission);color:var(--commission-ink);padding:1px 8px;border-radius:4px;font-weight:700">Commission</span></td><td>Commission-based contract in force</td></tr>
+  <tr><td><b>Red table box</b></td><td>The core tracking table in the ER diagram (<code>agent_monthly_kpi</code>)</td></tr>
+</table>
+
+<!-- 1 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 1</span><h2>Title</h2><span class="time">~20 s</span></div>
+  <p><b>Purpose:</b> name the deliverable and the three highlights.</p>
+  <ul>
+    <li><b>5 + 1</b>: five tables plus one reporting view.</li>
+    <li><b>1 row per agent per month</b>: the grain of the core table, which is the heart of the design.</li>
+    <li><b>2 implementations agree</b>: the SQL job and an independent Python version give identical results.</li>
+  </ul>
+  <div class="box say">This is my data model for tracking the new agent KPI and the contract changes it triggers. Three things to remember: five tables and a reporting view, one row per agent per month, and logic verified by two independent implementations.</div>
+</section>
+
+<!-- 2 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 2</span><h2>The business problem</h2><span class="time">~1 min</span></div>
+  <div class="g-fig state">$state_svg</div>
+  <div class="lbl">How to read the diagram</div>
+  <ul>
+    <li>The two boxes are the two <b>states</b> an agent can be in: SALARY or COMMISSION.</li>
+    <li>The <b>top arrow</b> (SALARY → COMMISSION) fires after 3 consecutive fails; the <b>bottom arrow</b> (back to SALARY) fires after 3 consecutive passes.</li>
+    <li>Anything else leaves the agent where they are. A change becomes effective on the 1st of the next month.</li>
+  </ul>
+  <div class="lbl">Key point</div>
+  <p>The rule creates three data needs: a <b>monthly result</b>, a memory of <b>consecutive</b> months (streaks), and a <b>history</b> of contracts. Every table in the design answers one of these.</p>
+  <div class="box say">Here's the rule from the brief. Each month an agent passes if they sell more than 15,000 baht of premium and more than five new policies. Three fails in a row and they move to a commission-only contract; three passes in a row and they move back to salary. It's really a small state machine. So the data model has to record a result every month, remember streaks, and keep the contract history.</div>
+  <div class="qa"><div class="q">Is it AND or OR?</div><div class="a">AND: both conditions must hold. The brief says "premium &gt; 15000 &amp; new policy &gt; 5 = Pass". I also store each condition separately, so the rule could be changed to OR without losing information.</div></div>
+</section>
+
+<!-- 3 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 3</span><h2>Assumptions</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> show judgement. Listing assumptions shows you noticed the gaps in the brief rather than guessing silently.</p>
+  <table>
+    <tr><th>Assumption</th><th>Why</th><th>If the business disagrees</th></tr>
+    <tr><td>Cancelled policies don't count</td><td>A cancelled sale isn't real revenue</td><td>Remove one filter in the job</td></tr>
+    <tr><td>Strict thresholds (&gt;)</td><td>The brief literally says "&gt; 15000" and "&gt; 5"</td><td>Change <code>&gt;</code> to <code>≥</code></td></tr>
+    <tr><td>No sales = fail</td><td>Otherwise an inactive agent would never be evaluated</td><td>Filter agents without sales</td></tr>
+    <tr><td>Change effective next month</td><td>Payroll for the evaluated month has already started</td><td>Change one date expression</td></tr>
+    <tr><td>Only record real changes</td><td>Avoids "commission → commission" noise in the history</td><td>n/a</td></tr>
+    <tr><td>Streak resets on opposite result only</td><td>Simplest correct logic; same outcome given the previous rule</td><td>Reset on change (one CASE)</td></tr>
+  </table>
+  <div class="box say">The brief didn't say everything, so I made six assumptions and stated them. For example, I treat the thresholds as strict, because the brief says "greater than", so exactly 15,000 is a fail; cancelled policies don't count; and a contract change starts on the first of the next month. Each one is a single setting, so the business can change any of them easily.</div>
+  <div class="qa"><div class="q">Why wouldn't resetting streaks on a contract change matter?</div><div class="a">A switch happens at streak 3. After switching to commission, the agent needs passes, and the first pass resets the fail streak anyway. Since a change only triggers when it actually changes the contract, a long fail streak on commission does nothing. The outcome is identical either way.</div></div>
+</section>
+
+<!-- 4 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 4</span><h2>Design overview</h2><span class="time">~1 min</span></div>
+  <div class="lbl">What each table is for</div>
+  <ul>
+    <li><b>agent</b>: who the agent is and their current contract (a shortcut copy for quick lookup).</li>
+    <li><b>policy</b>: every sale. This is the raw input; the KPI is calculated from it.</li>
+    <li><b>kpi_rule</b>: the thresholds (15,000 · 5 · 3 months) as <i>data</i>, with effective dates.</li>
+    <li><b>agent_monthly_kpi</b>: <b>the core</b>, one row per agent per month with the result, streaks and decision.</li>
+    <li><b>agent_contract_history</b>: one row per contract period, recording when it started and ended and why.</li>
+    <li><b>v_agent_kpi_status</b>: a view (a saved query, not stored data) giving each agent's latest position.</li>
+  </ul>
+  <div class="lbl">"Grain"</div>
+  <p>The grain of a table is what one row represents. Saying the grain out loud is the clearest way to explain a design.</p>
+  <div class="box say">There are five tables, each with one job. Agent and policy are the inputs. Kpi_rule holds the thresholds as data. The core is agent_monthly_kpi: one row per agent per month. Contract history keeps every change. On top there's a view for reporting. The key idea is that each monthly row carries the running streaks, so deciding a contract change only needs last month's row.</div>
+  <div class="qa"><div class="q">Why keep current_contract_type on agent if history has it?</div><div class="a">It's a deliberate denormalisation for fast lookups ("what contract is this agent on now?"). The monthly job updates it in the same transaction, so it can't drift. History stays the source of truth for any past date.</div></div>
+</section>
+
+<!-- 5 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 5</span><h2>ER diagram</h2><span class="time">~1 min</span></div>
+  <div class="g-fig">$erd</div>
+  <div class="lbl">How to read it</div>
+  <ul>
+    <li>Each box is a table: the header is the name, then its columns. <b>PK</b> = primary key (unique row ID); <b>FK</b> = foreign key (points to another table).</li>
+    <li>Arrows go from parent to child. <b>1 : N</b> = one parent row, many child rows (one agent has many policies, monthly results and contract periods; one rule is used by many monthly results).</li>
+    <li><b>1 : 0..1</b>: a monthly result triggers at most one contract change.</li>
+    <li><code>agent_monthly_kpi</code> has a <b>composite primary key</b> (agent_id + kpi_month): one row per agent per month, enforced by the database.</li>
+    <li>The diagram is <b>generated from the real database</b>, so it can't drift from the SQL.</li>
+  </ul>
+  <div class="box say">This is the ER diagram. The agent is the centre: one agent has many policies, many monthly results and many contract periods. Each monthly result points to the rule it was judged by, and when a result triggers a change, the history row points back to it. So for any contract change I can trace exactly which month and which numbers caused it.</div>
+  <div class="qa"><div class="q">Why a composite key instead of a surrogate ID on agent_monthly_kpi?</div><div class="a">The natural key (agent, month) is exactly the business rule "one result per agent per month". Making it the primary key lets the database reject duplicates, for example if the job is accidentally run twice.</div></div>
+</section>
+
+<!-- 6 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 6</span><h2>Core table: agent_monthly_kpi</h2><span class="time">~1 min</span></div>
+  <div class="lbl">The four groups of columns</div>
+  <table>
+    <tr><th>Group</th><th>Columns</th><th>Question it answers</th></tr>
+    <tr><td>Measured</td><td><code>total_premium</code>, <code>new_policy_count</code></td><td>What did the agent sell?</td></tr>
+    <tr><td>Validation</td><td><code>is_premium_pass</code>, <code>is_policy_pass</code>, <code>is_pass</code></td><td>Did they pass, and if not, which condition failed?</td></tr>
+    <tr><td>Streaks</td><td><code>consecutive_pass</code>, <code>consecutive_fail</code></td><td>How many months in a row? How close to a change?</td></tr>
+    <tr><td>Decision</td><td><code>contract_type_before</code>, <code>contract_action</code>, <code>contract_type_after</code></td><td>What did we decide, and from what to what?</td></tr>
+  </table>
+  <div class="box say">This is the table I'd defend most. One row tells the whole story: what the agent sold, whether each condition passed, how long their streak is, and what we decided. The separate pass flags matter, because a manager wants to know whether the agent missed on premium or on number of policies. And because the streak is stored, I can see that an agent is one month away from losing their salary contract.</div>
+  <div class="qa"><div class="q">Couldn't you compute streaks with window functions instead of storing them?</div><div class="a">Yes, streaks can be derived with a "gaps and islands" window query. I store them because the decision is made month by month and must be auditable as it was at the time. Stored values also make the monthly job a simple step that doesn't re-scan history. Since they're derived, they can always be rebuilt from policy data if needed.</div></div>
+  <div class="qa"><div class="q">Why both is_pass and the two condition flags?</div><div class="a"><code>is_pass</code> is what the rule uses; the condition flags explain it. Storing the result rather than recomputing it also keeps history correct if a rule changes later.</div></div>
+</section>
+
+<!-- 7 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 7</span><h2>Monthly process</h2><span class="time">~1.5 min</span></div>
+  <div class="lbl">The four steps</div>
+  <ol>
+    <li><b>Evaluate</b>: for every agent employed in the month, sum the premium and count the new policies (excluding cancelled ones), then compare with the rule whose dates cover the month.</li>
+    <li><b>Streaks</b>: read last month's row. On a pass, <code>consecutive_pass = previous + 1</code> and <code>consecutive_fail = 0</code>; on a fail, the reverse.</li>
+    <li><b>Decide</b>: SALARY and fail streak ≥ 3 → <code>TO_COMMISSION</code>; COMMISSION and pass streak ≥ 3 → <code>TO_SALARY</code>; otherwise <code>NONE</code>.</li>
+    <li><b>Apply</b>: set <code>effective_to</code> on the old contract, insert the new contract from the 1st of next month, update <code>agent.current_contract_type</code>.</li>
+  </ol>
+  <div class="lbl">Safeguards (explain why each matters)</div>
+  <ul>
+    <li><b>One transaction</b>: if anything fails midway, nothing is saved, so we never have a result without its contract change.</li>
+    <li><b>No double run</b>: running April twice would double-count streaks; it's blocked in code and by the primary key.</li>
+    <li><b>No skipped month</b>: running June before May would break the streak chain, so it's blocked.</li>
+  </ul>
+  <div class="lbl">Effective dating</div>
+  <p><code>effective_to</code> is <b>exclusive</b> (a contract ending 2026-05-01 was in force until 30 April). That makes "which contract was in force on date X" a simple <code>from ≤ X &lt; to</code> check with no gaps or overlaps.</p>
+  <div class="box say">Once a month, after month-end, one SQL job runs in four steps: evaluate, update streaks, decide, apply. Everything runs in a single transaction, so it's all or nothing, and the engine refuses to run a month twice or out of order, because either would corrupt the streaks.</div>
+</section>
+
+<!-- 8 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 8</span><h2>Worked example: agent A002</h2><span class="time">~1 min</span></div>
+  <div class="g-fig">$calendar_example</div>
+  <div class="lbl">How to read the calendar</div>
+  <ul>
+    <li><b>Top row (KPI)</b>: each cell is one month showing PASS/FAIL, premium and policy count (e.g. "9.0k · 3 pol"), and the current streak.</li>
+    <li><b>Bottom row (Contract)</b>: the contract in force that month. <b>"→ Commission"</b> means the change was decided that month and starts next month.</li>
+  </ul>
+  <div class="lbl">Walk through it month by month</div>
+  <table>
+    <tr><th>Month</th><th>Result</th><th>Streak</th><th>Decision</th></tr>
+    <tr><td>Jan</td><td>PASS (25k, 7)</td><td>pass 1</td><td>–</td></tr>
+    <tr><td>Feb · Mar</td><td>FAIL (9k, 3)</td><td>fail 1 · 2</td><td>–</td></tr>
+    <tr><td>Apr</td><td>FAIL</td><td>fail 3</td><td><b>TO_COMMISSION</b>, from 1 May</td></tr>
+    <tr><td>May · Jun</td><td>PASS</td><td>pass 1 · 2</td><td>– (on commission)</td></tr>
+    <tr><td>Jul</td><td>PASS</td><td>pass 3</td><td><b>TO_SALARY</b>, from 1 Aug</td></tr>
+    <tr><td>Aug</td><td>PASS</td><td>pass 4</td><td>– (back on salary)</td></tr>
+  </table>
+  <div class="box say">Let's follow one agent. A002 passes in January, then fails three months in a row. You can see the fail streak count 1, 2, 3, and in April the job decides to switch them to commission from May. Then they pass three months in a row, and in July they're switched back to salary from August.</div>
+</section>
+
+<!-- 9 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 9</span><h2>Demo results: four agents</h2><span class="time">~1 min</span></div>
+  <div class="g-fig">$calendar</div>
+  <div class="lbl">What each agent proves</div>
+  $scenarios
+  <div class="box say">Here are the four demo agents, each chosen to test something. A001 always passes and nothing changes. A002 we just saw. A003 shows that a single pass resets the fail streak, so they only switch after the second run of three fails. And A004 tests the boundaries: exactly 15,000 baht in January and exactly five policies in February both count as fails.</div>
+  <div class="qa"><div class="q">Is this real data?</div><div class="a">No. It's synthetic data designed to hit every rule. No agent data was provided for 1B; the task was the design. The same SQL runs unchanged on real data.</div></div>
+</section>
+
+<!-- 10 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 10</span><h2>Edge cases</h2><span class="time">~45 s</span></div>
+  <p><b>Purpose:</b> show you thought about what breaks systems in real life. Pick 2–3 to mention; don't read the whole table.</p>
+  <ul>
+    <li><b>Boundaries</b> (exactly 15,000 / exactly 5) are where rules usually get implemented wrong.</li>
+    <li><b>No sales</b>: an agent who sells nothing must still fail; otherwise the worst performers escape evaluation.</li>
+    <li><b>Mid-month hire</b>: found by the verification (slide 11).</li>
+    <li><b>Re-runs and skipped months</b>: operational mistakes, blocked by the engine.</li>
+  </ul>
+  <div class="box say">I wrote a test for every tricky case: the exact boundary values, an agent with no sales, cancelled policies, a broken streak, an agent who keeps failing on commission, mid-month hires, and running a month twice or out of order. All 25 tests pass.</div>
+</section>
+
+<!-- 11 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 11</span><h2>Verification</h2><span class="time">~1 min</span></div>
+  <div class="lbl">The idea</div>
+  <p>I implemented the same rules twice: once in <b>SQL</b> (the production job) and once in <b>plain Python</b> (<code>ReferenceKpiEngine</code>), written separately. Both run on the same input and every output column is compared.</p>
+  <div class="lbl">The numbers</div>
+  <ul>
+    <li>$v_scen demo agent-months + <b>$v_rand_rows</b> agent-months across <b>$v_rand random portfolios</b>, with result <b>$v_result</b>.</li>
+    <li>The random portfolios include mid-month hires, agents who leave, and about 10% cancelled policies.</li>
+    <li><b>25 automated tests</b>: business rules, safeguards and SQL-vs-Python equivalence.</li>
+  </ul>
+  <div class="lbl">The bug it found (tell this story: panels love it)</div>
+  <p>The first SQL version looked up the contract "in force on the 1st of the month". An agent hired on 15 March had no contract on 1 March, so the SQL silently dropped them from March, while the Python version included them. The fix: use the contract in force <i>at any point during the month</i>. A test now covers it.</p>
+  <div class="box say">To prove the logic is right, I wrote it twice: once in SQL and once, separately, in Python. On over 7,000 random agent-months they agree on every value. This actually caught a real bug: agents hired mid-month were being skipped in their first month. That's exactly the kind of error that would reach payroll unnoticed, and it's now fixed and tested.</div>
+  <div class="qa"><div class="q">Couldn't both implementations share the same mistake?</div><div class="a">They could if I misunderstood the rule itself, which is why the assumptions are stated explicitly for the business to confirm. But they can't share an <i>implementation</i> bug, because they're written in different languages with different logic (set-based SQL vs a row-by-row loop).</div></div>
+</section>
+
+<!-- 12 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 12</span><h2>Reporting view</h2><span class="time">~45 s</span></div>
+  <div class="lbl">What the view returns</div>
+  <p>For each agent: the current contract, the last evaluated month and result, both streaks, <b>months_to_change</b> (3 minus the relevant streak) and a <b>status</b>:</p>
+  <ul>
+    <li><b>AT RISK</b>: on salary with at least one fail in a row. <code>months_to_change</code> = fails left before switching.</li>
+    <li><b>RECOVERING</b>: on commission with at least one pass in a row.</li>
+    <li><b>STABLE</b>: otherwise.</li>
+  </ul>
+  $status
+  <div class="box warn"><b>Heads-up:</b> in the demo, every agent happens to be STABLE after August (A003 and A004 are on commission with a fail streak, so they're stable on commission). If asked, the AT RISK case is covered by a unit test: a salary agent with 2 fails shows AT RISK with 1 month to change.</div>
+  <div class="box say">For the business I added a view that answers the question managers actually ask: who is about to lose their salary contract? One simple query lists agents at risk and how many months they have left, which makes it a coaching tool, not just a record.</div>
+</section>
+
+<!-- 13 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 13</span><h2>Extensibility &amp; next steps</h2><span class="time">~45 s</span></div>
+  <ul>
+    <li><b>Rule changes</b>: insert a new <code>kpi_rule</code> with <code>effective_from</code> and close the old one. Each monthly row stores its <code>rule_id</code>, so history stays correct.</li>
+    <li><b>Scale</b>: about 24,000 rows a year for 2,000 agents, which is trivial for any database. Indexes are on (agent_id, issue_date) for policy and (agent_id, kpi_month) via the primary key.</li>
+    <li><b>Portability</b>: standard SQL; SQLite is used only for the demo.</li>
+    <li><b>Next</b>: early-warning alerts at fail streak 2, a re-run procedure for late cancellations, an HR/payroll feed, and a manager dashboard.</li>
+  </ul>
+  <div class="box say">The design is built to change. When the KPI changes again, it's a new rule row, not new code. It scales easily. And the natural next steps are early-warning alerts, handling late cancellations, and connecting it to payroll.</div>
+</section>
+
+<!-- 14 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 14</span><h2>Close</h2><span class="time">rest</span></div>
+  <div class="box say">To sum up: one row per agent per month with stored streaks, rules as data, a full contract history, and logic proven by two independent implementations. Happy to take questions or open the SQL.</div>
+  <p><b>Demo tip:</b> open <code>output/agent_kpi_demo.db</code> in a SQLite browser (e.g. DB Browser for SQLite) and run <code>SELECT * FROM v_agent_kpi_status;</code> live.</p>
+</section>
+
+<!-- Design reasoning -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Design reasoning: why each choice</h2>
+  <table>
+    <tr><th>Choice</th><th>Alternative</th><th>Why this one</th></tr>
+    <tr><td>Monthly snapshot table</td><td>Compute everything on the fly from policies</td><td>Decisions must be auditable as they were at the time; fast; simple monthly step</td></tr>
+    <tr><td>Stored streaks</td><td>Window functions ("gaps and islands")</td><td>O(1) per month, explainable, and still rebuildable from source if needed</td></tr>
+    <tr><td><code>kpi_rule</code> table</td><td>Hard-coded 15000 / 5 / 3</td><td>The KPI already changed once; versioned rules keep history valid</td></tr>
+    <tr><td>Contract history with effective dates</td><td>Only a current-contract column</td><td>Answers "what contract on date X?" and why it changed; this is a type-2 slowly changing dimension</td></tr>
+    <tr><td>Exclusive <code>effective_to</code></td><td>Inclusive end date</td><td>No gaps or overlaps; simple <code>from ≤ X &lt; to</code></td></tr>
+    <tr><td>Composite PK (agent, month)</td><td>Surrogate ID</td><td>The database enforces one result per agent per month</td></tr>
+    <tr><td>Dates as 1st of month</td><td>Year + month integers</td><td>Easy date arithmetic and joins; one column</td></tr>
+    <tr><td>Separate condition flags</td><td>Only <code>is_pass</code></td><td>Explains failures; supports a future AND→OR change</td></tr>
+    <tr><td>Reporting view</td><td>Ad-hoc queries</td><td>One trusted definition of "at risk" for every report</td></tr>
+  </table>
+</section>
+
+<!-- Glossary -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Glossary</h2>
+  <table>
+    <tr><td><b>Grain</b></td><td>What one row of a table represents (e.g. one agent in one month).</td></tr>
+    <tr><td><b>Primary key (PK)</b></td><td>Column(s) that uniquely identify a row. Composite PK = more than one column.</td></tr>
+    <tr><td><b>Foreign key (FK)</b></td><td>A column that must match a row in another table (e.g. <code>policy.agent_id</code> → <code>agent</code>).</td></tr>
+    <tr><td><b>Surrogate key</b></td><td>An artificial ID (1, 2, 3…) with no business meaning.</td></tr>
+    <tr><td><b>1 : N relationship</b></td><td>One parent row relates to many child rows.</td></tr>
+    <tr><td><b>Denormalisation</b></td><td>Deliberately storing a copy of data (e.g. current contract on agent) for speed.</td></tr>
+    <tr><td><b>View</b></td><td>A saved query that behaves like a table but stores no data.</td></tr>
+    <tr><td><b>Transaction</b></td><td>A group of changes that is saved all together or not at all.</td></tr>
+    <tr><td><b>Effective dating</b></td><td>Storing <code>effective_from</code> / <code>effective_to</code> so the value on any date can be found.</td></tr>
+    <tr><td><b>SCD type 2</b></td><td>Slowly changing dimension: keep a new row per change instead of overwriting. Contract history works this way.</td></tr>
+    <tr><td><b>Streak</b></td><td>Number of consecutive months with the same result.</td></tr>
+    <tr><td><b>Gaps and islands</b></td><td>A SQL pattern for finding consecutive runs with window functions.</td></tr>
+    <tr><td><b>Idempotent</b></td><td>Safe to run twice with the same result. The job is protected from double runs instead.</td></tr>
+    <tr><td><b>Reference implementation</b></td><td>A second, independent version used to check the first.</td></tr>
+  </table>
+</section>
+
+<!-- Tough questions -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Tough questions bank</h2>
+  <div class="qa"><div class="q">What if a policy is cancelled after the month was already evaluated?</div><div class="a">Results are monthly snapshots, so they don't change silently. Two options: (1) evaluate after the free-look or cancellation window (e.g. on the 15th of the next month), or (2) a controlled correction that deletes results from the affected month onwards and re-runs them in order, because later streaks depend on it. Contract history is then corrected and logged.</div></div>
+  <div class="qa"><div class="q">What if the rule changes in the middle of a month?</div><div class="a">The job picks the rule whose effective dates cover the start of the month, so a mid-month change applies from the next month. That's simplest for agents to understand, but the business could choose otherwise.</div></div>
+  <div class="qa"><div class="q">What if a policy is shared by two agents?</div><div class="a">The brief implies one agent per policy. For splits I'd add a <code>policy_agent</code> bridge table with a split percentage and sum premium × share.</div></div>
+  <div class="qa"><div class="q">Does a newly hired agent start on salary?</div><div class="a">The initial contract is whatever HR assigns; it's stored as the INITIAL history row. A probation rule (e.g. no evaluation in the first 3 months) could be added as a column on <code>kpi_rule</code>.</div></div>
+  <div class="qa"><div class="q">What about an agent who leaves?</div><div class="a"><code>termination_date</code> stops evaluation after they leave; their history stays for audit.</div></div>
+  <div class="qa"><div class="q">Why SQLite?</div><div class="a">Only for a self-contained demo. The SQL is standard and moves to PostgreSQL, SQL Server or Oracle with minor syntax changes (e.g. date functions).</div></div>
+  <div class="qa"><div class="q">How would you schedule it?</div><div class="a">A monthly job (Airflow, cron or the database scheduler) runs after month-end close. The engine's checks make a re-run safe to attempt, because it refuses rather than corrupting data.</div></div>
+  <div class="qa"><div class="q">How do you know your SQL is correct?</div><div class="a">25 tests plus an independent Python implementation agreeing on more than 7,000 random agent-months, which found and fixed one real bug.</div></div>
+  <div class="qa"><div class="q">Should a streak reset when the contract changes?</div><div class="a">It gives the same outcome here (explained under slide 3). If the business wants a "fresh start" rule, it's one CASE expression.</div></div>
+  <div class="qa"><div class="q">Privacy or security?</div><div class="a">Agent performance and contract data is HR-sensitive: restrict access by role. The history table already records <i>when</i> and <i>why</i> each contract changed; I would add a <code>changed_by</code> column to record <i>who</i>, for manual overrides.</div></div>
+</section>
+
+</div>
+</body>
+</html>

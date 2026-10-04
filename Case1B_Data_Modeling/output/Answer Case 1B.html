@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer Case 1B</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --card: #ffffff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+  --brand: #256abf; --core: #c0392b;
+  --good: #0ca30c; --good-wash: #e7f5e7; --good-ink: #006300;
+  --bad: #d03b3b; --bad-wash: #fbeaea; --bad-ink: #a32424;
+  --salary: #eef4fc; --salary-ink: #1c5cab; --commission: #fdf1ec; --commission-ink: #b4461c;
+  --code-bg: #f6f8fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --card: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --brand: #3987e5; --core: #e66767;
+    --good-wash: #12301a; --good-ink: #5fd35f; --bad-wash: #3a1717; --bad-ink: #f08a8a;
+    --salary: #16263b; --salary-ink: #86b6ef; --commission: #33201a; --commission-ink: #f0a07c;
+    --code-bg: #141413;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --card: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+  --brand: #3987e5; --core: #e66767;
+  --good-wash: #12301a; --good-ink: #5fd35f; --bad-wash: #3a1717; --bad-ink: #f08a8a;
+  --salary: #16263b; --salary-ink: #86b6ef; --commission: #33201a; --commission-ink: #f0a07c;
+  --code-bg: #141413;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 48px; }
+h1 { font-size: 26px; margin: 0; }
+.meta { color: var(--ink-2); margin: 4px 0 18px; }
+h2 { font-size: 18px; margin: 34px 0 10px; padding-bottom: 4px; border-bottom: 2px solid var(--brand); }
+h3 { font-size: 14px; margin: 18px 0 4px; }
+.sub { font-weight: 400; color: var(--ink-2); font-size: 12.5px; }
+p { margin: 6px 0; }
+code { font-family: Consolas, ui-monospace, monospace; font-size: 0.92em; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; break-inside: avoid; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.callout { background: var(--salary); border-left: 4px solid var(--brand); padding: 10px 14px; border-radius: 6px; margin: 10px 0; }
+.ok { background: var(--good-wash); border-left: 4px solid var(--good); padding: 10px 14px; border-radius: 6px; margin: 10px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 4px 0 8px; }
+th, td { border-bottom: 1px solid var(--grid); padding: 5px 8px; text-align: left; vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+ol li, ul li { margin: 4px 0; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+      font: 10px/1.4 Consolas, ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; }
+
+/* KPI calendar */
+.calendar { border-collapse: separate; border-spacing: 3px; font-size: 11.5px; }
+.calendar th, .calendar td { border: 0; padding: 0; }
+.calendar tr:first-child th { text-align: center; padding-bottom: 2px; }
+.calendar th.agent { padding: 6px 8px 0 0; font-size: 13px; color: var(--ink); white-space: nowrap; vertical-align: top; }
+.calendar th.agent span { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+.calendar td.rowlbl { color: var(--muted); font-size: 11px; padding-right: 6px; white-space: nowrap; }
+.calendar td.pass, .calendar td.fail { border-radius: 6px; padding: 5px 6px; text-align: center; min-width: 78px; }
+.calendar td.pass { background: var(--good-wash); }
+.calendar td.fail { background: var(--bad-wash); }
+.calendar td.pass b { color: var(--good-ink); }
+.calendar td.fail b { color: var(--bad-ink); }
+.calendar td b, .calendar td span { display: block; }
+.calendar td span { color: var(--ink-2); font-size: 11px; }
+.calendar td span.streak { color: var(--muted); font-size: 10.5px; }
+.calendar tr.contract-row td:not(.rowlbl) { border-radius: 4px; padding: 3px 6px; font-size: 11px; text-align: center; font-weight: 600; }
+.calendar tr.contract-row td + td { }
+.calendar td.c-salary { background: var(--salary); color: var(--salary-ink); }
+.calendar td.c-commission { background: var(--commission); color: var(--commission-ink); }
+.calendar td em { display: block; font-style: normal; font-weight: 700; color: var(--ink); }
+.calendar tr.contract-row td { padding-bottom: 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-2); margin: 6px 0; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -2px; }
+footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
+
+@media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } .calendar { font-size: 10px; } }
+@page { size: A4; margin: 12mm; }
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light; --page: #fff; --card: #fff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --border: rgba(11,11,11,0.14); --brand: #256abf; --core: #c0392b;
+    --good-wash: #e7f5e7; --good-ink: #006300; --bad-wash: #fbeaea; --bad-ink: #a32424;
+    --salary: #eef4fc; --salary-ink: #1c5cab; --commission: #fdf1ec; --commission-ink: #b4461c; --code-bg: #f6f8fa;
+  }
+  body { font-size: 11.5px; background: #fff; }
+  .wrap { padding: 0; max-width: none; }
+  h2 { break-after: avoid; }
+  .pb { break-before: page; }
+  table, .card { break-inside: avoid; }
+  pre { break-inside: auto; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Answer – Test Case #1B: Data Modeling</h1>
+<div class="meta">InsureX · AI Data Science Test Case · Agent KPI validation: table and schema design, monthly process, verified demo</div>
+
+<h2>1. Requirement</h2>
+<p>The sales KPI has changed. Agent performance must be validated <b>every month</b>, and the result decides the agent's contract type.</p>
+<div class="grid2">
+  <table>
+    <tr><th>Rule</th><th>Logic</th></tr>
+    <tr><td>Monthly pass</td><td>Total premium <b>&gt; 15,000 THB</b> AND new policies <b>&gt; 5</b></td></tr>
+    <tr><td>Fail 3 consecutive months</td><td>Contract → <b>commission-based</b></td></tr>
+    <tr><td>Pass 3 consecutive months</td><td>Contract → <b>salary-based</b></td></tr>
+  </table>
+  <div class="card">
+    <svg viewBox="0 0 460 170" role="img" aria-label="Contract state diagram">
+      <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-2)"/></marker></defs>
+      <rect x="20" y="55" width="140" height="56" rx="12" fill="var(--salary)" stroke="var(--salary-ink)" stroke-width="1.5"/>
+      <text x="90" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--salary-ink)">SALARY</text>
+      <text x="90" y="98" text-anchor="middle" font-size="11" fill="var(--ink-2)">guaranteed salary</text>
+      <rect x="300" y="55" width="140" height="56" rx="12" fill="var(--commission)" stroke="var(--commission-ink)" stroke-width="1.5"/>
+      <text x="370" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--commission-ink)">COMMISSION</text>
+      <text x="370" y="98" text-anchor="middle" font-size="11" fill="var(--ink-2)">commission only</text>
+      <path d="M160,68 C210,40 250,40 298,68" fill="none" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="230" y="36" text-anchor="middle" font-size="11.5" fill="var(--ink)">3 consecutive FAIL</text>
+      <path d="M300,98 C250,126 210,126 162,98" fill="none" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="230" y="140" text-anchor="middle" font-size="11.5" fill="var(--ink)">3 consecutive PASS</text>
+      <text x="230" y="162" text-anchor="middle" font-size="10.5" fill="var(--muted)">otherwise the contract stays · change effective 1st of next month</text>
+    </svg>
+
+  </div>
+</div>
+
+<h2>2. Assumptions</h2>
+<ol>
+  <li><b>Total premium</b> = sum of premium of new policies issued in the month; cancelled policies are excluded.</li>
+  <li>Thresholds are <b>strict</b>: exactly 15,000 THB or exactly 5 policies is a <b>fail</b>.</li>
+  <li>Every agent employed during the month is evaluated. A month with <b>no sales is a fail</b>, so inactive agents cannot avoid evaluation.</li>
+  <li>A contract change takes effect on the <b>1st day of the following month</b>.</li>
+  <li>A change is recorded only when the contract actually changes. A commission agent who keeps failing stays on commission.</li>
+  <li>Streaks reset only on the opposite result. With rule 5 this gives the same outcome as resetting on a contract change, with simpler logic.</li>
+</ol>
+
+<h2>3. Design overview</h2>
+<div class="callout"><b>Core idea:</b> one row per <b>agent per month</b> in <code>agent_monthly_kpi</code> storing the measured values,
+the pass/fail result and the <b>running pass/fail streaks</b>. Each month needs only last month's row to decide a contract change, and every
+change is logged in <code>agent_contract_history</code>. Thresholds are data in <code>kpi_rule</code>, so the next KPI change needs no code change.</div>
+<table>
+  <tr><th>Table</th><th>Grain</th><th>Purpose</th></tr>
+  <tr><td><code>agent</code></td><td>1 / agent</td><td>Agent master data + current contract</td></tr>
+  <tr><td><code>policy</code></td><td>1 / policy</td><td>Source sales transactions</td></tr>
+  <tr><td><code>kpi_rule</code></td><td>1 / rule version</td><td>Versioned thresholds (15,000 · 5 · 3 months)</td></tr>
+  <tr><td><b><code>agent_monthly_kpi</code></b></td><td><b>1 / agent / month</b></td><td><b>Monthly validation result, streaks, contract decision</b></td></tr>
+  <tr><td><code>agent_contract_history</code></td><td>1 / contract period</td><td>Audit trail of contract changes</td></tr>
+  <tr><td><code>v_agent_kpi_status</code> (view)</td><td>1 / agent</td><td>Latest position: who is at risk, and how many months until a change</td></tr>
+</table>
+
+<h2>4. ER diagram</h2>
+<p class="sub">Generated from the live SQLite schema (tables, keys and foreign keys), so it always matches <code>schema.sql</code>. Arrows point from parent to child.</p>
+<svg viewBox="0 0 920 584" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ER diagram"><defs><marker id="crow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs><line x1="330" y1="152" x2="280" y2="152" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#crow)"/><text x="305.0" y="146.0" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink-2)" stroke="var(--page)" stroke-width="4" paint-order="stroke">1 : N</text><line x1="640" y1="405" x2="280" y2="405" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#crow)"/><text x="460.0" y="399.0" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink-2)" stroke="var(--page)" stroke-width="4" paint-order="stroke">1 : 0..1</text><line x1="400.0" y1="192" x2="210.0" y2="290" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#crow)"/><text x="305.0" y="235.0" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink-2)" stroke="var(--page)" stroke-width="4" paint-order="stroke">1 : N</text><line x1="770.0" y1="175" x2="770.0" y2="290" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#crow)"/><text x="778.0" y="232.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink-2)" stroke="var(--page)" stroke-width="4" paint-order="stroke">1 : N</text><line x1="520.0" y1="192" x2="710.0" y2="290" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#crow)"/><text x="615.0" y="235.0" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink-2)" stroke="var(--page)" stroke-width="4" paint-order="stroke">1 : N</text><rect x="20" y="20" width="260" height="172" rx="6" fill="var(--card)" stroke="var(--brand)" stroke-width="1.5"/>
+<rect x="20" y="20" width="260" height="28" rx="6" fill="var(--brand)"/>
+<text x="150.0" y="39" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">policy</text>
+<text x="30" y="62" font-size="11.5" font-weight="700" fill="var(--ink)">policy_id</text>
+<text x="270" y="62" text-anchor="end" font-size="10.5" fill="var(--muted)">PK</text>
+<text x="30" y="79" font-size="11.5" fill="var(--ink)">policy_no</text>
+<text x="30" y="96" font-size="11.5" fill="var(--ink)">agent_id</text>
+<text x="270" y="96" text-anchor="end" font-size="10.5" fill="var(--muted)">FK</text>
+<text x="30" y="113" font-size="11.5" fill="var(--ink)">product_type</text>
+<text x="30" y="130" font-size="11.5" fill="var(--ink)">issue_date</text>
+<text x="30" y="147" font-size="11.5" fill="var(--ink)">premium_amount</text>
+<text x="30" y="164" font-size="11.5" fill="var(--ink)">policy_status</text>
+<text x="30" y="181" font-size="11.5" fill="var(--ink)">created_at</text><rect x="330" y="20" width="260" height="172" rx="6" fill="var(--card)" stroke="var(--brand)" stroke-width="1.5"/>
+<rect x="330" y="20" width="260" height="28" rx="6" fill="var(--brand)"/>
+<text x="460.0" y="39" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">agent</text>
+<text x="340" y="62" font-size="11.5" font-weight="700" fill="var(--ink)">agent_id</text>
+<text x="580" y="62" text-anchor="end" font-size="10.5" fill="var(--muted)">PK</text>
+<text x="340" y="79" font-size="11.5" fill="var(--ink)">agent_code</text>
+<text x="340" y="96" font-size="11.5" fill="var(--ink)">agent_name</text>
+<text x="340" y="113" font-size="11.5" fill="var(--ink)">hire_date</text>
+<text x="340" y="130" font-size="11.5" fill="var(--ink)">termination_date</text>
+<text x="340" y="147" font-size="11.5" fill="var(--ink)">current_contract_type</text>
+<text x="340" y="164" font-size="11.5" fill="var(--ink)">created_at</text>
+<text x="340" y="181" font-size="11.5" fill="var(--ink)">updated_at</text><rect x="640" y="20" width="260" height="155" rx="6" fill="var(--card)" stroke="var(--brand)" stroke-width="1.5"/>
+<rect x="640" y="20" width="260" height="28" rx="6" fill="var(--brand)"/>
+<text x="770.0" y="39" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">kpi_rule</text>
+<text x="650" y="62" font-size="11.5" font-weight="700" fill="var(--ink)">rule_id</text>
+<text x="890" y="62" text-anchor="end" font-size="10.5" fill="var(--muted)">PK</text>
+<text x="650" y="79" font-size="11.5" fill="var(--ink)">rule_name</text>
+<text x="650" y="96" font-size="11.5" fill="var(--ink)">min_total_premium</text>
+<text x="650" y="113" font-size="11.5" fill="var(--ink)">min_new_policy_count</text>
+<text x="650" y="130" font-size="11.5" fill="var(--ink)">consecutive_months</text>
+<text x="650" y="147" font-size="11.5" fill="var(--ink)">effective_from</text>
+<text x="650" y="164" font-size="11.5" fill="var(--ink)">effective_to</text><rect x="20" y="290" width="260" height="155" rx="6" fill="var(--card)" stroke="var(--brand)" stroke-width="1.5"/>
+<rect x="20" y="290" width="260" height="28" rx="6" fill="var(--brand)"/>
+<text x="150.0" y="309" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">agent_contract_history</text>
+<text x="30" y="332" font-size="11.5" font-weight="700" fill="var(--ink)">contract_id</text>
+<text x="270" y="332" text-anchor="end" font-size="10.5" fill="var(--muted)">PK</text>
+<text x="30" y="349" font-size="11.5" fill="var(--ink)">agent_id</text>
+<text x="270" y="349" text-anchor="end" font-size="10.5" fill="var(--muted)">FK</text>
+<text x="30" y="366" font-size="11.5" fill="var(--ink)">contract_type</text>
+<text x="30" y="383" font-size="11.5" fill="var(--ink)">effective_from</text>
+<text x="30" y="400" font-size="11.5" fill="var(--ink)">effective_to</text>
+<text x="30" y="417" font-size="11.5" fill="var(--ink)">change_reason</text>
+<text x="30" y="434" font-size="11.5" fill="var(--ink)">trigger_kpi_month</text>
+<text x="270" y="434" text-anchor="end" font-size="10.5" fill="var(--muted)">FK</text><rect x="640" y="290" width="260" height="274" rx="6" fill="var(--card)" stroke="var(--core)" stroke-width="2.5"/>
+<rect x="640" y="290" width="260" height="28" rx="6" fill="var(--core)"/>
+<text x="770.0" y="309" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">agent_monthly_kpi</text>
+<text x="650" y="332" font-size="11.5" font-weight="700" fill="var(--ink)">agent_id</text>
+<text x="890" y="332" text-anchor="end" font-size="10.5" fill="var(--muted)">PK, FK</text>
+<text x="650" y="349" font-size="11.5" font-weight="700" fill="var(--ink)">kpi_month</text>
+<text x="890" y="349" text-anchor="end" font-size="10.5" fill="var(--muted)">PK</text>
+<text x="650" y="366" font-size="11.5" fill="var(--ink)">rule_id</text>
+<text x="890" y="366" text-anchor="end" font-size="10.5" fill="var(--muted)">FK</text>
+<text x="650" y="383" font-size="11.5" fill="var(--ink)">total_premium</text>
+<text x="650" y="400" font-size="11.5" fill="var(--ink)">new_policy_count</text>
+<text x="650" y="417" font-size="11.5" fill="var(--ink)">is_premium_pass</text>
+<text x="650" y="434" font-size="11.5" fill="var(--ink)">is_policy_pass</text>
+<text x="650" y="451" font-size="11.5" fill="var(--ink)">is_pass</text>
+<text x="650" y="468" font-size="11.5" fill="var(--ink)">consecutive_pass</text>
+<text x="650" y="485" font-size="11.5" fill="var(--ink)">consecutive_fail</text>
+<text x="650" y="502" font-size="11.5" fill="var(--ink)">contract_type_before</text>
+<text x="650" y="519" font-size="11.5" fill="var(--ink)">contract_action</text>
+<text x="650" y="536" font-size="11.5" fill="var(--ink)">contract_type_after</text>
+<text x="650" y="553" font-size="11.5" fill="var(--ink)">calculated_at</text></svg>
+
+<h2 class="pb">5. Table definitions</h2>
+<h3><code>agent</code> <span class="sub">· 1 row / agent: Agent master data and current contract (denormalised for quick lookup)</span></h3><table><tr><th>Field</th><th>Type</th><th>Key</th><th>Null</th><th>Description</th></tr><tr><td><code>agent_id</code></td><td>INTEGER</td><td>PK</td><td></td><td>Surrogate key</td></tr><tr><td><code>agent_code</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>Business agent code</td></tr><tr><td><code>agent_name</code></td><td>VARCHAR(200)</td><td></td><td>NOT NULL</td><td>Agent name</td></tr><tr><td><code>hire_date</code></td><td>DATE</td><td></td><td>NOT NULL</td><td>Start date</td></tr><tr><td><code>termination_date</code></td><td>DATE</td><td></td><td></td><td>NULL = still active</td></tr><tr><td><code>current_contract_type</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>SALARY / COMMISSION (kept in sync by the monthly job)</td></tr><tr><td><code>created_at</code></td><td>TIMESTAMP</td><td></td><td></td><td>Audit timestamp</td></tr><tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td></td><td></td><td>Audit timestamp</td></tr></table>
+<h3><code>policy</code> <span class="sub">· 1 row / policy: Source sales transactions the KPI is calculated from</span></h3><table><tr><th>Field</th><th>Type</th><th>Key</th><th>Null</th><th>Description</th></tr><tr><td><code>policy_id</code></td><td>INTEGER</td><td>PK</td><td></td><td>Surrogate key</td></tr><tr><td><code>policy_no</code></td><td>VARCHAR(30)</td><td></td><td>NOT NULL</td><td>Policy number</td></tr><tr><td><code>agent_id</code></td><td>INTEGER</td><td>FK → agent</td><td>NOT NULL</td><td>Selling agent</td></tr><tr><td><code>product_type</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>LIFE / PA / HEALTH …</td></tr><tr><td><code>issue_date</code></td><td>DATE</td><td></td><td>NOT NULL</td><td>Date the policy became new business</td></tr><tr><td><code>premium_amount</code></td><td>DECIMAL(12,2)</td><td></td><td>NOT NULL</td><td>Premium of the policy</td></tr><tr><td><code>policy_status</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>ACTIVE / CANCELLED / LAPSED (cancelled excluded from KPI)</td></tr><tr><td><code>created_at</code></td><td>TIMESTAMP</td><td></td><td></td><td>Audit timestamp</td></tr></table>
+<h3><code>kpi_rule</code> <span class="sub">· 1 row / rule version: Thresholds stored as data with effective dates. The KPI has already changed once, so the next change is an INSERT, and past months stay judged by the rule in force at the time</span></h3><table><tr><th>Field</th><th>Type</th><th>Key</th><th>Null</th><th>Description</th></tr><tr><td><code>rule_id</code></td><td>INTEGER</td><td>PK</td><td></td><td>Rule key</td></tr><tr><td><code>rule_name</code></td><td>VARCHAR(100)</td><td></td><td>NOT NULL</td><td>e.g. Sales KPI 2026</td></tr><tr><td><code>min_total_premium</code></td><td>DECIMAL(12,2)</td><td></td><td>NOT NULL</td><td>Pass if total premium &gt; this (15,000)</td></tr><tr><td><code>min_new_policy_count</code></td><td>INTEGER</td><td></td><td>NOT NULL</td><td>Pass if new policies &gt; this (5)</td></tr><tr><td><code>consecutive_months</code></td><td>INTEGER</td><td></td><td>NOT NULL</td><td>Streak length that triggers a contract change (3)</td></tr><tr><td><code>effective_from</code></td><td>DATE</td><td></td><td>NOT NULL</td><td>Rule valid from</td></tr><tr><td><code>effective_to</code></td><td>DATE</td><td></td><td></td><td>Rule valid to (exclusive); NULL = current</td></tr></table>
+<h3><code>agent_monthly_kpi</code> <span class="sub">· 1 row / agent / month: CORE TRACKING TABLE: measured values, pass/fail per condition, running streaks and the contract decision</span></h3><table><tr><th>Field</th><th>Type</th><th>Key</th><th>Null</th><th>Description</th></tr><tr><td><code>agent_id</code></td><td>INTEGER</td><td>PK, FK → agent</td><td></td><td>Agent evaluated</td></tr><tr><td><code>kpi_month</code></td><td>DATE</td><td>PK</td><td></td><td>First day of the evaluated month</td></tr><tr><td><code>rule_id</code></td><td>INTEGER</td><td>FK → kpi_rule</td><td>NOT NULL</td><td>Rule used for this month</td></tr><tr><td><code>total_premium</code></td><td>DECIMAL(12,2)</td><td></td><td>NOT NULL</td><td>Sum of new-policy premium in the month</td></tr><tr><td><code>new_policy_count</code></td><td>INTEGER</td><td></td><td>NOT NULL</td><td>Number of new policies in the month</td></tr><tr><td><code>is_premium_pass</code></td><td>BOOLEAN</td><td></td><td>NOT NULL</td><td>total_premium &gt; 15,000</td></tr><tr><td><code>is_policy_pass</code></td><td>BOOLEAN</td><td></td><td>NOT NULL</td><td>new_policy_count &gt; 5</td></tr><tr><td><code>is_pass</code></td><td>BOOLEAN</td><td></td><td>NOT NULL</td><td>Both conditions passed</td></tr><tr><td><code>consecutive_pass</code></td><td>INTEGER</td><td></td><td>NOT NULL</td><td>Months passed in a row (0 after a fail)</td></tr><tr><td><code>consecutive_fail</code></td><td>INTEGER</td><td></td><td>NOT NULL</td><td>Months failed in a row (0 after a pass)</td></tr><tr><td><code>contract_type_before</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>Contract in force during the month</td></tr><tr><td><code>contract_action</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>NONE / TO_COMMISSION / TO_SALARY</td></tr><tr><td><code>contract_type_after</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>Contract from next month</td></tr><tr><td><code>calculated_at</code></td><td>TIMESTAMP</td><td></td><td></td><td>When the job ran</td></tr></table>
+<h3><code>agent_contract_history</code> <span class="sub">· 1 row / contract period: Audit trail of every contract change with reason and trigger month</span></h3><table><tr><th>Field</th><th>Type</th><th>Key</th><th>Null</th><th>Description</th></tr><tr><td><code>contract_id</code></td><td>INTEGER</td><td>PK</td><td></td><td>Contract period key</td></tr><tr><td><code>agent_id</code></td><td>INTEGER</td><td>FK → agent</td><td>NOT NULL</td><td>Agent</td></tr><tr><td><code>contract_type</code></td><td>VARCHAR(20)</td><td></td><td>NOT NULL</td><td>SALARY / COMMISSION</td></tr><tr><td><code>effective_from</code></td><td>DATE</td><td></td><td>NOT NULL</td><td>Start of the period</td></tr><tr><td><code>effective_to</code></td><td>DATE</td><td></td><td></td><td>End (exclusive); NULL = current contract</td></tr><tr><td><code>change_reason</code></td><td>VARCHAR(50)</td><td></td><td>NOT NULL</td><td>INITIAL / FAIL_3_CONSECUTIVE / PASS_3_CONSECUTIVE / MANUAL</td></tr><tr><td><code>trigger_kpi_month</code></td><td>DATE</td><td>FK → agent_monthly_kpi</td><td></td><td>KPI month that caused the change</td></tr></table>
+
+<h2>6. Monthly validation process</h2>
+<p>Run once per month after month-end with <code>:kpi_month</code> = first day of the month (<code>sql/monthly_kpi_job.sql</code>):</p>
+<ol>
+  <li><b>Evaluate:</b> for every agent employed in the month, sum the premium and count new policies, then compare with the rule in force.</li>
+  <li><b>Update streaks:</b> on a pass, <code>consecutive_pass = previous + 1</code> and <code>consecutive_fail = 0</code>; on a fail, the opposite.</li>
+  <li><b>Decide:</b> SALARY with <code>consecutive_fail ≥ 3</code> → <code>TO_COMMISSION</code>; COMMISSION with <code>consecutive_pass ≥ 3</code> → <code>TO_SALARY</code>.</li>
+  <li><b>Apply:</b> close the current contract period, open the new one from the 1st of next month, and update <code>agent.current_contract_type</code>.</li>
+</ol>
+<p><b>Safeguards</b> in the job runner (<code>KpiEngine</code>):</p>
+<ul>
+  <li>All four steps run in <b>one transaction</b>, so a failure leaves nothing half-applied.</li>
+  <li>A month <b>cannot run twice</b> (also enforced by the primary key <code>(agent_id, kpi_month)</code>).</li>
+  <li>A month <b>cannot run before the previous one</b>, because the streaks depend on it.</li>
+</ul>
+
+<h2 class="pb">7. Verification</h2>
+<div class="ok"><b>✓ Two independent implementations agree.</b> The SQL job was cross-checked against a separate pure-Python implementation of the
+same rules (<code>ReferenceKpiEngine</code>). Results: <b>identical</b> on the 32 scenario agent-months below and on <b>30 random portfolios</b>
+(7,234 agent-months, including mid-month hires, leavers and cancelled policies). Unit tests cover boundaries, re-runs and month ordering.</div>
+<h3>Demo scenarios (Jan–Aug 2026)</h3>
+<table><tr><th class="">Agent</th><th class="">Starts on</th><th class="">Scenario</th></tr><tr><td class="">A001 Anan</td><td class="">SALARY</td><td class="">Always passes, so stays SALARY</td></tr><tr><td class="">A002 Busaba</td><td class="">SALARY</td><td class="">Fails Feb–Apr → COMMISSION, passes May–Jul → back to SALARY</td></tr><tr><td class="">A003 Chai</td><td class="">SALARY</td><td class="">March pass resets the fail streak; fails Apr–Jun → COMMISSION; cancelled policy ignored</td></tr><tr><td class="">A004 Duang</td><td class="">COMMISSION</td><td class="">Boundary values fail; passes Mar–May → SALARY; fails Jun–Aug → COMMISSION</td></tr></table>
+
+<h3>KPI calendar: monthly result and contract per agent</h3>
+<div class="legend">
+  <span><i class="sw" style="background:var(--good-wash);border:1px solid var(--good)"></i>✓ PASS</span>
+  <span><i class="sw" style="background:var(--bad-wash);border:1px solid var(--bad)"></i>✗ FAIL</span>
+  <span><i class="sw" style="background:var(--salary)"></i>Salary contract</span>
+  <span><i class="sw" style="background:var(--commission)"></i>Commission contract</span>
+  <span><b>→</b> contract change decided that month (effective next month)</span>
+</div>
+<table class="calendar"><tr><th></th><th></th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th></tr><tr><th rowspan="2" class="agent">A001<span>Anan</span></th><td class="rowlbl">KPI</td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 4</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 5</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 6</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 7</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 8</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td></tr><tr><th rowspan="2" class="agent">A002<span>Busaba</span></th><td class="rowlbl">KPI</td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 4</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission<em>→ Salary</em></td><td class="c-salary">Salary</td></tr><tr><th rowspan="2" class="agent">A003<span>Chai</span></th><td class="rowlbl">KPI</td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td><td class="c-commission">Commission</td><td class="c-commission">Commission</td></tr><tr><th rowspan="2" class="agent">A004<span>Duang</span></th><td class="rowlbl">KPI</td><td class="fail" title="premium"><b>✗ FAIL</b><span>15.0k · 6 pol</span><span class="streak">streak 1</span></td><td class="fail" title="policies"><b>✗ FAIL</b><span>30.0k · 5 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission<em>→ Salary</em></td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td></tr></table>
+
+<h3>agent_contract_history: full audit trail</h3>
+<table><tr><th class="">Agent</th><th class="">Contract</th><th class="">Effective from</th><th class="">Effective to</th><th class="">Reason</th><th class="">Trigger month</th></tr><tr><td class="">A001</td><td class="">SALARY</td><td class="">2025-06-01</td><td class="">(current)</td><td class="">INITIAL</td><td class=""></td></tr><tr><td class="">A002</td><td class="">SALARY</td><td class="">2025-06-01</td><td class="">2026-05-01</td><td class="">INITIAL</td><td class=""></td></tr><tr><td class="">A002</td><td class="">COMMISSION</td><td class="">2026-05-01</td><td class="">2026-08-01</td><td class="">FAIL_3_CONSECUTIVE</td><td class="">2026-04</td></tr><tr><td class="">A002</td><td class="">SALARY</td><td class="">2026-08-01</td><td class="">(current)</td><td class="">PASS_3_CONSECUTIVE</td><td class="">2026-07</td></tr><tr><td class="">A003</td><td class="">SALARY</td><td class="">2025-06-01</td><td class="">2026-07-01</td><td class="">INITIAL</td><td class=""></td></tr><tr><td class="">A003</td><td class="">COMMISSION</td><td class="">2026-07-01</td><td class="">(current)</td><td class="">FAIL_3_CONSECUTIVE</td><td class="">2026-06</td></tr><tr><td class="">A004</td><td class="">COMMISSION</td><td class="">2025-06-01</td><td class="">2026-06-01</td><td class="">INITIAL</td><td class=""></td></tr><tr><td class="">A004</td><td class="">SALARY</td><td class="">2026-06-01</td><td class="">2026-09-01</td><td class="">PASS_3_CONSECUTIVE</td><td class="">2026-05</td></tr><tr><td class="">A004</td><td class="">COMMISSION</td><td class="">2026-09-01</td><td class="">(current)</td><td class="">FAIL_3_CONSECUTIVE</td><td class="">2026-08</td></tr></table>
+<h3>v_agent_kpi_status: latest position per agent (after the Aug-2026 run)</h3>
+<table><tr><th class="">Agent</th><th class="">Contract</th><th class="">Last month</th><th class="">Result</th><th class="num">Pass streak</th><th class="num">Fail streak</th><th class="num">Months to change</th><th class="num">Status</th></tr><tr><td class="">A001</td><td class="">SALARY</td><td class="">2026-08</td><td class="">PASS</td><td class="num">8</td><td class="num">0</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A002</td><td class="">SALARY</td><td class="">2026-08</td><td class="">PASS</td><td class="num">4</td><td class="num">0</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A003</td><td class="">COMMISSION</td><td class="">2026-08</td><td class="">FAIL</td><td class="num">0</td><td class="num">1</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A004</td><td class="">COMMISSION</td><td class="">2026-08</td><td class="">FAIL</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">STABLE</td></tr></table>
+
+<h2 class="pb">Appendix A · schema.sql</h2>
+<pre>-- =====================================================================
+-- InsureX - Agent KPI Validation : Schema (SQLite / ANSI-style SQL)
+-- =====================================================================
+
+-- ---------------------------------------------------------------------
+-- 1. agent : master data of sales agents
+-- ---------------------------------------------------------------------
+CREATE TABLE agent (
+    agent_id              INTEGER      PRIMARY KEY,
+    agent_code            VARCHAR(20)  NOT NULL UNIQUE,
+    agent_name            VARCHAR(200) NOT NULL,
+    hire_date             DATE         NOT NULL,
+    termination_date      DATE,                              -- NULL = still active
+    current_contract_type VARCHAR(20)  NOT NULL
+        CHECK (current_contract_type IN (&#x27;SALARY&#x27;, &#x27;COMMISSION&#x27;)),
+    created_at            TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at            TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ---------------------------------------------------------------------
+-- 2. policy : transactions - every policy sold by an agent
+-- ---------------------------------------------------------------------
+CREATE TABLE policy (
+    policy_id      INTEGER       PRIMARY KEY,
+    policy_no      VARCHAR(30)   NOT NULL UNIQUE,
+    agent_id       INTEGER       NOT NULL REFERENCES agent(agent_id),
+    product_type   VARCHAR(20)   NOT NULL,                   -- e.g. LIFE, PA, HEALTH
+    issue_date     DATE          NOT NULL,                   -- date the policy became new business
+    premium_amount DECIMAL(12,2) NOT NULL CHECK (premium_amount &gt;= 0),
+    policy_status  VARCHAR(20)   NOT NULL DEFAULT &#x27;ACTIVE&#x27;
+        CHECK (policy_status IN (&#x27;ACTIVE&#x27;, &#x27;CANCELLED&#x27;, &#x27;LAPSED&#x27;)),
+    created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX ix_policy_agent_issue ON policy (agent_id, issue_date);
+
+-- ---------------------------------------------------------------------
+-- 3. kpi_rule : the validation thresholds, versioned by date.
+--    The KPI &quot;has been changed&quot; once already - keeping rules as data
+--    means the next change is an INSERT, not a code change, and old
+--    months stay evaluated under the rule that applied at the time.
+-- ---------------------------------------------------------------------
+CREATE TABLE kpi_rule (
+    rule_id              INTEGER       PRIMARY KEY,
+    rule_name            VARCHAR(100)  NOT NULL,
+    min_total_premium    DECIMAL(12,2) NOT NULL,   -- pass if total premium  &gt;  this
+    min_new_policy_count INTEGER       NOT NULL,   -- pass if new policies   &gt;  this
+    consecutive_months   INTEGER       NOT NULL,   -- streak length that triggers a contract change
+    effective_from       DATE          NOT NULL,
+    effective_to         DATE                      -- exclusive; NULL = current rule
+);
+
+-- ---------------------------------------------------------------------
+-- 4. agent_monthly_kpi : ONE ROW PER AGENT PER MONTH (core tracking table)
+--    Stores the measured values, the pass/fail result, the running
+--    streaks, and the contract decision taken for that month.
+-- ---------------------------------------------------------------------
+CREATE TABLE agent_monthly_kpi (
+    agent_id               INTEGER       NOT NULL REFERENCES agent(agent_id),
+    kpi_month              DATE          NOT NULL,   -- first day of month, e.g. 2026-03-01
+    rule_id                INTEGER       NOT NULL REFERENCES kpi_rule(rule_id),
+
+    -- measured performance
+    total_premium          DECIMAL(12,2) NOT NULL DEFAULT 0,
+    new_policy_count       INTEGER       NOT NULL DEFAULT 0,
+
+    -- validation result
+    is_premium_pass        BOOLEAN       NOT NULL,   -- total_premium    &gt; min_total_premium
+    is_policy_pass         BOOLEAN       NOT NULL,   -- new_policy_count &gt; min_new_policy_count
+    is_pass                BOOLEAN       NOT NULL,   -- both of the above
+
+    -- streak tracking (reset to 0 when the opposite result happens)
+    consecutive_pass       INTEGER       NOT NULL,
+    consecutive_fail       INTEGER       NOT NULL,
+
+    -- contract decision
+    contract_type_before   VARCHAR(20)   NOT NULL,   -- contract in force during this month
+    contract_action        VARCHAR(20)   NOT NULL
+        CHECK (contract_action IN (&#x27;NONE&#x27;, &#x27;TO_COMMISSION&#x27;, &#x27;TO_SALARY&#x27;)),
+    contract_type_after    VARCHAR(20)   NOT NULL,   -- contract from next month onwards
+
+    calculated_at          TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (agent_id, kpi_month)                -- re-running a month fails loudly instead of duplicating
+);
+CREATE INDEX ix_kpi_month ON agent_monthly_kpi (kpi_month);
+
+-- ---------------------------------------------------------------------
+-- 5. agent_contract_history : full audit trail of contract periods
+-- ---------------------------------------------------------------------
+CREATE TABLE agent_contract_history (
+    contract_id       INTEGER      PRIMARY KEY,
+    agent_id          INTEGER      NOT NULL REFERENCES agent(agent_id),
+    contract_type     VARCHAR(20)  NOT NULL CHECK (contract_type IN (&#x27;SALARY&#x27;, &#x27;COMMISSION&#x27;)),
+    effective_from    DATE         NOT NULL,
+    effective_to      DATE,                     -- exclusive; NULL = current contract
+    change_reason     VARCHAR(50)  NOT NULL,    -- INITIAL / FAIL_3_CONSECUTIVE / PASS_3_CONSECUTIVE / MANUAL
+    trigger_kpi_month DATE,                     -- the KPI month that caused the change
+    FOREIGN KEY (agent_id, trigger_kpi_month) REFERENCES agent_monthly_kpi (agent_id, kpi_month)
+);
+CREATE INDEX ix_contract_agent ON agent_contract_history (agent_id, effective_from);
+</pre>
+<h2>Appendix B · monthly_kpi_job.sql</h2>
+<pre>-- =====================================================================
+-- Monthly KPI job - run once per month, in month order, after month-end.
+-- Parameter  :kpi_month  = first day of the month to evaluate (&#x27;2026-03-01&#x27;)
+-- =====================================================================
+
+-- Step 1: evaluate every active agent for the month and record the result
+INSERT INTO agent_monthly_kpi (
+    agent_id, kpi_month, rule_id,
+    total_premium, new_policy_count,
+    is_premium_pass, is_policy_pass, is_pass,
+    consecutive_pass, consecutive_fail,
+    contract_type_before, contract_action, contract_type_after
+)
+WITH
+m AS (
+    SELECT DATE(:kpi_month) AS kpi_month,
+           DATE(:kpi_month, &#x27;+1 month&#x27;) AS next_month,
+           DATE(:kpi_month, &#x27;-1 month&#x27;) AS prev_month
+),
+rule AS (
+    SELECT r.* FROM kpi_rule r, m
+    WHERE r.effective_from &lt;= m.kpi_month
+      AND (r.effective_to IS NULL OR r.effective_to &gt; m.kpi_month)
+),
+-- every agent employed during the month gets a row, even with zero sales
+active_agent AS (
+    SELECT a.agent_id FROM agent a, m
+    WHERE a.hire_date &lt; m.next_month
+      AND (a.termination_date IS NULL OR a.termination_date &gt;= m.kpi_month)
+),
+sales AS (
+    SELECT p.agent_id,
+           SUM(p.premium_amount) AS total_premium,
+           COUNT(*)              AS new_policy_count
+    FROM policy p, m
+    WHERE p.issue_date &gt;= m.kpi_month
+      AND p.issue_date &lt;  m.next_month
+      AND p.policy_status &lt;&gt; &#x27;CANCELLED&#x27;
+    GROUP BY p.agent_id
+),
+-- contract in force during the month (covers agents hired mid-month)
+contract_now AS (
+    SELECT h.agent_id, h.contract_type
+    FROM agent_contract_history h, m
+    WHERE h.effective_from &lt; m.next_month
+      AND (h.effective_to IS NULL OR h.effective_to &gt; m.kpi_month)
+),
+prev AS (
+    SELECT k.agent_id, k.consecutive_pass, k.consecutive_fail
+    FROM agent_monthly_kpi k, m
+    WHERE k.kpi_month = m.prev_month
+),
+evaluated AS (
+    SELECT aa.agent_id, m.kpi_month, rule.rule_id, rule.consecutive_months,
+           COALESCE(s.total_premium, 0)    AS total_premium,
+           COALESCE(s.new_policy_count, 0) AS new_policy_count,
+           COALESCE(s.total_premium, 0)    &gt; rule.min_total_premium    AS is_premium_pass,
+           COALESCE(s.new_policy_count, 0) &gt; rule.min_new_policy_count AS is_policy_pass,
+           c.contract_type AS contract_type_before,
+           COALESCE(p.consecutive_pass, 0) AS prev_pass,
+           COALESCE(p.consecutive_fail, 0) AS prev_fail
+    FROM active_agent aa
+    CROSS JOIN m
+    CROSS JOIN rule
+    JOIN contract_now c ON c.agent_id = aa.agent_id
+    LEFT JOIN sales   s ON s.agent_id = aa.agent_id
+    LEFT JOIN prev    p ON p.agent_id = aa.agent_id
+),
+streaks AS (
+    SELECT e.*,
+           (is_premium_pass AND is_policy_pass)                          AS is_pass,
+           CASE WHEN is_premium_pass AND is_policy_pass THEN prev_pass + 1 ELSE 0 END AS consecutive_pass,
+           CASE WHEN is_premium_pass AND is_policy_pass THEN 0 ELSE prev_fail + 1 END AS consecutive_fail
+    FROM evaluated e
+),
+decided AS (
+    SELECT s.*,
+           CASE
+               WHEN contract_type_before = &#x27;SALARY&#x27;     AND consecutive_fail &gt;= consecutive_months THEN &#x27;TO_COMMISSION&#x27;
+               WHEN contract_type_before = &#x27;COMMISSION&#x27; AND consecutive_pass &gt;= consecutive_months THEN &#x27;TO_SALARY&#x27;
+               ELSE &#x27;NONE&#x27;
+           END AS contract_action
+    FROM streaks s
+)
+SELECT agent_id, kpi_month, rule_id,
+       total_premium, new_policy_count,
+       is_premium_pass, is_policy_pass, is_pass,
+       consecutive_pass, consecutive_fail,
+       contract_type_before, contract_action,
+       CASE contract_action
+           WHEN &#x27;TO_COMMISSION&#x27; THEN &#x27;COMMISSION&#x27;
+           WHEN &#x27;TO_SALARY&#x27;     THEN &#x27;SALARY&#x27;
+           ELSE contract_type_before
+       END AS contract_type_after
+FROM decided;
+
+-- Step 2: close the current contract of agents whose contract changes
+UPDATE agent_contract_history
+SET effective_to = DATE(:kpi_month, &#x27;+1 month&#x27;)
+WHERE effective_to IS NULL
+  AND agent_id IN (SELECT agent_id FROM agent_monthly_kpi
+                   WHERE kpi_month = DATE(:kpi_month) AND contract_action &lt;&gt; &#x27;NONE&#x27;);
+
+-- Step 3: open the new contract, effective from the first day of next month
+INSERT INTO agent_contract_history (agent_id, contract_type, effective_from, change_reason, trigger_kpi_month)
+SELECT agent_id,
+       contract_type_after,
+       DATE(:kpi_month, &#x27;+1 month&#x27;),
+       CASE contract_action WHEN &#x27;TO_COMMISSION&#x27; THEN &#x27;FAIL_3_CONSECUTIVE&#x27; ELSE &#x27;PASS_3_CONSECUTIVE&#x27; END,
+       kpi_month
+FROM agent_monthly_kpi
+WHERE kpi_month = DATE(:kpi_month) AND contract_action &lt;&gt; &#x27;NONE&#x27;;
+
+-- Step 4: keep the denormalised current contract on agent in sync
+UPDATE agent
+SET current_contract_type = (SELECT k.contract_type_after FROM agent_monthly_kpi k
+                             WHERE k.agent_id = agent.agent_id AND k.kpi_month = DATE(:kpi_month)),
+    updated_at = CURRENT_TIMESTAMP
+WHERE agent_id IN (SELECT agent_id FROM agent_monthly_kpi
+                   WHERE kpi_month = DATE(:kpi_month) AND contract_action &lt;&gt; &#x27;NONE&#x27;);
+</pre>
+<h2>Appendix C · views.sql</h2>
+<pre>-- =====================================================================
+-- Reporting view: the latest KPI position of every agent.
+-- Answers &quot;who is at risk of losing the salary contract, and how soon?&quot;
+-- =====================================================================
+CREATE VIEW v_agent_kpi_status AS
+SELECT a.agent_code,
+       a.agent_name,
+       a.current_contract_type,
+       k.kpi_month                                   AS last_kpi_month,
+       k.total_premium,
+       k.new_policy_count,
+       CASE WHEN k.is_pass THEN &#x27;PASS&#x27; ELSE &#x27;FAIL&#x27; END AS last_result,
+       k.consecutive_pass,
+       k.consecutive_fail,
+       CASE a.current_contract_type
+           WHEN &#x27;SALARY&#x27; THEN r.consecutive_months - k.consecutive_fail
+           ELSE               r.consecutive_months - k.consecutive_pass
+       END                                           AS months_to_change,
+       CASE
+           WHEN a.current_contract_type = &#x27;SALARY&#x27;     AND k.consecutive_fail &gt; 0 THEN &#x27;AT RISK&#x27;
+           WHEN a.current_contract_type = &#x27;COMMISSION&#x27; AND k.consecutive_pass &gt; 0 THEN &#x27;RECOVERING&#x27;
+           ELSE &#x27;STABLE&#x27;
+       END                                           AS status
+FROM agent a
+JOIN agent_monthly_kpi k
+  ON k.agent_id = a.agent_id
+ AND k.kpi_month = (SELECT MAX(kpi_month) FROM agent_monthly_kpi WHERE agent_id = a.agent_id)
+JOIN kpi_rule r ON r.rule_id = k.rule_id;
+</pre>
+
+<footer>Generated by <code>python main.py</code> · demo database saved as <code>output/agent_kpi_demo.db</code> (open with any SQLite browser).</footer>
+</div>
+</body>
+</html>

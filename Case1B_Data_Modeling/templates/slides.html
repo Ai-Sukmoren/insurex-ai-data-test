@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Case 1B Presentation</title>
+<style>
+$styles
+$slides_css
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 1B</div>
+  <h1>Tracking agent KPIs and contract changes: data model design</h1>
+  <p>A monthly validation model that decides when an agent moves between salary-based and commission-based contracts, with full history and verified logic.</p>
+  <div class="stats">
+    <div><b>5 + 1</b>tables + reporting view</div>
+    <div><b>1 row</b>per agent per month</div>
+    <div><b>2</b>independent implementations agree</div>
+  </div>
+  <div class="foot"><span>Data modeling · SQL · Python</span><span>1</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">The business problem</div>
+  <h2>The sales KPI changed: monthly results now decide the agent's contract</h2>
+  <p class="lede">The rule from the brief, and the contract life-cycle it creates</p>
+  <div class="body c2">
+    <div>
+      <div class="rule-card"><div class="label" style="color:var(--ink-2)">Monthly pass</div>
+        <div class="big">Total premium &gt; 15,000 THB <span style="color:var(--muted)">AND</span> new policies &gt; 5</div></div>
+      <table style="margin-top:14px">
+        <tr><th>Condition</th><th>Result</th></tr>
+        <tr><td>Fail <b>3 months in a row</b></td><td>Contract → <b>commission-based</b></td></tr>
+        <tr><td>Pass <b>3 months in a row</b></td><td>Contract → <b>salary-based</b></td></tr>
+        <tr><td>Anything else</td><td>Contract stays the same</td></tr>
+      </table>
+    </div>
+    <div class="rule-card">$state_svg</div>
+  </div>
+  <div class="takeaway"><b>Design need:</b> the tables must record a result <b>every month</b>, remember <b>consecutive streaks</b>, and keep a <b>history</b> of every contract change.</div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>2</span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">Assumptions</div>
+  <h2>Six decisions where the brief was silent</h2>
+  <p class="lede">Stated up front so the business can confirm or change them; each one is a single setting in the design</p>
+  <div class="body c2">
+    <ul class="points">
+      <li><b>Total premium</b> = premium of new policies issued in the month; <b>cancelled policies don't count</b>.</li>
+      <li>Thresholds are <b>strict</b>: exactly 15,000 THB or exactly 5 policies is a <b>fail</b>.</li>
+      <li>Every agent employed during the month is evaluated, and <b>no sales = fail</b>.</li>
+    </ul>
+    <ul class="points" style="counter-reset: pt 3">
+      <li>A contract change takes effect on the <b>1st of the following month</b>.</li>
+      <li>A change is only recorded if the contract <b>actually changes</b> (no repeated "to commission").</li>
+      <li>Streaks reset only on the <b>opposite result</b>.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>3</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">Design overview</div>
+  <h2>Five tables and one view, each with a single job</h2>
+  <p class="lede">The core idea: one row per agent per month, carrying the running streaks</p>
+  <div class="body c-wide">
+    <table>
+      <tr><th>Table</th><th>Grain</th><th>Purpose</th></tr>
+      <tr><td><code>agent</code></td><td>1 / agent</td><td>Master data + current contract</td></tr>
+      <tr><td><code>policy</code></td><td>1 / policy</td><td>Sales transactions the KPI is calculated from</td></tr>
+      <tr><td><code>kpi_rule</code></td><td>1 / rule version</td><td>Thresholds as data, versioned by date</td></tr>
+      <tr><td><b><code>agent_monthly_kpi</code></b></td><td><b>1 / agent / month</b></td><td><b>Result, streaks and contract decision</b></td></tr>
+      <tr><td><code>agent_contract_history</code></td><td>1 / period</td><td>Audit trail of every contract change</td></tr>
+      <tr><td><code>v_agent_kpi_status</code></td><td>view</td><td>Who is at risk, and how soon</td></tr>
+    </table>
+    <ul class="points">
+      <li><b>Stored streaks:</b> each month needs only the previous month's row, so there's no re-scan of history.</li>
+      <li><b>Rules are data:</b> the KPI already changed once; the next change is an <code>INSERT</code>, not a code release.</li>
+      <li><b>History table:</b> answers "what contract did this agent have in March, and why?"</li>
+    </ul>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>4</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">Data model</div>
+  <h2>ER diagram: everything hangs off the agent and the monthly result</h2>
+  <p class="lede">Generated from the live database schema · red = core tracking table · 1 : N = one parent, many children</p>
+  <div class="erd-wrap">$erd</div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>5</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">Core table</div>
+  <h2><code style="font-size:28px">agent_monthly_kpi</code>: one row explains the whole decision</h2>
+  <p class="lede">Primary key (agent_id, kpi_month) guarantees exactly one result per agent per month</p>
+  <div class="groups">
+    <div class="group"><h4>1 · What was measured</h4><code>total_premium<br>new_policy_count</code><p>Sum and count of the month's non-cancelled new policies.</p></div>
+    <div class="group"><h4>2 · Did they pass?</h4><code>is_premium_pass<br>is_policy_pass<br>is_pass</code><p>Separate flags show <i>why</i> an agent failed, which is useful for coaching.</p></div>
+    <div class="group"><h4>3 · How long is the streak?</h4><code>consecutive_pass<br>consecutive_fail</code><p>Previous value + 1, or reset to 0. Shows how close an agent is to a change.</p></div>
+    <div class="group"><h4>4 · What did we decide?</h4><code>contract_type_before<br>contract_action<br>contract_type_after</code><p>NONE / TO_COMMISSION / TO_SALARY, fully explainable from one row.</p></div>
+  </div>
+  <div class="takeaway"><b>Why store streaks instead of recalculating?</b> The decision depends on unbroken runs of months; storing the running count makes each month a simple, fast, auditable step.</div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>6</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Monthly process</div>
+  <h2>A four-step job runs once a month, safely</h2>
+  <p class="lede"><code>sql/monthly_kpi_job.sql</code>, run with :kpi_month = the first day of the month just closed</p>
+  <div class="flow4">
+    <div><b>1 Evaluate</b><span>Sum premium and count policies for every agent employed in the month; compare with the rule in force.</span></div>
+    <div><b>2 Streaks</b><span>Pass: pass streak + 1, fail streak = 0. Fail: the opposite.</span></div>
+    <div><b>3 Decide</b><span>SALARY with fail streak ≥ 3 → commission. COMMISSION with pass streak ≥ 3 → salary.</span></div>
+    <div><b>4 Apply</b><span>Close the old contract, open the new one from the 1st of next month, update the agent.</span></div>
+  </div>
+  <div class="body c2">
+    <div class="rule-card"><div class="fig-title">Safeguards</div><ul style="margin:4px 0;padding-left:18px">
+      <li>All 4 steps in <b>one transaction</b>: all or nothing.</li>
+      <li>A month <b>cannot run twice</b> (code check + primary key).</li>
+      <li>A month <b>cannot run before the previous one</b> (streaks depend on it).</li></ul></div>
+    <div class="rule-card"><div class="fig-title">Effective dating</div><ul style="margin:4px 0;padding-left:18px">
+      <li>Contracts use <code>effective_from</code> / <code>effective_to</code> (exclusive).</li>
+      <li>The current contract has <code>effective_to = NULL</code>.</li>
+      <li>Any past date can be answered: "which contract was in force on X?"</li></ul></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>7</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">Worked example</div>
+  <h2>One agent, eight months: two contract changes</h2>
+  <p class="lede">Agent A002 · green = pass, red = fail · bottom row = contract in force · → = change decided that month</p>
+  $calendar_example
+  <div class="body c2" style="margin-top:12px">
+    <ul class="points">
+      <li><b>Feb–Apr:</b> three fails in a row (9k premium, 3 policies), and the fail streak reaches 3 in April.</li>
+      <li>April decision: <b>TO_COMMISSION</b>, effective <b>1 May</b>.</li>
+    </ul>
+    <ul class="points" style="counter-reset: pt 2">
+      <li><b>May–Jul:</b> three passes while on commission; the pass streak reaches 3 in July.</li>
+      <li>July decision: <b>TO_SALARY</b>, effective <b>1 August</b>.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>8</span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">Demo results</div>
+  <h2>Four agents chosen to exercise every rule</h2>
+  <p class="lede">Real output of the monthly SQL job, Jan–Aug 2026</p>
+  $calendar
+  <div class="takeaway"><b>A003:</b> a single pass in March resets the fail streak, so no change until Apr–Jun. <b>A004:</b> exactly 15,000 THB (Jan) and exactly 5 policies (Feb) both fail.</div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>9</span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">Edge cases</div>
+  <h2>The tricky cases are handled and tested</h2>
+  <p class="lede">Each row is an automated test that runs the real SQL job</p>
+  <table>
+    <tr><th>Case</th><th>Expected behaviour</th><th>Status</th></tr>
+    <tr><td>Premium exactly 15,000 / exactly 5 policies</td><td>Fail (the rule says "more than")</td><td>✓ tested</td></tr>
+    <tr><td>Month with no sales</td><td>Agent still evaluated, result = fail</td><td>✓ tested</td></tr>
+    <tr><td>Cancelled policy</td><td>Excluded from premium and count</td><td>✓ tested</td></tr>
+    <tr><td>Fail, fail, pass, fail, fail</td><td>Streak resets; no contract change</td><td>✓ tested</td></tr>
+    <tr><td>Commission agent keeps failing</td><td>No repeated change, no duplicate history</td><td>✓ tested</td></tr>
+    <tr><td>Agent hired mid-month</td><td>Evaluated from the hiring month</td><td>✓ tested (bug found and fixed)</td></tr>
+    <tr><td>Same month run twice / month skipped</td><td>Rejected with a clear error</td><td>✓ tested</td></tr>
+    <tr><td>KPI month not the 1st</td><td>Rejected</td><td>✓ tested</td></tr>
+  </table>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>10</span></div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker">Verification</div>
+  <h2>Two independent implementations give identical results</h2>
+  <p class="lede">The SQL job vs a separate pure-Python version of the same rules (ReferenceKpiEngine)</p>
+  <div class="tiles">
+    <div class="tile"><div class="label">Agent-months compared</div><div class="value">$v_rand_rows</div><div class="sub">+ $v_scen demo rows · $v_rand random portfolios</div></div>
+    <div class="tile"><div class="label">Result</div><div class="value" style="color:var(--good-ink)">$v_result</div><div class="sub">every column, every row</div></div>
+    <div class="tile"><div class="label">Automated tests</div><div class="value">25</div><div class="sub">rules, safeguards, equivalence</div></div>
+  </div>
+  <div class="body c2" style="margin-top:16px">
+    <ul class="points">
+      <li>Random portfolios include <b>mid-month hires, leavers and cancelled policies</b>, the cases people forget.</li>
+      <li>If two independent versions agree on thousands of cases, both are very likely right.</li>
+    </ul>
+    <div class="takeaway" style="margin-top:0"><b>It caught a real bug:</b> agents hired mid-month were silently skipped in their first month, because the job looked for a contract in force on the 1st. It's now fixed and has a test.</div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>11</span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">Reporting</div>
+  <h2>One query answers "who is about to lose their salary contract?"</h2>
+  <p class="lede">The view <code>v_agent_kpi_status</code> shows each agent's latest position and months until a change</p>
+  <div class="body c2">
+    <div>
+      <div class="fig-title">Example query for the sales manager</div>
+<pre class="q">SELECT agent_code, consecutive_fail,
+       months_to_change
+FROM   v_agent_kpi_status
+WHERE  status = 'AT RISK'
+ORDER  BY months_to_change;</pre>
+      <ul class="points">
+        <li><b>AT RISK</b>: salary agent with ≥ 1 fail in a row; a coaching trigger.</li>
+        <li><b>RECOVERING</b>: commission agent on a pass streak.</li>
+      </ul>
+    </div>
+    <div><div class="fig-title">Demo output after the August run</div>$status</div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>12</span></div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">Extensibility &amp; next steps</div>
+  <h2>Built to change: new rules, more agents, more uses</h2>
+  <p class="lede">What the design already supports, and what I would add next</p>
+  <div class="body c2">
+    <ul class="points">
+      <li><b>KPI changes again?</b> Insert a new <code>kpi_rule</code> row with an effective date; past months keep their old rule.</li>
+      <li><b>Scale:</b> 2,000 agents × 12 months = 24,000 rows a year. That's tiny, and indexed on (agent, month).</li>
+      <li><b>Portable SQL:</b> runs on SQLite for the demo; the same design works on PostgreSQL, SQL Server or Oracle.</li>
+    </ul>
+    <ul class="points" style="counter-reset: pt 3">
+      <li><b>Early warning:</b> alert agent and manager at fail streak 2.</li>
+      <li><b>Late cancellations:</b> a controlled re-run from the affected month forward.</li>
+      <li><b>Integration:</b> feed contract changes to HR and payroll; add a manager dashboard.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>13</span></div>
+</section>
+
+<!-- 14 -->
+<section class="slide cover">
+  <div class="kicker">Thank you</div>
+  <h1>Questions?</h1>
+  <p>Full answer document: <b>Answer Case 1B.pdf</b> · SQL: <b>sql/</b> · demo database: <b>output/agent_kpi_demo.db</b> · run: <b>python main.py</b></p>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>14</span></div>
+</section>
+
+</div>
+</body>
+</html>

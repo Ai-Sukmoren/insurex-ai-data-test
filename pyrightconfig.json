@@ -1,0 +1,7 @@
+{
+  "executionEnvironments": [
+    {"root": "Case2_GenAI_RAG", "extraPaths": ["Case2_GenAI_RAG/src"]},
+    {"root": "Case1A_Data_Analysis", "extraPaths": ["Case1A_Data_Analysis/src"]},
+    {"root": "Case1B_Data_Modeling", "extraPaths": ["Case1B_Data_Modeling/src"]}
+  ]
+}

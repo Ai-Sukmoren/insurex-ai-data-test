@@ -1,0 +1,20 @@
+[
+  {"q": "What is the annual premium of PA Plus Silver for occupation class 3?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["2,490"]},
+  {"q": "What is the maximum entry age for PA Plus?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["65"]},
+  {"q": "Is an injury covered if the insured was drunk?", "source": "01_PA_Plus_Personal_Accident.pdf", "expect": ["150"]},
+  {"q": "What is the Life Secure 20 premium for a 40-year-old male non-smoker per 1 million sum assured?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["5,600"]},
+  {"q": "How much more do smokers pay for Life Secure?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["40%"]},
+  {"q": "Above what sum assured is a medical examination required for Life Secure?", "source": "02_Life_Secure_Term_Life.pdf", "expect": ["3,000,000"]},
+  {"q": "What is the general waiting period of Health Care Plus?", "source": "03_Health_Care_Plus.pdf", "expect": ["30"]},
+  {"q": "What is the waiting period for cataract surgery?", "source": "03_Health_Care_Plus.pdf", "expect": ["120"]},
+  {"q": "How much is Health Care Plus Plan Plus per year for a 35-year-old?", "source": "03_Health_Care_Plus.pdf", "expect": ["15,900"]},
+  {"q": "How long is the free-look period for a new policy?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["15"]},
+  {"q": "Is there an extra charge for paying monthly?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["3%"]},
+  {"q": "Is there a discount for buying two products?", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["5%"]},
+  {"q": "How quickly are claims paid after all documents are received?", "source": "05_Claims_and_Service_Guide.pdf", "expect": ["15"]},
+  {"q": "What is the call centre phone number?", "source": "05_Claims_and_Service_Guide.pdf", "expect": ["02-123-4567"]},
+  {"q": "ประกันสุขภาพลดหย่อนภาษีได้สูงสุดเท่าไหร่", "source": "03_Health_Care_Plus.pdf", "expect": ["25,000"]},
+  {"q": "ถ้าจ่ายเบี้ยไม่ตรงเวลา มีระยะเวลาผ่อนผันกี่วัน", "source": "04_Sales_Guide_Underwriting_FAQ.pdf", "expect": ["31"]},
+  {"q": "Do you offer car insurance?", "out_of_scope": true},
+  {"q": "How much is travel insurance for a trip to Japan?", "out_of_scope": true}
+]

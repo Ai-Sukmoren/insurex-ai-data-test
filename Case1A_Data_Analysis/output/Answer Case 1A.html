@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer Case 1A</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --card: #ffffff;
+  --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --pa: #2a78d6; --life: #eb6834; --rejected: #a9a79f; --volume: #a9a79f; --model: #52514e;
+  --seg-1: #008300; --seg-2: #4a3aa7; --seg-3: #e87ba4;
+  --pos: #2a78d6; --neg: #e34948;
+  --warn-wash: #fdf1ec; --info-wash: #eef4fc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --card: #1a1a19;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+    --pa: #3987e5; --life: #d95926; --rejected: #6b6a64; --volume: #6b6a64; --model: #c3c2b7;
+    --seg-1: #008300; --seg-2: #9085e9; --seg-3: #d55181;
+    --pos: #3987e5; --neg: #e66767;
+    --warn-wash: #33201a; --info-wash: #16263b;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --card: #1a1a19;
+  --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+  --pa: #3987e5; --life: #d95926; --rejected: #6b6a64; --volume: #6b6a64; --model: #c3c2b7;
+  --seg-1: #008300; --seg-2: #9085e9; --seg-3: #d55181;
+  --pos: #3987e5; --neg: #e66767;
+  --warn-wash: #33201a; --info-wash: #16263b;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+       font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 28px 16px 48px; }
+header h1 { font-size: 26px; margin: 0; letter-spacing: -0.01em; }
+header p { margin: 4px 0 0; color: var(--ink-2); }
+h2 { font-size: 18px; margin: 36px 0 4px; }
+.section-sub { color: var(--ink-2); margin: 0 0 12px; font-size: 13px; }
+code { font-family: Consolas, ui-monospace, monospace; font-size: 0.92em; }
+
+/* filter row */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 20px 0 16px;
+           position: sticky; top: 0; background: var(--page); padding: 8px 0; z-index: 5; }
+.filters .lbl { color: var(--ink-2); margin-right: 4px; }
+.filters button { font: inherit; border: 1px solid var(--border); background: var(--card); color: var(--ink);
+                  padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.filters button:hover { background: var(--info-wash); }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--page); border-color: var(--ink); }
+.filters .note { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+/* tiles */
+.tiles { display: grid; grid-template-columns: 1.5fr repeat(4, 1fr); gap: 12px; }
+.tile, .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.tile { padding: 14px 16px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 28px; font-weight: 600; margin-top: 2px; }
+.tile .sub { color: var(--muted); font-size: 12px; }
+.tile.hero { display: grid; grid-template-columns: auto 1fr; gap: 0 16px; align-items: end; }
+.tile.hero .value { font-size: 48px; line-height: 1.1; }
+.tile.hero .label, .tile.hero .sub { grid-column: 1; }
+.tile.hero .spark { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+.key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.key.line { height: 2px; width: 14px; border-radius: 1px; vertical-align: 3px; }
+.key.dot { border-radius: 50%; }
+
+/* findings */
+.findings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.finding { padding: 14px 16px; }
+.finding > b { display: block; margin-bottom: 4px; }
+.finding p { margin: 0; color: var(--ink-2); font-size: 13px; }
+
+/* chart cards */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid-wide { display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
+.card { padding: 14px 16px 10px; break-inside: avoid; min-width: 0; }
+.card h3 { font-size: 15px; margin: 0; }
+.card .cap { color: var(--muted); font-size: 12px; margin: 2px 0 6px; }
+.card .insight { font-size: 12.5px; color: var(--ink-2); margin: 6px 0 2px; padding-top: 6px; border-top: 1px solid var(--grid); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.mark-g:hover .mark, .mark-g:focus-within .mark { opacity: 0.8; }
+[tabindex]:focus { outline: none; }
+[tabindex]:focus-visible { outline: 2px solid var(--pa); outline-offset: 1px; }
+details { margin-top: 4px; font-size: 12px; color: var(--ink-2); }
+summary { cursor: pointer; color: var(--muted); }
+details table { margin-top: 4px; }
+
+/* tables */
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl-card { padding: 6px 6px 4px; overflow-x: auto; }
+
+.model-band { margin-top: 40px; padding-top: 4px; border-top: 2px solid var(--ink); }
+.reco { padding: 16px 20px; }
+.reco ol, .reco ul { margin: 0; padding-left: 20px; }
+.reco li { margin: 6px 0; }
+.tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; margin-right: 6px;
+       background: var(--warn-wash); color: var(--ink); }
+
+/* tooltip */
+#tip { position: fixed; pointer-events: none; background: var(--card); border: 1px solid var(--border);
+       border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+       display: none; z-index: 10; min-width: 180px; }
+#tip .t { color: var(--ink-2); margin-bottom: 4px; }
+#tip .r { display: flex; align-items: center; gap: 6px; }
+#tip .r b { margin-left: auto; padding-left: 14px; font-variant-numeric: tabular-nums; }
+#tip .lk { width: 12px; height: 2px; flex: none; }
+footer { color: var(--muted); font-size: 12px; margin-top: 32px; }
+
+@media (max-width: 900px) {
+  .tiles { grid-template-columns: 1fr 1fr; } .tile.hero { grid-column: 1 / -1; }
+  .findings, .grid2, .grid3, .grid-wide { grid-template-columns: 1fr; }
+}
+@page { size: A4; margin: 11mm; }
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --page: #fff; --card: #fff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.14);
+    --pa: #2a78d6; --life: #eb6834; --rejected: #a9a79f; --volume: #a9a79f; --model: #52514e;
+    --seg-1: #008300; --seg-2: #4a3aa7; --seg-3: #e87ba4; --pos: #2a78d6; --neg: #e34948;
+    --warn-wash: #fdf1ec; --info-wash: #eef4fc;
+  }
+  body { background: #fff; font-size: 11.5px; }
+  .wrap { padding: 0; max-width: none; }
+  .filters { position: static; }
+  .filters button:not([aria-pressed="true"]), .filters .note, details { display: none; }
+  h2 { break-after: avoid; }
+  .card, .tile, .finding, .reco, tr { break-inside: avoid; }
+  .pb { break-before: page; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Insurance Campaign Response Dashboard</h1>
+  <p>Test Case #1A · Who accepts the PA and Life insurance offers, what drives it, and how to target the next campaign · Source: <code>dsc_test_case.csv</code></p>
+</header>
+
+<div class="filters" role="group" aria-label="Customer segment filter">
+  <span class="lbl">Segment</span>
+  <button data-slice="All" aria-pressed="true">All</button>
+  <button data-slice="Lower Mass" aria-pressed="false">Lower Mass</button>
+  <button data-slice="Mass" aria-pressed="false">Mass</button>
+  <button data-slice="Upper Mass" aria-pressed="false">Upper Mass</button>
+  <span class="note">Filters every section down to the propensity model</span>
+</div>
+
+<section class="tiles" id="tiles"></section>
+
+<h2>Key findings</h2>
+<p class="section-sub">All customers · details in the sections below</p>
+<section class="findings">
+  <div class="card finding"><b>1 in 82 customers accepts</b><p>Overall acceptance is <b>1.22%</b> (214k offers, 2.6k sales). PA sells more than Life (62% / 38% of sales). With 98.8% rejections, the target is heavily imbalanced.</p></div>
+  <div class="card finding"><b>Active accounts convert 3× better</b><p>Half of the customers had <b>no cash inflow</b> in the last 30 days, and they accept at 0.71%, against <b>2.07%</b> at 50k+ inflow. The gap is almost all PA. Customers 1–12 months on book reach 2.1%.</p></div>
+  <div class="card finding"><b>Younger customers respond best</b><p>Customers aged ≤25 accept at <b>2.0%</b>, falling to ~1.0% after 35. The drop is driven by <b>Life</b>: 0.72% at ≤25 vs 0.24% at 51+.</p></div>
+  <div class="card finding"><b>Product fit follows affluence</b><p>PA is the product for Lower Mass and incomes below 30k. <b>Life overtakes PA</b> in Upper Mass (0.68% vs 0.53%), incomes ≥30k and credit-card holders (0.65% vs 0.32%).</p></div>
+  <div class="card finding"><b>Smaller campaigns, better yield</b><p>Jun–Sep campaigns contacted about half as many customers but reached <b>~1.9%</b> acceptance, vs 0.8–1.3% in the big months. More contacts did not bring proportionally more sales.</p></div>
+  <div class="card finding"><b>A model can halve the contact list</b><p id="model-finding"></p></div>
+</section>
+
+<h2>1 · Campaign performance by month</h2>
+<p class="section-sub">Contact volume and acceptance rate · <span data-scope></span></p>
+<div class="grid2">
+  <div class="card"><h3>Customers contacted</h3><div class="cap">Offers per campaign month</div><div id="c-volume"></div></div>
+  <div class="card"><h3>Acceptance rate trend</h3><div class="cap">% of contacted customers who bought · hover for each month</div>
+    <div class="legend"><span><i class="key line" style="background:var(--ink)"></i>Total</span><span><i class="key line" style="background:var(--pa)"></i>PA</span><span><i class="key line" style="background:var(--life)"></i>Life</span></div>
+    <div id="c-rate"></div>
+    <div class="insight">Acceptance roughly doubles in the low-volume months (Jun–Sep). The PA line drives the swing; Life stays between 0.3% and 0.7%.</div></div>
+</div>
+
+<h2>2 · Where the buyers are</h2>
+<p class="section-sub">Combinations of customer attributes · <span data-scope></span></p>
+<div class="grid2">
+  <div class="card"><h3>Acceptance heatmap: age × income</h3><div class="cap">Darker = higher acceptance rate</div><div id="c-heatmap"></div>
+    <div class="insight">Young customers convert well at every income level. Above age 35, acceptance is low across the board.</div></div>
+  <div class="card"><h3>Opportunity matrix: age band × segment</h3><div class="cap">x = customers contacted · y = acceptance rate · bubble size = number of buyers</div>
+    <div class="legend"><span><i class="key dot" style="background:var(--seg-1)"></i>Lower Mass</span><span><i class="key dot" style="background:var(--seg-2)"></i>Mass</span><span><i class="key dot" style="background:var(--seg-3)"></i>Upper Mass</span></div>
+    <div id="c-bubble"></div>
+    <div class="insight">Top-right bubbles are big groups that also convert well (young Lower Mass and Mass customers). Groups below the line take contact effort for little return.</div></div>
+</div>
+
+<h2>3 · What drives acceptance</h2>
+<p class="section-sub">How buyers differ from customers who rejected · <span data-scope></span></p>
+<div class="grid-wide">
+  <div class="card"><h3>Response index: best and worst groups</h3><div class="cap">Group acceptance ÷ average × 100 · 100 = average · groups with ≥1,000 customers</div>
+    <div class="legend"><span><i class="key" style="background:var(--pos)"></i>Above average</span><span><i class="key" style="background:var(--neg)"></i>Below average</span></div>
+    <div id="c-lift"></div></div>
+  <div class="card"><h3>Age distribution by outcome</h3><div class="cap">% of each group at each age (2-year bins)</div>
+    <div class="legend"><span><i class="key line" style="background:var(--rejected)"></i>Rejected</span><span><i class="key line" style="background:var(--pa)"></i>PA buyers</span><span><i class="key line" style="background:var(--life)"></i>Life buyers</span></div>
+    <div id="c-agedist"></div>
+    <div class="insight">Life buyers peak in their mid-20s and PA buyers sit slightly younger than rejecters, so both buyer groups skew younger than the customer base.</div></div>
+</div>
+<div class="card" style="margin-top:12px"><h3>Median and middle 50% by outcome</h3><div class="cap">Dot = median · band = 25th to 75th percentile (medians are used because the money fields are heavily skewed)</div>
+  <div class="grid3">
+    <div><div class="cap" style="color:var(--ink-2)">Monthly income (THB)</div><div id="c-range-0"></div></div>
+    <div><div class="cap" style="color:var(--ink-2)">Avg. savings balance (THB)</div><div id="c-range-1"></div></div>
+    <div><div class="cap" style="color:var(--ink-2)">Months on book</div><div id="c-range-2"></div></div>
+  </div>
+  <div class="insight">Life buyers earn more (median 15.1k vs 12.3k) and have longer tenure. PA buyers have lower income than rejecters but are more active.</div></div>
+
+<h2 class="pb">4 · Acceptance by customer profile</h2>
+<p class="section-sub">Bar length = total acceptance rate, split by product · vertical line = average · <span data-scope></span></p>
+<div class="legend" style="margin-bottom:10px"><span><i class="key" style="background:var(--pa)"></i>PA insurance</span><span><i class="key" style="background:var(--life)"></i>Life insurance</span></div>
+<div class="grid2" id="profile-charts"></div>
+
+<h2>Buyer profile comparison</h2>
+<p class="section-sub">All customers</p>
+<div class="card tbl-card"><table id="profiles"></table></div>
+
+<div class="model-band pb">
+<h2>5 · Propensity model: who to contact next time</h2>
+<p class="section-sub">Gradient-boosted trees predicting "accepts any offer" · trained on 70%, evaluated on a 30% hold-out · all customers (not affected by the filter)</p>
+<section class="tiles" id="model-tiles" style="grid-template-columns:repeat(4,1fr)"></section>
+<div class="grid2" style="margin-top:12px">
+  <div class="card"><h3>Cumulative gains</h3><div class="cap">Share of buyers reached when contacting the top X% of customers by model score</div>
+    <div class="legend"><span><i class="key line" style="background:var(--model)"></i>Model</span><span><i class="key line" style="background:var(--muted)"></i>Random targeting</span></div>
+    <div id="c-gains"></div></div>
+  <div class="card"><h3>Lift by score decile</h3><div class="cap">Acceptance in each 10% slice ÷ average · D1 = highest scores</div><div id="c-deciles"></div>
+    <div class="insight">The first four deciles beat the average, and D1 alone converts at 3×. Deciles 6–10 convert at about half the average or less, so those customers are candidates to skip.</div></div>
+</div>
+<div class="grid2" style="margin-top:12px">
+  <div class="card"><h3>What the model relies on</h3><div class="cap">Permutation importance: how much ROC-AUC drops when the feature is shuffled</div><div id="c-importance"></div>
+    <div class="insight">Cash inflow, campaign month, tenure and age carry most of the signal, which matches the descriptive analysis above.</div></div>
+  <div class="card"><h3>Suggested contact tiers</h3><div class="cap">Turn the score into an action: who gets which treatment</div>
+    <table id="tiers"></table>
+    <div class="insight">Tier A + B is 50% of the list but holds most of the buyers. Tier C can move to low-cost channels (SMS or app push) or be skipped.</div></div>
+</div>
+</div>
+
+<h2>Recommendations</h2>
+<div class="card reco"><ol>
+  <li><b>Score customers before every campaign.</b> Contacting the model's top 20–30% keeps about half to two-thirds of the sales at a fraction of the contact cost.</li>
+  <li><b>Match the product to the customer.</b> Offer <b>Life</b> to Upper Mass, income ≥30k, credit-card holders and the young; offer <b>PA</b> to active accounts with cash inflow, men, freelancers and incomes below 30k.</li>
+  <li><b>Prioritise active, newer and younger customers:</b> 30-day inflow above 5k, 1–36 months on book, age ≤30, savings 1k–20k.</li>
+  <li><b>Contact fewer, better customers in the big months.</b> Jun–Sep converted at almost twice the rate with half the volume.</li>
+  <li><b>Fix the data before the next model:</b> repair the 15-day flow fields, the tenure values and the empty rows, and add a customer ID plus the Policy and Payment data to track persistency after the sale.</li>
+</ol></div>
+
+<h2 class="pb">Dataset summary</h2>
+<div class="tiles" id="ds-tiles" style="grid-template-columns:repeat(4,1fr)"></div>
+<div class="card tbl-card" style="margin-top:12px"><table id="summary"></table></div>
+
+<h2>Data quality findings</h2>
+<div class="card reco"><ul id="dq"></ul></div>
+
+<footer>Acceptance rate = buyers ÷ customers contacted in the group. Analysis excludes the 1,500 rows with no customer profile; categories under 500 customers are folded into "Other"; heatmap and bubble cells need ≥300 customers. Reproduce with <code>python main.py</code>.</footer>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>const DATA = {"titles": {"segment": "Customer segment", "inflow": "Cash inflow, last 30 days (THB)", "occupation": "Occupation", "gender": "Gender", "marital": "Marital status", "mob": "Months on book (tenure)", "savings": "Avg. savings balance, 30 days (THB)", "holdings": "Product holding"}, "slices": {"All": {"kpi": {"n": 214493, "pa": 1633, "life": 988}, "month": [{"cat": "Jan", "n": 22282, "pa": 166, "life": 123}, {"cat": "Feb", "n": 21585, "pa": 63, "life": 115}, {"cat": "Mar", "n": 21937, "pa": 70, "life": 116}, {"cat": "Apr", "n": 21933, "pa": 138, "life": 102}, {"cat": "May", "n": 14672, "pa": 136, "life": 44}, {"cat": "Jun", "n": 10179, "pa": 133, "life": 45}, {"cat": "Jul", "n": 11242, "pa": 137, "life": 77}, {"cat": "Aug", "n": 11107, "pa": 165, "life": 52}, {"cat": "Sep", "n": 11210, "pa": 131, "life": 81}, {"cat": "Oct", "n": 23625, "pa": 186, "life": 66}, {"cat": "Nov", "n": 21574, "pa": 130, "life": 76}, {"cat": "Dec", "n": 23147, "pa": 178, "life": 91}], "profile": {"segment": [{"cat": "Lower Mass", "n": 105309, "pa": 934, "life": 395}, {"cat": "Mass", "n": 97738, "pa": 638, "life": 515}, {"cat": "Upper Mass", "n": 11446, "pa": 61, "life": 78}], "inflow": [{"cat": "0", "n": 110005, "pa": 293, "life": 484}, {"cat": "1–5k", "n": 24286, "pa": 228, "life": 107}, {"cat": "5k–20k", "n": 30636, "pa": 404, "life": 143}, {"cat": "20k–50k", "n": 24302, "pa": 345, "life": 108}, {"cat": "50k+", "n": 24363, "pa": 363, "life": 141}], "occupation": [{"cat": "Salary man", "n": 102885, "pa": 794, "life": 451}, {"cat": "Self-employed", "n": 56359, "pa": 414, "life": 263}, {"cat": "Freelance", "n": 19070, "pa": 187, "life": 63}, {"cat": "Student", "n": 17295, "pa": 137, "life": 142}, {"cat": "Unemployed", "n": 6857, "pa": 43, "life": 34}, {"cat": "Government", "n": 6063, "pa": 20, "life": 15}, {"cat": "Housewife", "n": 4249, "pa": 30, "life": 11}, {"cat": "Professional", "n": 1412, "pa": 5, "life": 7}, {"cat": "Other", "n": 303, "pa": 3, "life": 2}], "gender": [{"cat": "Female", "n": 121275, "pa": 724, "life": 576}, {"cat": "Male", "n": 93218, "pa": 909, "life": 412}], "marital": [{"cat": "Single", "n": 152535, "pa": 1211, "life": 791}, {"cat": "Married", "n": 45892, "pa": 315, "life": 138}, {"cat": "Married (registered)", "n": 6941, "pa": 36, "life": 30}, {"cat": "Divorced", "n": 2627, "pa": 21, "life": 6}, {"cat": "Other", "n": 1563, "pa": 12, "life": 5}, {"cat": "Widowed", "n": 946, "pa": 9, "life": 2}, {"cat": "Married (unregistered)", "n": 854, "pa": 5, "life": 5}], "mob": [{"cat": "0 (new / unknown)", "n": 56144, "pa": 234, "life": 169}, {"cat": "1–12 m", "n": 9564, "pa": 151, "life": 48}, {"cat": "13–36 m", "n": 36087, "pa": 395, "life": 154}, {"cat": "37–60 m", "n": 35543, "pa": 335, "life": 169}, {"cat": "61–120 m", "n": 49085, "pa": 398, "life": 314}, {"cat": "120+ m", "n": 27169, "pa": 120, "life": 129}], "savings": [{"cat": "0", "n": 15814, "pa": 25, "life": 47}, {"cat": "1–1k", "n": 91230, "pa": 754, "life": 401}, {"cat": "1k–5k", "n": 55283, "pa": 554, "life": 279}, {"cat": "5k–20k", "n": 28463, "pa": 220, "life": 148}, {"cat": "20k–100k", "n": 15454, "pa": 66, "life": 78}, {"cat": "100k+", "n": 7348, "pa": 14, "life": 30}], "holdings": [{"cat": "Credit card: No", "n": 193066, "pa": 1565, "life": 849}, {"cat": "Credit card: Yes", "n": 21427, "pa": 68, "life": 139}, {"cat": "Payroll: No", "n": 170729, "pa": 1259, "life": 751}, {"cat": "Payroll: Yes", "n": 43764, "pa": 374, "life": 237}, {"cat": "Travel card: No", "n": 210167, "pa": 1626, "life": 963}, {"cat": "Travel card: Yes", "n": 3425, "pa": 7, "life": 20}]}, "heatmap": {"rows": ["≤25", "26–30", "31–35", "36–40", "41–45", "46–50", "51–55", "56+"], "cols": ["≤5k", "5–10k", "10–15k", "15–20k", "20–30k", "30–50k", "50k+"], "row_title": "Age", "col_title": "Income", "cells": [{"r": "≤25", "c": "≤5k", "n": 5916, "rate": 0.018762677484787018}, {"r": "≤25", "c": "5–10k", "n": 2131, "rate": 0.019709056780854058}, {"r": "≤25", "c": "10–15k", "n": 2245, "rate": 0.02093541202672606}, {"r": "≤25", "c": "15–20k", "n": 1967, "rate": 0.022369089984748347}, {"r": "≤25", "c": "20–30k", "n": 1281, "rate": 0.01873536299765808}, {"r": "≤25", "c": "30–50k", "n": 726, "rate": 0.030303030303030304}, {"r": "≤25", "c": "50k+", "n": 337, "rate": 0.020771513353115726}, {"r": "26–30", "c": "≤5k", "n": 15111, "rate": 0.015022169280656476}, {"r": "26–30", "c": "5–10k", "n": 6058, "rate": 0.015516672169032684}, {"r": "26–30", "c": "10–15k", "n": 6734, "rate": 0.016780516780516782}, {"r": "26–30", "c": "15–20k", "n": 8117, "rate": 0.01330540840211901}, {"r": "26–30", "c": "20–30k", "n": 5588, "rate": 0.016642806012884752}, {"r": "26–30", "c": "30–50k", "n": 3584, "rate": 0.019252232142857144}, {"r": "26–30", "c": "50k+", "n": 1562, "rate": 0.019846350832266324}, {"r": "31–35", "c": "≤5k", "n": 12490, "rate": 0.011529223378702963}, {"r": "31–35", "c": "5–10k", "n": 4575, "rate": 0.011584699453551913}, {"r": "31–35", "c": "10–15k", "n": 5202, "rate": 0.011341791618608228}, {"r": "31–35", "c": "15–20k", "n": 7551, "rate": 0.010991921599788108}, {"r": "31–35", "c": "20–30k", "n": 5506, "rate": 0.013076643661460226}, {"r": "31–35", "c": "30–50k", "n": 3762, "rate": 0.013290802764486975}, {"r": "31–35", "c": "50k+", "n": 2179, "rate": 0.017898118402937126}, {"r": "36–40", "c": "≤5k", "n": 10106, "rate": 0.009400356224025332}, {"r": "36–40", "c": "5–10k", "n": 3512, "rate": 0.010250569476082005}, {"r": "36–40", "c": "10–15k", "n": 3796, "rate": 0.007112750263435195}, {"r": "36–40", "c": "15–20k", "n": 5467, "rate": 0.008779952441924272}, {"r": "36–40", "c": "20–30k", "n": 4261, "rate": 0.00844872095752171}, {"r": "36–40", "c": "30–50k", "n": 3330, "rate": 0.008708708708708709}, {"r": "36–40", "c": "50k+", "n": 2167, "rate": 0.009690816797415782}, {"r": "41–45", "c": "≤5k", "n": 8896, "rate": 0.00966726618705036}, {"r": "41–45", "c": "5–10k", "n": 3072, "rate": 0.013020833333333334}, {"r": "41–45", "c": "10–15k", "n": 3283, "rate": 0.011574779165397502}, {"r": "41–45", "c": "15–20k", "n": 4586, "rate": 0.010466637592673354}, {"r": "41–45", "c": "20–30k", "n": 3685, "rate": 0.010583446404341926}, {"r": "41–45", "c": "30–50k", "n": 3081, "rate": 0.007140538786108407}, {"r": "41–45", "c": "50k+", "n": 2020, "rate": 0.010396039603960397}, {"r": "46–50", "c": "≤5k", "n": 7333, "rate": 0.009682258284467476}, {"r": "46–50", "c": "5–10k", "n": 2373, "rate": 0.008428150021070375}, {"r": "46–50", "c": "10–15k", "n": 2499, "rate": 0.014405762304921969}, {"r": "46–50", "c": "15–20k", "n": 3456, "rate": 0.011284722222222222}, {"r": "46–50", "c": "20–30k", "n": 2684, "rate": 0.00856929955290611}, {"r": "46–50", "c": "30–50k", "n": 2245, "rate": 0.009799554565701559}, {"r": "46–50", "c": "50k+", "n": 1589, "rate": 0.009439899307740718}, {"r": "51–55", "c": "≤5k", "n": 5805, "rate": 0.008268733850129198}, {"r": "51–55", "c": "5–10k", "n": 1686, "rate": 0.012455516014234875}, {"r": "51–55", "c": "10–15k", "n": 1724, "rate": 0.009280742459396751}, {"r": "51–55", "c": "15–20k", "n": 2341, "rate": 0.012387868432293891}, {"r": "51–55", "c": "20–30k", "n": 1788, "rate": 0.010626398210290829}, {"r": "51–55", "c": "30–50k", "n": 1572, "rate": 0.00826972010178117}, {"r": "51–55", "c": "50k+", "n": 1218, "rate": 0.012315270935960592}, {"r": "56+", "c": "≤5k", "n": 4405, "rate": 0.007264472190692395}, {"r": "56+", "c": "5–10k", "n": 1221, "rate": 0.011466011466011465}, {"r": "56+", "c": "10–15k", "n": 1169, "rate": 0.013686911890504704}, {"r": "56+", "c": "15–20k", "n": 1544, "rate": 0.012953367875647668}, {"r": "56+", "c": "20–30k", "n": 1165, "rate": 0.011158798283261802}, {"r": "56+", "c": "30–50k", "n": 1021, "rate": 0.00881488736532811}, {"r": "56+", "c": "50k+", "n": 870, "rate": 0.008045977011494253}]}, "opportunity": [{"cat": "≤25", "series": "Lower Mass", "n": 9483, "buyers": 181, "rate": 0.019086786881788463}, {"cat": "≤25", "series": "Mass", "n": 4883, "buyers": 108, "rate": 0.022117550686053655}, {"cat": "26–30", "series": "Lower Mass", "n": 24414, "buyers": 384, "rate": 0.01572868026542148}, {"cat": "26–30", "series": "Mass", "n": 21068, "buyers": 325, "rate": 0.015426238845642681}, {"cat": "26–30", "series": "Upper Mass", "n": 1436, "buyers": 27, "rate": 0.018802228412256268}, {"cat": "31–35", "series": "Lower Mass", "n": 19068, "buyers": 216, "rate": 0.011327879169288861}, {"cat": "31–35", "series": "Mass", "n": 20427, "buyers": 252, "rate": 0.012336613305918637}, {"cat": "31–35", "series": "Upper Mass", "n": 2022, "buyers": 33, "rate": 0.016320474777448073}, {"cat": "36–40", "series": "Lower Mass", "n": 14964, "buyers": 147, "rate": 0.009823576583801123}, {"cat": "36–40", "series": "Mass", "n": 15806, "buyers": 128, "rate": 0.008098190560546628}, {"cat": "36–40", "series": "Upper Mass", "n": 2047, "buyers": 19, "rate": 0.009281875915974597}, {"cat": "41–45", "series": "Lower Mass", "n": 13186, "buyers": 150, "rate": 0.011375701501592598}, {"cat": "41–45", "series": "Mass", "n": 13589, "buyers": 125, "rate": 0.009198616528074178}, {"cat": "41–45", "series": "Upper Mass", "n": 1970, "buyers": 19, "rate": 0.009644670050761422}, {"cat": "46–50", "series": "Lower Mass", "n": 10549, "buyers": 114, "rate": 0.010806711536638544}, {"cat": "46–50", "series": "Mass", "n": 10117, "buyers": 99, "rate": 0.009785509538400712}, {"cat": "46–50", "series": "Upper Mass", "n": 1602, "buyers": 13, "rate": 0.008114856429463172}, {"cat": "51–55", "series": "Lower Mass", "n": 7871, "buyers": 80, "rate": 0.010163892770931268}, {"cat": "51–55", "series": "Mass", "n": 7084, "buyers": 69, "rate": 0.00974025974025974}, {"cat": "51–55", "series": "Upper Mass", "n": 1229, "buyers": 13, "rate": 0.010577705451586655}, {"cat": "56+", "series": "Lower Mass", "n": 5774, "buyers": 57, "rate": 0.009871839279528923}, {"cat": "56+", "series": "Mass", "n": 4764, "buyers": 47, "rate": 0.009865659109991603}, {"cat": "56+", "series": "Upper Mass", "n": 897, "buyers": 7, "rate": 0.007803790412486065}], "lift": [{"cat": "Tenure: 1–12 m", "n": 9564, "rate": 0.02080719364282727, "index": 170.27841991724338}, {"cat": "Inflow: 50k+", "n": 24363, "rate": 0.020687107499076467, "index": 169.29567908429638}, {"cat": "Age: ≤25", "n": 14609, "rate": 0.020329933602573756, "index": 166.37269928335948}, {"cat": "Inflow: 20k–50k", "n": 24302, "rate": 0.018640441115957536, "index": 152.54651416577946}, {"cat": "Inflow: 5k–20k", "n": 30636, "rate": 0.017854811333072203, "index": 146.117208976141}, {"cat": "Occupation: Student", "n": 17295, "rate": 0.016131830008673027, "index": 132.01696352729124}, {"cat": "Age: 26–30", "n": 46918, "rate": 0.015686943177458546, "index": 128.37617332936344}, {"cat": "Tenure: 13–36 m", "n": 36087, "rate": 0.01521323468284978, "index": 124.49951723878281}, {"cat": "Age: 36–40", "n": 32817, "rate": 0.008958771368498035, "index": 73.31528985666726}, {"cat": "Occupation: Professional", "n": 1412, "rate": 0.0084985835694051, "index": 69.54928216529599}, {"cat": "Travel card: Yes", "n": 3425, "rate": 0.007883211678832117, "index": 64.51330494573587}, {"cat": "Tenure: 0 (new / unknown)", "n": 56144, "rate": 0.007177970931889427, "index": 58.74187405928114}, {"cat": "Inflow: 0", "n": 110005, "rate": 0.007063315303849825, "index": 57.80357456957881}, {"cat": "Savings: 100k+", "n": 7348, "rate": 0.005988023952095809, "index": 49.003785637424116}, {"cat": "Occupation: Government", "n": 6063, "rate": 0.005772719775688603, "index": 47.241815446271474}, {"cat": "Savings: 0", "n": 15814, "rate": 0.004552927785506513, "index": 37.259486436346755}], "age_dist": {"x": [23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61], "series": {"Rejected": [3.034, 7.633, 8.852, 9.033, 7.994, 7.774, 6.882, 6.101, 5.958, 5.668, 5.285, 4.838, 4.301, 3.74, 3.299, 2.948, 2.53, 2.256, 1.676, 0.198], "PA": [5.45, 13.166, 10.288, 9.614, 7.838, 6.491, 4.96, 3.674, 3.797, 4.899, 4.47, 4.96, 4.47, 3.307, 3.491, 3.184, 1.837, 2.449, 1.653, 0.0], "Life": [5.263, 11.336, 12.854, 11.437, 9.615, 7.895, 8.097, 6.073, 4.555, 5.061, 3.239, 3.543, 2.429, 1.822, 2.126, 1.113, 1.619, 1.215, 0.709, 0.0]}}, "ranges": [{"metric": "Monthly income (THB)", "groups": [{"outcome": "Rejected", "p25": 4364.98, "median": 12250.055, "p75": 21164.185, "n": 210976}, {"outcome": "PA", "p25": 4364.98, "median": 11324.67, "p75": 19054.67, "n": 1633}, {"outcome": "Life", "p25": 4364.98, "median": 15140.15, "p75": 26541.94, "n": 983}]}, {"metric": "Avg. savings balance (THB)", "groups": [{"outcome": "Rejected", "p25": 121.37, "median": 990.58, "p75": 4653.695, "n": 210976}, {"outcome": "PA", "p25": 271.71, "median": 1145.25, "p75": 3501.44, "n": 1633}, {"outcome": "Life", "p25": 229.95, "median": 1332.75, "p75": 5229.915000000001, "n": 983}]}, {"metric": "Months on book", "groups": [{"outcome": "Rejected", "p25": 0.0, "median": 40.0, "p75": 77.0, "n": 210976}, {"outcome": "PA", "p25": 14.0, "median": 39.0, "p75": 67.0, "n": 1633}, {"outcome": "Life", "p25": 15.5, "median": 54.0, "p75": 83.5, "n": 983}]}]}, "Lower Mass": {"kpi": {"n": 105309, "pa": 934, "life": 395}, "month": [{"cat": "Jan", "n": 9213, "pa": 98, "life": 35}, {"cat": "Feb", "n": 9696, "pa": 41, "life": 41}, {"cat": "Mar", "n": 9639, "pa": 42, "life": 33}, {"cat": "Apr", "n": 10819, "pa": 87, "life": 33}, {"cat": "May", "n": 9069, "pa": 78, "life": 23}, {"cat": "Jun", "n": 3983, "pa": 46, "life": 15}, {"cat": "Jul", "n": 7237, "pa": 97, "life": 43}, {"cat": "Aug", "n": 7621, "pa": 122, "life": 33}, {"cat": "Sep", "n": 5468, "pa": 60, "life": 32}, {"cat": "Oct", "n": 10220, "pa": 76, "life": 20}, {"cat": "Nov", "n": 9977, "pa": 75, "life": 24}, {"cat": "Dec", "n": 12367, "pa": 112, "life": 63}], "profile": {"segment": [{"cat": "Lower Mass", "n": 105309, "pa": 934, "life": 395}], "inflow": [{"cat": "0", "n": 52373, "pa": 156, "life": 198}, {"cat": "1–5k", "n": 15493, "pa": 164, "life": 57}, {"cat": "5k–20k", "n": 17999, "pa": 268, "life": 67}, {"cat": "20k–50k", "n": 10768, "pa": 181, "life": 39}, {"cat": "50k+", "n": 8586, "pa": 165, "life": 34}], "occupation": [{"cat": "Salary man", "n": 46323, "pa": 429, "life": 162}, {"cat": "Self-employed", "n": 29464, "pa": 249, "life": 107}, {"cat": "Freelance", "n": 10880, "pa": 106, "life": 28}, {"cat": "Student", "n": 9846, "pa": 83, "life": 73}, {"cat": "Unemployed", "n": 3970, "pa": 32, "life": 14}, {"cat": "Housewife", "n": 2428, "pa": 21, "life": 6}, {"cat": "Government", "n": 1962, "pa": 13, "life": 2}, {"cat": "Professional", "n": 307, "pa": 0, "life": 1}, {"cat": "Other", "n": 129, "pa": 1, "life": 2}], "gender": [{"cat": "Female", "n": 60795, "pa": 436, "life": 243}, {"cat": "Male", "n": 44514, "pa": 498, "life": 152}], "marital": [{"cat": "Single", "n": 73405, "pa": 682, "life": 322}, {"cat": "Married", "n": 25397, "pa": 204, "life": 60}, {"cat": "Married (registered)", "n": 1747, "pa": 12, "life": 5}, {"cat": "Divorced", "n": 1481, "pa": 9, "life": 2}, {"cat": "Other", "n": 751, "pa": 5, "life": 2}, {"cat": "Widowed", "n": 457, "pa": 5, "life": 0}, {"cat": "Married (unregistered)", "n": 214, "pa": 3, "life": 1}], "mob": [{"cat": "0 (new / unknown)", "n": 23201, "pa": 124, "life": 47}, {"cat": "1–12 m", "n": 5429, "pa": 88, "life": 24}, {"cat": "13–36 m", "n": 20661, "pa": 237, "life": 84}, {"cat": "37–60 m", "n": 20816, "pa": 219, "life": 84}, {"cat": "61–120 m", "n": 24826, "pa": 209, "life": 120}, {"cat": "120+ m", "n": 10286, "pa": 57, "life": 36}], "savings": [{"cat": "0", "n": 9646, "pa": 17, "life": 25}, {"cat": "1–1k", "n": 54461, "pa": 485, "life": 201}, {"cat": "1k–5k", "n": 25425, "pa": 296, "life": 107}, {"cat": "5k–20k", "n": 11180, "pa": 105, "life": 46}, {"cat": "20k–100k", "n": 4021, "pa": 29, "life": 11}, {"cat": "100k+", "n": 486, "pa": 2, "life": 5}], "holdings": [{"cat": "Credit card: No", "n": 102328, "pa": 918, "life": 377}, {"cat": "Credit card: Yes", "n": 2981, "pa": 16, "life": 18}, {"cat": "Payroll: No", "n": 89963, "pa": 779, "life": 336}, {"cat": "Payroll: Yes", "n": 15346, "pa": 155, "life": 59}, {"cat": "Travel card: No", "n": 104491, "pa": 932, "life": 393}, {"cat": "Travel card: Yes", "n": 728, "pa": 2, "life": 2}]}, "heatmap": {"rows": ["≤25", "26–30", "31–35", "36–40", "41–45", "46–50", "51–55", "56+"], "cols": ["≤5k", "5–10k", "10–15k", "15–20k", "20–30k", "30–50k", "50k+"], "row_title": "Age", "col_title": "Income", "cells": [{"r": "≤25", "c": "≤5k", "n": 5227, "rate": 0.01798354696766788}, {"r": "≤25", "c": "5–10k", "n": 1747, "rate": 0.018889524899828276}, {"r": "≤25", "c": "10–15k", "n": 1702, "rate": 0.021151586368977675}, {"r": "≤25", "c": "15–20k", "n": 525, "rate": 0.02095238095238095}, {"r": "≤25", "c": "20–30k", "n": 192, "rate": null}, {"r": "≤25", "c": "30–50k", "n": 63, "rate": null}, {"r": "≤25", "c": "50k+", "n": 26, "rate": null}, {"r": "26–30", "c": "≤5k", "n": 12863, "rate": 0.01492653346808676}, {"r": "26–30", "c": "5–10k", "n": 4875, "rate": 0.015179487179487179}, {"r": "26–30", "c": "10–15k", "n": 4601, "rate": 0.018256900673766573}, {"r": "26–30", "c": "15–20k", "n": 1328, "rate": 0.01581325301204819}, {"r": "26–30", "c": "20–30k", "n": 487, "rate": 0.01642710472279261}, {"r": "26–30", "c": "30–50k", "n": 181, "rate": null}, {"r": "26–30", "c": "50k+", "n": 49, "rate": null}, {"r": "31–35", "c": "≤5k", "n": 10606, "rate": 0.011785781633037904}, {"r": "31–35", "c": "5–10k", "n": 3697, "rate": 0.009737625101433596}, {"r": "31–35", "c": "10–15k", "n": 3424, "rate": 0.012266355140186916}, {"r": "31–35", "c": "15–20k", "n": 878, "rate": 0.010250569476082005}, {"r": "31–35", "c": "20–30k", "n": 268, "rate": null}, {"r": "31–35", "c": "30–50k", "n": 133, "rate": null}, {"r": "31–35", "c": "50k+", "n": 36, "rate": null}, {"r": "36–40", "c": "≤5k", "n": 8610, "rate": 0.010104529616724738}, {"r": "36–40", "c": "5–10k", "n": 2823, "rate": 0.011689691817215728}, {"r": "36–40", "c": "10–15k", "n": 2520, "rate": 0.005158730158730159}, {"r": "36–40", "c": "15–20k", "n": 633, "rate": 0.01263823064770932}, {"r": "36–40", "c": "20–30k", "n": 218, "rate": null}, {"r": "36–40", "c": "30–50k", "n": 98, "rate": null}, {"r": "36–40", "c": "50k+", "n": 45, "rate": null}, {"r": "41–45", "c": "≤5k", "n": 7685, "rate": 0.010279765777488615}, {"r": "41–45", "c": "5–10k", "n": 2505, "rate": 0.01437125748502994}, {"r": "41–45", "c": "10–15k", "n": 2224, "rate": 0.012140287769784174}, {"r": "41–45", "c": "15–20k", "n": 506, "rate": 0.009881422924901186}, {"r": "41–45", "c": "20–30k", "n": 155, "rate": null}, {"r": "41–45", "c": "30–50k", "n": 72, "rate": null}, {"r": "41–45", "c": "50k+", "n": 35, "rate": null}, {"r": "46–50", "c": "≤5k", "n": 6291, "rate": 0.010173263392147512}, {"r": "46–50", "c": "5–10k", "n": 1924, "rate": 0.008835758835758836}, {"r": "46–50", "c": "10–15k", "n": 1717, "rate": 0.0157251019219569}, {"r": "46–50", "c": "15–20k", "n": 404, "rate": 0.009900990099009901}, {"r": "46–50", "c": "20–30k", "n": 143, "rate": null}, {"r": "46–50", "c": "30–50k", "n": 50, "rate": null}, {"r": "46–50", "c": "50k+", "n": 15, "rate": null}, {"r": "51–55", "c": "≤5k", "n": 4955, "rate": 0.009081735620585268}, {"r": "51–55", "c": "5–10k", "n": 1371, "rate": 0.01312910284463895}, {"r": "51–55", "c": "10–15k", "n": 1136, "rate": 0.01056338028169014}, {"r": "51–55", "c": "15–20k", "n": 259, "rate": null}, {"r": "51–55", "c": "20–30k", "n": 91, "rate": null}, {"r": "51–55", "c": "30–50k", "n": 49, "rate": null}, {"r": "51–55", "c": "50k+", "n": 8, "rate": null}, {"r": "56+", "c": "≤5k", "n": 3740, "rate": 0.0074866310160427805}, {"r": "56+", "c": "5–10k", "n": 1011, "rate": 0.012858555885262116}, {"r": "56+", "c": "10–15k", "n": 761, "rate": 0.013140604467805518}, {"r": "56+", "c": "15–20k", "n": 161, "rate": null}, {"r": "56+", "c": "20–30k", "n": 58, "rate": null}, {"r": "56+", "c": "30–50k", "n": 28, "rate": null}, {"r": "56+", "c": "50k+", "n": 10, "rate": null}]}, "opportunity": [{"cat": "≤25", "series": "Lower Mass", "n": 9483, "buyers": 181, "rate": 0.019086786881788463}, {"cat": "26–30", "series": "Lower Mass", "n": 24414, "buyers": 384, "rate": 0.01572868026542148}, {"cat": "31–35", "series": "Lower Mass", "n": 19068, "buyers": 216, "rate": 0.011327879169288861}, {"cat": "36–40", "series": "Lower Mass", "n": 14964, "buyers": 147, "rate": 0.009823576583801123}, {"cat": "41–45", "series": "Lower Mass", "n": 13186, "buyers": 150, "rate": 0.011375701501592598}, {"cat": "46–50", "series": "Lower Mass", "n": 10549, "buyers": 114, "rate": 0.010806711536638544}, {"cat": "51–55", "series": "Lower Mass", "n": 7871, "buyers": 80, "rate": 0.010163892770931268}, {"cat": "56+", "series": "Lower Mass", "n": 5774, "buyers": 57, "rate": 0.009871839279528923}], "lift": [{"cat": "Inflow: 50k+", "n": 8586, "rate": 0.023177265315630094, "index": 183.6549761567863}, {"cat": "Tenure: 1–12 m", "n": 5429, "rate": 0.02062995026708418, "index": 163.47023571680722}, {"cat": "Inflow: 20k–50k", "n": 10768, "rate": 0.020430906389301635, "index": 161.89302640714567}, {"cat": "Age: ≤25", "n": 9483, "rate": 0.019086786881788463, "index": 151.24232052176535}, {"cat": "Inflow: 5k–20k", "n": 17999, "rate": 0.018612145119173286, "index": 147.48129348043787}, {"cat": "Savings: 1k–5k", "n": 25425, "rate": 0.015850540806293018, "index": 125.59854038900764}, {"cat": "Occupation: Student", "n": 9846, "rate": 0.015843997562461912, "index": 125.54669219753963}, {"cat": "Age: 26–30", "n": 24414, "rate": 0.01572868026542148, "index": 124.63292626570883}, {"cat": "Age: 36–40", "n": 14964, "rate": 0.009823576583801123, "index": 77.84131124631395}, {"cat": "Marital: Married (registered)", "n": 1747, "rate": 0.009730967372638809, "index": 77.1074825466682}, {"cat": "Tenure: 120+ m", "n": 10286, "rate": 0.00904141551623566, "index": 71.64352344614457}, {"cat": "Occupation: Government", "n": 1962, "rate": 0.00764525993883792, "index": 60.58048750181209}, {"cat": "Marital: Divorced", "n": 1481, "rate": 0.007427413909520594, "index": 58.85429130155788}, {"cat": "Tenure: 0 (new / unknown)", "n": 23201, "rate": 0.0073703719667255726, "index": 58.40229506726134}, {"cat": "Inflow: 0", "n": 52373, "rate": 0.006759207988849216, "index": 53.559475853854174}, {"cat": "Savings: 0", "n": 9646, "rate": 0.0043541364296081275, "index": 34.50186254820183}], "age_dist": {"x": [23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61], "series": {"Rejected": [4.244, 9.304, 9.635, 8.874, 7.51, 7.223, 6.474, 5.666, 5.507, 5.278, 4.951, 4.558, 4.031, 3.756, 3.228, 2.982, 2.51, 2.322, 1.753, 0.196], "PA": [6.531, 14.347, 9.743, 9.743, 7.495, 6.317, 4.604, 3.319, 4.39, 4.604, 4.176, 4.39, 4.818, 3.533, 3.212, 3.212, 1.82, 2.355, 1.392, 0.0], "Life": [7.089, 12.658, 15.443, 12.405, 7.342, 7.595, 5.316, 6.329, 3.544, 6.582, 2.278, 3.291, 2.278, 1.519, 1.519, 1.266, 1.519, 1.013, 1.013, 0.0]}}, "ranges": [{"metric": "Monthly income (THB)", "groups": [{"outcome": "Rejected", "p25": 1982.375, "median": 4364.98, "p75": 9823.717499999999, "n": 103890}, {"outcome": "PA", "p25": 2304.375, "median": 4656.575000000001, "p75": 10563.0125, "n": 934}, {"outcome": "Life", "p25": 1961.79, "median": 4364.98, "p75": 9949.085, "n": 395}]}, {"metric": "Avg. savings balance (THB)", "groups": [{"outcome": "Rejected", "p25": 41.6425, "median": 516.925, "p75": 2366.0275, "n": 103890}, {"outcome": "PA", "p25": 208.835, "median": 828.4449999999999, "p75": 2621.9875, "n": 934}, {"outcome": "Life", "p25": 73.6, "median": 655.42, "p75": 3105.7650000000003, "n": 395}]}, {"metric": "Months on book", "groups": [{"outcome": "Rejected", "p25": 7.0, "median": 41.0, "p75": 71.0, "n": 103890}, {"outcome": "PA", "p25": 15.0, "median": 39.0, "p75": 65.0, "n": 934}, {"outcome": "Life", "p25": 19.0, "median": 52.0, "p75": 75.0, "n": 395}]}]}, "Mass": {"kpi": {"n": 97738, "pa": 638, "life": 515}, "month": [{"cat": "Jan", "n": 11705, "pa": 68, "life": 74}, {"cat": "Feb", "n": 9892, "pa": 22, "life": 58}, {"cat": "Mar", "n": 11107, "pa": 28, "life": 71}, {"cat": "Apr", "n": 10259, "pa": 49, "life": 57}, {"cat": "May", "n": 5486, "pa": 53, "life": 21}, {"cat": "Jun", "n": 5407, "pa": 74, "life": 29}, {"cat": "Jul", "n": 3827, "pa": 40, "life": 33}, {"cat": "Aug", "n": 3180, "pa": 43, "life": 15}, {"cat": "Sep", "n": 5132, "pa": 65, "life": 45}, {"cat": "Oct", "n": 11645, "pa": 85, "life": 40}, {"cat": "Nov", "n": 10318, "pa": 51, "life": 45}, {"cat": "Dec", "n": 9780, "pa": 60, "life": 27}], "profile": {"segment": [{"cat": "Mass", "n": 97738, "pa": 638, "life": 515}], "inflow": [{"cat": "0", "n": 51553, "pa": 131, "life": 248}, {"cat": "1–5k", "n": 8363, "pa": 64, "life": 44}, {"cat": "5k–20k", "n": 11965, "pa": 129, "life": 72}, {"cat": "20k–50k", "n": 12397, "pa": 153, "life": 57}, {"cat": "50k+", "n": 12737, "pa": 161, "life": 90}], "occupation": [{"cat": "Salary man", "n": 51496, "pa": 345, "life": 261}, {"cat": "Self-employed", "n": 23300, "pa": 150, "life": 124}, {"cat": "Freelance", "n": 7232, "pa": 66, "life": 30}, {"cat": "Student", "n": 6771, "pa": 47, "life": 62}, {"cat": "Government", "n": 3736, "pa": 7, "life": 11}, {"cat": "Unemployed", "n": 2501, "pa": 8, "life": 18}, {"cat": "Housewife", "n": 1552, "pa": 9, "life": 3}, {"cat": "Professional", "n": 999, "pa": 5, "life": 6}, {"cat": "Other", "n": 151, "pa": 1, "life": 0}], "gender": [{"cat": "Female", "n": 54105, "pa": 258, "life": 290}, {"cat": "Male", "n": 43633, "pa": 380, "life": 225}], "marital": [{"cat": "Single", "n": 71415, "pa": 492, "life": 410}, {"cat": "Married", "n": 18101, "pa": 93, "life": 69}, {"cat": "Married (registered)", "n": 4352, "pa": 23, "life": 19}, {"cat": "Divorced", "n": 1016, "pa": 9, "life": 4}, {"cat": "Other", "n": 750, "pa": 6, "life": 2}, {"cat": "Married (unregistered)", "n": 531, "pa": 2, "life": 4}, {"cat": "Widowed", "n": 425, "pa": 4, "life": 1}], "mob": [{"cat": "0 (new / unknown)", "n": 29054, "pa": 104, "life": 105}, {"cat": "1–12 m", "n": 3930, "pa": 61, "life": 22}, {"cat": "13–36 m", "n": 14628, "pa": 151, "life": 67}, {"cat": "37–60 m", "n": 13641, "pa": 104, "life": 73}, {"cat": "61–120 m", "n": 21617, "pa": 166, "life": 165}, {"cat": "120+ m", "n": 14145, "pa": 52, "life": 79}], "savings": [{"cat": "0", "n": 5794, "pa": 8, "life": 21}, {"cat": "1–1k", "n": 34031, "pa": 254, "life": 181}, {"cat": "1k–5k", "n": 26692, "pa": 225, "life": 150}, {"cat": "5k–20k", "n": 14852, "pa": 103, "life": 85}, {"cat": "20k–100k", "n": 9798, "pa": 36, "life": 53}, {"cat": "100k+", "n": 5848, "pa": 12, "life": 21}], "holdings": [{"cat": "Credit card: No", "n": 82420, "pa": 587, "life": 415}, {"cat": "Credit card: Yes", "n": 15318, "pa": 51, "life": 100}, {"cat": "Payroll: No", "n": 71531, "pa": 423, "life": 357}, {"cat": "Payroll: Yes", "n": 26207, "pa": 215, "life": 158}, {"cat": "Travel card: No", "n": 94931, "pa": 634, "life": 498}, {"cat": "Travel card: Yes", "n": 2084, "pa": 4, "life": 13}]}, "heatmap": {"rows": ["≤25", "26–30", "31–35", "36–40", "41–45", "46–50", "51–55", "56+"], "cols": ["≤5k", "5–10k", "10–15k", "15–20k", "20–30k", "30–50k", "50k+"], "row_title": "Age", "col_title": "Income", "cells": [{"r": "≤25", "c": "≤5k", "n": 682, "rate": 0.024926686217008796}, {"r": "≤25", "c": "5–10k", "n": 379, "rate": 0.023746701846965697}, {"r": "≤25", "c": "10–15k", "n": 534, "rate": 0.020599250936329586}, {"r": "≤25", "c": "15–20k", "n": 1435, "rate": 0.022996515679442508}, {"r": "≤25", "c": "20–30k", "n": 1074, "rate": 0.0186219739292365}, {"r": "≤25", "c": "30–50k", "n": 622, "rate": 0.027331189710610933}, {"r": "≤25", "c": "50k+", "n": 152, "rate": null}, {"r": "26–30", "c": "≤5k", "n": 2229, "rate": 0.01570210856886496}, {"r": "26–30", "c": "5–10k", "n": 1164, "rate": 0.01718213058419244}, {"r": "26–30", "c": "10–15k", "n": 2116, "rate": 0.013705103969754254}, {"r": "26–30", "c": "15–20k", "n": 6753, "rate": 0.01288316303864949}, {"r": "26–30", "c": "20–30k", "n": 5045, "rate": 0.016650148662041626}, {"r": "26–30", "c": "30–50k", "n": 3134, "rate": 0.018825781748564134}, {"r": "26–30", "c": "50k+", "n": 505, "rate": 0.019801980198019802}, {"r": "31–35", "c": "≤5k", "n": 1861, "rate": 0.010209564750134336}, {"r": "31–35", "c": "5–10k", "n": 865, "rate": 0.019653179190751446}, {"r": "31–35", "c": "10–15k", "n": 1762, "rate": 0.009648127128263337}, {"r": "31–35", "c": "15–20k", "n": 6643, "rate": 0.011139545386120728}, {"r": "31–35", "c": "20–30k", "n": 5187, "rate": 0.01349527665317139}, {"r": "31–35", "c": "30–50k", "n": 3354, "rate": 0.013416815742397137}, {"r": "31–35", "c": "50k+", "n": 547, "rate": 0.018281535648994516}, {"r": "36–40", "c": "≤5k", "n": 1479, "rate": 0.004732927653820149}, {"r": "36–40", "c": "5–10k", "n": 681, "rate": 0.004405286343612335}, {"r": "36–40", "c": "10–15k", "n": 1264, "rate": 0.011075949367088608}, {"r": "36–40", "c": "15–20k", "n": 4820, "rate": 0.008298755186721992}, {"r": "36–40", "c": "20–30k", "n": 3999, "rate": 0.008002000500125032}, {"r": "36–40", "c": "30–50k", "n": 2964, "rate": 0.008771929824561403}, {"r": "36–40", "c": "50k+", "n": 454, "rate": 0.00881057268722467}, {"r": "41–45", "c": "≤5k", "n": 1198, "rate": 0.005843071786310518}, {"r": "41–45", "c": "5–10k", "n": 560, "rate": 0.007142857142857143}, {"r": "41–45", "c": "10–15k", "n": 1049, "rate": 0.010486177311725452}, {"r": "41–45", "c": "15–20k", "n": 4061, "rate": 0.01058852499384388}, {"r": "41–45", "c": "20–30k", "n": 3496, "rate": 0.010583524027459955}, {"r": "41–45", "c": "30–50k", "n": 2748, "rate": 0.006550218340611353}, {"r": "41–45", "c": "50k+", "n": 371, "rate": 0.013477088948787063}, {"r": "46–50", "c": "≤5k", "n": 1032, "rate": 0.005813953488372093}, {"r": "46–50", "c": "5–10k", "n": 444, "rate": 0.006756756756756757}, {"r": "46–50", "c": "10–15k", "n": 779, "rate": 0.011553273427471117}, {"r": "46–50", "c": "15–20k", "n": 3029, "rate": 0.011554968636513702}, {"r": "46–50", "c": "20–30k", "n": 2509, "rate": 0.008369868473495417}, {"r": "46–50", "c": "30–50k", "n": 1997, "rate": 0.011016524787180772}, {"r": "46–50", "c": "50k+", "n": 252, "rate": null}, {"r": "51–55", "c": "≤5k", "n": 843, "rate": 0.0035587188612099642}, {"r": "51–55", "c": "5–10k", "n": 310, "rate": 0.00967741935483871}, {"r": "51–55", "c": "10–15k", "n": 584, "rate": 0.00684931506849315}, {"r": "51–55", "c": "15–20k", "n": 2069, "rate": 0.01208313194780087}, {"r": "51–55", "c": "20–30k", "n": 1679, "rate": 0.01012507444907683}, {"r": "51–55", "c": "30–50k", "n": 1381, "rate": 0.00941346850108617}, {"r": "51–55", "c": "50k+", "n": 183, "rate": null}, {"r": "56+", "c": "≤5k", "n": 662, "rate": 0.006042296072507553}, {"r": "56+", "c": "5–10k", "n": 209, "rate": null}, {"r": "56+", "c": "10–15k", "n": 405, "rate": 0.012345679012345678}, {"r": "56+", "c": "15–20k", "n": 1371, "rate": 0.010940919037199124}, {"r": "56+", "c": "20–30k", "n": 1091, "rate": 0.011915673693858845}, {"r": "56+", "c": "30–50k", "n": 885, "rate": 0.007909604519774011}, {"r": "56+", "c": "50k+", "n": 114, "rate": null}]}, "opportunity": [{"cat": "≤25", "series": "Mass", "n": 4883, "buyers": 108, "rate": 0.022117550686053655}, {"cat": "26–30", "series": "Mass", "n": 21068, "buyers": 325, "rate": 0.015426238845642681}, {"cat": "31–35", "series": "Mass", "n": 20427, "buyers": 252, "rate": 0.012336613305918637}, {"cat": "36–40", "series": "Mass", "n": 15806, "buyers": 128, "rate": 0.008098190560546628}, {"cat": "41–45", "series": "Mass", "n": 13589, "buyers": 125, "rate": 0.009198616528074178}, {"cat": "46–50", "series": "Mass", "n": 10117, "buyers": 99, "rate": 0.009785509538400712}, {"cat": "51–55", "series": "Mass", "n": 7084, "buyers": 69, "rate": 0.00974025974025974}, {"cat": "56+", "series": "Mass", "n": 4764, "buyers": 47, "rate": 0.009865659109991603}], "lift": [{"cat": "Age: ≤25", "n": 4883, "rate": 0.022117550686053655, "index": 187.48700511305395}, {"cat": "Tenure: 1–12 m", "n": 3930, "rate": 0.021119592875318068, "index": 179.0274734126485}, {"cat": "Inflow: 50k+", "n": 12737, "rate": 0.01970636727643872, "index": 167.04778186162775}, {"cat": "Inflow: 20k–50k", "n": 12397, "rate": 0.01693958215697346, "index": 143.59417873879204}, {"cat": "Inflow: 5k–20k", "n": 11965, "rate": 0.016798997074801505, "index": 142.40246106651773}, {"cat": "Occupation: Student", "n": 6771, "rate": 0.016098065278393147, "index": 136.4607722618898}, {"cat": "Age: 26–30", "n": 21068, "rate": 0.015426238845642681, "index": 130.76580505597784}, {"cat": "Tenure: 61–120 m", "n": 21617, "rate": 0.015312022944904474, "index": 129.79761479523623}, {"cat": "Travel card: Yes", "n": 2084, "rate": 0.008157389635316698, "index": 69.14891137698035}, {"cat": "Age: 36–40", "n": 15806, "rate": 0.008098190560546628, "index": 68.64709011333099}, {"cat": "Occupation: Housewife", "n": 1552, "rate": 0.007731958762886598, "index": 65.54260065628884}, {"cat": "Inflow: 0", "n": 51553, "rate": 0.007351657517506256, "index": 62.31884669956864}, {"cat": "Tenure: 0 (new / unknown)", "n": 29054, "rate": 0.007193501755352103, "index": 60.978185131362}, {"cat": "Savings: 100k+", "n": 5848, "rate": 0.005642954856361149, "index": 47.83444247623816}, {"cat": "Savings: 0", "n": 5794, "rate": 0.005005177770107007, "index": 42.42810623544828}, {"cat": "Occupation: Government", "n": 3736, "rate": 0.004817987152034261, "index": 40.84132075156328}], "age_dist": {"x": [23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61], "series": {"Rejected": [2.008, 6.372, 8.489, 9.552, 8.637, 8.443, 7.278, 6.481, 6.282, 5.913, 5.47, 4.935, 4.42, 3.575, 3.203, 2.787, 2.408, 2.048, 1.521, 0.179], "PA": [4.232, 11.755, 11.129, 10.031, 8.15, 7.367, 5.172, 4.075, 2.821, 5.172, 5.016, 5.956, 3.762, 2.821, 3.292, 3.292, 1.567, 2.508, 1.881, 0.0], "Life": [4.466, 10.874, 11.845, 10.874, 11.068, 7.767, 9.709, 5.825, 5.243, 4.272, 3.107, 3.301, 2.524, 2.136, 2.136, 1.165, 1.553, 1.553, 0.583, 0.0]}}, "ranges": [{"metric": "Monthly income (THB)", "groups": [{"outcome": "Rejected", "p25": 15140.15, "median": 18868.215, "p75": 27354.9875, "n": 95866}, {"outcome": "PA", "p25": 15140.15, "median": 19050.75, "p75": 26550.712499999998, "n": 638}, {"outcome": "Life", "p25": 15140.15, "median": 19188.86, "p75": 30058.815000000002, "n": 511}]}, {"metric": "Avg. savings balance (THB)", "groups": [{"outcome": "Rejected", "p25": 284.085, "median": 1677.31, "p75": 8130.4574999999995, "n": 95866}, {"outcome": "PA", "p25": 426.095, "median": 1537.98, "p75": 4761.78, "n": 638}, {"outcome": "Life", "p25": 373.97, "median": 1762.6, "p75": 7971.855, "n": 511}]}, {"metric": "Months on book", "groups": [{"outcome": "Rejected", "p25": 0.0, "median": 38.0, "p75": 82.0, "n": 95866}, {"outcome": "PA", "p25": 12.0, "median": 37.0, "p75": 70.75, "n": 638}, {"outcome": "Life", "p25": 13.0, "median": 57.0, "p75": 89.0, "n": 511}]}]}, "Upper Mass": {"kpi": {"n": 11446, "pa": 61, "life": 78}, "month": [{"cat": "Jan", "n": 1364, "pa": 0, "life": 14}, {"cat": "Feb", "n": 1997, "pa": 0, "life": 16}, {"cat": "Mar", "n": 1191, "pa": 0, "life": 12}, {"cat": "Apr", "n": 855, "pa": 2, "life": 12}, {"cat": "May", "n": 117, "pa": 5, "life": 0}, {"cat": "Jun", "n": 789, "pa": 13, "life": 1}, {"cat": "Jul", "n": 178, "pa": 0, "life": 1}, {"cat": "Aug", "n": 306, "pa": 0, "life": 4}, {"cat": "Sep", "n": 610, "pa": 6, "life": 4}, {"cat": "Oct", "n": 1760, "pa": 25, "life": 6}, {"cat": "Nov", "n": 1279, "pa": 4, "life": 7}, {"cat": "Dec", "n": 1000, "pa": 6, "life": 1}], "profile": {"segment": [{"cat": "Upper Mass", "n": 11446, "pa": 61, "life": 78}], "inflow": [{"cat": "0", "n": 6079, "pa": 6, "life": 38}, {"cat": "1–5k", "n": 430, "pa": 0, "life": 6}, {"cat": "5k–20k", "n": 672, "pa": 7, "life": 4}, {"cat": "20k–50k", "n": 1137, "pa": 11, "life": 12}, {"cat": "50k+", "n": 3040, "pa": 37, "life": 17}], "occupation": [{"cat": "Salary man", "n": 5066, "pa": 20, "life": 28}, {"cat": "Self-employed", "n": 3595, "pa": 15, "life": 32}, {"cat": "Freelance", "n": 958, "pa": 15, "life": 5}, {"cat": "Student", "n": 678, "pa": 7, "life": 7}, {"cat": "Unemployed", "n": 386, "pa": 3, "life": 2}, {"cat": "Government", "n": 365, "pa": 0, "life": 2}, {"cat": "Housewife", "n": 269, "pa": 0, "life": 2}, {"cat": "Professional", "n": 106, "pa": 0, "life": 0}, {"cat": "Other", "n": 23, "pa": 1, "life": 0}], "gender": [{"cat": "Female", "n": 6375, "pa": 30, "life": 43}, {"cat": "Male", "n": 5071, "pa": 31, "life": 35}], "marital": [{"cat": "Single", "n": 7715, "pa": 37, "life": 59}, {"cat": "Married", "n": 2394, "pa": 18, "life": 9}, {"cat": "Married (registered)", "n": 842, "pa": 1, "life": 6}, {"cat": "Divorced", "n": 130, "pa": 3, "life": 0}, {"cat": "Married (unregistered)", "n": 109, "pa": 0, "life": 0}, {"cat": "Widowed", "n": 64, "pa": 0, "life": 1}, {"cat": "Other", "n": 62, "pa": 1, "life": 1}], "mob": [{"cat": "0 (new / unknown)", "n": 3889, "pa": 6, "life": 17}, {"cat": "1–12 m", "n": 205, "pa": 2, "life": 2}, {"cat": "13–36 m", "n": 798, "pa": 7, "life": 3}, {"cat": "37–60 m", "n": 1086, "pa": 12, "life": 12}, {"cat": "61–120 m", "n": 2642, "pa": 23, "life": 29}, {"cat": "120+ m", "n": 2738, "pa": 11, "life": 14}], "savings": [{"cat": "0", "n": 374, "pa": 0, "life": 1}, {"cat": "1–1k", "n": 2738, "pa": 15, "life": 19}, {"cat": "1k–5k", "n": 3166, "pa": 33, "life": 22}, {"cat": "5k–20k", "n": 2431, "pa": 12, "life": 17}, {"cat": "20k–100k", "n": 1635, "pa": 1, "life": 14}, {"cat": "100k+", "n": 1014, "pa": 0, "life": 4}], "holdings": [{"cat": "Credit card: No", "n": 8318, "pa": 60, "life": 57}, {"cat": "Credit card: Yes", "n": 3128, "pa": 1, "life": 21}, {"cat": "Payroll: No", "n": 9235, "pa": 57, "life": 58}, {"cat": "Payroll: Yes", "n": 2211, "pa": 4, "life": 20}, {"cat": "Travel card: No", "n": 10745, "pa": 60, "life": 72}, {"cat": "Travel card: Yes", "n": 613, "pa": 1, "life": 5}]}, "heatmap": {"rows": ["≤25", "26–30", "31–35", "36–40", "41–45", "46–50", "51–55", "56+"], "cols": ["≤5k", "5–10k", "10–15k", "15–20k", "20–30k", "30–50k", "50k+"], "row_title": "Age", "col_title": "Income", "cells": [{"r": "≤25", "c": "≤5k", "n": 7, "rate": null}, {"r": "≤25", "c": "5–10k", "n": 5, "rate": null}, {"r": "≤25", "c": "10–15k", "n": 9, "rate": null}, {"r": "≤25", "c": "15–20k", "n": 7, "rate": null}, {"r": "≤25", "c": "20–30k", "n": 15, "rate": null}, {"r": "≤25", "c": "30–50k", "n": 41, "rate": null}, {"r": "≤25", "c": "50k+", "n": 159, "rate": null}, {"r": "26–30", "c": "≤5k", "n": 19, "rate": null}, {"r": "26–30", "c": "5–10k", "n": 19, "rate": null}, {"r": "26–30", "c": "10–15k", "n": 17, "rate": null}, {"r": "26–30", "c": "15–20k", "n": 36, "rate": null}, {"r": "26–30", "c": "20–30k", "n": 56, "rate": null}, {"r": "26–30", "c": "30–50k", "n": 269, "rate": null}, {"r": "26–30", "c": "50k+", "n": 1008, "rate": 0.01984126984126984}, {"r": "31–35", "c": "≤5k", "n": 23, "rate": null}, {"r": "31–35", "c": "5–10k", "n": 13, "rate": null}, {"r": "31–35", "c": "10–15k", "n": 16, "rate": null}, {"r": "31–35", "c": "15–20k", "n": 30, "rate": null}, {"r": "31–35", "c": "20–30k", "n": 51, "rate": null}, {"r": "31–35", "c": "30–50k", "n": 275, "rate": null}, {"r": "31–35", "c": "50k+", "n": 1596, "rate": 0.017543859649122806}, {"r": "36–40", "c": "≤5k", "n": 17, "rate": null}, {"r": "36–40", "c": "5–10k", "n": 8, "rate": null}, {"r": "36–40", "c": "10–15k", "n": 12, "rate": null}, {"r": "36–40", "c": "15–20k", "n": 14, "rate": null}, {"r": "36–40", "c": "20–30k", "n": 44, "rate": null}, {"r": "36–40", "c": "30–50k", "n": 268, "rate": null}, {"r": "36–40", "c": "50k+", "n": 1668, "rate": 0.009592326139088728}, {"r": "41–45", "c": "≤5k", "n": 13, "rate": null}, {"r": "41–45", "c": "5–10k", "n": 7, "rate": null}, {"r": "41–45", "c": "10–15k", "n": 10, "rate": null}, {"r": "41–45", "c": "15–20k", "n": 19, "rate": null}, {"r": "41–45", "c": "20–30k", "n": 34, "rate": null}, {"r": "41–45", "c": "30–50k", "n": 261, "rate": null}, {"r": "41–45", "c": "50k+", "n": 1614, "rate": 0.009913258983890954}, {"r": "46–50", "c": "≤5k", "n": 10, "rate": null}, {"r": "46–50", "c": "5–10k", "n": 5, "rate": null}, {"r": "46–50", "c": "10–15k", "n": 3, "rate": null}, {"r": "46–50", "c": "15–20k", "n": 23, "rate": null}, {"r": "46–50", "c": "20–30k", "n": 32, "rate": null}, {"r": "46–50", "c": "30–50k", "n": 198, "rate": null}, {"r": "46–50", "c": "50k+", "n": 1322, "rate": 0.009077155824508321}, {"r": "51–55", "c": "≤5k", "n": 7, "rate": null}, {"r": "51–55", "c": "5–10k", "n": 5, "rate": null}, {"r": "51–55", "c": "10–15k", "n": 4, "rate": null}, {"r": "51–55", "c": "15–20k", "n": 13, "rate": null}, {"r": "51–55", "c": "20–30k", "n": 18, "rate": null}, {"r": "51–55", "c": "30–50k", "n": 142, "rate": null}, {"r": "51–55", "c": "50k+", "n": 1027, "rate": 0.011684518013631937}, {"r": "56+", "c": "≤5k", "n": 3, "rate": null}, {"r": "56+", "c": "5–10k", "n": 1, "rate": null}, {"r": "56+", "c": "10–15k", "n": 3, "rate": null}, {"r": "56+", "c": "15–20k", "n": 12, "rate": null}, {"r": "56+", "c": "20–30k", "n": 16, "rate": null}, {"r": "56+", "c": "30–50k", "n": 108, "rate": null}, {"r": "56+", "c": "50k+", "n": 746, "rate": 0.006702412868632708}]}, "opportunity": [{"cat": "26–30", "series": "Upper Mass", "n": 1436, "buyers": 27, "rate": 0.018802228412256268}, {"cat": "31–35", "series": "Upper Mass", "n": 2022, "buyers": 33, "rate": 0.016320474777448073}, {"cat": "36–40", "series": "Upper Mass", "n": 2047, "buyers": 19, "rate": 0.009281875915974597}, {"cat": "41–45", "series": "Upper Mass", "n": 1970, "buyers": 19, "rate": 0.009644670050761422}, {"cat": "46–50", "series": "Upper Mass", "n": 1602, "buyers": 13, "rate": 0.008114856429463172}, {"cat": "51–55", "series": "Upper Mass", "n": 1229, "buyers": 13, "rate": 0.010577705451586655}, {"cat": "56+", "series": "Upper Mass", "n": 897, "buyers": 7, "rate": 0.007803790412486065}], "lift": [{"cat": "Tenure: 37–60 m", "n": 1086, "rate": 0.022099447513812154, "index": 181.97861600222583}, {"cat": "Inflow: 20k–50k", "n": 1137, "rate": 0.020228671943711522, "index": 166.57365400555545}, {"cat": "Tenure: 61–120 m", "n": 2642, "rate": 0.01968205904617714, "index": 162.07255240470758}, {"cat": "Age: 26–30", "n": 1436, "rate": 0.018802228412256268, "index": 154.82755856596063}, {"cat": "Inflow: 50k+", "n": 3040, "rate": 0.017763157894736842, "index": 146.2712987504733}, {"cat": "Savings: 1k–5k", "n": 3166, "rate": 0.01737207833228048, "index": 143.05094143257725}, {"cat": "Age: 31–35", "n": 2022, "rate": 0.016320474777448073, "index": 134.39147791559037}, {"cat": "Credit card: No", "n": 8318, "rate": 0.014065881221447463, "index": 115.82595428826453}, {"cat": "Age: 36–40", "n": 2047, "rate": 0.009281875915974597, "index": 76.43190772247858}, {"cat": "Savings: 20k–100k", "n": 1635, "rate": 0.009174311926605505, "index": 75.54616856973138}, {"cat": "Tenure: 120+ m", "n": 2738, "rate": 0.009130752373995616, "index": 75.1874760235639}, {"cat": "Age: 46–50", "n": 1602, "rate": 0.008114856429463172, "index": 66.82204797959386}, {"cat": "Inflow: 0", "n": 6079, "rate": 0.00723803257114657, "index": 59.601813531901904}, {"cat": "Credit card: Yes", "n": 3128, "rate": 0.007033248081841432, "index": 57.915509025005065}, {"cat": "Tenure: 0 (new / unknown)", "n": 3889, "rate": 0.005914116739521728, "index": 48.699985755802665}, {"cat": "Savings: 100k+", "n": 1014, "rate": 0.0039447731755424065, "index": 32.48336242248805}], "age_dist": {"x": [23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61], "series": {"Rejected": [0.672, 3.051, 4.758, 6.058, 6.951, 7.128, 7.261, 6.845, 7.341, 7.155, 6.783, 6.589, 5.766, 5.015, 4.776, 3.998, 3.759, 3.423, 2.299, 0.371], "PA": [1.639, 9.836, 9.836, 3.279, 9.836, 0.0, 8.197, 4.918, 4.918, 6.557, 3.279, 3.279, 6.557, 4.918, 9.836, 1.639, 4.918, 3.279, 3.279, 0.0], "Life": [1.282, 7.692, 6.41, 10.256, 11.538, 10.256, 11.538, 6.41, 5.128, 2.564, 8.974, 6.41, 2.564, 1.282, 5.128, 0.0, 2.564, 0.0, 0.0, 0.0]}}, "ranges": [{"metric": "Monthly income (THB)", "groups": [{"outcome": "Rejected", "p25": 53000.0, "median": 68000.0, "p75": 89356.065, "n": 11220}, {"outcome": "PA", "p25": 60325.33, "median": 72277.5, "p75": 109628.23, "n": 61}, {"outcome": "Life", "p25": 53848.18, "median": 67621.31, "p75": 79000.0, "n": 77}]}, {"metric": "Avg. savings balance (THB)", "groups": [{"outcome": "Rejected", "p25": 840.5, "median": 3807.91, "p75": 17842.255, "n": 11220}, {"outcome": "PA", "p25": 1087.46, "median": 2273.29, "p75": 4557.86, "n": 61}, {"outcome": "Life", "p25": 929.2, "median": 4028.99, "p75": 18592.18, "n": 77}]}, {"metric": "Months on book", "groups": [{"outcome": "Rejected", "p25": 0.0, "median": 54.0, "p75": 117.0, "n": 11220}, {"outcome": "PA", "p25": 39.0, "median": 66.0, "p75": 87.0, "n": 61}, {"outcome": "Life", "p25": 21.0, "median": 66.0, "p75": 110.0, "n": 77}]}]}}, "profiles": {"Rejected": {"Customers": "211,872", "Median age": "36", "Median income (THB)": "12,250", "Median avg. savings 30d (THB)": "991", "Median months on book": "40", "% male": "43%", "% Upper Mass": "5.3%", "% with credit card": "10.0%", "% on payroll": "20.4%", "% single": "71%"}, "Bought PA": {"Customers": "1,633", "Median age": "34", "Median income (THB)": "11,325", "Median avg. savings 30d (THB)": "1,145", "Median months on book": "39", "% male": "56%", "% Upper Mass": "3.7%", "% with credit card": "4.2%", "% on payroll": "22.9%", "% single": "74%"}, "Bought Life": {"Customers": "988", "Median age": "32", "Median income (THB)": "15,140", "Median avg. savings 30d (THB)": "1,333", "Median months on book": "54", "% male": "42%", "% Upper Mass": "7.9%", "% with credit card": "14.1%", "% on payroll": "24.0%", "% single": "80%"}}, "quality": {"n_rows": 215993, "n_cols": 26, "issues": [{"category": "Missing", "description": "1,500 rows have no customer profile at all (every field empty), and only 0.07% of them accepted. They are probably unmatched records, so they are excluded from the analysis. 2,401 rows in total lack financial data.", "affected_rows": 1500}, {"category": "Duplicate", "description": "2,173 rows are exact duplicates. With no customer ID we cannot tell whether they are real repeats, so they are kept.", "affected_rows": 2173}, {"category": "Unusable", "description": "The 15-day fields (inflow1_15, outflow1_15, net_flow_15d) are identical to the 30-day fields in 100% of rows. They look like copies, not a separate 15-day window, so they are dropped.", "affected_rows": 215993}, {"category": "Unusable", "description": "avg_currentaccbal_30d are zero in more than 99.9% of rows (max currentacc_bal = 1), so they carry no information and are dropped.", "affected_rows": 215993}, {"category": "Suspicious", "description": "months on book (mob) = 0 for 56,144 customers (26%), which probably means unknown rather than new. 839 customers have a tenure longer than their adult life (max 887 months).", "affected_rows": 56983}, {"category": "Outlier", "description": "num_children has values of 10 or more (3 rows); 17 rows have negative debit-card spend; 342 rows have income = 0. Monetary fields are heavily right-skewed, so medians are used, not means.", "affected_rows": 362}, {"category": "Encoding", "description": "marital_sta is in Thai with 8 overlapping values (e.g. Married / Married registered / Married unregistered), so it is translated and standardised. The data definition notes that main_occupation may be out of date.", "affected_rows": 0}, {"category": "Context", "description": "campaign_month has no year, so seasonality cannot be separated from trend. Monthly volume ranges from 10,179 to 23,625 offers.", "affected_rows": 0}, {"category": "Imbalance", "description": "Only 1.2% of rows are positive, so accuracy is a misleading metric. The model is evaluated with ROC-AUC, PR-AUC and cumulative gains instead.", "affected_rows": 0}], "fields": [{"field": "campaign_month", "dtype": "string", "definition": "Abbreviated Name of the Campaign Month", "missing": 0, "missing_pct": 0.0, "profile": "12 values · top: Oct (11%), Dec (11%), Jan (10%)"}, {"field": "marital_sta", "dtype": "string", "definition": "Marital Status", "missing": 4635, "missing_pct": 2.15, "profile": "8 values · top: Single (72%), Married (22%), Married (registered) (3%)"}, {"field": "main_occupation", "dtype": "string", "definition": "Main Occupation Class (might not really updated)", "missing": 1500, "missing_pct": 0.69, "profile": "10 values · top: Salary man (48%), Self-employed (26%), Freelance (9%)"}, {"field": "customer_segment", "dtype": "string", "definition": "Customer Segment - Lower Mass, Mass, Upper Mass", "missing": 1500, "missing_pct": 0.69, "profile": "3 values · top: Lower Mass (49%), Mass (46%), Upper Mass (5%)"}, {"field": "gender", "dtype": "string", "definition": "Customer Gender", "missing": 1500, "missing_pct": 0.69, "profile": "2 values · top: Female (57%), Male (43%)"}, {"field": "have_acc_planet", "dtype": "string", "definition": "Flag whether the customer has travel card account or not.", "missing": 2401, "missing_pct": 1.11, "profile": "2 values · top: N (98%), Y (2%)"}, {"field": "have_cc", "dtype": "string", "definition": "Flag whether the customer used to has Credit Card or not.", "missing": 1500, "missing_pct": 0.69, "profile": "2 values · top: N (90%), Y (10%)"}, {"field": "scb_payroll", "dtype": "string", "definition": "Flag whether the customer used to has Payroll or not.", "missing": 1500, "missing_pct": 0.69, "profile": "2 values · top: N (80%), Y (20%)"}, {"field": "num_children", "dtype": "integer", "definition": "Total num ber of children.", "missing": 1500, "missing_pct": 0.69, "profile": "min 0 · median 0 · mean 0 · max 21"}, {"field": "age", "dtype": "double", "definition": "Current Age at the campaign begins.", "missing": 1500, "missing_pct": 0.69, "profile": "min 23 · median 36 · mean 38 · max 61"}, {"field": "income", "dtype": "decimal(12,2)", "definition": "Income at the campaign begins.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 12,253 · mean 16,867 · max 199,626"}, {"field": "maxosdc_last_30d", "dtype": "decimal(12,2)", "definition": "Max Debit Card Outstanding Balance in Last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 11,355 · max 4,374,289"}, {"field": "dcspend_last_30d", "dtype": "decimal(12,2)", "definition": "Total spending via debit card in last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min -87,031 · median 0 · mean 165 · max 1,852,988"}, {"field": "easypymt_last_30d", "dtype": "decimal(12,2)", "definition": "Total payment in last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 373 · mean 1,196 · max 2,000,000"}, {"field": "savacc_bal", "dtype": "decimal(12,2)", "definition": "Total saving account balance in last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 801 · mean 20,856 · max 4,793,828"}, {"field": "currentacc_bal", "dtype": "decimal(12,2)", "definition": "Total current account balance in last 30 days", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 0 · max 1"}, {"field": "avg_savaccbal_30d", "dtype": "decimal(12,2)", "definition": "Average of saving account outstanding balance in last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 993 · mean 15,176 · max 2,471,113"}, {"field": "avg_currentaccbal_30d", "dtype": "decimal(12,2)", "definition": "Average of current account outstanding balance in last 30 days.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 30 · max 1,232,520"}, {"field": "mob", "dtype": "integer", "definition": "Month on Bok (unit in number of month). Lower means open any acount recently;", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 40 · mean 55 · max 887"}, {"field": "inflow30d", "dtype": "decimal(12,2)", "definition": "Total inflow in last 30 days. Inflow = cash in to saving or current account.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 25,290 · max 21,471,692"}, {"field": "outflow30d", "dtype": "decimal(12,2)", "definition": "Total outflow in last 30 days. Inflow = cash out of saving or current account.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 25,546 · max 21,471,691"}, {"field": "inflow1_15", "dtype": "decimal(12,2)", "definition": "Total inflow in last 15 days. Inflow = cash in to saving or current account.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 25,290 · max 21,471,692"}, {"field": "outflow1_15", "dtype": "decimal(12,2)", "definition": "Total outflow in last 15 days. Inflow = cash out of saving or current account.", "missing": 2401, "missing_pct": 1.11, "profile": "min 0 · median 0 · mean 25,546 · max 21,471,691"}, {"field": "net_flow_30d", "dtype": "decimal(13,2)", "definition": "Total Inflow - Outfow in last 30 days", "missing": 2401, "missing_pct": 1.11, "profile": "min -1,813,780 · median 0 · mean -256 · max 2,295,697"}, {"field": "net_flow_15d", "dtype": "decimal(13,2)", "definition": "Total Inflow - Outfow in last 15 days", "missing": 2401, "missing_pct": 1.11, "profile": "min -1,813,780 · median 0 · mean -256 · max 2,295,697"}, {"field": "label", "dtype": "integer", "definition": "Campaign Response. 0 = Reject Offer, 1 = Accept Offer in PA Insurance Product, 2 = Accept Offer in Life Insurance Product", "missing": 0, "missing_pct": 0.0, "profile": "min 0 · median 0 · mean 0 · max 2"}]}, "model": {"roc_auc": 0.7234879082217656, "pr_auc": 0.03696591074366288, "base_rate": 0.012214831851805805, "n_train": 150145, "n_test": 64348, "gains": [{"pct_contacted": 0, "pct_buyers": 0.0}, {"pct_contacted": 1, "pct_buyers": 6.106870229007633}, {"pct_contacted": 2, "pct_buyers": 9.033078880407125}, {"pct_contacted": 3, "pct_buyers": 12.213740458015266}, {"pct_contacted": 4, "pct_buyers": 15.521628498727736}, {"pct_contacted": 5, "pct_buyers": 18.193384223918574}, {"pct_contacted": 6, "pct_buyers": 21.119592875318066}, {"pct_contacted": 7, "pct_buyers": 23.536895674300254}, {"pct_contacted": 8, "pct_buyers": 25.954198473282442}, {"pct_contacted": 9, "pct_buyers": 27.735368956743002}, {"pct_contacted": 10, "pct_buyers": 29.64376590330789}, {"pct_contacted": 11, "pct_buyers": 31.93384223918575}, {"pct_contacted": 12, "pct_buyers": 33.71501272264631}, {"pct_contacted": 13, "pct_buyers": 34.987277353689564}, {"pct_contacted": 14, "pct_buyers": 37.02290076335878}, {"pct_contacted": 15, "pct_buyers": 39.44020356234097}, {"pct_contacted": 16, "pct_buyers": 41.73027989821883}, {"pct_contacted": 17, "pct_buyers": 43.89312977099237}, {"pct_contacted": 18, "pct_buyers": 45.41984732824427}, {"pct_contacted": 19, "pct_buyers": 47.45547073791349}, {"pct_contacted": 20, "pct_buyers": 48.98218829516539}, {"pct_contacted": 21, "pct_buyers": 50.38167938931297}, {"pct_contacted": 22, "pct_buyers": 51.399491094147585}, {"pct_contacted": 23, "pct_buyers": 52.67175572519084}, {"pct_contacted": 24, "pct_buyers": 53.9440203562341}, {"pct_contacted": 25, "pct_buyers": 54.834605597964384}, {"pct_contacted": 26, "pct_buyers": 57.3791348600509}, {"pct_contacted": 27, "pct_buyers": 57.88804071246819}, {"pct_contacted": 28, "pct_buyers": 59.16030534351145}, {"pct_contacted": 29, "pct_buyers": 60.94147582697202}, {"pct_contacted": 30, "pct_buyers": 61.959287531806616}, {"pct_contacted": 31, "pct_buyers": 62.72264631043257}, {"pct_contacted": 32, "pct_buyers": 63.8676844783715}, {"pct_contacted": 33, "pct_buyers": 65.52162849872774}, {"pct_contacted": 34, "pct_buyers": 65.77608142493638}, {"pct_contacted": 35, "pct_buyers": 67.8117048346056}, {"pct_contacted": 36, "pct_buyers": 68.95674300254453}, {"pct_contacted": 37, "pct_buyers": 69.59287531806616}, {"pct_contacted": 38, "pct_buyers": 70.10178117048346}, {"pct_contacted": 39, "pct_buyers": 70.99236641221374}, {"pct_contacted": 40, "pct_buyers": 73.40966921119593}, {"pct_contacted": 41, "pct_buyers": 73.66412213740458}, {"pct_contacted": 42, "pct_buyers": 74.80916030534351}, {"pct_contacted": 43, "pct_buyers": 75.31806615776081}, {"pct_contacted": 44, "pct_buyers": 76.46310432569975}, {"pct_contacted": 45, "pct_buyers": 77.09923664122137}, {"pct_contacted": 46, "pct_buyers": 77.60814249363868}, {"pct_contacted": 47, "pct_buyers": 78.88040712468194}, {"pct_contacted": 48, "pct_buyers": 79.89821882951654}, {"pct_contacted": 49, "pct_buyers": 80.27989821882952}, {"pct_contacted": 50, "pct_buyers": 81.93384223918575}, {"pct_contacted": 51, "pct_buyers": 82.1882951653944}, {"pct_contacted": 52, "pct_buyers": 82.69720101781171}, {"pct_contacted": 53, "pct_buyers": 83.58778625954199}, {"pct_contacted": 54, "pct_buyers": 84.0966921119593}, {"pct_contacted": 55, "pct_buyers": 84.22391857506362}, {"pct_contacted": 56, "pct_buyers": 84.7328244274809}, {"pct_contacted": 57, "pct_buyers": 85.24173027989822}, {"pct_contacted": 58, "pct_buyers": 86.25954198473282}, {"pct_contacted": 59, "pct_buyers": 87.02290076335878}, {"pct_contacted": 60, "pct_buyers": 87.1501272264631}, {"pct_contacted": 61, "pct_buyers": 87.78625954198473}, {"pct_contacted": 62, "pct_buyers": 88.04071246819338}, {"pct_contacted": 63, "pct_buyers": 88.42239185750637}, {"pct_contacted": 64, "pct_buyers": 88.54961832061069}, {"pct_contacted": 65, "pct_buyers": 89.44020356234097}, {"pct_contacted": 66, "pct_buyers": 89.69465648854961}, {"pct_contacted": 67, "pct_buyers": 90.07633587786259}, {"pct_contacted": 68, "pct_buyers": 90.71246819338423}, {"pct_contacted": 69, "pct_buyers": 91.22137404580153}, {"pct_contacted": 70, "pct_buyers": 91.6030534351145}, {"pct_contacted": 71, "pct_buyers": 91.85750636132316}, {"pct_contacted": 72, "pct_buyers": 92.1119592875318}, {"pct_contacted": 73, "pct_buyers": 93.00254452926208}, {"pct_contacted": 74, "pct_buyers": 93.25699745547074}, {"pct_contacted": 75, "pct_buyers": 93.51145038167938}, {"pct_contacted": 76, "pct_buyers": 93.76590330788804}, {"pct_contacted": 77, "pct_buyers": 94.0203562340967}, {"pct_contacted": 78, "pct_buyers": 94.529262086514}, {"pct_contacted": 79, "pct_buyers": 95.16539440203562}, {"pct_contacted": 80, "pct_buyers": 95.41984732824427}, {"pct_contacted": 81, "pct_buyers": 95.67430025445293}, {"pct_contacted": 82, "pct_buyers": 96.18320610687023}, {"pct_contacted": 83, "pct_buyers": 96.56488549618321}, {"pct_contacted": 84, "pct_buyers": 96.81933842239185}, {"pct_contacted": 85, "pct_buyers": 97.20101781170484}, {"pct_contacted": 86, "pct_buyers": 97.20101781170484}, {"pct_contacted": 87, "pct_buyers": 97.70992366412213}, {"pct_contacted": 88, "pct_buyers": 98.09160305343512}, {"pct_contacted": 89, "pct_buyers": 98.34605597964376}, {"pct_contacted": 90, "pct_buyers": 98.72773536895674}, {"pct_contacted": 91, "pct_buyers": 99.10941475826972}, {"pct_contacted": 92, "pct_buyers": 99.23664122137404}, {"pct_contacted": 93, "pct_buyers": 99.36386768447836}, {"pct_contacted": 94, "pct_buyers": 99.36386768447836}, {"pct_contacted": 95, "pct_buyers": 99.49109414758269}, {"pct_contacted": 96, "pct_buyers": 99.61832061068702}, {"pct_contacted": 97, "pct_buyers": 99.74554707379136}, {"pct_contacted": 98, "pct_buyers": 99.87277353689568}, {"pct_contacted": 99, "pct_buyers": 100.0}, {"pct_contacted": 100, "pct_buyers": 100.0}], "deciles": [{"decile": 1, "rate": 0.03620823620823621, "lift": 2.964284457414229, "capture": 0.2964376590330789}, {"decile": 2, "rate": 0.02362082362082362, "lift": 1.933782135308853, "capture": 0.19338422391857507}, {"decile": 3, "rate": 0.015850815850815853, "lift": 1.297669590799362, "capture": 0.1297709923664122}, {"decile": 4, "rate": 0.013986013986013986, "lift": 1.145002580117084, "capture": 0.11450381679389313}, {"decile": 5, "rate": 0.010411810411810413, "lift": 0.8523908096427182, "capture": 0.08524173027989822}, {"decile": 6, "rate": 0.006371406371406371, "lift": 0.5216122864977827, "capture": 0.05216284987277354}, {"decile": 7, "rate": 0.005439005439005439, "lift": 0.44527878115664377, "capture": 0.044529262086514}, {"decile": 8, "rate": 0.004662004662004662, "lift": 0.38166752670569465, "capture": 0.03816793893129771}, {"decile": 9, "rate": 0.004041032017407522, "lift": 0.3308299341681161, "capture": 0.03307888040712468}, {"decile": 10, "rate": 0.001554243083618278, "lift": 0.12724228237235236, "capture": 0.01272264631043257}], "importance": [{"feature": "Inflow 30d", "importance": 0.09994903802836508}, {"feature": "Campaign month", "importance": 0.06880495648979941}, {"feature": "Months on book", "importance": 0.028264494546988022}, {"feature": "Age", "importance": 0.02137535185442459}, {"feature": "Payments 30d", "importance": 0.011499279560281036}, {"feature": "Avg. savings balance", "importance": 0.011135396947155521}, {"feature": "Gender", "importance": 0.007179181246818933}, {"feature": "Savings balance", "importance": 0.00515527977290479}, {"feature": "Income", "importance": 0.0023754522028315663}, {"feature": "Occupation", "importance": 0.001861083790772618}, {"feature": "Net flow 30d", "importance": 0.0016326310343682815}, {"feature": "Travel card", "importance": 0.001461199438078357}], "top20_capture": 48.98218829516539}, "raw_kpi": {"rows": 215993, "analysed": 214493}};</script>
+<script>
+/* Chart library - small, dependency-free SVG chart classes sharing one base class. */
+"use strict";
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+const Fmt = {
+  n: v => Math.round(v).toLocaleString("en-US"),
+  pct: (v, d = 2) => (v * 100).toFixed(d) + "%",
+  tick: v => +(v * 100).toFixed(2) + "%",
+  compact: v => v >= 1000 ? +(v / 1000).toFixed(1) + "k" : String(Math.round(v)),
+  thb: v => v >= 1000 ? +(v / 1000).toFixed(1) + "k" : Math.round(v).toLocaleString("en-US"),
+};
+
+function svgEl(tag, attrs = {}, parent = null) {
+  const e = document.createElementNS(SVG_NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function htmlEl(tag, text = null, parent = null, cls = "") {
+  const e = document.createElement(tag);
+  if (text != null) e.textContent = text;
+  if (cls) e.className = cls;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function niceMax(v, steps = [0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06, 0.08, 0.1]) {
+  return steps.find(s => s >= v) || Math.ceil(v * 100) / 100;
+}
+
+/* ------------------------------------------------------------------ tooltip */
+class Tooltip {
+  constructor() {
+    this.el = document.getElementById("tip") || htmlEl("div", null, document.body);
+    this.el.id = "tip";
+    this.el.setAttribute("role", "tooltip");
+  }
+  show(ev, title, rows) {
+    this.el.replaceChildren();
+    htmlEl("div", title, this.el, "t");
+    rows.forEach(({label, value, color}) => {
+      const r = htmlEl("div", null, this.el, "r");
+      const k = htmlEl("i", null, r, "lk");
+      k.style.background = color || "transparent";
+      htmlEl("span", label, r);
+      htmlEl("b", value, r);
+    });
+    this.el.style.display = "block";
+    this.move(ev);
+  }
+  move(ev) {
+    const x = Math.min(ev.clientX + 14, innerWidth - this.el.offsetWidth - 8);
+    const y = Math.min(ev.clientY + 14, innerHeight - this.el.offsetHeight - 8);
+    this.el.style.left = x + "px";
+    this.el.style.top = y + "px";
+  }
+  hide() { this.el.style.display = "none"; }
+  /** Attach hover + keyboard focus to a node; content() returns [title, rows]. */
+  bind(node, content) {
+    node.setAttribute("tabindex", "0");
+    node.addEventListener("pointermove", ev => this.show(ev, ...content(ev)));
+    node.addEventListener("pointerleave", () => this.hide());
+    node.addEventListener("focus", () => {
+      const b = node.getBoundingClientRect();
+      this.show({clientX: b.left + b.width / 2, clientY: b.top}, ...content(null));
+    });
+    node.addEventListener("blur", () => this.hide());
+  }
+}
+const tooltip = new Tooltip();
+
+/* ------------------------------------------------------------------ base */
+class Chart {
+  constructor(host, width = 540, height = 260) {
+    this.host = host;
+    host.replaceChildren();
+    this.W = width;
+    this.H = height;
+    this.svg = svgEl("svg", {viewBox: `0 0 ${width} ${height}`, role: "img"}, host);
+  }
+  text(x, y, str, opts = {}, parent = this.svg) {
+    const t = svgEl("text", {x, y, "font-size": opts.size || 11, fill: opts.fill || "var(--muted)",
+      "text-anchor": opts.anchor || "start", "font-weight": opts.weight || 400}, parent);
+    if (opts.halo) { t.setAttribute("stroke", "var(--card)"); t.setAttribute("stroke-width", 4); t.setAttribute("paint-order", "stroke"); }
+    t.textContent = str;
+    return t;
+  }
+  line(x1, y1, x2, y2, stroke = "var(--grid)", width = 1, parent = this.svg) {
+    return svgEl("line", {x1, y1, x2, y2, stroke, "stroke-width": width}, parent);
+  }
+  /** Bar path with a 4px rounded data-end; dir = right | up. */
+  static barPath(x, y, w, h, dir, round = true) {
+    if (w <= 0 || h <= 0) return "";
+    if (dir === "right") {
+      const r = round ? Math.min(4, w, h / 2) : 0;
+      return `M${x},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h - r}Q${x + w},${y + h} ${x + w - r},${y + h}H${x}Z`;
+    }
+    if (dir === "left") {
+      const r = round ? Math.min(4, w, h / 2) : 0;
+      return `M${x + w},${y}H${x + r}Q${x},${y} ${x},${y + r}V${y + h - r}Q${x},${y + h} ${x + r},${y + h}H${x + w}Z`;
+    }
+    const r = round ? Math.min(4, h, w / 2) : 0;
+    return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+  }
+  /** Collapsible accessible table with the same numbers as the chart. */
+  table(headers, rows) {
+    const d = htmlEl("details", null, this.host);
+    htmlEl("summary", "Show table", d);
+    const t = htmlEl("table", null, d);
+    const hr = htmlEl("tr", null, t);
+    headers.forEach((h, i) => htmlEl("th", h, hr, i ? "num" : ""));
+    rows.forEach(r => {
+      const tr = htmlEl("tr", null, t);
+      r.forEach((c, i) => htmlEl("td", c, tr, i ? "num" : ""));
+    });
+  }
+}
+
+/* ------------------------------------------------------------------ stacked horizontal bars (PA + Life) */
+class StackedBarChart extends Chart {
+  constructor(host, rows, avg) {
+    const ROW = 28, TOP = 6;
+    super(host, 540, TOP + rows.length * ROW + 22);
+    const L = 150, R = 52, BAR = 16, H = this.H;
+    const max = niceMax(Math.max(...rows.map(r => (r.pa + r.life) / r.n)) * 1.05);
+    const x = v => L + (v / max) * (this.W - L - R);
+    [0, max / 2, max].forEach(t => {
+      this.line(x(t), TOP, x(t), H - 20);
+      this.text(x(t), H - 6, Fmt.tick(t), {anchor: "middle"});
+    });
+    this.line(x(avg), TOP - 4, x(avg), H - 20, "var(--ink-2)");
+    rows.forEach((r, i) => {
+      const y = TOP + i * ROW + (ROW - BAR) / 2, pa = r.pa / r.n, life = r.life / r.n;
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      this.text(L - 10, y + BAR / 2 + 4, r.cat, {anchor: "end", size: 12, fill: "var(--ink-2)"}, g);
+      const wPa = x(pa) - L, wLife = x(pa + life) - x(pa);
+      svgEl("path", {d: Chart.barPath(L, y, wPa, BAR, "right", wLife <= 2), fill: "var(--pa)", class: "mark"}, g);
+      if (wLife > 2) svgEl("path", {d: Chart.barPath(L + wPa + 2, y, wLife - 2, BAR, "right"), fill: "var(--life)", class: "mark"}, g);
+      this.text(x(pa + life) + 6, y + BAR / 2 + 4, Fmt.pct(pa + life), {size: 11.5, fill: "var(--ink)", weight: 600, halo: true}, g);
+      const hit = svgEl("rect", {x: 0, y: TOP + i * ROW, width: this.W, height: ROW, fill: "transparent"}, g);
+      tooltip.bind(hit, () => [`${r.cat} · ${Fmt.n(r.n)} customers`, [
+        {label: "Total", value: Fmt.pct(pa + life)},
+        {label: "PA", value: Fmt.pct(pa), color: "var(--pa)"},
+        {label: "Life", value: Fmt.pct(life), color: "var(--life)"}]]);
+    });
+    this.table(["Group", "Customers", "PA", "Life", "Total"],
+      rows.map(r => [r.cat, Fmt.n(r.n), Fmt.pct(r.pa / r.n), Fmt.pct(r.life / r.n), Fmt.pct((r.pa + r.life) / r.n)]));
+  }
+}
+
+/* ------------------------------------------------------------------ single-series columns */
+class ColumnChart extends Chart {
+  /** rows: [{label, value, tip}] ; opts: {color, format, max, ref, refLabel, labelAll} */
+  constructor(host, rows, opts) {
+    super(host, 540, 230);
+    const L = 44, B = 22, TOP = 18, H = this.H, n = rows.length;
+    const band = (this.W - L) / n, bw = Math.min(24, band * 0.6);
+    const max = opts.max;
+    const y = v => TOP + (1 - v / max) * (H - TOP - B);
+    [0, max / 2, max].forEach(t => {
+      this.line(L, y(t), this.W, y(t), t ? "var(--grid)" : "var(--axis)");
+      this.text(L - 6, y(t) + 4, opts.format(t), {anchor: "end"});
+    });
+    if (opts.ref != null) {
+      this.line(L, y(opts.ref), this.W, y(opts.ref), "var(--ink-2)");
+      this.text(this.W, y(opts.ref) - 4, opts.refLabel, {anchor: "end", fill: "var(--ink-2)"});
+    }
+    const vals = rows.map(r => r.value);
+    const hi = vals.indexOf(Math.max(...vals)), lo = vals.indexOf(Math.min(...vals));
+    rows.forEach((r, i) => {
+      const cx = L + band * i + band / 2;
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      svgEl("path", {d: Chart.barPath(cx - bw / 2, y(r.value), bw, y(0) - y(r.value), "up"), fill: opts.color, class: "mark"}, g);
+      this.text(cx, H - 6, r.label, {anchor: "middle", fill: "var(--ink-2)"}, g);
+      if (opts.labelAll || i === hi || i === lo)
+        this.text(cx, y(r.value) - 5, opts.format(r.value, true), {anchor: "middle", fill: "var(--ink)", weight: 600, halo: true}, g);
+      const hit = svgEl("rect", {x: L + band * i, y: TOP, width: band, height: H - TOP - B, fill: "transparent"}, g);
+      tooltip.bind(hit, () => r.tip);
+    });
+    this.table(opts.headers, rows.map(r => r.row));
+  }
+}
+
+/* ------------------------------------------------------------------ multi-series line with crosshair */
+class LineChart extends Chart {
+  /** labels: x labels ; series: [{name, values, color, width, area}] ; opts: {yMax, yFormat, tipTitle, xEvery, diag} */
+  constructor(host, labels, series, opts) {
+    super(host, 540, opts.height || 240);
+    const L = 44, R = 12, B = 24, TOP = 14, H = this.H, n = labels.length;
+    const x = i => L + (n === 1 ? 0 : i / (n - 1)) * (this.W - L - R);
+    const y = v => TOP + (1 - v / opts.yMax) * (H - TOP - B);
+    this.x = x; this.y = y;
+    (opts.yTicks || [0, opts.yMax / 2, opts.yMax]).forEach(t => {
+      this.line(L, y(t), this.W - R, y(t), t ? "var(--grid)" : "var(--axis)");
+      this.text(L - 6, y(t) + 4, opts.yFormat(t), {anchor: "end"});
+    });
+    labels.forEach((lab, i) => {
+      if (i % (opts.xEvery || 1) === 0) this.text(x(i), H - 6, lab, {anchor: "middle", fill: "var(--ink-2)"});
+    });
+    if (opts.diag) svgEl("line", {x1: x(0), y1: y(0), x2: x(n - 1), y2: y(opts.yMax), stroke: "var(--muted)", "stroke-width": 1.5}, this.svg);
+    series.forEach(s => {
+      const pts = s.values.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+      if (s.area) svgEl("polygon", {points: `${x(0)},${y(0)} ${pts} ${x(n - 1)},${y(0)}`, fill: s.color, opacity: 0.1}, this.svg);
+      svgEl("polyline", {points: pts, fill: "none", stroke: s.color, "stroke-width": s.width || 2,
+        "stroke-linejoin": "round", "stroke-linecap": "round"}, this.svg);
+    });
+    // crosshair layer
+    const cross = svgEl("g", {style: "display:none", "pointer-events": "none"}, this.svg);
+    const vline = this.line(0, TOP, 0, H - B, "var(--axis)", 1, cross);
+    const dots = series.map(s => svgEl("circle", {r: 4, fill: s.color, stroke: "var(--card)", "stroke-width": 2}, cross));
+    const overlay = svgEl("rect", {x: L, y: TOP, width: this.W - L - R, height: H - TOP - B, fill: "transparent"}, this.svg);
+    const nearest = ev => {
+      if (!ev) return n - 1;
+      const b = this.svg.getBoundingClientRect();
+      const px = (ev.clientX - b.left) / b.width * this.W;
+      return Math.max(0, Math.min(n - 1, Math.round((px - L) / (this.W - L - R) * (n - 1))));
+    };
+    tooltip.bind(overlay, ev => {
+      const i = nearest(ev);
+      cross.style.display = "";
+      vline.setAttribute("x1", x(i)); vline.setAttribute("x2", x(i));
+      dots.forEach((d, k) => { d.setAttribute("cx", x(i)); d.setAttribute("cy", y(series[k].values[i])); });
+      return [opts.tipTitle(labels[i], i), series.filter(s => !s.noTip).map(s => ({label: s.name, value: opts.yFormat(s.values[i], true), color: s.color}))];
+    });
+    overlay.addEventListener("pointerleave", () => cross.style.display = "none");
+    overlay.addEventListener("blur", () => cross.style.display = "none");
+    if (opts.table) this.table(opts.table.headers, opts.table.rows);
+  }
+  /** Direct label at a point (used sparingly: endpoint / highlight). */
+  annotate(i, v, str, color) {
+    svgEl("circle", {cx: this.x(i), cy: this.y(v), r: 5, fill: color, stroke: "var(--card)", "stroke-width": 2}, this.svg);
+    this.text(this.x(i) + 9, this.y(v) + 14, str, {fill: "var(--ink)", weight: 600, size: 12, halo: true});
+  }
+}
+
+/* ------------------------------------------------------------------ heatmap */
+class HeatmapChart extends Chart {
+  static RAMP = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"];
+  static color(t) {
+    const R = HeatmapChart.RAMP, p = Math.max(0, Math.min(1, t)) * (R.length - 1), i = Math.floor(p), f = p - i;
+    const a = R[i], b = R[Math.min(i + 1, R.length - 1)];
+    const ch = (h, k) => parseInt(h.slice(1 + 2 * k, 3 + 2 * k), 16);
+    return "#" + [0, 1, 2].map(k => Math.round(ch(a, k) + (ch(b, k) - ch(a, k)) * f).toString(16).padStart(2, "0")).join("");
+  }
+  constructor(host, hm) {
+    const L = 64, TOP = 26, CH = 34;
+    super(host, 540, TOP + hm.rows.length * CH + 58);
+    const CW = (this.W - L) / hm.cols.length;
+    const rates = hm.cells.filter(c => c.rate != null).map(c => c.rate);
+    const lo = Math.min(...rates), hi = Math.max(...rates);
+    this.text(L + (this.W - L) / 2, 10, `${hm.col_title} (THB / month) →`, {anchor: "middle", fill: "var(--ink-2)"});
+    hm.cols.forEach((c, j) => this.text(L + CW * j + CW / 2, TOP - 4, c, {anchor: "middle"}));
+    hm.rows.forEach((r, i) => this.text(L - 8, TOP + CH * i + CH / 2 + 4, r, {anchor: "end", fill: "var(--ink-2)"}));
+    this.text(4, TOP - 4, hm.row_title + " ↓", {fill: "var(--ink-2)"});
+    hm.cells.forEach(c => {
+      const i = hm.rows.indexOf(c.r), j = hm.cols.indexOf(c.c);
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      const t = c.rate == null ? null : (c.rate - lo) / (hi - lo);
+      svgEl("rect", {x: L + CW * j + 1, y: TOP + CH * i + 1, width: CW - 2, height: CH - 2, rx: 3,
+        fill: t == null ? "var(--grid)" : HeatmapChart.color(t), class: "mark"}, g);
+      this.text(L + CW * j + CW / 2, TOP + CH * i + CH / 2 + 4, c.rate == null ? "–" : Fmt.pct(c.rate, 1),
+        {anchor: "middle", size: 11, fill: t == null ? "var(--muted)" : t > 0.45 ? "#ffffff" : "#0b0b0b", weight: 600}, g);
+      const hit = svgEl("rect", {x: L + CW * j, y: TOP + CH * i, width: CW, height: CH, fill: "transparent"}, g);
+      tooltip.bind(hit, () => [`Age ${c.r} · income ${c.c}`, [
+        {label: "Acceptance", value: c.rate == null ? "too few customers" : Fmt.pct(c.rate)},
+        {label: "Customers", value: Fmt.n(c.n)}]]);
+    });
+    // scale legend
+    const ly = TOP + hm.rows.length * CH + 18, lw = 200, lx = this.W - lw;
+    const defs = svgEl("defs", {}, this.svg);
+    const grad = svgEl("linearGradient", {id: "hm-grad-" + Math.random().toString(36).slice(2)}, defs);
+    HeatmapChart.RAMP.forEach((c, k) => svgEl("stop", {offset: k / (HeatmapChart.RAMP.length - 1), "stop-color": c}, grad));
+    svgEl("rect", {x: lx, y: ly, width: lw, height: 8, rx: 2, fill: `url(#${grad.id})`}, this.svg);
+    this.text(lx, ly + 22, Fmt.pct(lo, 1), {});
+    this.text(lx + lw, ly + 22, Fmt.pct(hi, 1), {anchor: "end"});
+    this.text(lx - 8, ly + 8, "Acceptance rate", {anchor: "end"});
+    this.text(L, ly + 8, "– = fewer than 300 customers", {});
+    this.table(["Age", "Income", "Customers", "Acceptance"],
+      hm.cells.map(c => [c.r, c.c, Fmt.n(c.n), c.rate == null ? "–" : Fmt.pct(c.rate)]));
+  }
+}
+
+/* ------------------------------------------------------------------ bubble / opportunity matrix */
+class BubbleChart extends Chart {
+  /** points: [{cat, series, n, buyers, rate}] ; colors: {series: cssColor} */
+  constructor(host, points, colors, avg) {
+    super(host, 540, 300);
+    const L = 48, R = 16, TOP = 14, B = 34, H = this.H;
+    const xMin = 300, xMax = Math.max(...points.map(p => p.n)) * 1.3;
+    const yMax = niceMax(Math.max(...points.map(p => p.rate)) * 1.12);
+    const lx = v => L + (Math.log10(v) - Math.log10(xMin)) / (Math.log10(xMax) - Math.log10(xMin)) * (this.W - L - R);
+    const y = v => TOP + (1 - v / yMax) * (H - TOP - B);
+    const rMax = Math.max(...points.map(p => p.buyers));
+    const r = b => 4 + Math.sqrt(b / rMax) * 16;
+    [0, yMax / 2, yMax].forEach(t => {
+      this.line(L, y(t), this.W - R, y(t), t ? "var(--grid)" : "var(--axis)");
+      this.text(L - 6, y(t) + 4, Fmt.tick(t), {anchor: "end"});
+    });
+    [500, 1000, 2000, 5000, 10000, 20000, 50000].filter(v => v < xMax).forEach(v => {
+      this.line(lx(v), TOP, lx(v), H - B);
+      this.text(lx(v), H - B + 14, Fmt.compact(v), {anchor: "middle"});
+    });
+    this.text(L + (this.W - L - R) / 2, H - 4, "Customers contacted (log scale) →", {anchor: "middle", fill: "var(--ink-2)"});
+    this.line(L, y(avg), this.W - R, y(avg), "var(--ink-2)");
+    this.text(L + 4, y(avg) - 4, "average " + Fmt.pct(avg), {fill: "var(--ink-2)", halo: true});
+    [...points].sort((a, b) => b.buyers - a.buyers).forEach(p => {
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      svgEl("circle", {cx: lx(p.n), cy: y(p.rate), r: r(p.buyers), fill: colors[p.series], "fill-opacity": 0.75,
+        stroke: "var(--card)", "stroke-width": 2, class: "mark"}, g);
+      const hit = svgEl("circle", {cx: lx(p.n), cy: y(p.rate), r: Math.max(12, r(p.buyers)), fill: "transparent"}, g);
+      tooltip.bind(hit, () => [`Age ${p.cat} · ${p.series}`, [
+        {label: "Acceptance", value: Fmt.pct(p.rate), color: colors[p.series]},
+        {label: "Customers", value: Fmt.n(p.n)}, {label: "Buyers", value: Fmt.n(p.buyers)}]]);
+    });
+    // label the highest-rate and biggest-buyer bubbles, skipping any label that would collide
+    const pick = [...new Set([...[...points].sort((a, b) => b.rate - a.rate).slice(0, 3),
+                              ...[...points].sort((a, b) => b.buyers - a.buyers).slice(0, 2)])];
+    const placed = [];
+    pick.forEach(p => {
+      const str = `${p.cat} · ${p.series}`, w = str.length * 6, cx = lx(p.n), rad = r(p.buyers);
+      const right = cx + rad + 4 + w <= this.W - R;
+      const box = {x1: right ? cx + rad + 4 : cx - rad - 4 - w, y1: y(p.rate) - 8};
+      box.x2 = box.x1 + w; box.y2 = box.y1 + 14;
+      if (placed.some(b => box.x1 < b.x2 && box.x2 > b.x1 && box.y1 < b.y2 && box.y2 > b.y1)) return;
+      placed.push(box);
+      this.text(right ? box.x1 : box.x2, y(p.rate) + 4, str, {fill: "var(--ink)", size: 11, halo: true, anchor: right ? "start" : "end"});
+    });
+    this.table(["Age · segment", "Customers", "Buyers", "Acceptance"],
+      points.map(p => [`${p.cat} · ${p.series}`, Fmt.n(p.n), Fmt.n(p.buyers), Fmt.pct(p.rate)]));
+  }
+}
+
+/* ------------------------------------------------------------------ diverging bars around an index of 100 */
+class DivergingBarChart extends Chart {
+  constructor(host, rows) {
+    const ROW = 22, TOP = 8;
+    super(host, 540, TOP + rows.length * ROW + 26);
+    const L = 180, R = 40, BAR = 14, H = this.H;
+    const ext = Math.max(...rows.map(r => Math.abs(r.index - 100))) * 1.1;
+    const mid = L + (this.W - L - R) / 2;
+    const x = d => mid + d / ext * (this.W - L - R) / 2;
+    [-50, 0, 50].filter(d => Math.abs(d) <= ext).forEach(d => {
+      this.line(x(d), TOP, x(d), H - 20, d ? "var(--grid)" : "var(--axis)");
+      this.text(x(d), H - 6, String(100 + d), {anchor: "middle"});
+    });
+    rows.forEach((r, i) => {
+      const yy = TOP + i * ROW + (ROW - BAR) / 2, d = r.index - 100, pos = d >= 0;
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      this.text(L - 10, yy + BAR / 2 + 4, r.cat, {anchor: "end", size: 11.5, fill: "var(--ink-2)"}, g);
+      const w = Math.abs(x(d) - mid);
+      svgEl("path", {d: Chart.barPath(pos ? mid : mid - w, yy, w, BAR, pos ? "right" : "left"),
+        fill: pos ? "var(--pos)" : "var(--neg)", class: "mark"}, g);
+      this.text(pos ? x(d) + 5 : x(d) - 5, yy + BAR / 2 + 4, Math.round(r.index), {anchor: pos ? "start" : "end", fill: "var(--ink)", weight: 600, halo: true}, g);
+      const hit = svgEl("rect", {x: 0, y: TOP + i * ROW, width: this.W, height: ROW, fill: "transparent"}, g);
+      tooltip.bind(hit, () => [r.cat, [{label: "Index (avg = 100)", value: Math.round(r.index), color: pos ? "var(--pos)" : "var(--neg)"},
+        {label: "Acceptance", value: Fmt.pct(r.rate)}, {label: "Customers", value: Fmt.n(r.n)}]]);
+    });
+    if (rows.length > 8) this.line(0, TOP + (rows.length / 2) * ROW, this.W, TOP + (rows.length / 2) * ROW, "var(--grid)");
+    this.table(["Group", "Index", "Acceptance", "Customers"], rows.map(r => [r.cat, Math.round(r.index), Fmt.pct(r.rate), Fmt.n(r.n)]));
+  }
+}
+
+/* ------------------------------------------------------------------ dot + IQR range */
+class DotRangeChart extends Chart {
+  /** metric: {metric, groups: [{outcome, p25, median, p75, n}]} ; colors: {outcome: css} */
+  constructor(host, metric, colors) {
+    const ROW = 34, TOP = 6;
+    super(host, 360, TOP + metric.groups.length * ROW + 24);
+    const L = 74, R = 20, H = this.H;
+    const max = Math.max(...metric.groups.map(g => g.p75)) * 1.1;
+    const x = v => L + v / max * (this.W - L - R);
+    [0, max / 2, max].forEach(t => {
+      this.line(x(t), TOP, x(t), H - 20);
+      this.text(x(t), H - 6, Fmt.thb(t), {anchor: "middle"});
+    });
+    metric.groups.forEach((g, i) => {
+      const yy = TOP + i * ROW + ROW / 2, c = colors[g.outcome];
+      const grp = svgEl("g", {class: "mark-g"}, this.svg);
+      this.text(L - 10, yy + 4, g.outcome, {anchor: "end", size: 12, fill: "var(--ink-2)"}, grp);
+      svgEl("line", {x1: x(g.p25), x2: x(g.p75), y1: yy, y2: yy, stroke: c, "stroke-width": 6, "stroke-linecap": "round", opacity: 0.35, class: "mark"}, grp);
+      svgEl("circle", {cx: x(g.median), cy: yy, r: 6, fill: c, stroke: "var(--card)", "stroke-width": 2, class: "mark"}, grp);
+      this.text(x(g.median), yy - 10, Fmt.thb(g.median), {anchor: "middle", fill: "var(--ink)", weight: 600, halo: true}, grp);
+      const hit = svgEl("rect", {x: 0, y: TOP + i * ROW, width: this.W, height: ROW, fill: "transparent"}, grp);
+      tooltip.bind(hit, () => [`${metric.metric} · ${g.outcome}`, [
+        {label: "Median", value: Fmt.n(g.median), color: c}, {label: "25th pct", value: Fmt.n(g.p25)},
+        {label: "75th pct", value: Fmt.n(g.p75)}]]);
+    });
+    this.table(["Outcome", "25th pct", "Median", "75th pct"], metric.groups.map(g => [g.outcome, Fmt.n(g.p25), Fmt.n(g.median), Fmt.n(g.p75)]));
+  }
+}
+
+/* ------------------------------------------------------------------ single-series horizontal bars */
+class HBarChart extends Chart {
+  constructor(host, rows, opts) {
+    const ROW = 24, TOP = 4;
+    super(host, 540, TOP + rows.length * ROW + 22);
+    const L = 170, R = 56, BAR = 14, H = this.H;
+    const max = Math.max(...rows.map(r => r.value)) * 1.05;
+    const x = v => L + v / max * (this.W - L - R);
+    [0, max / 2, max].forEach(t => {
+      this.line(x(t), TOP, x(t), H - 20);
+      this.text(x(t), H - 6, opts.format(t), {anchor: "middle"});
+    });
+    rows.forEach((r, i) => {
+      const yy = TOP + i * ROW + (ROW - BAR) / 2;
+      const g = svgEl("g", {class: "mark-g"}, this.svg);
+      this.text(L - 10, yy + BAR / 2 + 4, r.label, {anchor: "end", size: 12, fill: "var(--ink-2)"}, g);
+      svgEl("path", {d: Chart.barPath(L, yy, Math.max(1, x(r.value) - L), BAR, "right"), fill: opts.color, class: "mark"}, g);
+      this.text(x(r.value) + 6, yy + BAR / 2 + 4, opts.format(r.value), {fill: "var(--ink)", weight: 600, halo: true}, g);
+      const hit = svgEl("rect", {x: 0, y: TOP + i * ROW, width: this.W, height: ROW, fill: "transparent"}, g);
+      tooltip.bind(hit, () => [r.label, [{label: opts.valueName, value: opts.format(r.value), color: opts.color}]]);
+    });
+    this.table(["Feature", opts.valueName], rows.map(r => [r.label, opts.format(r.value)]));
+  }
+}
+
+/* ------------------------------------------------------------------ sparkline (hero tile) */
+class Sparkline {
+  constructor(host, values, color) {
+    const W = 140, H = 44;
+    const svg = svgEl("svg", {viewBox: `0 0 ${W} ${H}`, width: W, height: H, "aria-hidden": "true"}, host);
+    const max = Math.max(...values), min = Math.min(...values);
+    const x = i => 2 + i / (values.length - 1) * (W - 8), y = v => 4 + (1 - (v - min) / (max - min || 1)) * (H - 10);
+    svgEl("polyline", {points: values.map((v, i) => `${x(i)},${y(v)}`).join(" "), fill: "none", stroke: "var(--muted)",
+      "stroke-width": 1.5, "stroke-linejoin": "round"}, svg);
+    const last = values.length - 1;
+    svgEl("circle", {cx: x(last), cy: y(values[last]), r: 3.5, fill: color, stroke: "var(--card)", "stroke-width": 2}, svg);
+  }
+}
+
+</script>
+<script>
+/* Figures - every chart of the analysis, built from the DATA payload. Shared by the dashboard, the slides and the guide. */
+"use strict";
+
+class Figures {
+  static SEGMENT_COLORS = {"Lower Mass": "var(--seg-1)", "Mass": "var(--seg-2)", "Upper Mass": "var(--seg-3)"};
+  static OUTCOME_COLORS = {"Rejected": "var(--rejected)", "PA": "var(--pa)", "Life": "var(--life)"};
+
+  static avg(s) { return (s.kpi.pa + s.kpi.life) / s.kpi.n; }
+
+  /** Render a figure by name: used by pages that declare <div data-fig="name" data-slice="All">. */
+  static render(name, host, data, sliceName = "All") {
+    const s = data.slices[sliceName], m = data.model;
+    const [kind, arg] = name.split(":");
+    const fn = {
+      volume: () => Figures.volume(host, s), rate: () => Figures.rate(host, s),
+      heatmap: () => new HeatmapChart(host, s.heatmap),
+      bubble: () => new BubbleChart(host, s.opportunity, Figures.SEGMENT_COLORS, Figures.avg(s)),
+      lift: () => new DivergingBarChart(host, s.lift),
+      agedist: () => Figures.ageDistribution(host, s.age_dist),
+      range: () => new DotRangeChart(host, s.ranges[+arg], Figures.OUTCOME_COLORS),
+      profile: () => new StackedBarChart(host, s.profile[arg], Figures.avg(s)),
+      gains: () => Figures.gains(host, m), deciles: () => Figures.deciles(host, m),
+      importance: () => Figures.importance(host, m, +arg || 10), tiers: () => Figures.tiers(host, m),
+    }[kind];
+    if (!fn) throw new Error("Unknown figure " + name);
+    fn();
+  }
+
+  static volume(host, s) {
+    const rows = s.month;
+    return new ColumnChart(host, rows.map(r => ({
+      label: r.cat, value: r.n,
+      tip: [`${r.cat} campaign`, [{label: "Customers contacted", value: Fmt.n(r.n), color: "var(--volume)"}]],
+      row: [r.cat, Fmt.n(r.n)],
+    })), {color: "var(--volume)", max: Math.ceil(Math.max(...rows.map(r => r.n)) * 1.1 / 5000) * 5000,
+          format: (v, label) => label ? Fmt.n(v) : Fmt.compact(v), headers: ["Month", "Customers"]});
+  }
+
+  static rate(host, s) {
+    const rows = s.month;
+    const total = rows.map(r => (r.pa + r.life) / r.n), pa = rows.map(r => r.pa / r.n), life = rows.map(r => r.life / r.n);
+    const chart = new LineChart(host, rows.map(r => r.cat), [
+      {name: "Total", values: total, color: "var(--ink)"},
+      {name: "PA", values: pa, color: "var(--pa)"},
+      {name: "Life", values: life, color: "var(--life)"},
+    ], {yMax: niceMax(Math.max(...total) * 1.15), yFormat: (v, tip) => tip ? Fmt.pct(v) : Fmt.tick(v),
+        tipTitle: (mo, i) => `${mo} · ${Fmt.n(rows[i].n)} contacted`,
+        table: {headers: ["Month", "Total", "PA", "Life"], rows: rows.map((r, i) => [r.cat, Fmt.pct(total[i]), Fmt.pct(pa[i]), Fmt.pct(life[i])])}});
+    const hi = total.indexOf(Math.max(...total));
+    chart.annotate(hi, total[hi], `${rows[hi].cat} ${Fmt.pct(total[hi], 1)}`, "var(--ink)");
+    return chart;
+  }
+
+  static ageDistribution(host, dist) {
+    const names = Object.keys(dist.series);
+    const max = Math.max(...names.flatMap(n => dist.series[n]));
+    return new LineChart(host, dist.x.map(String),
+      names.map(n => ({name: n, values: dist.series[n], color: Figures.OUTCOME_COLORS[n]})),
+      {yMax: Math.ceil(max * 1.15), yFormat: (v, tip) => (tip ? v.toFixed(1) : Math.round(v)) + "%", xEvery: 5,
+       tipTitle: a => `Age ${a}–${+a + 1}`,
+       table: {headers: ["Age", ...names], rows: dist.x.map((a, i) => [`${a}–${a + 1}`, ...names.map(n => dist.series[n][i].toFixed(1) + "%")])}});
+  }
+
+  static gains(host, m) {
+    const chart = new LineChart(host, m.gains.map(g => String(g.pct_contacted)), [
+      {name: "Model", values: m.gains.map(g => g.pct_buyers / 100), color: "var(--model)", area: true},
+      {name: "Random targeting", values: m.gains.map(g => g.pct_contacted / 100), color: "var(--muted)", width: 1.5},
+    ], {yMax: 1, yTicks: [0, 0.25, 0.5, 0.75, 1], yFormat: v => Math.round(v * 100) + "%", xEvery: 10, height: 260,
+        tipTitle: p => `Contact top ${p}% of customers`,
+        table: {headers: ["% contacted", "% buyers (model)", "% buyers (random)"],
+                rows: m.gains.filter(g => g.pct_contacted % 10 === 0).map(g => [g.pct_contacted + "%", g.pct_buyers.toFixed(1) + "%", g.pct_contacted + "%"])}});
+    chart.annotate(20, m.top20_capture / 100, `Top 20% → ${Math.round(m.top20_capture)}% of buyers`, "var(--model)");
+    return chart;
+  }
+
+  static deciles(host, m) {
+    return new ColumnChart(host, m.deciles.map(d => ({
+      label: "D" + d.decile, value: d.lift,
+      tip: [`Decile ${d.decile} (${(d.decile - 1) * 10}–${d.decile * 10}% highest scores)`, [
+        {label: "Lift", value: d.lift.toFixed(2) + "×", color: "var(--model)"},
+        {label: "Acceptance", value: Fmt.pct(d.rate)}, {label: "Share of buyers", value: Fmt.pct(d.capture, 1)}]],
+      row: ["D" + d.decile, d.lift.toFixed(2) + "×", Fmt.pct(d.rate), Fmt.pct(d.capture, 1)],
+    })), {color: "var(--model)", max: Math.ceil(m.deciles[0].lift), ref: 1, refLabel: "average = 1×",
+          format: v => v.toFixed(1) + "×", headers: ["Decile", "Lift", "Acceptance", "Share of buyers"]});
+  }
+
+  static importance(host, m, top = 10) {
+    return new HBarChart(host, m.importance.slice(0, top).map(r => ({label: r.feature, value: r.importance})),
+      {color: "var(--model)", format: v => v.toFixed(3), valueName: "AUC drop when shuffled"});
+  }
+
+  static tierRows(m) {
+    return [
+      {name: "A · Call first", from: 1, to: 2, action: "Agent call, best offer"},
+      {name: "B · Standard", from: 3, to: 5, action: "Standard campaign"},
+      {name: "C · Low priority", from: 6, to: 10, action: "Digital only or skip"},
+    ].map(x => {
+      const ds = m.deciles.filter(d => d.decile >= x.from && d.decile <= x.to);
+      const rate = ds.reduce((a, d) => a + d.rate, 0) / ds.length;
+      return {...x, rate, lift: rate / m.base_rate, capture: ds.reduce((a, d) => a + d.capture, 0)};
+    });
+  }
+
+  static tiers(host, m) {
+    host.replaceChildren();
+    const t = htmlEl("table", null, host);
+    let tr = htmlEl("tr", null, t);
+    ["Tier", "Customers", "Acceptance", "Lift", "Share of buyers", "Treatment"].forEach((h, i) => htmlEl("th", h, tr, i && i < 5 ? "num" : ""));
+    Figures.tierRows(m).forEach(x => {
+      tr = htmlEl("tr", null, t);
+      htmlEl("td", null, tr).appendChild(htmlEl("b", x.name));
+      htmlEl("td", `Top ${(x.from - 1) * 10}–${x.to * 10}%`, tr, "num");
+      htmlEl("td", Fmt.pct(x.rate), tr, "num");
+      htmlEl("td", x.lift.toFixed(1) + "×", tr, "num");
+      htmlEl("td", Fmt.pct(x.capture, 0), tr, "num");
+      htmlEl("td", x.action, tr);
+    });
+  }
+}
+
+/** Fill every <div data-fig> and <span data-num> on a page. */
+function renderFigurePage(data) {
+  document.querySelectorAll("[data-fig]").forEach(el => Figures.render(el.dataset.fig, el, data, el.dataset.slice || "All"));
+}
+
+</script>
+<script>
+/* Dashboard controller - renders every section from the DATA payload and wires the segment filter. */
+"use strict";
+
+class Dashboard {
+  constructor(data) {
+    this.data = data;
+    this.$ = id => document.getElementById(id);
+  }
+
+  init() {
+    this.renderStatic();
+    this.bindFilter();
+    this.renderSlice("All");
+  }
+
+  bindFilter() {
+    const buttons = document.querySelectorAll(".filters button");
+    buttons.forEach(b => b.addEventListener("click", () => {
+      buttons.forEach(x => x.setAttribute("aria-pressed", x === b));
+      this.renderSlice(b.dataset.slice);
+    }));
+  }
+
+  /* ------------------------------------------------------------ filtered sections */
+  renderSlice(name) {
+    const s = this.data.slices[name];
+    const avg = (s.kpi.pa + s.kpi.life) / s.kpi.n;
+    const scope = name === "All" ? "all customers" : name;
+    document.querySelectorAll("[data-scope]").forEach(e => e.textContent = scope);
+    this.renderTiles(s);
+    const fig = (figure, id) => Figures.render(figure, this.$(id), this.data, name);
+    fig("volume", "c-volume");
+    fig("rate", "c-rate");
+    fig("heatmap", "c-heatmap");
+    fig("bubble", "c-bubble");
+    fig("lift", "c-lift");
+    fig("agedist", "c-agedist");
+    s.ranges.forEach((_, i) => fig("range:" + i, "c-range-" + i));
+    this.renderProfiles(s, avg, name);
+  }
+
+  renderTiles(s) {
+    const host = this.$("tiles"), k = s.kpi, acc = k.pa + k.life;
+    host.replaceChildren();
+    const tile = (label, value, sub, cls = "", color = null) => {
+      const t = htmlEl("div", null, host, "tile " + cls);
+      const l = htmlEl("div", null, t, "label");
+      if (color) htmlEl("i", null, l, "key").style.background = color;
+      l.appendChild(document.createTextNode(label));
+      htmlEl("div", value, t, "value");
+      htmlEl("div", sub, t, "sub");
+      return t;
+    };
+    const hero = tile("Acceptance rate", Fmt.pct(acc / k.n), `${Fmt.n(acc)} of ${Fmt.n(k.n)} customers bought · trend Jan→Dec`, "hero");
+    new Sparkline(htmlEl("div", null, hero, "spark"), s.month.map(r => (r.pa + r.life) / r.n), "var(--ink)");
+    tile("Customers contacted", Fmt.n(k.n), "offers across 12 campaign months");
+    tile("PA insurance", Fmt.pct(k.pa / k.n), `${Fmt.n(k.pa)} policies sold`, "", "var(--pa)");
+    tile("Life insurance", Fmt.pct(k.life / k.n), `${Fmt.n(k.life)} policies sold`, "", "var(--life)");
+    tile("Product mix", `${Math.round(k.pa / acc * 100)} / ${Math.round(k.life / acc * 100)}`, "PA / Life share of sales");
+  }
+
+  renderProfiles(s, avg, name) {
+    const host = this.$("profile-charts");
+    host.replaceChildren();
+    Object.entries(s.profile).forEach(([k, rows]) => {
+      if (name !== "All" && k === "segment") return;
+      const c = htmlEl("div", null, host, "card");
+      htmlEl("h3", this.data.titles[k], c);
+      htmlEl("div", `Acceptance rate · ${name === "All" ? "all customers" : name}`, c, "cap");
+      Figures.render("profile:" + k, htmlEl("div", null, c), this.data, name);
+    });
+  }
+
+  /* ------------------------------------------------------------ unfiltered sections */
+  renderStatic() {
+    this.renderModel();
+    this.renderProfileTable();
+    this.renderDataset();
+  }
+
+  renderModel() {
+    const m = this.data.model;
+    const top10 = m.deciles[0];
+    this.$("model-finding").textContent =
+      `Contacting only the top 20% of customers ranked by the model would reach ${Math.round(m.top20_capture)}% of buyers. ` +
+      `The top 10% buy at ${Fmt.pct(top10.rate, 1)}, ${top10.lift.toFixed(1)}× the average (ROC-AUC ${m.roc_auc.toFixed(2)}).`;
+
+    const host = this.$("model-tiles");
+    [["ROC-AUC", m.roc_auc.toFixed(3), "0.5 = random · 1.0 = perfect"],
+     ["Top 20% captures", Math.round(m.top20_capture) + "%", "of all buyers in the test set"],
+     ["Top-decile lift", top10.lift.toFixed(1) + "×", `${Fmt.pct(top10.rate, 1)} vs ${Fmt.pct(m.base_rate, 1)} average`],
+     ["PR-AUC", m.pr_auc.toFixed(3), `${(m.pr_auc / m.base_rate).toFixed(1)}× the ${Fmt.pct(m.base_rate, 1)} baseline`]]
+      .forEach(([l, v, s]) => {
+        const t = htmlEl("div", null, host, "tile");
+        htmlEl("div", l, t, "label"); htmlEl("div", v, t, "value"); htmlEl("div", s, t, "sub");
+      });
+
+    Figures.gains(this.$("c-gains"), m);
+    Figures.deciles(this.$("c-deciles"), m);
+    Figures.importance(this.$("c-importance"), m, 10);
+    Figures.tiers(this.$("tiers"), m);
+  }
+
+  renderProfileTable() {
+    const p = this.data.profiles, cols = Object.keys(p), t = this.$("profiles");
+    let tr = htmlEl("tr", null, t);
+    htmlEl("th", "Measure", tr);
+    cols.forEach(c => htmlEl("th", c, tr, "num"));
+    Object.keys(p[cols[0]]).forEach(m => {
+      tr = htmlEl("tr", null, t);
+      htmlEl("td", m, tr);
+      cols.forEach(c => htmlEl("td", p[c][m], tr, "num"));
+    });
+  }
+
+  renderDataset() {
+    const q = this.data.quality, raw = this.data.raw_kpi, ds = this.$("ds-tiles");
+    [["Rows", Fmt.n(q.n_rows), `${Fmt.n(raw.analysed)} analysed after cleaning`], ["Columns", String(q.n_cols), "25 features + label"],
+     ["Campaign months", "12", "Jan–Dec, no year given"], ["Target (label)", "3 classes", "0 Reject · 1 PA · 2 Life"]]
+      .forEach(([l, v, s]) => {
+        const d = htmlEl("div", null, ds, "tile");
+        htmlEl("div", l, d, "label"); htmlEl("div", v, d, "value"); htmlEl("div", s, d, "sub");
+      });
+
+    const st = this.$("summary");
+    let tr = htmlEl("tr", null, st);
+    ["Field", "Type", "Definition", "Missing", "Profile"].forEach((c, i) => htmlEl("th", c, tr, i === 3 ? "num" : ""));
+    q.fields.forEach(f => {
+      tr = htmlEl("tr", null, st);
+      htmlEl("td", null, tr).appendChild(htmlEl("code", f.field));
+      htmlEl("td", f.dtype, tr);
+      htmlEl("td", f.definition, tr);
+      htmlEl("td", f.missing ? `${Fmt.n(f.missing)} (${f.missing_pct}%)` : "–", tr, "num");
+      htmlEl("td", f.profile, tr);
+    });
+
+    const ul = this.$("dq");
+    q.issues.forEach(i => {
+      const li = htmlEl("li", null, ul);
+      htmlEl("span", i.category, li, "tag");
+      li.appendChild(document.createTextNode(i.description));
+    });
+  }
+}
+
+new Dashboard(DATA).init();
+
+</script>
+</body>
+</html>

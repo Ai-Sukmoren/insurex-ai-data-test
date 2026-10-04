@@ -1,0 +1,407 @@
+{
+ "generated": "2026-10-04T00:01:46",
+ "turns": [
+  {
+   "session_id": "alice",
+   "user": "Hi there!",
+   "reply": "Hi there! How can I assist you today? I'm here to help with InsureX products like PA Plus, Life Secure, and Health Care Plus.",
+   "path": [
+    "classify",
+    "smalltalk",
+    "update_memory"
+   ],
+   "seconds": 1.872633000020869,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Small talk"
+  },
+  {
+   "session_id": "alice",
+   "user": "How much does PA Plus Gold cost per year?",
+   "reply": "The annual premium for PA Plus Gold is 3,490 THB for occupation classes 1-2 and 4,590 THB for occupation class 3 [01_PA_Plus_Personal_Accident.pdf, p.1].",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "generate",
+    "update_memory"
+   ],
+   "seconds": 4.664430900011212,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "RAG answer with citation"
+  },
+  {
+   "session_id": "alice",
+   "user": "And how much does it pay for medical expenses?",
+   "reply": "PA Plus Gold covers medical expenses up to 50,000 THB per accident [01_PA_Plus_Personal_Accident.pdf, p.1].",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "generate",
+    "update_memory"
+   ],
+   "seconds": 2.2370882999384776,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Follow-up resolved from memory ('it' = PA Plus Gold)"
+  },
+  {
+   "session_id": "alice",
+   "user": "Do you sell car insurance?",
+   "reply": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with PA Plus, Life Secure and Health Care Plus, or you can call our contact centre on 02-123-4567.",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "rewrite_query",
+    "retrieve",
+    "grade",
+    "not_found",
+    "update_memory"
+   ],
+   "seconds": 2.0578426000429317,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Not in the knowledge base: retrieve > grade > rewrite > retrieve cycle, then fallback"
+  },
+  {
+   "session_id": "alice",
+   "user": "I'm interested in PA Plus. Can an agent contact me?",
+   "reply": "Great to hear you're interested in PA Plus! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "path": [
+    "classify",
+    "extract_lead",
+    "ask_missing",
+    "update_memory"
+   ],
+   "seconds": 1.4712997999740764,
+   "mode": "lead_collection",
+   "lead": {},
+   "missing": [
+    "name",
+    "occupation",
+    "monthly_income",
+    "phone"
+   ],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Interest triggers lead-collection mode"
+  },
+  {
+   "session_id": "alice",
+   "user": "My name is Alice Wong and I work as a nurse",
+   "reply": "Thank you Alice Wong! Could you also share your monthly income (THB) and a contact phone number?",
+   "path": [
+    "classify",
+    "extract_lead",
+    "ask_missing",
+    "update_memory"
+   ],
+   "seconds": 1.3517974000424147,
+   "mode": "lead_collection",
+   "lead": {
+    "name": "Alice Wong",
+    "occupation": "nurse"
+   },
+   "missing": [
+    "monthly_income",
+    "phone"
+   ],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Partial lead details extracted"
+  },
+  {
+   "session_id": "alice",
+   "user": "Before that - is riding a motorcycle covered?",
+   "reply": "Yes, riding a motorcycle is covered under PA Plus, and there is no extra premium for this coverage [01_PA_Plus_Personal_Accident.pdf, p.1].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "generate",
+    "update_memory"
+   ],
+   "seconds": 5.358883399982005,
+   "mode": "lead_collection",
+   "lead": {
+    "name": "Alice Wong",
+    "occupation": "nurse"
+   },
+   "missing": [
+    "monthly_income",
+    "phone"
+   ],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Side question answered during lead collection, then reminder"
+  },
+  {
+   "session_id": "alice",
+   "user": "I earn about 32,000 baht a month, my number is 089-765-4321",
+   "reply": "Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about PA Plus shortly.",
+   "path": [
+    "classify",
+    "extract_lead",
+    "save_lead",
+    "update_memory"
+   ],
+   "seconds": 3.326034800033085,
+   "mode": "qa",
+   "lead": {
+    "name": "Alice Wong",
+    "occupation": "nurse",
+    "monthly_income": 32000.0,
+    "phone": "089-765-4321"
+   },
+   "missing": [],
+   "lead_id": 1,
+   "error": null,
+   "purpose": "Lead complete: validated and saved through the MCP tool"
+  },
+  {
+   "session_id": "alice",
+   "user": "What's my name, and what did I ask about first?",
+   "reply": "Your name is Alice Wong, and you first asked about the cost of PA Plus Gold.",
+   "path": [
+    "classify",
+    "recall",
+    "update_memory"
+   ],
+   "seconds": 1.170071900007315,
+   "mode": "qa",
+   "lead": {
+    "name": "Alice Wong",
+    "occupation": "nurse",
+    "monthly_income": 32000.0,
+    "phone": "089-765-4321"
+   },
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Recall from this session's memory"
+  },
+  {
+   "session_id": "somchai",
+   "user": "Life Secure ลดหย่อนภาษีได้สูงสุดเท่าไหร่",
+   "reply": "Life Secure สามารถลดหย่อนภาษีได้สูงสุด 100,000 บาทต่อปี ตามกฎของกรมสรรพากร [02_Life_Secure_Term_Life.pdf, p.1]",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "generate",
+    "update_memory"
+   ],
+   "seconds": 4.528089500032365,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Thai question, answer from English documents"
+  },
+  {
+   "session_id": "somchai",
+   "user": "ผู้หญิงอายุ 30 ไม่สูบบุหรี่ ทุน 1 ล้าน แบบ 10 ปี เบี้ยปีละเท่าไหร่",
+   "reply": "ผู้หญิงอายุ 30 ไม่สูบบุหรี่ ทุน 1 ล้าน แบบ 10 ปี เบี้ยประกันต่อปีคือ 1,900 บาท [02_Life_Secure_Term_Life.pdf, p.1]",
+   "path": [
+    "classify",
+    "contextualize",
+    "retrieve",
+    "grade",
+    "generate",
+    "update_memory"
+   ],
+   "seconds": 5.25134119996801,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Premium table lookup"
+  },
+  {
+   "session_id": "somchai",
+   "user": "สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678",
+   "reply": "ขอบคุณค่ะ คุณสมชาย ใจดี บันทึกข้อมูลเรียบร้อยแล้ว (หมายเลข 2) ตัวแทนจะติดต่อกลับที่เบอร์ 0812345678 เร็ว ๆ นี้ค่ะ",
+   "path": [
+    "classify",
+    "extract_lead",
+    "save_lead",
+    "update_memory"
+   ],
+   "seconds": 2.687781300046481,
+   "mode": "qa",
+   "lead": {
+    "name": "สมชาย ใจดี",
+    "occupation": "วิศวกร",
+    "monthly_income": 50000.0,
+    "phone": "081-234-5678"
+   },
+   "missing": [],
+   "lead_id": 2,
+   "error": null,
+   "purpose": "All lead details in one Thai message, saved via MCP"
+  },
+  {
+   "session_id": "dave",
+   "user": "I'd like to apply for Health Care Plus",
+   "reply": "Great to hear you're interested in Health Care Plus! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "path": [
+    "classify",
+    "extract_lead",
+    "ask_missing",
+    "update_memory"
+   ],
+   "seconds": 1.4337708000093699,
+   "mode": "lead_collection",
+   "lead": {},
+   "missing": [
+    "name",
+    "occupation",
+    "monthly_income",
+    "phone"
+   ],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Lead mode for another customer"
+  },
+  {
+   "session_id": "dave",
+   "user": "Dave Miller, software developer, 85000 per month, phone 12345",
+   "reply": "Sorry, some details don't look right. Could you check a contact phone number again?",
+   "path": [
+    "classify",
+    "extract_lead",
+    "save_lead",
+    "update_memory"
+   ],
+   "seconds": 2.441811400000006,
+   "mode": "lead_collection",
+   "lead": {
+    "name": "Dave Miller",
+    "occupation": "software developer",
+    "monthly_income": 85000.0
+   },
+   "missing": [
+    "phone"
+   ],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Invalid phone rejected by the MCP tool's validation"
+  },
+  {
+   "session_id": "dave",
+   "user": "Sorry, it's 091-555-0123",
+   "reply": "Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about Health Care Plus shortly.",
+   "path": [
+    "classify",
+    "extract_lead",
+    "save_lead",
+    "update_memory"
+   ],
+   "seconds": 2.668099100003019,
+   "mode": "qa",
+   "lead": {
+    "name": "Dave Miller",
+    "occupation": "software developer",
+    "monthly_income": 85000.0,
+    "phone": "091-555-0123"
+   },
+   "missing": [],
+   "lead_id": 3,
+   "error": null,
+   "purpose": "Corrected value accepted and saved"
+  },
+  {
+   "session_id": "bob",
+   "user": "What's my name? What did I ask you before?",
+   "reply": "I don't have any previous conversation history to reference.",
+   "path": [
+    "classify",
+    "recall",
+    "update_memory"
+   ],
+   "seconds": 0.9321667000185698,
+   "mode": "qa",
+   "lead": {},
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Session separation: Bob cannot see Alice's conversation"
+  },
+  {
+   "session_id": "alice",
+   "user": "Can you remind me how much the Gold plan was?",
+   "reply": "The annual premium for PA Plus Gold is 3,490 THB for occupation classes 1-2 and 4,590 THB for occupation class 3.",
+   "path": [
+    "classify",
+    "recall",
+    "update_memory"
+   ],
+   "seconds": 3.017251299927011,
+   "mode": "qa",
+   "lead": {
+    "name": "Alice Wong",
+    "occupation": "nurse",
+    "monthly_income": 32000.0,
+    "phone": "089-765-4321"
+   },
+   "missing": [],
+   "lead_id": null,
+   "error": null,
+   "purpose": "Memory survives a restart (new process, same session id)"
+  }
+ ],
+ "leads": [
+  {
+   "lead_id": 3,
+   "name": "Dave Miller",
+   "occupation": "software developer",
+   "monthly_income": 85000.0,
+   "phone": "0915550123",
+   "interested_product": "Health Care Plus",
+   "session_id": "dave",
+   "created_at": "2026-10-04T00:01:40"
+  },
+  {
+   "lead_id": 2,
+   "name": "สมชาย ใจดี",
+   "occupation": "วิศวกร",
+   "monthly_income": 50000.0,
+   "phone": "0812345678",
+   "interested_product": "Life Secure",
+   "session_id": "somchai",
+   "created_at": "2026-10-04T00:01:33"
+  },
+  {
+   "lead_id": 1,
+   "name": "Alice Wong",
+   "occupation": "nurse",
+   "monthly_income": 32000.0,
+   "phone": "0897654321",
+   "interested_product": "PA Plus",
+   "session_id": "alice",
+   "created_at": "2026-10-04T00:01:20"
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+/* Case 2 presenter guide - A4 portrait */
+@page { size: A4; margin: 14mm 13mm; }
+:root { --ink: #12162a; --ink-2: #464d63; --muted: #7b8196; --line: #e3e5ee; --wash: #f4f6fb; --a1: #2f6fe8; --a2: #7c4ddb;
+        --lead: #b4461c; --mem: #047857; --ok: #047857; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: #fff; font: 13px/1.55 "Segoe UI", system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 19px; margin: 26px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--a1); }
+h3 { font-size: 14.5px; margin: 14px 0 4px; }
+p { margin: 5px 0; }
+code { font-family: Consolas, ui-monospace, monospace; font-size: .92em; }
+.cover { padding: 30px 0 12px; border-bottom: 4px solid var(--a2); margin-bottom: 8px; }
+.cover .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--a1); }
+.cover p { font-size: 15px; color: var(--ink-2); }
+.box { border-radius: 8px; padding: 10px 14px; margin: 8px 0; break-inside: avoid; }
+.box.say { background: #f3f2ee; border-left: 4px solid var(--ink); font-style: italic; }
+.box.say::before { content: "Say: "; font-style: normal; font-weight: 700; }
+.box.warn { background: #fdf3e7; border-left: 4px solid var(--lead); }
+.box.tip { background: #eef3fd; border-left: 4px solid var(--a1); }
+.g-slide { break-before: page; }
+.g-head { display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid var(--a1); padding-bottom: 4px; margin: 0 0 8px; }
+.g-head .num { font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--a1), var(--a2)); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.g-head h2 { border: 0; margin: 0; padding: 0; font-size: 17.5px; flex: 1; }
+.g-head .time { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.lbl { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+ul, ol { margin: 4px 0; padding-left: 20px; } li { margin: 3px 0; }
+.qa { margin: 7px 0; break-inside: avoid; }
+.qa .q { font-weight: 700; } .qa .q::before { content: "Q: "; color: var(--a1); }
+.qa .a::before { content: "A: "; font-weight: 700; color: var(--ok); }
+table { border-collapse: collapse; width: 100%; font-size: 12px; margin: 6px 0; }
+th, td { text-align: left; padding: 4px 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--wash); color: var(--ink-2); }
+td.num, th.num { text-align: right; white-space: nowrap; } td.c { text-align: center; }
+code.path { font-size: 10px; color: var(--ink-2); }
+.fig { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; break-inside: avoid; }
+.fig img, .fig svg { width: 100%; display: block; }
+.demo-table td { font-size: 11px; }

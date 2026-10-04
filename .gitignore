@@ -1,0 +1,18 @@
+# Confidential inputs provided by InsureX (not redistributed)
+00_Brief/
+Case1A_Data_Analysis/data/raw/*
+!Case1A_Data_Analysis/data/raw/README.md
+
+# Environments / dependencies / caches
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+
+# Local runtime state (chat sessions, leads, indexes)
+Case2_GenAI_RAG/data/
+Case2_GenAI_RAG/logs/agent.log

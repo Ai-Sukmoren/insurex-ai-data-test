@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case 2 Presenter Guide</title>
+<style>
+$guide_css
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 2</div>
+  <h1>Presenter Guide</h1>
+  <p>How to present the RAG sales assistant: what each slide means, what to say, how to run the live demo, the exact numbers,
+  and answers to the technical questions a panel is likely to ask.</p>
+</div>
+
+<h2>How to use this guide</h2>
+<ul>
+  <li>One section per slide of <i>Case 2 Presentation.pdf</i>: <b>purpose</b>, <b>how to explain it</b>, <b>key points</b>, a short <b>script</b> and <b>likely questions</b>.</li>
+  <li>The panel will grade four things from the brief: <b>RAG precision</b>, <b>workflow logic</b> (LangGraph cycles, nodes, state), <b>data integrity</b> (leads) and <b>code quality</b>. Every slide maps to at least one.</li>
+  <li>All numbers come from the latest run of <code>python main.py eval</code> and <code>python main.py demo</code> (<code>$chat_model</code> + <code>$embed_model</code>).</li>
+</ul>
+
+<h3>Timing plan (about 15 minutes + live demo + Q&amp;A)</h3>
+<table>
+  <tr><th>Slides</th><th>Part</th><th class="num">Minutes</th></tr>
+  <tr><td>1–3</td><td>Brief, architecture</td><td class="num">2.5</td></tr>
+  <tr><td>4–6</td><td>Knowledge base, LangGraph flow, precision and not-found handling</td><td class="num">4.5</td></tr>
+  <tr><td>7–8</td><td>Bonus 1 (leads via MCP), bonus 2 (memory)</td><td class="num">3</td></tr>
+  <tr><td>9–11</td><td>Web chat, demo, results</td><td class="num">3</td></tr>
+  <tr><td>12–15</td><td>Code quality, lessons, next steps, close</td><td class="num">2</td></tr>
+  <tr><td>–</td><td>Live demo (optional, see below)</td><td class="num">3–5</td></tr>
+</table>
+
+<h3>The story in 60 seconds</h3>
+<div class="box say">I built a sales assistant that answers questions only from InsureX's product documents and cites the page every time. It's a LangGraph state machine: it routes each message, searches a FAISS index, uses the LLM to check the passages really answer the question, retries once with a better query, and if there's still nothing it says so instead of making something up. When a customer says they're interested, it switches into lead mode, collects their name, job, income and phone over several messages, and saves them through an MCP tool that validates the data. Every chat has its own memory, including a running summary for long conversations, and it all runs locally on Ollama, with a React web chat that shows the agent working step by step. On my test set it found the right document every time, answered all 16 answerable questions correctly and refused both off-topic ones.</div>
+
+<h3>Live demo script (3–5 minutes)</h3>
+<div class="box tip"><b>Before the interview:</b> start Ollama, run <code>start_chatbot.bat</code>, and send one warm-up question. The first answer loads the model and takes about 30 s; after that, answers take 2–7 s. Keep the browser on <b>New chat</b>.</div>
+<ol>
+  <li><b>"How much does PA Plus Gold cost per year?"</b> Point at the streaming answer, the source chip, and the <b>Agent pipeline</b> panel lighting up: classify → contextualize → retrieve → grade → generate → update_memory.</li>
+  <li><b>"And how much does it pay for medical expenses?"</b> This shows memory: "it" is resolved to PA Plus Gold.</li>
+  <li><b>"Do you sell car insurance?"</b> Point at the orange <b>retry loop</b> (rewrite_query → retrieve) and the safe fallback.</li>
+  <li><b>"I'm interested, can an agent call me?"</b> The lead badge appears and the progress ring starts at 0/4.</li>
+  <li><b>"I'm Mai, a nurse, 30,000 a month, phone 12345"</b> The phone is rejected by the MCP tool's validation. Then send <b>"sorry, 081-234-5678"</b>: the lead is saved, a toast appears, and it shows in Saved leads.</li>
+  <li>Click <b>New chat</b> and ask <b>"What's my name?"</b> The new chat has no memory of Mai, which shows session separation. Click back to the first chat: the history is still there.</li>
+  <li>Hover the first chat in the sidebar and click <b>delete</b>. Explain that this erases its memory, while the saved lead stays.</li>
+</ol>
+<div class="box warn"><b>If something goes wrong live:</b> show <code>logs/demo_transcript.md</code> or slide 10. The demo is reproducible with <code>python main.py demo</code>.</div>
+
+<!-- 1 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 1</span><h2>Title</h2><span class="time">~20 s</span></div>
+  <p><b>Purpose:</b> name what you built and give three proof points: accuracy, workflow depth, testing.</p>
+  <div class="box say">This is my sales assistant for InsureX: it answers from the product documents, captures leads and remembers every chat. On my test set it answered every question correctly, it's built as a ${n_nodes}-node LangGraph, and it has $n_tests automated tests. Everything runs locally.</div>
+</section>
+
+<!-- 2 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 2</span><h2>The brief</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> show completeness. Go down the table quickly; the next slides go deeper.</p>
+  <ul>
+    <li><b>Framework:</b> LangChain for models, prompts and splitting; <b>LangGraph</b> for the workflow (state, nodes, conditional edges, a cycle).</li>
+    <li><b>FAISS</b> was chosen over ChromaDB: it's a lightweight library with no server, fast, and the index is saved to disk.</li>
+    <li><b>Both bonus tasks</b> are done: MCP lead collection and session memory.</li>
+  </ul>
+  <div class="box say">Here's the brief and how I covered it. Everything required is there, and I did both bonus tasks. I'll go through the interesting parts: how it avoids wrong answers, how lead capture works through MCP, and how memory works.</div>
+  <div class="qa"><div class="q">Why FAISS and not ChromaDB?</div><div class="a">For 5 documents, FAISS is the simplest: an in-process library with no extra service, saved as one file. I wrapped it in my own <code>FaissVectorStore</code> class (cosine similarity on normalised vectors), so switching to Chroma means replacing one class.</div></div>
+</section>
+
+<!-- 3 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 3</span><h2>Architecture</h2><span class="time">~1 min</span></div>
+  <ul>
+    <li><b>Left:</b> three ways in: the web chat (React, streaming), the CLI, and tests. All of them use the same service.</li>
+    <li><b>Middle:</b> <code>SalesAssistant</code> (service layer: sessions, streaming, locks, error handling) wraps the <b>LangGraph agent</b>.</li>
+    <li><b>Right:</b> four local services: Ollama ($chat_model) for language, FAISS + $embed_model for search, an MCP server writing leads to SQLite, and the SQLite checkpointer for memory.</li>
+  </ul>
+  <div class="box say">The architecture has three layers. The front ends, a web chat and a command line, all go through one service class. That service runs the LangGraph agent, which uses four local components: the Ollama model, the FAISS index, an MCP server for leads, and a SQLite checkpointer for memory. Nothing leaves the machine, which matters because we're handling customers' incomes and phone numbers.</div>
+  <div class="qa"><div class="q">Why a local model instead of GPT or Claude?</div><div class="a">Privacy and cost for a demo with personal data. The model is a setting (<code>CHAT_MODEL</code>), and the graph doesn't depend on the provider, so moving to a hosted model is a configuration change if the bank allows it.</div></div>
+</section>
+
+<!-- 4 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 4</span><h2>Knowledge base</h2><span class="time">~1 min</span></div>
+  <ul>
+    <li><b>Pipeline:</b> pypdf extracts text per page → <code>RecursiveCharacterTextSplitter</code> ($chunk_size characters, $chunk_overlap overlap, splitting on paragraphs first) → $embed_model embeddings (1024 dimensions) → FAISS inner-product index on normalised vectors, which equals cosine similarity.</li>
+    <li><b>Retrieval:</b> top $top_k chunks with a similarity floor of $min_rel, then the LLM grader.</li>
+    <li><b>Sample documents:</b> be upfront that the 5 PDFs are fictional samples, because the real ones weren't provided. Replacing them is <code>python main.py ingest</code>.</li>
+  </ul>
+  <div class="box say">Ingestion is one command: read the PDFs page by page, split them into overlapping chunks, embed them with bge-m3 and store them in FAISS. I chose bge-m3 because it's multilingual: a question in Thai finds the answer in an English document. The real five PDFs weren't in the files I received, so I created sample documents. Swapping in the real ones is just re-running ingest.</div>
+  <div class="qa"><div class="q">How did you choose the chunk size?</div><div class="a">Around 700 characters keeps one product rule or one table section together, and the overlap prevents a fact being cut in half. With the real documents I'd tune it on the evaluation set.</div></div>
+  <div class="qa"><div class="q">What if the real PDFs are scanned Thai documents?</div><div class="a">pypdf only reads text layers, so I'd add OCR (e.g. Tesseract with Thai, or a document AI service) before chunking. The rest of the pipeline stays the same.</div></div>
+</section>
+
+<!-- 5 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 5</span><h2>LangGraph design (the most important slide)</h2><span class="time">~2 min</span></div>
+  <div class="fig">$graph_svg</div>
+  <div class="lbl">How to walk through it</div>
+  <ol>
+    <li><b>classify</b> (LLM, structured output) picks the intent: question, interest, details, recall, decline or greeting. It sees the mode and recent history.</li>
+    <li><b>Question path:</b> contextualize (rewrites follow-ups using memory) → retrieve → grade → generate. If grading finds nothing, it takes the <b>cycle</b>: rewrite_query → retrieve again (max $top_k chunks, 1 retry), then not_found.</li>
+    <li><b>Lead path:</b> extract_lead → ask_missing (fields missing) or save_lead (complete, via MCP).</li>
+    <li><b>Memory:</b> recall answers questions about the chat itself. <b>Every</b> turn ends at update_memory, which maintains the running summary.</li>
+  </ol>
+  <div class="lbl">State (AgentState)</div>
+  <p><code>messages</code> (add_messages reducer) · <code>mode</code> (qa / lead_collection, persists across turns) · <code>lead</code> (partial draft) · <code>query</code>, <code>attempts</code>, <code>documents</code> (per turn) · <code>summary</code>, <code>summarized_upto</code> (memory).</p>
+  <div class="box say">This is the heart of it. Every message first goes to a router. Questions go through the RAG path: rewrite the question using memory, search, grade, answer. The orange loop is the cycle: if nothing relevant comes back, it rephrases and searches once more before giving up safely. Interest switches the agent into lead mode, which persists in the state, so the next message is understood as details. And every turn ends by updating memory. The LLM badges show which steps call the model; the routing decisions themselves are plain Python functions, which I unit-test.</div>
+  <div class="qa"><div class="q">Why not a ReAct agent that decides which tool to call?</div><div class="a">A free-form agent is harder to predict and test. Here the flow is explicit: the LLM classifies, extracts and writes, but the control flow is code. That makes behaviour auditable (every turn logs its path) and lets me guarantee rules such as "never answer without relevant passages".</div></div>
+  <div class="qa"><div class="q">How do you prevent infinite loops?</div><div class="a">The retry counter (<code>attempts</code>) is in the state and capped by <code>max_query_rewrites</code> = 1, and the graph also has a recursion limit of 25.</div></div>
+</section>
+
+<!-- 6 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 6</span><h2>Precision and error handling</h2><span class="time">~1.5 min</span></div>
+  <ul>
+    <li><b>The bars:</b> top cosine similarity for three questions. "Car insurance" (0.52) scores almost like real questions (0.58–0.61), so <b>no threshold</b> can separate them.</li>
+    <li><b>The grader</b> sees the numbered passages and returns which ones <i>directly</i> answer. It's told explicitly that a list of other products doesn't answer a question about car insurance.</li>
+    <li><b>Safe defaults:</b> if the model's structured output fails, the grader defaults to "nothing relevant" → retry → fallback. Wrong refusals are better than invented answers.</li>
+    <li><b>Grounding:</b> the answer prompt allows only context facts, requires a citation after each fact, and must say which part wasn't found.</li>
+  </ul>
+  <div class="box say">This is how I keep precision high. The vector search always returns something, and as you can see, an off-topic question like car insurance scores almost as high as a real one. So I added a grading step where the model checks whether each passage really answers the question. If nothing does, it rephrases and tries once more, and then it politely says it couldn't find the information. On my test set it refused both off-topic questions and answered all 16 real ones.</div>
+  <div class="qa"><div class="q">Doesn't the grader add latency and cost?</div><div class="a">One short extra call per question, about 0.5–1 s locally, and no money. It's the step that prevents wrong answers, so it's worth it. For scale, a cross-encoder reranker could replace it.</div></div>
+</section>
+
+<!-- 7 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 7</span><h2>Bonus 1: lead collection with MCP</h2><span class="time">~1.5 min</span></div>
+  <ul>
+    <li><b>Trigger:</b> the router detects interest ("I'm interested", "สนใจ", "I'd like to apply") → <code>mode = lead_collection</code>.</li>
+    <li><b>Extraction:</b> the LLM fills a Pydantic <code>LeadDraft</code> (all fields optional) from the customer's messages since lead mode started. Values merge across turns, so details can come in any order.</li>
+    <li><b>MCP:</b> <code>mcp_server.py</code> is a standard Model Context Protocol server (FastMCP, stdio) with <code>save_lead</code> and <code>list_leads</code>. The agent calls it through langchain-mcp-adapters, and any MCP client could use it.</li>
+    <li><b>Data integrity:</b> validation happens <b>inside the tool</b> (Pydantic <code>Lead</code>): Thai phone format normalised to 10 digits, income &gt; 0, names trimmed. A rejected field is cleared and asked again; valid fields are kept.</li>
+    <li><b>Side questions</b> in the middle of collection are answered, then the agent reminds the customer what's still missing.</li>
+  </ul>
+  <div class="box say">When a customer shows interest, the agent switches into lead mode. It extracts the four fields into a Pydantic model, asks only for what's missing, and when everything is there it calls an MCP tool to save the lead. I put the validation inside the tool, so any client gets the same data quality. In the example, Dave gives an invalid phone, the tool rejects it, the agent asks only for the phone again, and then saves him as lead number 3.</div>
+  <div class="qa"><div class="q">Why MCP instead of just calling SQLite from Python?</div><div class="a">The brief asked for it, and it decouples the agent from the storage. The same tool could point to the real CRM, be used by other agents, or be tested with the MCP Inspector, and the agent code wouldn't change.</div></div>
+  <div class="qa"><div class="q">What about consent and PDPA?</div><div class="a">In production I'd show a consent line before collecting details, encrypt the leads table, and add retention rules. Deleting a chat already removes its conversation memory.</div></div>
+</section>
+
+<!-- 8 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 8</span><h2>Bonus 2: session memory</h2><span class="time">~1.5 min</span></div>
+  <ul>
+    <li><b>Checkpointer:</b> LangGraph's <code>AsyncSqliteSaver</code> stores the full state after each node, keyed by <code>thread_id = session_id</code>. That gives separation (one thread per chat) and persistence (survives restarts).</li>
+    <li><b>Efficient recall:</b> prompts get the last $window messages, not the whole history. Once more than $summarize_after messages are unsummarised, <code>update_memory</code> folds the older ones into a <b>running summary</b> (keeping the last $keep_recent verbatim). Prompts get summary + recent messages.</li>
+    <li><b>Session management:</b> a server-side index (<code>SessionIndex</code>) lists chats with title, date and message count; rename; delete erases the thread's checkpoints.</li>
+    <li><b>Concurrency:</b> one async lock per session, so two tabs can't interleave the same conversation.</li>
+  </ul>
+  <div class="box say">For memory, each chat is a separate LangGraph thread saved in SQLite. That gives separation, because Bob can't see Alice's chat, and persistence, because you can close the app and continue later. To stay efficient, the model only sees the most recent messages plus a running summary of older ones, which a dedicated node keeps up to date. I tested it with a long chat: after 14 messages, the agent still knew the customer was a pharmacist and could repeat the first price it had quoted.</div>
+  <div class="qa"><div class="q">Why not send the whole history every time?</div><div class="a">Long histories slow the model, can overflow the context window, and dilute attention. The summary keeps facts that matter (name, products, prices) at a fixed cost.</div></div>
+  <div class="qa"><div class="q">What does "delete" really delete?</div><div class="a">All checkpoints of that thread (the memory) and its index entry. Leads that were already saved are business records, so they stay; that's a deliberate choice I'd confirm with compliance.</div></div>
+</section>
+
+<!-- 9 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 9</span><h2>Web chatbot</h2><span class="time">~1 min</span></div>
+  <div class="fig"><img src="$img_chat" alt="Web chat"></div>
+  <ul>
+    <li><b>Stack:</b> React 19 + TypeScript, built with Node.js / Vite (<code>frontend/</code>); the build is served by FastAPI.</li>
+    <li><b>Streaming:</b> server-sent events with three kinds: <code>step</code> (a graph node finished), <code>token</code> (answer text) and <code>final</code> (full result with path, timing and lead state).</li>
+    <li><b>Panels:</b> chats (search, rename, delete), live agent pipeline, session memory (summary), lead capture (progress ring), saved leads (through MCP), knowledge base.</li>
+    <li><b>Safety:</b> model output is rendered as React text, never raw HTML; session IDs and message length are validated by the API.</li>
+  </ul>
+  <div class="box say">I also built a web chat so the agent can be used and inspected. Answers stream word by word, and the right-hand panel shows each LangGraph step as it happens, so you can literally watch the retry loop. You can see the lead being captured field by field, and each chat on the left has its own memory and can be renamed or deleted.</div>
+</section>
+
+<!-- 10 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 10</span><h2>Demo results</h2><span class="time">~1 min</span></div>
+  <p>Pick 3 rows to talk about: the follow-up resolved from memory, car insurance (the retry path), and Bob (separation). The full run is below.</p>
+  <table class="demo-table"><tr><th>Session</th><th>Customer</th><th>Assistant (full reply)</th><th>Path</th><th class="num">Time</th></tr>$demo_rows_full</table>
+  <div class="lbl">Leads saved in this run</div>
+  <table><tr><th>#</th><th>Name</th><th>Occupation</th><th class="num">Income</th><th>Phone</th><th>Product</th><th>Session</th></tr>$lead_rows</table>
+</section>
+
+<!-- 11 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 11</span><h2>Evaluation results</h2><span class="time">~1 min</span></div>
+  <ul>
+    <li><b>Retrieval hit rate $hit:</b> for every answerable question, the correct source document is in the top $top_k chunks.</li>
+    <li><b>Answer accuracy $acc:</b> the expected fact (e.g. "2,490", "120 days") appears in the agent's answer.</li>
+    <li><b>Out of scope refused $rej:</b> car and travel insurance get the fallback, not an invented answer.</li>
+    <li><b>Latency:</b> RAG answers average ${rag_avg} s on an RTX 4070 SUPER; routing and lead turns take 1–3 s.</li>
+  </ul>
+  <div class="box warn"><b>Be honest:</b> $n_eval questions on sample documents is a small test. Say what you'd do next: build 100+ questions with the sales team on the real PDFs, and add LLM-as-judge scoring for answer quality.</div>
+  <table><tr><th>#</th><th>Question</th><th class="c">Retrieval</th><th class="c">Answer</th><th>Answer text</th></tr>$eval_rows</table>
+</section>
+
+<!-- 12 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 12</span><h2>Code quality</h2><span class="time">~45 s</span></div>
+  <ul>
+    <li><b>OOP, one job per class:</b> loader, chunker, vector store, knowledge base, agent (graph), service, session index, lead models, repository, MCP server and client, demo runner, evaluator.</li>
+    <li><b>Configuration:</b> one <code>Settings</code> dataclass, overridable by environment variables; all prompts in <code>prompts.py</code>.</li>
+    <li><b>Error handling:</b> structured-output fallback chain; a turn never crashes; friendly message if Ollama is down; validated API inputs.</li>
+    <li><b>Tests:</b> $n_tests, including MCP over a real stdio connection, the web API with a fake agent, and an end-to-end test that runs only when Ollama is available.</li>
+  </ul>
+  <div class="box say">The code is organised as small classes with one job each, configuration is in one place, and every failure path returns a friendly answer instead of crashing. There are $n_tests tests, including one that talks to the MCP server over a real connection.</div>
+</section>
+
+<!-- 13 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 13</span><h2>Lessons learned</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> show engineering judgement. Panels value candidates who test, find problems and fix them.</p>
+  <ol>
+    <li><b>Similarity isn't relevance</b>, so I added the grader and the retry cycle.</li>
+    <li><b>Local structured output is fragile:</b> JSON-schema mode dropped fields; tool calling sometimes skipped the call (88% accuracy). A retry and fallback chain reached 100%.</li>
+    <li><b>Routing edge case:</b> a self-introduction started lead collection. The first fix then broke a Thai "interested + details" message in the demo, which led to the final rule: details count as a lead only after interest, or when a phone number is given.</li>
+  </ol>
+  <div class="box say">Three things went wrong during development, and each one was caught by the evaluation or the demo, which is exactly why I built them. The big lesson: with LLM systems, you need a test set and a replayable demo to change anything safely.</div>
+</section>
+
+<!-- 14 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 14</span><h2>Next steps</h2><span class="time">~45 s</span></div>
+  <ul>
+    <li>Real PDFs with OCR, and an evaluation set built with the sales team.</li>
+    <li>Hybrid search (BM25 + vectors) and a reranker, which helps with exact product codes and long documents.</li>
+    <li>Tracing (LangSmith or OpenTelemetry) and answer feedback in the UI.</li>
+    <li>Log-in per agent, PDPA consent, encrypted leads, CRM integration through the MCP tool, and Docker deployment.</li>
+  </ul>
+</section>
+
+<!-- 15 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 15</span><h2>Close</h2><span class="time">rest</span></div>
+  <div class="box say">To sum up: a LangGraph agent that only answers from the documents and refuses when it can't, captures validated leads through MCP, remembers each conversation, and runs entirely locally with a web chat. I'm happy to show it live or go into the code.</div>
+</section>
+
+<!-- cheat sheet -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Numbers cheat sheet</h2>
+  <table>
+    <tr><td>Models</td><td>$chat_model (chat, tool calling) + $embed_model (embeddings, 1024-d) via Ollama</td></tr>
+    <tr><td>Knowledge base</td><td>$n_docs sample PDFs → $n_chunks chunks ($chunk_size chars, $chunk_overlap overlap)</td></tr>
+    <tr><td>Retrieval</td><td>FAISS cosine, top $top_k, floor $min_rel, LLM grader, max 1 rewrite</td></tr>
+    <tr><td>Graph</td><td>$n_nodes nodes; one cycle (rewrite_query → retrieve); recursion limit 25</td></tr>
+    <tr><td>Memory</td><td>last $window messages + running summary after $summarize_after unsummarised (keep $keep_recent)</td></tr>
+    <tr><td>Evaluation</td><td>$n_eval questions: retrieval $hit · accuracy $acc · out-of-scope refused $rej</td></tr>
+    <tr><td>Demo</td><td>$n_turns turns, 4 customers + restart, $n_leads leads saved</td></tr>
+    <tr><td>Latency</td><td>RAG ≈ ${rag_avg} s average; lead and memory turns 1–3 s (RTX 4070 SUPER)</td></tr>
+    <tr><td>Tests</td><td>$n_tests pytest tests</td></tr>
+  </table>
+  <h3>Demo latency by turn type</h3>
+  <table><tr><th>Turn type</th><th class="num">Turns</th><th class="num">Average</th><th class="num">Range</th></tr>$latency_rows</table>
+</section>
+
+<!-- glossary -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Glossary</h2>
+  <table>
+    <tr><td><b>RAG</b></td><td>Retrieval-Augmented Generation: search relevant passages first, then let the LLM answer from them.</td></tr>
+    <tr><td><b>Embedding</b></td><td>A vector of numbers representing a text's meaning; similar texts have similar vectors.</td></tr>
+    <tr><td><b>Cosine similarity</b></td><td>How closely two vectors point the same way (1 = identical meaning).</td></tr>
+    <tr><td><b>Chunk</b></td><td>A small piece of a document (here about 700 characters) that is embedded and retrieved.</td></tr>
+    <tr><td><b>FAISS</b></td><td>Facebook AI Similarity Search: a library for fast vector search.</td></tr>
+    <tr><td><b>LangGraph</b></td><td>A library for building LLM workflows as graphs: nodes (steps), edges (transitions) and a shared state.</td></tr>
+    <tr><td><b>Conditional edge</b></td><td>A transition chosen by a function of the state (e.g. "relevant passages? → generate, else rewrite").</td></tr>
+    <tr><td><b>Cycle</b></td><td>An edge back to an earlier node (rewrite_query → retrieve), allowing a retry.</td></tr>
+    <tr><td><b>Reducer</b></td><td>How a state field is updated; <code>add_messages</code> appends new messages instead of replacing them.</td></tr>
+    <tr><td><b>Checkpointer / thread</b></td><td>LangGraph saves the state after each step under a thread ID; one thread = one conversation.</td></tr>
+    <tr><td><b>MCP</b></td><td>Model Context Protocol: an open standard for exposing tools and data to AI applications over stdio or HTTP.</td></tr>
+    <tr><td><b>Pydantic</b></td><td>A Python library for typed data models with validation.</td></tr>
+    <tr><td><b>Structured output / tool calling</b></td><td>Making the LLM return data that fits a schema, either by "calling a tool" with arguments or by JSON mode.</td></tr>
+    <tr><td><b>Grounding / hallucination</b></td><td>Grounded = based on the sources; a hallucination is a confident answer that isn't in the sources.</td></tr>
+    <tr><td><b>SSE</b></td><td>Server-sent events: a one-way HTTP stream from server to browser, used for steps and tokens.</td></tr>
+    <tr><td><b>Ollama</b></td><td>A local runtime for open LLMs (here Qwen3 14B and bge-m3).</td></tr>
+  </table>
+</section>
+
+<!-- Q&A -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Tough questions bank</h2>
+  <div class="qa"><div class="q">How would this scale to thousands of documents and users?</div><div class="a">FAISS handles millions of vectors (switching to an IVF/HNSW index); move the checkpointer to Postgres, run several API workers, and serve the model with vLLM or a hosted endpoint. The graph code stays the same.</div></div>
+  <div class="qa"><div class="q">What about prompt injection hidden in a document?</div><div class="a">Documents are company-controlled, which limits the risk; the answer prompt treats context as facts only, the graph controls the flow (the LLM can't call tools freely), and the only write action, saving a lead, uses validated fields.</div></div>
+  <div class="qa"><div class="q">How do you know the answer is grounded and not just correct by luck?</div><div class="a">Citations are required after each fact; the grader filters passages; and the evaluation checks retrieval and answer separately. Next I'd add an automatic "is every claim supported?" check.</div></div>
+  <div class="qa"><div class="q">Why Qwen3 14B?</div><div class="a">The best tool-calling model that fits in 12 GB of VRAM here, and it handles Thai. Thinking mode is turned off for speed. Smaller models work via the <code>CHAT_MODEL</code> setting, at some accuracy cost.</div></div>
+  <div class="qa"><div class="q">Why a separate grader instead of asking the generator to refuse?</div><div class="a">Separation of concerns: a small yes/no decision is more reliable than asking one prompt to judge and write at once, and it lets the graph branch (retry) instead of just refusing.</div></div>
+  <div class="qa"><div class="q">What happens if Ollama crashes during a chat?</div><div class="a">The service catches it, returns "the model service is not reachable", logs it, and the session stays usable when Ollama is back.</div></div>
+  <div class="qa"><div class="q">Can the agent save a lead with wrong data?</div><div class="a">It can only save what the customer typed (the extraction prompt forbids guessing), and the MCP tool rejects invalid phones, empty names and non-positive income. A human agent then calls the customer, which is the final check.</div></div>
+  <div class="qa"><div class="q">How is this different from a chatbot with a long system prompt?</div><div class="a">Explicit control flow, retrieval with citations, a refusal path, persistent state per session, and a validated write action. Every turn's path is logged and testable.</div></div>
+</section>
+
+</div>
+</body>
+</html>

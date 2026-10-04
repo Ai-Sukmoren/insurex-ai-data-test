@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Case 1A Presenter Guide</title>
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/guide.css">
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 1A</div>
+  <h1>Presenter Guide</h1>
+  <p>Everything you need to present the campaign analysis with confidence: how to read every chart, what to say, the exact numbers,
+  and answers to the questions the panel is likely to ask.</p>
+</div>
+
+<h2>How to use this guide</h2>
+<ul>
+  <li><b>One section per slide</b>, in the same order as <i>Case 1A Presentation.pdf</i>. Each section has the chart, <b>what it shows</b>,
+      <b>how to read it</b>, the <b>key numbers</b>, a short <b>script</b>, and <b>likely questions</b>.</li>
+  <li>The <b>script boxes</b> are a guide, not something to read aloud word for word. Know the one message per slide (the slide title) and the 2–3 numbers.</li>
+  <li>At the end: a <b>numbers cheat sheet</b>, a <b>glossary</b>, <b>method details</b> and a <b>bank of tough questions</b>.</li>
+</ul>
+
+<h3>Timing plan (about 15 minutes + Q&amp;A)</h3>
+<table>
+  <tr><th>Slides</th><th>Part</th><th class="num">Minutes</th><th>Goal</th></tr>
+  <tr><td>1–3</td><td>Opening, summary, data</td><td class="num">3</td><td>Give the answer first, then show the data is understood</td></tr>
+  <tr><td>4–6</td><td>Campaign &amp; where the buyers are</td><td class="num">3.5</td><td>Month effect, age beats income, priority groups</td></tr>
+  <tr><td>7–10</td><td>What drives acceptance</td><td class="num">4</td><td>Activity, product fit, buyer profile</td></tr>
+  <tr><td>11–12</td><td>Propensity model</td><td class="num">2.5</td><td>From analysis to an actionable score</td></tr>
+  <tr><td>13–15</td><td>Recommendations, limits, close</td><td class="num">2</td><td>Clear actions, honest limits</td></tr>
+</table>
+
+<h3>The story in 60 seconds</h3>
+<div class="box say">We offered PA and Life insurance to about 214,000 customers and 1.2% bought. That's low, but it isn't random. Young customers, active accounts with money flowing in, and customers who opened their account in the last few years buy two to three times more often than dormant ones. Affluent customers prefer Life; the mass market prefers PA. I turned this into a model that ranks customers: calling only the top 20% would reach about half of all buyers. So my recommendation is to score customers before each campaign, offer each one the right product, and stop mass-contacting people who almost never buy.</div>
+
+<h3>Colour code used in every chart</h3>
+<table>
+  <tr><td><i class="sw" style="background:var(--pa)"></i><b>Blue</b></td><td>PA insurance (or "above average" in the index chart)</td></tr>
+  <tr><td><i class="sw" style="background:var(--life)"></i><b>Orange</b></td><td>Life insurance</td></tr>
+  <tr><td><i class="sw" style="background:var(--rejected)"></i><b>Grey</b></td><td>Volume (customers contacted) or customers who rejected</td></tr>
+  <tr><td><i class="sw line" style="background:var(--ink)"></i><b>Black line</b></td><td>Total acceptance (PA + Life)</td></tr>
+  <tr><td><i class="sw dot" style="background:var(--seg-1)"></i><i class="sw dot" style="background:var(--seg-2)"></i><i class="sw dot" style="background:var(--seg-3)"></i></td><td>Segments in the bubble chart: green = Lower Mass, violet = Mass, pink = Upper Mass</td></tr>
+  <tr><td><i class="sw" style="background:var(--neg)"></i><b>Red</b></td><td>Below average (index chart only)</td></tr>
+  <tr><td><i class="sw" style="background:var(--model)"></i><b>Dark grey</b></td><td>Model results (gains, deciles, importance)</td></tr>
+</table>
+<p><b>The one definition to know:</b> <i>acceptance rate</i> = customers who bought ÷ customers contacted in that group. The overall average is <b>1.22%</b>.</p>
+
+<!-- ============================================================ 1 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 1</span><h2>Title: who buys, and how to target the next campaign</h2><span class="time">~30 s</span></div>
+  <p><b>Purpose:</b> set the topic and give the three headline numbers straight away, so the panel knows the punchline from the start.</p>
+  <div class="lbl">The three numbers on the slide</div>
+  <ul>
+    <li><b>1.22%</b>: overall acceptance rate (2,621 buyers out of 214,493 customers analysed).</li>
+    <li><b>3×</b>: active accounts (inflow 50k+) accept at 2.07%, against 0.71% for accounts with no inflow (2.07 ÷ 0.71 ≈ 2.9).</li>
+    <li><b>49%</b>: share of all buyers found in the top 20% of customers ranked by the model.</li>
+  </ul>
+  <div class="box say">Good morning. Today I'll show who buys insurance from our campaigns, why, and how a simple model can help us target the next campaign. Three numbers sum it up: 1.2% of customers bought, active accounts buy about three times more often, and a model finds half of the buyers in just 20% of the list.</div>
+</section>
+
+<!-- ============================================================ 2 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 2</span><h2>Executive summary</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> give the whole answer in one slide. If the panel only remembers this slide, they have the story.</p>
+  <div class="lbl">Left: four tiles</div>
+  <ul>
+    <li><b>Acceptance 1.22%</b>: 2,621 of 214,493 bought.</li>
+    <li><b>PA / Life = 62 / 38</b>: of the 2,621 sales, 1,633 were PA (0.76% of customers) and 988 Life (0.46%).</li>
+    <li><b>Best group 2.1%</b>: customers 1–12 months on book (new accounts), about 1.7× the average.</li>
+    <li><b>Model 49%</b>: calling the top-scored 20% reaches 49% of buyers.</li>
+  </ul>
+  <div class="lbl">Right: three messages</div>
+  <ol>
+    <li><b>Who buys:</b> young, active customers.</li>
+    <li><b>What they buy:</b> PA for the mass market, Life for the affluent.</li>
+    <li><b>How to target:</b> score first. Tiers A + B are 50% of the list but hold 82% of the buyers (49% + 33%).</li>
+  </ol>
+  <div class="box say">The headline: response is low at 1.2%, but it's very predictable. Who buys is mostly young, active customers. What they buy depends on wealth: PA for the mass market, Life for the affluent. And how to target: if we score customers first, half of the list holds more than 80% of the buyers.</div>
+  <div class="qa"><div class="q">Is 1.2% bad?</div><div class="a">For outbound insurance cross-sell, low single-digit response is normal. The point is not the level; it's that the response is very uneven across customers, which is what makes targeting valuable.</div></div>
+</section>
+
+<!-- ============================================================ 3 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 3</span><h2>Data &amp; approach</h2><span class="time">~1.5 min</span></div>
+  <p><b>Purpose:</b> show you understand the data and handled its problems. Panels for data roles always check this.</p>
+  <div class="lbl">What to explain</div>
+  <ul>
+    <li><b>The file:</b> 215,993 rows, 1 row = 1 customer who received an offer; 26 columns (demographics, segment, product holding, balances, cash flow, months on book) plus the outcome <code>label</code> (0 = reject, 1 = PA, 2 = Life).</li>
+    <li><b>Analysed 214,493:</b> 1,500 rows had every customer field empty, and only 0.07% of them bought (1 in 1,500), so they look like unmatched records and were removed.</li>
+    <li><b>Pipeline:</b> load → quality check → clean → analyse → model. It's written as Python classes and fully reproducible with <code>python main.py</code>.</li>
+    <li><b>Main data issues:</b>
+      <ul>
+        <li>The 15-day inflow, outflow and net-flow fields are identical to the 30-day fields in 100% of rows, so they're copies and were dropped.</li>
+        <li><code>currentacc_bal</code> is always 0, so it was dropped.</li>
+        <li>Marital status is in Thai with overlapping values; it was translated and merged.</li>
+        <li>Only 1.2% of rows are positive, which is why accuracy is useless here.</li>
+      </ul></li>
+  </ul>
+  <div class="box say">The data is one campaign file: about 216,000 offers with 26 customer fields and the outcome, reject, PA or Life. Before analysing it I checked the quality and found nine issues. The important ones: 1,500 rows were completely empty, the 15-day cash-flow columns are exact copies of the 30-day ones, and current-account balance is always zero. I removed or fixed those, and everything runs as a reproducible Python pipeline.</div>
+  <div class="qa"><div class="q">Why not remove the 2,173 duplicate rows?</div><div class="a">There's no customer ID, so I can't prove they're the same person. Two different customers can have identical values. I kept them and flagged it as a limitation.</div></div>
+  <div class="qa"><div class="q">Couldn't the empty rows be real customers?</div><div class="a">Possibly, but with no attributes they can't be analysed or targeted, and their 0.07% response says they aren't comparable. Including them would only dilute the rates.</div></div>
+</section>
+
+<!-- ============================================================ 4 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 4</span><h2>Smaller campaigns converted almost twice as well</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="volume"></div><div class="cap">Left chart: customers contacted per month</div></div>
+    <div class="g-fig"><div data-fig="rate"></div><div class="cap">Right chart: acceptance rate per month (black = total, blue = PA, orange = Life)</div></div>
+  </div>
+  <div class="lbl">What it shows</div>
+  <p>How many customers were contacted each month (left), and what share of them bought (right).</p>
+  <div class="lbl">How to read it</div>
+  <ul>
+    <li><b>Left:</b> grey column chart. Taller = more customers contacted. Labels mark the highest (Oct, 23,625) and lowest (Jun, 10,179) months.</li>
+    <li><b>Right:</b> line chart. The black line is the total rate; blue (PA) and orange (Life) add up to it. Read the height on the left axis.</li>
+    <li>Compare the two charts: <b>when the columns drop (May–Sep), the lines rise.</b></li>
+  </ul>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Jun–Sep: about 10–11k customers a month, acceptance <b>1.75–1.95%</b> (peak Aug 1.95%).</li>
+    <li>Big months (Jan–Apr, Oct–Dec): about 22–24k a month, acceptance <b>0.82–1.30%</b> (lowest Feb 0.82%).</li>
+    <li>PA swings from 0.29% (Feb) to 1.49% (Aug); Life stays between 0.28% and 0.72%.</li>
+  </ul>
+  <div class="box say">On the left is how many customers we contacted each month; on the right, how many of them bought. When volume halves in June to September, the acceptance rate nearly doubles, to about 1.9%. So more contacts didn't bring proportionally more sales. Notice the swing is almost all PA (the blue line); Life stays flat.</div>
+  <div class="box warn"><b>Careful:</b> don't claim volume <i>causes</i> the lower rate. The smaller campaigns may have targeted different customers or used a different offer, and there's no year to separate seasonality. Say "is associated with".</div>
+  <div class="qa"><div class="q">Could it just be seasonality?</div><div class="a">It could be. Without a year in the data I can't separate season from campaign design. That's why I'd test it: run a tighter, model-targeted list in a big month and compare.</div></div>
+</section>
+
+<!-- ============================================================ 5 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 5</span><h2>Age matters more than income: heatmap</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="heatmap"></div><div class="cap">Rows = age band, columns = monthly income band, colour = acceptance rate</div></div>
+    <div>
+      <div class="lbl">What it shows</div>
+      <p>The acceptance rate for every combination of age band (8 rows) and income band (7 columns): 56 cells, each with a few hundred to several thousand customers.</p>
+      <div class="lbl">How to read it</div>
+      <ul>
+        <li><b>Darker blue = higher acceptance.</b> The scale bar underneath runs from 0.7% (lightest) to 3.0% (darkest).</li>
+        <li>Read <b>across a row</b> to see whether income changes the rate for one age group; read <b>down a column</b> to see the effect of age at one income level.</li>
+        <li>A cell showing "–" would mean fewer than 300 customers (not shown, to avoid noisy rates). None appear in the full data.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Age ≤25 row: <b>1.9% to 3.0%</b> in every income band, the darkest row.</li>
+    <li>Ages 36+: almost every cell is <b>0.7–1.4%</b>.</li>
+    <li>Best cell: age ≤25 with income 30–50k = <b>3.0%</b> (726 customers). Lowest: 36–40 with 10–15k = 0.71%.</li>
+  </ul>
+  <div class="box say">This heatmap crosses age with income. Darker means more people bought. The striking thing is the top row: customers aged 25 and under convert at around 2% whatever their income. Moving down the chart, the colour fades; above 35 it's around 1% everywhere. So age is a much stronger signal than income.</div>
+  <div class="qa"><div class="q">Is the 3.0% cell reliable?</div><div class="a">It has 726 customers and 22 buyers, so the rate is noisier than the big cells (roughly ±1.2 points). I'd quote the row pattern rather than that single cell.</div></div>
+</section>
+
+<!-- ============================================================ 6 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 6</span><h2>Opportunity matrix: bubble chart</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="bubble"></div><div class="cap">Each bubble = one age band within one segment</div></div>
+    <div>
+      <div class="lbl">What it shows</div>
+      <p>Where the buyers are and how efficiently we reach them. Each bubble combines an age band with a segment (e.g. "26–30 · Lower Mass").</p>
+      <div class="lbl">How to read it (3 encodings)</div>
+      <ul>
+        <li><b>Horizontal (x):</b> customers contacted, on a <b>log scale</b> (each grid step multiplies), so small and large groups both fit.</li>
+        <li><b>Vertical (y):</b> acceptance rate. The horizontal line is the 1.22% average.</li>
+        <li><b>Bubble size:</b> number of buyers. <b>Colour:</b> segment (green = Lower Mass, violet = Mass, pink = Upper Mass).</li>
+        <li><b>Top-right</b> = big groups that convert well (priority). <b>Bottom-right</b> = big groups that use effort for few sales.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>26–30 Lower Mass: biggest bubble, <b>24,414 customers, 384 buyers, 1.57%</b>. 26–30 Mass: 21,068 customers, 325 buyers, 1.54%.</li>
+    <li>Highest rate: ≤25 Mass at <b>2.21%</b>; ≤25 Lower Mass 1.91% (181 buyers).</li>
+    <li>Upper Mass bubbles are small (left side); young Upper Mass converts well: 26–30 at 1.88%, 31–35 at 1.63%.</li>
+  </ul>
+  <div class="box say">This chart combines size and quality. Each bubble is an age group within a segment: further right means more customers, higher means a better rate, and a bigger bubble means more buyers. The groups we want are top-right. Young Lower Mass and Mass customers are both large and above average; 26-to-30-year-old Lower Mass customers alone gave us 384 buyers.</div>
+  <div class="qa"><div class="q">Why a log scale?</div><div class="a">Group sizes range from about 300 to 24,000. On a normal scale every Upper Mass bubble would be squashed against the left edge.</div></div>
+</section>
+
+<!-- ============================================================ 7 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 7</span><h2>Response index: what drives acceptance</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="lift"></div><div class="cap">Diverging bars around 100 (= average)</div></div>
+    <div>
+      <div class="lbl">What it shows</div>
+      <p>Every customer group with at least 1,000 customers, across 10 attributes, ranked by how much better or worse than average it responds. Only the 8 best and 8 worst are shown.</p>
+      <div class="lbl">How to read it</div>
+      <ul>
+        <li><b>Index = group rate ÷ overall rate × 100.</b> 100 = average; 170 = 70% better; 50 = half the average.</li>
+        <li><b>Blue bars</b> go right (above average) and <b>red bars</b> go left (below). The number at the end is the index.</li>
+        <li>The thin line splits the "best 8" from the "worst 8".</li>
+      </ul>
+    </div>
+  </div>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Best: tenure 1–12 months <b>170</b> · inflow 50k+ <b>169</b> · age ≤25 <b>166</b> · inflow 20–50k 153 · inflow 5–20k 146 · Student 132.</li>
+    <li>Worst: savings 0 <b>37</b> · Government <b>47</b> · savings 100k+ <b>49</b> · inflow 0 58 · tenure 0 59.</li>
+    <li>5 of the top 8 are about <b>account activity</b> (inflow and tenure).</li>
+  </ul>
+  <div class="box say">This chart ranks every sizeable group against the average, where 100 means average. The top is dominated by account behaviour: new accounts, customers with strong cash inflow, and the youngest customers all respond about 70% better than average. At the bottom are customers with zero savings, Government employees and very high balances, who respond at half the average or less.</div>
+  <div class="qa"><div class="q">Why are very high balances (100k+) bad?</div><div class="a">Likely they're already insured or less price-sensitive to bank cross-sell offers. It's a hypothesis I'd check with the Policy data.</div></div>
+</section>
+
+<!-- ============================================================ 8 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 8</span><h2>Active accounts convert 3× better</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="profile:inflow"></div><div class="cap">Cash inflow in the last 30 days</div></div>
+    <div class="g-fig"><div data-fig="profile:mob"></div><div class="cap">Months on book (tenure)</div></div>
+  </div>
+  <div class="lbl">How to read these stacked bars (same format on slides 8 and 9)</div>
+  <ul>
+    <li>Each bar's <b>total length</b> = total acceptance rate (the number at the end).</li>
+    <li>The bar is split into <b>blue = PA</b> and <b>orange = Life</b>, so you see the product mix too.</li>
+    <li>The <b>vertical line</b> is the 1.22% average: bars past it are above average.</li>
+  </ul>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Inflow: 0 → <b>0.71%</b> · 1–5k 1.38% · 5–20k 1.79% · 20–50k 1.86% · 50k+ → <b>2.07%</b>. Half of the customers (110,005) had zero inflow.</li>
+    <li>The rise is almost all <b>PA</b>: 0.27% → 1.49%. Life barely moves (0.44% → 0.58%).</li>
+    <li>Tenure: 0 months 0.72% · <b>1–12 months 2.08%</b> · 13–36 1.52% · 37–60 1.42% · 61–120 1.45% · 120+ 0.92%.</li>
+  </ul>
+  <div class="box say">Two behaviour signals. On the left, cash inflow: half of the customers had no money coming in last month, and they barely buy, at 0.7%. Customers with strong inflow buy at over 2%, so three times as often, and the difference is almost entirely PA. On the right, tenure: newer accounts of one to twelve months are the best group at 2.1%, and very long-standing customers respond below average.</div>
+  <div class="qa"><div class="q">Is the difference statistically meaningful?</div><div class="a">Yes. These are very large groups (24k–110k customers). The 95% margin on 2.07% is about ±0.18 points, far smaller than the gap to 0.71%.</div></div>
+  <div class="qa"><div class="q">What does "tenure = 0" mean?</div><div class="a">26% of customers have 0, which probably means "unknown" rather than "opened this month". I'd treat that group with caution; it's flagged in the data-quality section.</div></div>
+</section>
+
+<!-- ============================================================ 9 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 9</span><h2>Product fit: Life for the affluent, PA for the mass market</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="profile:segment"></div><div class="cap">Customer segment</div></div>
+    <div class="g-fig"><div data-fig="profile:holdings"></div><div class="cap">Product holding (Yes / No for each product)</div></div>
+  </div>
+  <div class="lbl">What to point at</div>
+  <p>The <b>total length is almost the same</b> for all three segments (1.18–1.26%), but the <b>colour split changes</b>: the orange (Life) part grows from Lower Mass to Upper Mass.</p>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Lower Mass: PA 0.89% / Life 0.38%. Mass: PA 0.65% / Life 0.53%. <b>Upper Mass: PA 0.53% / Life 0.68%</b>, the only segment where Life beats PA.</li>
+    <li>Credit-card holders: PA 0.32% / <b>Life 0.65%</b> (non-holders: PA 0.81% / Life 0.44%).</li>
+    <li>Travel-card holders: PA 0.20% / Life 0.58%. Payroll customers: 1.40% total (above average).</li>
+    <li>Income ≥30k (dashboard): Life ≈ 0.67%, higher than PA.</li>
+  </ul>
+  <div class="box say">Every segment buys at about the same total rate, around 1.2%, but they buy different things. Lower Mass buys mostly PA. In Upper Mass, Life overtakes PA. Credit-card holders show the same pattern, with twice as much Life as PA. So the lever is not just who we call, but which product we offer them.</div>
+  <div class="qa"><div class="q">Why would affluent customers prefer Life?</div><div class="a">Life is a larger, longer commitment that suits customers with more disposable income and financial planning needs; PA is cheap and simple, which suits the mass market. The data supports it, but the "why" is a hypothesis.</div></div>
+</section>
+
+<!-- ============================================================ 10 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 10</span><h2>Buyer profile: younger, and Life buyers earn more</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="agedist"></div><div class="cap">Share of each group at each age (2-year bins)</div></div>
+    <div class="g-fig"><div data-fig="range:0"></div><div data-fig="range:2"></div><div class="cap">Top: monthly income (THB) · bottom: months on book</div></div>
+  </div>
+  <div class="lbl">How to read the age distribution (left)</div>
+  <ul>
+    <li>Each line is one outcome group: grey = rejected, blue = PA buyers, orange = Life buyers. Each line sums to 100%.</li>
+    <li>The height at an age = <b>% of that group</b> who are that age. Compare the <b>shape and peak</b>, not the totals.</li>
+  </ul>
+  <div class="lbl">How to read the dot plots (right)</div>
+  <ul>
+    <li><b>Dot = median</b> (the middle customer). <b>Band = middle 50%</b> (25th to 75th percentile).</li>
+    <li>Medians are used because money fields are very skewed: mean savings is 20.9k, but the median is under 1k.</li>
+  </ul>
+  <div class="lbl">Key numbers</div>
+  <ul>
+    <li>Age peaks: PA buyers <b>25–26</b> (13% of PA buyers), Life buyers <b>27–28</b>, rejected 29–30. Median age: rejected 36, PA 34, Life 32.</li>
+    <li>Median income: rejected 12.3k · PA 11.3k · <b>Life 15.1k</b>.</li>
+    <li>Median months on book: rejected 40 · PA 39 · <b>Life 54</b>. Savings: 991 · 1,145 · 1,333.</li>
+  </ul>
+  <div class="box say">On the left, both buyer lines peak earlier than the rejected line: buyers are concentrated in their mid-twenties. On the right, the dots are medians and the bands show the middle half. Life buyers stand out: they earn more, a median of 15,000 baht against 12,000, and they've been with the bank longer. PA buyers actually earn slightly less than rejecters, but they're more active.</div>
+</section>
+
+<!-- ============================================================ 11 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 11</span><h2>Propensity model: half the buyers with a fifth of the calls</h2><span class="time">~1.5 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="gains"></div><div class="cap">Cumulative gains curve</div></div>
+    <div class="g-fig"><div data-fig="importance:8"></div><div class="cap">Permutation importance</div></div>
+  </div>
+  <div class="lbl">What the model is</div>
+  <p>A gradient-boosted decision-tree model (scikit-learn <code>HistGradientBoostingClassifier</code>) that gives every customer a score: the probability of accepting any offer. It was trained on 70% of the customers (150,145) and evaluated on the other 30% (64,348) that it never saw.</p>
+  <div class="lbl">How to read the gains curve (left)</div>
+  <ul>
+    <li>Sort customers from highest to lowest score. <b>x</b> = % of customers contacted; <b>y</b> = % of all buyers reached.</li>
+    <li>The <b>straight diagonal</b> is random calling (call 20%, get 20% of buyers). The <b>curve</b> is the model. The bigger the gap, the better.</li>
+    <li>The marked point: <b>top 20% → 49% of buyers</b>. Also top 10% → 30%, top 30% → 62%, top 50% → 82%.</li>
+  </ul>
+  <div class="lbl">How to read importance (right)</div>
+  <ul>
+    <li>Each feature is shuffled randomly; the bar is <b>how much the model's ROC-AUC drops</b>. A bigger drop means the model relies on it more.</li>
+    <li>Inflow 30d (0.100) and campaign month (0.069) lead, then months on book (0.028) and age (0.021). This matches slides 4–8.</li>
+  </ul>
+  <div class="lbl">The three tiles</div>
+  <ul>
+    <li><b>ROC-AUC 0.72</b>: the chance the model ranks a random buyer above a random non-buyer (0.5 = coin flip, 1.0 = perfect).</li>
+    <li><b>Top 20% reach 49%</b>, and <b>top-10% lift 3.0×</b>: the top decile buys at 3.6% against the 1.2% average.</li>
+  </ul>
+  <div class="box say">Next I built a model that scores every customer. I tested it on 64,000 customers it had never seen. If we sort them by score and call only the top 20%, we reach 49% of all buyers, against 20% if we called at random. What the model relies on matches the analysis: cash inflow, the campaign, tenure and age.</div>
+  <div class="qa"><div class="q">Is 0.72 AUC good enough?</div><div class="a">For campaign response with mostly static customer data, 0.70–0.80 is a typical, useful range. What matters commercially is the lift: 3× in the top decile and 49% of buyers in 20% of the list.</div></div>
+  <div class="qa"><div class="q">Isn't campaign month a form of leakage?</div><div class="a">Not leakage, because we know which campaign a customer is in before calling. But it captures campaign-level effects rather than the customer. For a pure customer score I'd drop it and re-check the AUC; inflow, tenure and age still carry most of the signal. That's a planned next step.</div></div>
+  <div class="qa"><div class="q">Did you handle the class imbalance?</div><div class="a">The goal is ranking, not a yes/no label, so I evaluated with ranking metrics (ROC-AUC, PR-AUC, gains) rather than accuracy, and used a stratified split so both sets keep the 1.2% rate. Resampling isn't needed for ranking.</div></div>
+</section>
+
+<!-- ============================================================ 12 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 12</span><h2>From score to action: deciles and tiers</h2><span class="time">~1 min</span></div>
+  <div class="g-grid">
+    <div class="g-fig"><div data-fig="deciles"></div><div class="cap">Lift per score decile</div></div>
+    <div class="g-fig"><div data-fig="tiers"></div></div>
+  </div>
+  <div class="lbl">How to read the decile chart</div>
+  <ul>
+    <li>The test customers are sorted by score and cut into 10 equal slices: <b>D1 = top 10%</b>, D10 = bottom 10%.</li>
+    <li>Bar height = <b>lift</b> = slice acceptance ÷ average. The line at 1× is the average.</li>
+    <li>A falling staircase means the model ranks well: D1 3.0×, D2 1.9×, D3 1.3×, D4 1.15×, then below average from D5 (0.85×) down to D10 (0.13×).</li>
+  </ul>
+  <div class="lbl">The tiers (business translation)</div>
+  <table>
+    <tr><th>Tier</th><th>Who</th><th class="num">Acceptance</th><th class="num">Share of buyers</th><th>Treatment</th></tr>
+    <tr><td>A</td><td>Top 20%</td><td class="num">2.99%</td><td class="num">49%</td><td>Agent call, best offer</td></tr>
+    <tr><td>B</td><td>Next 30%</td><td class="num">1.34%</td><td class="num">33%</td><td>Standard campaign</td></tr>
+    <tr><td>C</td><td>Bottom 50%</td><td class="num">≈0.44%</td><td class="num">18%</td><td>Digital only or skip</td></tr>
+  </table>
+  <div class="box say">To make the score usable, I cut the list into ten slices. The top slice buys at three times the average, and the bottom five slices are all below average. So I propose three tiers: Tier A, the top 20%, gets an agent call and has half of the buyers; Tier B gets the standard campaign; and Tier C, half of the list but only 18% of the buyers, moves to cheap digital channels or is skipped.</div>
+  <div class="qa"><div class="q">How much money would this save?</div><div class="a">I don't have cost-per-call or premium values. With them, the cut-off becomes a simple calculation: keep calling while the expected premium of the next decile is above the cost of calling it.</div></div>
+</section>
+
+<!-- ============================================================ 13 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 13</span><h2>Recommendations</h2><span class="time">~1 min</span></div>
+  <ol>
+    <li><b>Score before every campaign</b>: call Tier A first. The top 30% reaches 62% of buyers.</li>
+    <li><b>Match the product</b>: Life to Upper Mass, income ≥30k and credit-card holders; PA to the active mass market.</li>
+    <li><b>Prioritise active and young customers</b>: inflow &gt;5k, 1–36 months on book, age ≤30, savings 1k–20k (1.5–2.1% vs the 1.2% average).</li>
+    <li><b>Fewer, better contacts</b> in the big months; Jun–Sep reached about twice the rate.</li>
+    <li><b>Fix the data</b>: 15-day flows, tenure, and add a customer ID plus the Policy and Payment data.</li>
+  </ol>
+  <div class="box say">Five actions. First, score customers before every campaign. Second, offer the right product: Life to the affluent, PA to the active mass market. Third, prioritise young and active customers. Fourth, contact fewer, better customers in the big months. And fifth, fix the data issues so the next model is even better.</div>
+</section>
+
+<!-- ============================================================ 14 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 14</span><h2>Limitations &amp; next steps</h2><span class="time">~45 s</span></div>
+  <p><b>Purpose:</b> show judgement. Naming limits before the panel does builds trust.</p>
+  <ul>
+    <li><b>No customer ID</b>: duplicates can't be confirmed, and data can't be joined to other sources.</li>
+    <li><b>No year</b>: seasonality can't be separated from trend.</li>
+    <li><b>Tenure quality</b>: 26% are 0 (likely unknown), and 839 are impossible (longer than adult life).</li>
+    <li><b>No Policy or Payment data</b>: we optimise for the first sale, not for customers who keep paying.</li>
+    <li><b>Correlation, not causation</b>: the model ranks; it doesn't prove why people buy. That's why we A/B test.</li>
+  </ul>
+  <div class="lbl">Next steps</div>
+  <p>An A/B test of model targeting, a PA-vs-Life product-choice model, validation on a later time period, joining Policy and Payment data, and a scheduled monthly run.</p>
+  <div class="qa"><div class="q">What would you do with one more week?</div><div class="a">An uplift model, to find customers who buy <i>because</i> we call rather than those who'd buy anyway, plus a time-based validation and a cost/benefit cut-off with real premium and call costs.</div></div>
+</section>
+
+<!-- ============================================================ 15 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 15</span><h2>Close &amp; questions</h2><span class="time">rest</span></div>
+  <div class="box say">To summarise: response is low but predictable. Young, active customers buy most, affluent customers prefer Life, and a simple score finds half of the buyers in a fifth of the list. I'm happy to show the interactive dashboard or the code. Thank you.</div>
+  <p><b>Demo tip:</b> if there's time, open <code>Answer Case 1A.html</code> in a browser. Hover any chart for exact values, and click the <b>Upper Mass</b> filter to show the product mix changing live.</p>
+</section>
+
+<!-- ============================================================ cheat sheet -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Numbers cheat sheet</h2>
+  <table>
+    <tr><th>Topic</th><th>Number</th></tr>
+    <tr><td>Rows in file / analysed</td><td>215,993 / 214,493 (1,500 empty profiles removed)</td></tr>
+    <tr><td>Buyers</td><td>2,621 = 1,633 PA + 988 Life</td></tr>
+    <tr><td>Acceptance: total / PA / Life</td><td>1.22% / 0.76% / 0.46%</td></tr>
+    <tr><td>Product mix</td><td>62% PA / 38% Life</td></tr>
+    <tr><td>Segments (total rate)</td><td>Lower Mass 1.26% · Mass 1.18% · Upper Mass 1.21%</td></tr>
+    <tr><td>Best / worst month</td><td>Aug 1.95% (11,107 contacted) / Feb 0.82% (21,585)</td></tr>
+    <tr><td>Age ≤25 vs 56+</td><td>2.03% vs 0.97%</td></tr>
+    <tr><td>Inflow 0 vs 50k+</td><td>0.71% vs 2.07% (half the customers have 0)</td></tr>
+    <tr><td>Tenure 1–12 months</td><td>2.08% (best tenure group)</td></tr>
+    <tr><td>Savings 0 / 1k–5k / 100k+</td><td>0.46% / 1.51% / 0.60%</td></tr>
+    <tr><td>Gender</td><td>Male 1.42% (PA 0.98%) · Female 1.07% (PA 0.60%)</td></tr>
+    <tr><td>Student / Government</td><td>1.61% (Life 0.82%) / 0.58%</td></tr>
+    <tr><td>Upper Mass PA vs Life</td><td>0.53% vs 0.68%</td></tr>
+    <tr><td>Credit card PA vs Life</td><td>0.32% vs 0.65%</td></tr>
+    <tr><td>Median income: rejected / PA / Life</td><td>12,250 / 11,325 / 15,140 THB</td></tr>
+    <tr><td>Model ROC-AUC / PR-AUC</td><td>0.723 / 0.037 (baseline 0.012, so 3.0×)</td></tr>
+    <tr><td>Gains: top 10 / 20 / 30 / 50%</td><td>30% / 49% / 62% / 82% of buyers</td></tr>
+    <tr><td>Top decile</td><td>3.62% acceptance, 2.96× lift</td></tr>
+    <tr><td>Train / test</td><td>150,145 / 64,348 customers (stratified 70/30)</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ glossary -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Glossary</h2>
+  <table>
+    <tr><td><b>Acceptance rate</b></td><td>Buyers ÷ customers contacted in a group.</td></tr>
+    <tr><td><b>PA</b></td><td>Personal Accident insurance (label = 1).</td></tr>
+    <tr><td><b>Segment</b></td><td>Bank wealth tier: Lower Mass, Mass, Upper Mass.</td></tr>
+    <tr><td><b>Months on book (tenure, MOB)</b></td><td>How many months the customer has had an account with the bank.</td></tr>
+    <tr><td><b>Inflow 30d</b></td><td>Money paid into the customer's savings or current account in the last 30 days.</td></tr>
+    <tr><td><b>Median</b></td><td>The middle value when sorted; unlike the mean, it isn't pulled up by a few very large balances.</td></tr>
+    <tr><td><b>IQR / middle 50%</b></td><td>The range from the 25th to the 75th percentile: where the "typical half" of customers sit.</td></tr>
+    <tr><td><b>Index</b></td><td>Group rate ÷ overall rate × 100. 100 = average.</td></tr>
+    <tr><td><b>Lift</b></td><td>The same idea as a ratio: 3× = three times the average rate.</td></tr>
+    <tr><td><b>Log scale</b></td><td>An axis where each step multiplies (500, 1k, 2k, 5k…), used when values span a wide range.</td></tr>
+    <tr><td><b>Propensity model</b></td><td>A model that gives each customer a probability of buying, used to rank them.</td></tr>
+    <tr><td><b>Gradient boosting</b></td><td>Many small decision trees built one after another, each correcting the last one's errors.</td></tr>
+    <tr><td><b>Hold-out / test set</b></td><td>Customers kept aside during training and used only to measure performance honestly.</td></tr>
+    <tr><td><b>Stratified split</b></td><td>A split that keeps the same buyer rate (1.2%) in the training and test sets.</td></tr>
+    <tr><td><b>ROC-AUC</b></td><td>The probability the model ranks a random buyer above a random non-buyer. 0.5 = random, 1.0 = perfect.</td></tr>
+    <tr><td><b>PR-AUC</b></td><td>Average precision across thresholds; compare it with the base rate (0.012). 0.037 is about 3× better.</td></tr>
+    <tr><td><b>Cumulative gains</b></td><td>The % of buyers reached when contacting the top X% by score.</td></tr>
+    <tr><td><b>Decile</b></td><td>One of 10 equal slices of customers sorted by score.</td></tr>
+    <tr><td><b>Permutation importance</b></td><td>How much performance drops when one feature's values are shuffled.</td></tr>
+    <tr><td><b>Class imbalance</b></td><td>When one outcome is rare (here 1.2% buyers), which makes accuracy misleading.</td></tr>
+    <tr><td><b>Uplift model</b></td><td>A model of who buys <i>because</i> they were contacted, not just who buys.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ method -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Method details (for technical questions)</h2>
+  <h3>Data preparation</h3>
+  <ul>
+    <li>Removed 1,500 rows with every customer field empty (0.07% acceptance).</li>
+    <li>Dropped <code>inflow1_15</code>, <code>outflow1_15</code> and <code>net_flow_15d</code> (identical to the 30-day fields), plus <code>currentacc_bal</code> and <code>avg_currentaccbal_30d</code> (always or almost always 0).</li>
+    <li>Translated marital status (Thai → English) and merged the overlapping "Other" values; occupations under 500 customers were folded into "Other".</li>
+    <li>Bands: age (≤25 … 56+), income (≤5k … 50k+), tenure (0, 1–12, 13–36, 37–60, 61–120, 120+), savings, inflow.</li>
+    <li>Heatmap and bubble cells need ≥300 customers; the index chart needs ≥1,000.</li>
+  </ul>
+  <h3>Model</h3>
+  <ul>
+    <li>Target: accepted any offer (PA or Life) vs rejected.</li>
+    <li>20 features: 8 categorical (campaign month, marital status, occupation, segment, gender, travel card, credit card, payroll) and 12 numeric (children, age, income, debit-card balance and spend, payments, savings balance and average, months on book, inflow, outflow, net flow).</li>
+    <li><code>HistGradientBoostingClassifier</code>: native categorical handling, learning rate 0.05, up to 400 trees with early stopping (15% validation), 31 leaves, L2 = 1.0. Missing values are handled natively.</li>
+    <li>Stratified 70/30 split (random_state = 42). Metrics: ROC-AUC, PR-AUC, cumulative gains, decile lift.</li>
+    <li>Permutation importance on 20,000 test customers, 3 repeats, scored by ROC-AUC.</li>
+  </ul>
+  <h3>Code</h3>
+  <p>An OOP Python package (<code>src/campaign_analysis</code>): <code>CampaignDataLoader</code> → <code>DataQualityChecker</code> → <code>DataCleaner</code> → <code>FeatureEngineer</code> → <code>ResponseAnalyzer</code> + <code>PropensityModel</code> → <code>HtmlBuilder</code> → <code>PdfExporter</code>, orchestrated by <code>CampaignAnalysisPipeline</code>. It has 12 pytest unit tests. The dashboard, this deck and this guide are all generated from the same run, so the numbers always match.</p>
+</section>
+
+<!-- ============================================================ Q&A -->
+<section class="g-slide">
+  <h2 style="margin-top:0">Tough questions bank</h2>
+  <div class="qa"><div class="q">Why not just report accuracy?</div><div class="a">Predicting "no" for everyone is 98.8% accurate and completely useless. Ranking metrics show whether the model finds buyers.</div></div>
+  <div class="qa"><div class="q">Why did you use medians, not means?</div><div class="a">Money fields are extremely skewed: savings has a mean of 20.9k but a median of 0.8k. A few very rich customers would dominate the mean.</div></div>
+  <div class="qa"><div class="q">Are the differences just noise?</div><div class="a">For the main findings, no: the groups have tens of thousands of customers, so margins are about ±0.2 points. Small groups (e.g. the 726-customer heatmap cell) are noisier, so I quote patterns, not single cells.</div></div>
+  <div class="qa"><div class="q">Why does every segment have the same total rate?</div><div class="a">The segments differ in what they buy, not how much. Upper Mass trades PA for Life. That's why product matching matters more than segment targeting.</div></div>
+  <div class="qa"><div class="q">Does the model overfit?</div><div class="a">All the metrics come from a 30% hold-out the model never saw, with early stopping during training. The next check is validation on a later time period.</div></div>
+  <div class="qa"><div class="q">How would you put this into production?</div><div class="a">The same pipeline runs monthly: score the customer base, write the tiers to the CRM, A/B test against current targeting, and monitor data quality and score drift.</div></div>
+  <div class="qa"><div class="q">Why one model for both products?</div><div class="a">First decide <i>whether</i> to contact; then a second, product-choice model decides <i>what</i> to offer. The descriptive analysis already gives the product rules (slide 9); a dedicated model is the next step.</div></div>
+  <div class="qa"><div class="q">What about the Policy and Payment data mentioned in the brief?</div><div class="a">It wasn't provided. With it, I'd add persistency (does the customer keep paying?) so we optimise for valuable customers, not just first sales.</div></div>
+  <div class="qa"><div class="q">Is the month effect causal?</div><div class="a">Unknown. Smaller campaigns may have been targeted differently, and there's no year. I'd test it rather than assume it.</div></div>
+  <div class="qa"><div class="q">Why are Government employees so low?</div><div class="a">They often already have employer or government insurance cover, so they need less from a bank offer. It's a plausible explanation, worth confirming with Policy data.</div></div>
+  <div class="qa"><div class="q">What is the biggest risk in your recommendation?</div><div class="a">Selection bias: past campaigns already chose who to contact, so the model learns from that selection. An A/B test with a random control group protects against it.</div></div>
+</section>
+
+</div>
+<div id="tip" role="tooltip"></div>
+<script>const DATA = /*__DATA__*/null;</script>
+<script src="assets/charts.js"></script>
+<script src="assets/figures.js"></script>
+<script>renderFigurePage(DATA);</script>
+</body>
+</html>

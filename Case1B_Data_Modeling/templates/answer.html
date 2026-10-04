@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer Case 1B</title>
+<style>
+$styles
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Answer – Test Case #1B: Data Modeling</h1>
+<div class="meta">InsureX · AI Data Science Test Case · Agent KPI validation: table and schema design, monthly process, verified demo</div>
+
+<h2>1. Requirement</h2>
+<p>The sales KPI has changed. Agent performance must be validated <b>every month</b>, and the result decides the agent's contract type.</p>
+<div class="grid2">
+  <table>
+    <tr><th>Rule</th><th>Logic</th></tr>
+    <tr><td>Monthly pass</td><td>Total premium <b>&gt; 15,000 THB</b> AND new policies <b>&gt; 5</b></td></tr>
+    <tr><td>Fail 3 consecutive months</td><td>Contract → <b>commission-based</b></td></tr>
+    <tr><td>Pass 3 consecutive months</td><td>Contract → <b>salary-based</b></td></tr>
+  </table>
+  <div class="card">
+    $state_svg
+  </div>
+</div>
+
+<h2>2. Assumptions</h2>
+<ol>
+  <li><b>Total premium</b> = sum of premium of new policies issued in the month; cancelled policies are excluded.</li>
+  <li>Thresholds are <b>strict</b>: exactly 15,000 THB or exactly 5 policies is a <b>fail</b>.</li>
+  <li>Every agent employed during the month is evaluated. A month with <b>no sales is a fail</b>, so inactive agents cannot avoid evaluation.</li>
+  <li>A contract change takes effect on the <b>1st day of the following month</b>.</li>
+  <li>A change is recorded only when the contract actually changes. A commission agent who keeps failing stays on commission.</li>
+  <li>Streaks reset only on the opposite result. With rule 5 this gives the same outcome as resetting on a contract change, with simpler logic.</li>
+</ol>
+
+<h2>3. Design overview</h2>
+<div class="callout"><b>Core idea:</b> one row per <b>agent per month</b> in <code>agent_monthly_kpi</code> storing the measured values,
+the pass/fail result and the <b>running pass/fail streaks</b>. Each month needs only last month's row to decide a contract change, and every
+change is logged in <code>agent_contract_history</code>. Thresholds are data in <code>kpi_rule</code>, so the next KPI change needs no code change.</div>
+<table>
+  <tr><th>Table</th><th>Grain</th><th>Purpose</th></tr>
+  <tr><td><code>agent</code></td><td>1 / agent</td><td>Agent master data + current contract</td></tr>
+  <tr><td><code>policy</code></td><td>1 / policy</td><td>Source sales transactions</td></tr>
+  <tr><td><code>kpi_rule</code></td><td>1 / rule version</td><td>Versioned thresholds (15,000 · 5 · 3 months)</td></tr>
+  <tr><td><b><code>agent_monthly_kpi</code></b></td><td><b>1 / agent / month</b></td><td><b>Monthly validation result, streaks, contract decision</b></td></tr>
+  <tr><td><code>agent_contract_history</code></td><td>1 / contract period</td><td>Audit trail of contract changes</td></tr>
+  <tr><td><code>v_agent_kpi_status</code> (view)</td><td>1 / agent</td><td>Latest position: who is at risk, and how many months until a change</td></tr>
+</table>
+
+<h2>4. ER diagram</h2>
+<p class="sub">Generated from the live SQLite schema (tables, keys and foreign keys), so it always matches <code>schema.sql</code>. Arrows point from parent to child.</p>
+$erd
+
+<h2 class="pb">5. Table definitions</h2>
+$dictionary
+
+<h2>6. Monthly validation process</h2>
+<p>Run once per month after month-end with <code>:kpi_month</code> = first day of the month (<code>sql/monthly_kpi_job.sql</code>):</p>
+<ol>
+  <li><b>Evaluate:</b> for every agent employed in the month, sum the premium and count new policies, then compare with the rule in force.</li>
+  <li><b>Update streaks:</b> on a pass, <code>consecutive_pass = previous + 1</code> and <code>consecutive_fail = 0</code>; on a fail, the opposite.</li>
+  <li><b>Decide:</b> SALARY with <code>consecutive_fail ≥ 3</code> → <code>TO_COMMISSION</code>; COMMISSION with <code>consecutive_pass ≥ 3</code> → <code>TO_SALARY</code>.</li>
+  <li><b>Apply:</b> close the current contract period, open the new one from the 1st of next month, and update <code>agent.current_contract_type</code>.</li>
+</ol>
+<p><b>Safeguards</b> in the job runner (<code>KpiEngine</code>):</p>
+<ul>
+  <li>All four steps run in <b>one transaction</b>, so a failure leaves nothing half-applied.</li>
+  <li>A month <b>cannot run twice</b> (also enforced by the primary key <code>(agent_id, kpi_month)</code>).</li>
+  <li>A month <b>cannot run before the previous one</b>, because the streaks depend on it.</li>
+</ul>
+
+<h2 class="pb">7. Verification</h2>
+<div class="ok"><b>✓ Two independent implementations agree.</b> The SQL job was cross-checked against a separate pure-Python implementation of the
+same rules (<code>ReferenceKpiEngine</code>). Results: <b>$v_result</b> on the $v_scen scenario agent-months below and on <b>$v_rand random portfolios</b>
+($v_rand_rows agent-months, including mid-month hires, leavers and cancelled policies). Unit tests cover boundaries, re-runs and month ordering.</div>
+<h3>Demo scenarios (Jan–Aug 2026)</h3>
+$scenarios
+
+<h3>KPI calendar: monthly result and contract per agent</h3>
+<div class="legend">
+  <span><i class="sw" style="background:var(--good-wash);border:1px solid var(--good)"></i>✓ PASS</span>
+  <span><i class="sw" style="background:var(--bad-wash);border:1px solid var(--bad)"></i>✗ FAIL</span>
+  <span><i class="sw" style="background:var(--salary)"></i>Salary contract</span>
+  <span><i class="sw" style="background:var(--commission)"></i>Commission contract</span>
+  <span><b>→</b> contract change decided that month (effective next month)</span>
+</div>
+$calendar
+
+<h3>agent_contract_history: full audit trail</h3>
+$history
+<h3>v_agent_kpi_status: latest position per agent (after the Aug-2026 run)</h3>
+$status
+
+<h2 class="pb">Appendix A · schema.sql</h2>
+<pre>$schema_sql</pre>
+<h2>Appendix B · monthly_kpi_job.sql</h2>
+<pre>$job_sql</pre>
+<h2>Appendix C · views.sql</h2>
+<pre>$views_sql</pre>
+
+<footer>Generated by <code>python main.py</code> · demo database saved as <code>output/agent_kpi_demo.db</code> (open with any SQLite browser).</footer>
+</div>
+</body>
+</html>

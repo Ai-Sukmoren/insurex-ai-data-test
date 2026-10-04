@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Case 1A Presentation</title>
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/slides.css">
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 · Title -->
+<section class="slide cover">
+  <div class="kicker">InsureX · AI Data Science · Test Case 1A</div>
+  <h1>Who buys insurance from our campaigns, and how to target the next one</h1>
+  <p>Analysis of 214,493 PA and Life insurance offers: response drivers, product fit, and a propensity model for smarter targeting.</p>
+  <div class="stats">
+    <div><b>1.22%</b>acceptance rate</div>
+    <div><b>3×</b>better response from active accounts</div>
+    <div><b>49%</b>of buyers in the top 20% by model score</div>
+  </div>
+  <div class="foot"><span>Data: dsc_test_case.csv · 12 campaign months</span><span>1</span></div>
+</section>
+
+<!-- 2 · Executive summary -->
+<section class="slide">
+  <div class="kicker">Executive summary</div>
+  <h2>Response is low, but highly predictable, so we can contact fewer people and sell more</h2>
+  <p class="lede">The four numbers and three messages to remember</p>
+  <div class="body c2">
+    <div class="tiles2">
+      <div class="tile"><div class="label">Acceptance rate</div><div class="value">1.22%</div><div class="sub">2,621 of 214,493 bought</div></div>
+      <div class="tile"><div class="label"><i class="key" style="background:var(--pa)"></i>PA / <i class="key" style="background:var(--life)"></i>Life</div><div class="value">62 / 38</div><div class="sub">share of sales (0.76% / 0.46%)</div></div>
+      <div class="tile"><div class="label">Best group</div><div class="value">2.1%</div><div class="sub">new accounts (1–12 months on book)</div></div>
+      <div class="tile"><div class="label">Model</div><div class="value">49%</div><div class="sub">of buyers reached by calling the top 20%</div></div>
+    </div>
+    <ul class="points">
+      <li><b>Who buys:</b> young, active customers. Customers aged ≤25, accounts with cash inflow and customers 1–36 months on book convert at 1.5–2.1%.</li>
+      <li><b>What they buy:</b> PA for the mass market, <b>Life for the affluent</b> (Upper Mass, income ≥30k, credit-card holders).</li>
+      <li><b>How to target:</b> score customers before each campaign. Tiers A + B (50% of the list) hold <b>82% of the buyers</b>.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>2</span></div>
+</section>
+
+<!-- 3 · Data & approach -->
+<section class="slide">
+  <div class="kicker">Data &amp; approach</div>
+  <h2>One campaign file, 26 fields, three outcomes, analysed with a reproducible pipeline</h2>
+  <p class="lede">Every number in this deck comes from <code>python main.py</code></p>
+  <div class="body c2">
+    <div>
+      <table class="facts">
+        <tr><td>Rows</td><td><b>215,993</b> offers (1 row = 1 customer offered)</td></tr>
+        <tr><td>Analysed</td><td><b>214,493</b> after removing 1,500 empty profiles</td></tr>
+        <tr><td>Fields</td><td>Demographics, segment, product holding, balances, cash flow, tenure</td></tr>
+        <tr><td>Outcome (label)</td><td>0 = Reject · 1 = PA · 2 = Life</td></tr>
+        <tr><td>Period</td><td>12 campaign months (Jan–Dec, no year)</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="fig-title">Pipeline</div>
+      <div class="flow">
+        <div><b>Load</b>CSV + definitions</div><div><b>Check</b>9 quality issues</div>
+        <div><b>Clean</b>translate, band, drop</div><div><b>Analyse</b>rates &amp; drivers</div><div><b>Model</b>propensity score</div>
+      </div>
+      <div class="fig-title">Data issues handled</div>
+      <ul class="col" style="padding-left:18px;margin:4px 0;font-size:15px">
+        <li>15-day cash-flow fields are exact copies of the 30-day ones, so they were dropped</li>
+        <li>Current-account balance is always 0, so it was dropped</li>
+        <li>Marital status in Thai was translated and merged</li>
+        <li>Only 1.2% of rows are positive, so the model is judged with AUC and gains, not accuracy</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>3</span></div>
+</section>
+
+<!-- 4 · Monthly -->
+<section class="slide">
+  <div class="kicker">1 · Campaign performance</div>
+  <h2>Smaller campaigns converted almost twice as well</h2>
+  <p class="lede">Jun–Sep contacted ~11k customers a month and reached ~1.9%; the 22k-a-month campaigns reached 0.8–1.3%</p>
+  <div class="body c2">
+    <div><div class="fig-title">Customers contacted per month</div><div data-fig="volume"></div></div>
+    <div><div class="fig-title">Acceptance rate per month</div>
+      <div class="legend"><span><i class="key line" style="background:var(--ink)"></i>Total</span><span><i class="key line" style="background:var(--pa)"></i>PA</span><span><i class="key line" style="background:var(--life)"></i>Life</span></div>
+      <div data-fig="rate"></div></div>
+  </div>
+  <div class="takeaway"><b>So what:</b> more contacts did not bring proportionally more sales. The swing is almost all PA; Life stays at 0.3–0.7%. Contact fewer, better-chosen customers.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>4</span></div>
+</section>
+
+<!-- 5 · Heatmap -->
+<section class="slide">
+  <div class="kicker">2 · Where the buyers are</div>
+  <h2>Age matters more than income: customers aged 25 and under convert at ~2% at every income level</h2>
+  <p class="lede">Acceptance rate for each age × income combination</p>
+  <div class="body c-wide">
+    <div data-fig="heatmap"></div>
+    <ul class="points">
+      <li>The top row (≤25) is dark across every income band: <b>1.9–3.0%</b>.</li>
+      <li>Above 35, almost every cell is <b>0.7–1.4%</b>, whatever the income.</li>
+      <li>The single best cell is age ≤25 with income 30–50k at <b>3.0%</b> (726 customers).</li>
+    </ul>
+  </div>
+  <div class="takeaway"><b>So what:</b> lead the targeting with age. Income alone does not find buyers.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>5</span></div>
+</section>
+
+<!-- 6 · Bubble -->
+<section class="slide">
+  <div class="kicker">2 · Where the buyers are</div>
+  <h2>The biggest wins sit with young Lower Mass and Mass customers</h2>
+  <p class="lede">Each bubble is an age band within a segment: x = customers contacted, y = acceptance, size = buyers</p>
+  <div class="body c-wide">
+    <div>
+      <div class="legend"><span><i class="key dot" style="background:var(--seg-1)"></i>Lower Mass</span><span><i class="key dot" style="background:var(--seg-2)"></i>Mass</span><span><i class="key dot" style="background:var(--seg-3)"></i>Upper Mass</span></div>
+      <div data-fig="bubble"></div>
+    </div>
+    <ul class="points">
+      <li><b>Top-right = priority:</b> large groups that also convert above average. 26–30 Lower Mass alone gives 384 buyers at 1.57%.</li>
+      <li><b>≤25 Mass</b> has the highest rate (2.2%), and ≤25 Lower Mass adds 181 buyers at 1.9%.</li>
+      <li>Upper Mass groups are small (left side) but young Upper Mass converts well (1.6–1.9%).</li>
+    </ul>
+  </div>
+  <div class="takeaway"><b>So what:</b> spend contact effort above the average line, starting with the biggest bubbles.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>6</span></div>
+</section>
+
+<!-- 7 · Lift -->
+<section class="slide">
+  <div class="kicker">3 · What drives acceptance</div>
+  <h2>Activity, tenure and age separate buyers from rejecters</h2>
+  <p class="lede">Response index = group acceptance ÷ average × 100 · the 8 best and 8 worst groups (≥1,000 customers)</p>
+  <div class="body c-wide">
+    <div>
+      <div class="legend"><span><i class="key" style="background:var(--pos)"></i>Above average</span><span><i class="key" style="background:var(--neg)"></i>Below average</span></div>
+      <div data-fig="lift" style="max-width:560px"></div>
+    </div>
+    <ul class="points">
+      <li><b>Best:</b> 1–12 months on book (170), inflow 50k+ (169), age ≤25 (166): <b>about 1.7× the average</b>.</li>
+      <li><b>Worst:</b> zero savings (37), Government (47), savings 100k+ (49): <b>about half the average or less</b>.</li>
+      <li>Most of the top 8 are about <b>account activity</b> (inflow, tenure), not demographics.</li>
+    </ul>
+  </div>
+  <div class="takeaway"><b>So what:</b> behaviour beats demographics. Use account activity as the first targeting filter.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>7</span></div>
+</section>
+
+<!-- 8 · Activity -->
+<section class="slide">
+  <div class="kicker">3 · What drives acceptance</div>
+  <h2>Active accounts convert 3× better than dormant ones</h2>
+  <p class="lede">Acceptance rate split by product · vertical line = 1.22% average</p>
+  <div class="legend"><span><i class="key" style="background:var(--pa)"></i>PA insurance</span><span><i class="key" style="background:var(--life)"></i>Life insurance</span></div>
+  <div class="body c2">
+    <div><div class="fig-title">Cash inflow, last 30 days (THB)</div><div data-fig="profile:inflow"></div></div>
+    <div><div class="fig-title">Months on book (tenure)</div><div data-fig="profile:mob"></div></div>
+  </div>
+  <div class="takeaway"><b>So what:</b> half of the customers had <b>no inflow</b> and accept at 0.71%, against <b>2.07%</b> at 50k+. The gap is almost all PA. New accounts (1–12 months) are the best tenure group at 2.08%.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>8</span></div>
+</section>
+
+<!-- 9 · Product fit -->
+<section class="slide">
+  <div class="kicker">3 · What drives acceptance</div>
+  <h2>Match the product: Life for the affluent, PA for the mass market</h2>
+  <p class="lede">Same total acceptance in every segment (~1.2%), but a very different product mix</p>
+  <div class="legend"><span><i class="key" style="background:var(--pa)"></i>PA insurance</span><span><i class="key" style="background:var(--life)"></i>Life insurance</span></div>
+  <div class="body c2">
+    <div><div class="fig-title">Customer segment</div><div data-fig="profile:segment"></div></div>
+    <div><div class="fig-title">Product holding</div><div data-fig="profile:holdings"></div></div>
+  </div>
+  <div class="takeaway"><b>So what:</b> Upper Mass buys Life more than PA (0.68% vs 0.53%), and so do credit-card holders (0.65% vs 0.32%). Lower Mass is mostly PA. Offer each customer the right product.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>9</span></div>
+</section>
+
+<!-- 10 · Buyer profile -->
+<section class="slide">
+  <div class="kicker">3 · What drives acceptance</div>
+  <h2>Buyers are younger; Life buyers earn more and have longer tenure</h2>
+  <p class="lede">How buyers differ from customers who rejected</p>
+  <div class="body c2">
+    <div><div class="fig-title">Age distribution by outcome</div>
+      <div class="legend"><span><i class="key line" style="background:var(--rejected)"></i>Rejected</span><span><i class="key line" style="background:var(--pa)"></i>PA buyers</span><span><i class="key line" style="background:var(--life)"></i>Life buyers</span></div>
+      <div data-fig="agedist"></div></div>
+    <div>
+      <div class="fig-title">Median (dot) and middle 50% (band)</div>
+      <div class="fig-cap">Monthly income (THB)</div><div data-fig="range:0" style="max-width:470px"></div>
+      <div class="fig-cap">Months on book</div><div data-fig="range:2" style="max-width:470px"></div>
+    </div>
+  </div>
+  <div class="takeaway"><b>So what:</b> PA buyers peak at age 25 and Life buyers at 27, against 29 for rejecters. Life buyers' median income is 15.1k (vs 12.3k) and median tenure is 54 months (vs 40).</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>10</span></div>
+</section>
+
+<!-- 11 · Model -->
+<section class="slide">
+  <div class="kicker">4 · Propensity model</div>
+  <h2>A model reaches half of the buyers with a fifth of the calls</h2>
+  <p class="lede">Gradient-boosted trees · trained on 150k customers, tested on 64k it had never seen</p>
+  <div class="body c2">
+    <div>
+      <div class="tiles3">
+        <div class="tile"><div class="label">ROC-AUC</div><div class="value">0.72</div><div class="sub">0.5 = random</div></div>
+        <div class="tile"><div class="label">Top 20% reach</div><div class="value">49%</div><div class="sub">of buyers</div></div>
+        <div class="tile"><div class="label">Top 10% lift</div><div class="value">3.0×</div><div class="sub">3.6% vs 1.2%</div></div>
+      </div>
+      <div class="fig-title">Cumulative gains</div>
+      <div class="legend"><span><i class="key line" style="background:var(--model)"></i>Model</span><span><i class="key line" style="background:var(--muted)"></i>Random targeting</span></div>
+      <div data-fig="gains" style="max-width:520px"></div>
+    </div>
+    <div><div class="fig-title">What the model relies on</div><div class="fig-cap">Drop in ROC-AUC when the feature is shuffled</div><div data-fig="importance:8"></div></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>11</span></div>
+</section>
+
+<!-- 12 · Score to action -->
+<section class="slide">
+  <div class="kicker">4 · Propensity model</div>
+  <h2>From score to action: three contact tiers</h2>
+  <p class="lede">Rank customers by score, cut into 10 equal slices (deciles), then group them into treatments</p>
+  <div class="body c2">
+    <div><div class="fig-title">Lift by score decile (D1 = highest scores)</div><div data-fig="deciles"></div></div>
+    <div><div class="fig-title">Suggested contact tiers</div><div data-fig="tiers"></div>
+      <div class="takeaway" style="margin-top:16px"><b>Tier A</b> (top 20%) converts at 3.0% and holds half of the buyers. <b>Tier C</b> (bottom 50%) holds only 18%, so move it to SMS or app push, or skip it.</div></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>12</span></div>
+</section>
+
+<!-- 13 · Recommendations -->
+<section class="slide">
+  <div class="kicker">Recommendations</div>
+  <h2>Five actions for the next campaign</h2>
+  <p class="lede">Ordered by expected impact</p>
+  <div class="body">
+    <div class="reco-grid">
+      <div class="reco-card"><div class="n">1</div><h4>Score before every campaign</h4><p>Rank customers with the propensity model and call Tier A first.</p><div class="impact">Top 30% → 62% of buyers</div></div>
+      <div class="reco-card"><div class="n">2</div><h4>Match the product</h4><p>Life to Upper Mass, income ≥30k, credit-card holders; PA to the active mass market.</p><div class="impact">Higher conversion per call</div></div>
+      <div class="reco-card"><div class="n">3</div><h4>Prioritise active &amp; young</h4><p>Inflow &gt;5k, 1–36 months on book, age ≤30, savings 1k–20k.</p><div class="impact">1.5–2.1% vs 1.2% average</div></div>
+      <div class="reco-card"><div class="n">4</div><h4>Fewer, better contacts</h4><p>Cut low-score volume in the big months instead of mass contact.</p><div class="impact">Jun–Sep: ~2× the rate</div></div>
+      <div class="reco-card"><div class="n">5</div><h4>Fix the data</h4><p>Repair the 15-day flows and tenure; add a customer ID plus the Policy and Payment data.</p><div class="impact">Better model, persistency view</div></div>
+    </div>
+  </div>
+  <div class="takeaway"><b>Start with 1 and 2:</b> they need no new data and can run in the next campaign as an A/B test, with model-targeted tiers plus product matching against current targeting, so the gain is measured, not assumed.</div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>13</span></div>
+</section>
+
+<!-- 14 · Data quality & next steps -->
+<section class="slide">
+  <div class="kicker">Limitations &amp; next steps</div>
+  <h2>What to keep in mind, and what comes next</h2>
+  <p class="lede">Honest limits of this analysis</p>
+  <div class="body c2">
+    <div class="col"><h3>Limitations</h3><ul>
+      <li>No customer ID: 2,173 duplicate rows cannot be confirmed as real repeats.</li>
+      <li>No year on campaign month, so seasonality and trend cannot be separated.</li>
+      <li>26% of customers have tenure = 0 (likely unknown); 839 have an impossible tenure.</li>
+      <li>Policy and Payment data were not provided, so there is no view after the sale.</li>
+      <li>Correlation, not causation: the model ranks customers, it does not prove why they buy.</li>
+    </ul></div>
+    <div class="col"><h3>Next steps</h3><ul>
+      <li><b>A/B test</b> model-targeted vs current targeting in the next campaign.</li>
+      <li>Add a <b>product-choice model</b> (PA vs Life) on top of the buy / no-buy score.</li>
+      <li>Validate on a <b>later time period</b>, not only a random hold-out.</li>
+      <li>Join <b>Policy and Payment</b> data to optimise for persistency, not just the first sale.</li>
+      <li>Put the pipeline on a <b>monthly schedule</b> with data-quality alerts.</li>
+    </ul></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>14</span></div>
+</section>
+
+<!-- 15 · Close -->
+<section class="slide cover">
+  <div class="kicker">Thank you</div>
+  <h1>Questions?</h1>
+  <p>Interactive dashboard: <b>Answer Case 1A.html</b> (hover any chart, filter by segment) · code: <b>src/campaign_analysis</b> · run: <b>python main.py</b></p>
+  <div class="foot"><span>InsureX · Test Case 1A</span><span>15</span></div>
+</section>
+
+</div>
+<div id="tip" role="tooltip"></div>
+<script>const DATA = /*__DATA__*/null;</script>
+<script src="assets/charts.js"></script>
+<script src="assets/figures.js"></script>
+<script>renderFigurePage(DATA);</script>
+</body>
+</html>

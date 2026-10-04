@@ -1,0 +1,68 @@
+/* 16:9 slide deck - 1280 x 720 px per page. Chart tokens come from styles.css (forced light theme). */
+@page { size: 1280px 720px; margin: 0; }
+html, body { background: #e9e8e4; }
+body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.deck { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+.slide { width: 1280px; height: 720px; background: #fff; position: relative; overflow: hidden;
+         padding: 40px 60px 54px; display: flex; flex-direction: column; box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+         break-after: page; page-break-after: always; }
+.slide:last-child { break-after: auto; page-break-after: auto; }
+@media print {
+  html, body { background: #fff; }
+  .deck { display: block; padding: 0; }
+  .slide { box-shadow: none; }
+}
+.kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pa); }
+.slide h2 { font-size: 30px; line-height: 1.2; margin: 6px 0 4px; border: 0; padding: 0; letter-spacing: -0.01em; }
+.lede { font-size: 16px; color: var(--ink-2); margin: 0 0 14px; }
+.body { flex: 1; display: grid; gap: 28px; min-height: 0; align-items: start; }
+.c2 { grid-template-columns: 1fr 1fr; }
+.c-wide { grid-template-columns: 1.35fr 1fr; }
+.foot { position: absolute; left: 60px; right: 60px; bottom: 18px; display: flex; justify-content: space-between;
+        font-size: 12px; color: var(--muted); border-top: 1px solid var(--grid); padding-top: 8px; }
+.takeaway { margin-top: 10px; padding: 10px 16px; background: var(--info-wash); border-left: 4px solid var(--pa);
+            border-radius: 6px; font-size: 15px; }
+.takeaway b { color: var(--ink); }
+.fig-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.fig-cap { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.points { margin: 0; padding: 0; list-style: none; }
+.points li { position: relative; padding: 10px 0 10px 30px; border-bottom: 1px solid var(--grid); font-size: 16px; line-height: 1.45; }
+.points li::before { content: counter(pt); counter-increment: pt; position: absolute; left: 0; top: 11px; width: 20px; height: 20px;
+                     border-radius: 50%; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700;
+                     display: flex; align-items: center; justify-content: center; }
+.points { counter-reset: pt; }
+.big { font-size: 44px; font-weight: 700; line-height: 1; }
+.tiles2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tiles2 .tile { padding: 16px 18px; }
+.tiles2 .value { font-size: 36px; }
+.tiles3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 10px; }
+.tiles3 .tile { padding: 10px 14px; }
+.tiles3 .value { font-size: 26px; }
+.flow { display: flex; gap: 8px; align-items: stretch; margin: 4px 0 16px; }
+.flow div { flex: 1; background: var(--info-wash); border-radius: 8px; padding: 10px 10px; font-size: 13px; text-align: center; }
+.flow div b { display: block; font-size: 14px; margin-bottom: 2px; }
+.facts td { font-size: 15px; padding: 7px 10px; }
+.facts td:first-child { color: var(--ink-2); width: 40%; }
+table { font-size: 14px; }
+details { display: none !important; }
+.legend { font-size: 13px; }
+
+/* title & closing slides */
+.slide.cover { background: #0d366b; color: #fff; justify-content: center; }
+.slide.cover .kicker { color: #9ec5f4; }
+.slide.cover h1 { font-size: 54px; line-height: 1.1; margin: 14px 0 18px; max-width: 980px; letter-spacing: -0.02em; }
+.slide.cover p { font-size: 20px; color: #cde2fb; margin: 0; max-width: 900px; }
+.slide.cover .foot { color: #9ec5f4; border-color: rgba(255,255,255,0.2); }
+.slide.cover .stats { display: flex; gap: 48px; margin-top: 44px; }
+.slide.cover .stats div { font-size: 15px; color: #cde2fb; }
+.slide.cover .stats b { display: block; font-size: 34px; color: #fff; }
+
+.reco-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.reco-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 18px; min-height: 330px; display: flex; flex-direction: column; border-top: 4px solid var(--pa); }
+.reco-card .n { font-size: 30px; font-weight: 700; color: var(--pa); line-height: 1; }
+.reco-card h4 { font-size: 19px; margin: 10px 0 8px; line-height: 1.25; }
+.reco-card p { font-size: 15.5px; color: var(--ink-2); margin: 0; line-height: 1.45; }
+.reco-card .impact { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--grid); font-size: 14px; color: #006300; font-weight: 700; }
+.col h3 { font-size: 17px; margin: 0 0 8px; }
+.col ul { margin: 0; padding-left: 18px; font-size: 15px; }
+.col li { margin: 6px 0; }

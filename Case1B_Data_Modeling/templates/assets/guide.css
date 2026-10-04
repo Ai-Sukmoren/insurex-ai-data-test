@@ -1,0 +1,34 @@
+/* Presenter guide - A4 portrait. Tokens from styles.css (forced light theme). */
+@page { size: A4; margin: 14mm 13mm; }
+body { background: #fff; font-size: 13px; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.wrap { max-width: 860px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 20px; margin: 28px 0 8px; }
+h3 { font-size: 14.5px; margin: 14px 0 4px; }
+.cover { padding: 40px 0 10px; border-bottom: 4px solid #0d366b; margin-bottom: 10px; }
+.cover .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+.cover p { font-size: 15px; color: var(--ink-2); }
+.box { border-radius: 8px; padding: 10px 14px; margin: 8px 0; break-inside: avoid; }
+.box.say { background: #f4f3ef; border-left: 4px solid var(--ink); font-style: italic; }
+.box.say::before { content: "Say: "; font-style: normal; font-weight: 700; }
+.box.warn { background: var(--commission); border-left: 4px solid var(--commission-ink); }
+.box.blue { background: var(--salary); border-left: 4px solid var(--brand); }
+.g-slide { break-before: page; }
+.g-head { display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid var(--brand); padding-bottom: 4px; margin: 0 0 8px; }
+.g-head .num { font-size: 12px; font-weight: 700; color: #fff; background: var(--brand); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.g-head h2 { border: 0; margin: 0; padding: 0; font-size: 18px; flex: 1; }
+.g-head .time { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.g-fig { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 6px 0; break-inside: avoid; }
+.lbl { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+ul, ol { margin: 4px 0; padding-left: 20px; }
+li { margin: 3px 0; }
+.qa { margin: 6px 0; break-inside: avoid; }
+.qa .q { font-weight: 700; }
+.qa .q::before { content: "Q: "; color: var(--brand); }
+.qa .a::before { content: "A: "; font-weight: 700; color: var(--good-ink); }
+table { font-size: 12.5px; }
+th, td { padding: 4px 8px; }
+.calendar { font-size: 10px; }
+.calendar td.pass, .calendar td.fail { min-width: 70px; padding: 3px 4px; }
+pre { font-size: 10.5px; }
+.state { max-width: 460px; }

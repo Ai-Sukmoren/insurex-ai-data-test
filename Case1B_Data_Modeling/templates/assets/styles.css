@@ -1,0 +1,95 @@
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --card: #ffffff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+  --brand: #256abf; --core: #c0392b;
+  --good: #0ca30c; --good-wash: #e7f5e7; --good-ink: #006300;
+  --bad: #d03b3b; --bad-wash: #fbeaea; --bad-ink: #a32424;
+  --salary: #eef4fc; --salary-ink: #1c5cab; --commission: #fdf1ec; --commission-ink: #b4461c;
+  --code-bg: #f6f8fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --card: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --brand: #3987e5; --core: #e66767;
+    --good-wash: #12301a; --good-ink: #5fd35f; --bad-wash: #3a1717; --bad-ink: #f08a8a;
+    --salary: #16263b; --salary-ink: #86b6ef; --commission: #33201a; --commission-ink: #f0a07c;
+    --code-bg: #141413;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --card: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+  --brand: #3987e5; --core: #e66767;
+  --good-wash: #12301a; --good-ink: #5fd35f; --bad-wash: #3a1717; --bad-ink: #f08a8a;
+  --salary: #16263b; --salary-ink: #86b6ef; --commission: #33201a; --commission-ink: #f0a07c;
+  --code-bg: #141413;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 48px; }
+h1 { font-size: 26px; margin: 0; }
+.meta { color: var(--ink-2); margin: 4px 0 18px; }
+h2 { font-size: 18px; margin: 34px 0 10px; padding-bottom: 4px; border-bottom: 2px solid var(--brand); }
+h3 { font-size: 14px; margin: 18px 0 4px; }
+.sub { font-weight: 400; color: var(--ink-2); font-size: 12.5px; }
+p { margin: 6px 0; }
+code { font-family: Consolas, ui-monospace, monospace; font-size: 0.92em; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; break-inside: avoid; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.callout { background: var(--salary); border-left: 4px solid var(--brand); padding: 10px 14px; border-radius: 6px; margin: 10px 0; }
+.ok { background: var(--good-wash); border-left: 4px solid var(--good); padding: 10px 14px; border-radius: 6px; margin: 10px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 4px 0 8px; }
+th, td { border-bottom: 1px solid var(--grid); padding: 5px 8px; text-align: left; vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+ol li, ul li { margin: 4px 0; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+      font: 10px/1.4 Consolas, ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; }
+
+/* KPI calendar */
+.calendar { border-collapse: separate; border-spacing: 3px; font-size: 11.5px; }
+.calendar th, .calendar td { border: 0; padding: 0; }
+.calendar tr:first-child th { text-align: center; padding-bottom: 2px; }
+.calendar th.agent { padding: 6px 8px 0 0; font-size: 13px; color: var(--ink); white-space: nowrap; vertical-align: top; }
+.calendar th.agent span { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+.calendar td.rowlbl { color: var(--muted); font-size: 11px; padding-right: 6px; white-space: nowrap; }
+.calendar td.pass, .calendar td.fail { border-radius: 6px; padding: 5px 6px; text-align: center; min-width: 78px; }
+.calendar td.pass { background: var(--good-wash); }
+.calendar td.fail { background: var(--bad-wash); }
+.calendar td.pass b { color: var(--good-ink); }
+.calendar td.fail b { color: var(--bad-ink); }
+.calendar td b, .calendar td span { display: block; }
+.calendar td span { color: var(--ink-2); font-size: 11px; }
+.calendar td span.streak { color: var(--muted); font-size: 10.5px; }
+.calendar tr.contract-row td:not(.rowlbl) { border-radius: 4px; padding: 3px 6px; font-size: 11px; text-align: center; font-weight: 600; }
+.calendar tr.contract-row td + td { }
+.calendar td.c-salary { background: var(--salary); color: var(--salary-ink); }
+.calendar td.c-commission { background: var(--commission); color: var(--commission-ink); }
+.calendar td em { display: block; font-style: normal; font-weight: 700; color: var(--ink); }
+.calendar tr.contract-row td { padding-bottom: 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-2); margin: 6px 0; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -2px; }
+footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
+
+@media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } .calendar { font-size: 10px; } }
+@page { size: A4; margin: 12mm; }
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light; --page: #fff; --card: #fff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --border: rgba(11,11,11,0.14); --brand: #256abf; --core: #c0392b;
+    --good-wash: #e7f5e7; --good-ink: #006300; --bad-wash: #fbeaea; --bad-ink: #a32424;
+    --salary: #eef4fc; --salary-ink: #1c5cab; --commission: #fdf1ec; --commission-ink: #b4461c; --code-bg: #f6f8fa;
+  }
+  body { font-size: 11.5px; background: #fff; }
+  .wrap { padding: 0; max-width: none; }
+  h2 { break-after: avoid; }
+  .pb { break-before: page; }
+  table, .card { break-inside: avoid; }
+  pre { break-inside: auto; }
+}
