@@ -19,7 +19,7 @@ def test_rag_answer_memory_and_session_separation(tmp_path):
             return first, recall, other
 
     first, recall, other = asyncio.run(run())
-    assert "150,000" in first.reply and "Khum_Aomsook" in first.reply
+    assert "150,000" in first.reply and "InsureX_Savings_Insurance" in first.reply
     assert "retrieve" in first.path and "generate" in first.path
     assert "Aomsook" in recall.reply or "ออมสุข" in recall.reply
     assert "Aomsook" not in other.reply and "ออมสุข" not in other.reply                               # bob cannot see alice's history

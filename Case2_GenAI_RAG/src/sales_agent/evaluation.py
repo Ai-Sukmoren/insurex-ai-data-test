@@ -20,6 +20,11 @@ def normalise(text: str) -> str:
     return re.sub(r"[,\s]", "", text.lower())
 
 
+def matches(expected: str, answer: str) -> bool:
+    """True if the answer contains the expected fact; "a|b" accepts either form (e.g. "3 แสน|300,000")."""
+    return any(normalise(alt) in normalise(answer) for alt in expected.split("|"))
+
+
 @dataclass
 class EvalRow:
     question: str
@@ -47,7 +52,7 @@ class RagEvaluator:
                     hit, ok = None, any(m in result.reply for m in FALLBACK_MARKERS)
                 else:
                     hit = any(h.chunk.source == item["source"] for h in kb.store.search(item["q"], self.s.top_k))
-                    ok = all(normalise(e) in normalise(result.reply) for e in item["expect"])
+                    ok = all(matches(e, result.reply) for e in item["expect"])
                 rows.append(EvalRow(item["q"], oos, hit, ok, " > ".join(result.path), result.reply))
                 log.info("EVAL %02d %s | %s", i, "PASS" if ok else "FAIL", item["q"])
         self._report(rows)

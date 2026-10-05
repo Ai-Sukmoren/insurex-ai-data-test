@@ -16,28 +16,27 @@ log = logging.getLogger("sales_agent")
 # (session, message, what it demonstrates)
 SCRIPT_PART_1 = [
     ("alice", "Hi there!", "Small talk"),
-    ("alice", "How long do I pay premiums for Khum Aomsook, and how long is the cover?",
-     "English question, answer with citation from a Thai document"),
-    ("alice", "And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?",
-     "Follow-up resolved from memory ('it' = Khum Aomsook)"),
-    ("alice", "Do you sell travel insurance?", "Not in the knowledge base: retrieve > grade > rewrite > retrieve cycle, then fallback"),
-    ("alice", "I'm interested in Khum Aomsook. Can an agent contact me?", "Interest triggers lead-collection mode"),
+    ("alice", "What does Prima Care plan M pay for room and board per day?",
+     "English question, answer with citation from a Thai catalogue (health)"),
+    ("alice", "And what about the ICU room on the same plan?", "Follow-up resolved from memory ('same plan' = Prima Care plan M)"),
+    ("alice", "Do you sell car insurance?", "Not in the knowledge base: retrieve > grade > rewrite > retrieve cycle, then fallback"),
+    ("alice", "I'm interested in Prima Care. Can an agent contact me?", "Interest triggers lead-collection mode"),
     ("alice", "My name is Alice Wong and I work as a nurse", "Partial lead details extracted"),
-    ("alice", "Before that - is the premium fixed or does it go up with age?",
-     "Side question answered during lead collection, then reminder"),
+    ("alice", "Before that - up to what age can I renew it?", "Side question answered during lead collection, then reminder"),
     ("alice", "I earn about 32,000 baht a month, my number is 089-765-4321", "Lead complete: validated and saved through the MCP tool"),
     ("alice", "What's my name, and what did I ask about first?", "Recall from this session's memory"),
-    ("somchai", "อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม", "Thai question, two facts from one document"),
-    ("somchai", "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่", "Car insurance premium table lookup"),
+    ("somchai", "ประกันสัตว์เลี้ยง แผน XL เบี้ยปีละเท่าไหร่ และค่ารักษาจากการเจ็บป่วยต่อครั้งเท่าไหร่",
+     "Thai question, two facts from a plan table (pet)"),
+    ("somchai", "ประกันอุบัติเหตุ ทิพย TIP PA SENIOR แผน 1 เบี้ยเท่าไหร่", "Personal accident plan lookup among 38 plans"),
     ("somchai", "สนใจครับ ผมชื่อสมชาย ใจดี เป็นวิศวกร เงินเดือน 5 หมื่น เบอร์ 081-234-5678",
      "All lead details in one Thai message, saved via MCP"),
-    ("dave", "I'd like to apply for FWD Freedom Link Plus 15/5", "Lead mode for another customer"),
+    ("dave", "I'd like to apply for travel insurance", "Lead mode for another customer"),
     ("dave", "Dave Miller, software developer, 85000 per month, phone 12345", "Invalid phone rejected by the MCP tool's validation"),
     ("dave", "Sorry, it's 091-555-0123", "Corrected value accepted and saved"),
     ("bob", "What's my name? What did I ask you before?", "Session separation: Bob cannot see Alice's conversation"),
 ]
 SCRIPT_PART_2 = [
-    ("alice", "Can you remind me what the monthly premium was?", "Memory survives a restart (new process, same session id)"),
+    ("alice", "Can you remind me what the room rate was?", "Memory survives a restart (new process, same session id)"),
 ]
 
 

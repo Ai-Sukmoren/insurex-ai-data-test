@@ -1,0 +1,148 @@
+{
+ "date": "2026-10-05",
+ "reason": "1000/150 scored best (91/100, 77/85 answers, 14/15 refusals). Smaller chunks scored lower (85 and 82) and 1200/200 scored 89 with one fewer correct refusal. The likely reason is that at about 1000 characters a benefit-table block stays in one chunk with its plan-name headings; this is an explanation, not something the test measured. Overlap stays at 15% so a fact on a chunk boundary is whole in at least one chunk.",
+ "runs": [
+  {
+   "config": "500/100",
+   "chunks": 304,
+   "overall": 85,
+   "answers": 71,
+   "refused": 14,
+   "minutes": 7.2,
+   "chosen": false
+  },
+  {
+   "config": "700/120",
+   "chunks": 220,
+   "overall": 82,
+   "answers": 69,
+   "refused": 13,
+   "minutes": 9.9,
+   "chosen": false
+  },
+  {
+   "config": "1000/150",
+   "chunks": 152,
+   "overall": 91,
+   "answers": 77,
+   "refused": 14,
+   "minutes": 12.3,
+   "chosen": true
+  },
+  {
+   "config": "1200/200",
+   "chunks": 138,
+   "overall": 89,
+   "answers": 76,
+   "refused": 13,
+   "minutes": 11.2,
+   "chosen": false
+  }
+ ],
+ "sweep": [
+  {
+   "config": "300/50",
+   "chunks": 536,
+   "fact@1": 70,
+   "fact@4": 81,
+   "fact@4_floor": 81,
+   "avg_chars": 292
+  },
+  {
+   "config": "400/60",
+   "chunks": 373,
+   "fact@1": 63,
+   "fact@4": 83,
+   "fact@4_floor": 83,
+   "avg_chars": 388
+  },
+  {
+   "config": "400/80",
+   "chunks": 377,
+   "fact@1": 58,
+   "fact@4": 81,
+   "fact@4_floor": 81,
+   "avg_chars": 391
+  },
+  {
+   "config": "500/80",
+   "chunks": 304,
+   "fact@1": 62,
+   "fact@4": 83,
+   "fact@4_floor": 83,
+   "avg_chars": 468
+  },
+  {
+   "config": "500/100",
+   "chunks": 304,
+   "fact@1": 64,
+   "fact@4": 85,
+   "fact@4_floor": 85,
+   "avg_chars": 476
+  },
+  {
+   "config": "600/100",
+   "chunks": 253,
+   "fact@1": 63,
+   "fact@4": 84,
+   "fact@4_floor": 84,
+   "avg_chars": 553
+  },
+  {
+   "config": "700/120",
+   "chunks": 220,
+   "fact@1": 64,
+   "fact@4": 81,
+   "fact@4_floor": 81,
+   "avg_chars": 634
+  },
+  {
+   "config": "700/0",
+   "chunks": 208,
+   "fact@1": 64,
+   "fact@4": 83,
+   "fact@4_floor": 83,
+   "avg_chars": 624
+  },
+  {
+   "config": "800/120",
+   "chunks": 190,
+   "fact@1": 61,
+   "fact@4": 84,
+   "fact@4_floor": 84,
+   "avg_chars": 712
+  },
+  {
+   "config": "900/150",
+   "chunks": 170,
+   "fact@1": 66,
+   "fact@4": 84,
+   "fact@4_floor": 84,
+   "avg_chars": 803
+  },
+  {
+   "config": "1000/150",
+   "chunks": 152,
+   "fact@1": 64,
+   "fact@4": 85,
+   "fact@4_floor": 85,
+   "avg_chars": 875
+  },
+  {
+   "config": "1200/200",
+   "chunks": 138,
+   "fact@1": 67,
+   "fact@4": 84,
+   "fact@4_floor": 84,
+   "avg_chars": 990
+  },
+  {
+   "config": "page/0",
+   "chunks": 61,
+   "fact@1": 64,
+   "fact@4": 82,
+   "fact@4_floor": 82,
+   "avg_chars": 1932
+  }
+ ]
+}

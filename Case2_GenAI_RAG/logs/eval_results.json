@@ -1,79 +1,351 @@
 {
- "generated": "2026-10-05T01:55:07",
+ "generated": "2026-10-05T11:14:31",
  "chat_model": "qwen3:14b",
  "embed_model": "bge-m3",
  "top_k": 4,
  "metrics": {
   "retrieval_hit": 1.0,
-  "answer_accuracy": 0.9529411764705882,
-  "out_of_scope_refused": 1.0,
+  "answer_accuracy": 0.9058823529411765,
+  "out_of_scope_refused": 0.9333333333333333,
   "answerable": 85,
   "out_of_scope": 15
  },
  "rows": [
   {
-   "question": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันกี่ปี",
+   "question": "อีซี่ อี เฮลท์ วงเงินคุ้มครองค่ารักษาสูงสุดต่อปีเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันเป็นระยะเวลา 3 ปี [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "วงเงินคุ้มครองค่ารักษาสูงสุดต่อปีของประกันสุขภาพ Easy E-Health คือ 1.5 ล้านบาท [InsureX_Health_Insurance.pdf, p.2]"
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 คุ้มครองนานกี่ปี",
+   "question": "อีซี่ อี เฮลท์ ถ้าไม่เคลม ได้ส่วนลดเบี้ยปีถัดไปกี่เปอร์เซ็นต์",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 คุ้มครองนาน 10 ปี [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "หากไม่มีการเคลมในปีนั้น ผู้เอาประกันจะได้รับส่วนลดเบี้ยประกันสุขภาพของปีถัดไป 10% [InsureX_Health_Insurance.pdf, p.2]."
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 ได้เงินคืนทุกปีกี่เปอร์เซ็นต์",
+   "question": "อีซี่ อี เฮลท์ ระยะเวลารอคอยทั่วไปกี่วัน",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รับเงินคืน 3% ของทุนประกันทุกสิ้นปีกรมธรรม์ที่ 1-9 [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "ระยะเวลารอคอย (Waiting period) สำหรับประกันสุขภาพ Easy E-Health คือ 30 วัน นับแต่วันเริ่มมีผล [InsureX_Health_Insurance.pdf, p.2]"
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ในสิ้นปีกรมธรรม์ที่เท่าไหร่บ้าง",
+   "question": "อีซี่ อี เฮลท์ ผ่าตัดต้อกระจกมีระยะเวลารอคอยกี่วัน",
    "out_of_scope": false,
    "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ของทุนประกันทุกสิ้นปีกรมธรรม์ที่ 1-9 [Easy_E-Save_10-3.pdf, p.1]"
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุดกี่เปอร์เซ็นต์ของทุน",
+   "question": "อี เฮลท์ มินิ คุ้มครองค่ารักษาแบบเหมาจ่ายต่อครั้งสูงสุดเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ครบกำหนดสัญญาได้เงินคืนสูงสุด 303% ของทุนประกันสะสมทรัพย์ [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "อี เฮลท์ มินิ คุ้มครองค่ารักษาพยาบาลแบบเหมาจ่ายต่อครั้งสูงสุด 3 หมื่นบาท [InsureX_Health_Insurance.pdf, p.8]"
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 เลือกเบี้ยประกันต่อปีได้ตั้งแต่เท่าไหร่ถึงเท่าไหร่",
+   "question": "อี เฮลท์ มินิ วงเงินต่อปีกรมธรรม์สูงสุดเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เลือกเบี้ยประกันต่อปีได้ตั้งแต่ 30,000 – 350,000 บาท [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "วงเงินต่อปีกรมธรรม์ของประกันสุขภาพ E-Health Mini สูงสุดอยู่ที่ 3 แสนบาท [InsureX_Health_Insurance.pdf, p.8]."
   },
   {
-   "question": "ถ้าเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จ่ายสูงสุดกี่เปอร์เซ็นต์ของทุนประกัน",
+   "question": "อี เฮลท์ มินิ มะเร็งระยะลุกลามมีระยะเวลารอคอยกี่วัน",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "หากเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จะจ่ายสูงสุด 300% ของทุนประกันสะสมทรัพย์ [Easy_E-Save_10-3.pdf, p.1]."
+   "answer": "อี เฮลท์ มินิ มะเร็งระยะลุกลาม (Invasive Cancer) มีระยะเวลาที่ไม่คุ้มครอง (Waiting period) 90 วัน นับแต่วันเริ่มมีผล [InsureX_Health_Insurance.pdf, p.8]"
   },
   {
-   "question": "อีซี่ อีเซฟ 10/3 กรณีเสียชีวิตจ่ายกี่เปอร์เซ็นต์ของเบี้ยที่ชำระมาแล้ว",
+   "question": "เบี้ยประกันสุขภาพ อี เฮลท์ มินิ ลดหย่อนภาษีได้สูงสุดเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิต รับเงินสูงสุด 101% ของค่าเบี้ยประกันที่ชำระมาแล้วทั้งหมด [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "เบี้ยประกันสุขภาพ อี เฮลท์ มินิ สามารถลดหย่อนภาษีได้สูงสุดไม่เกิน 25,000 บาท [InsureX_Health_Insurance.pdf, p.9]."
+  },
+  {
+   "question": "สัญญาเพิ่มเติม เฮชบี พลัส รับประกันอายุสูงสุดกี่ปี",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "สัญญาเพิ่มเติม เฮชบี พลัส รับประกันอายุสูงสุดถึงอายุ 85 ปี [InsureX_Health_Insurance.pdf, p.5]."
+  },
+  {
+   "question": "HB Plus 5000 ถ้านอนโรงพยาบาลแล้วมีการผ่าตัดใหญ่ ได้เงินก้อนเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "HB Plus 5000 กรณีเข้าพักรักษาตัวเป็นผู้ป่วยในในโรงพยาบาลโดยมีการผ่าตัดใหญ่ จะได้รับผลประโยชน์ก้อน 50,000 บาท [InsureX_Health_Insurance.pdf, p.5]."
+  },
+  {
+   "question": "HB Plus 2000 ถ้านอนโรงพยาบาลด้วย 20 โรคร้ายแรง ได้เงินก้อนเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "HB Plus 2000 กรณีเข้าพักรักษาตัวเป็นผู้ป่วยในเนื่องจาก 20 โรคร้ายแรง จะได้รับเงินก้อน 40,000 บาท [InsureX_Health_Insurance.pdf, p.5]."
+  },
+  {
+   "question": "HB Plus 1000 เบี้ยประกันต่อปีสำหรับคนอายุ 30 ปีเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันต่อปีสำหรับแผน HB Plus 1000 และผู้เอาประกันภัยอายุ 30 ปีคือ 4,400 บาท [InsureX_Health_Insurance.pdf, p.5]."
+  },
+  {
+   "question": "คุ้มตลอดชีพ พลัส รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันสุขภาพ \"คุ้มตลอดชีพ พลัส\" รับประกันอายุตั้งแต่ 16 ปี ถึง 60 ปี [InsureX_Health_Insurance.pdf, p.13]."
+  },
+  {
+   "question": "คุ้มตลอดชีพ พลัส แผน 2 วงเงินเหมาจ่ายค่ารักษาต่อปีเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "วงเงินเหมาจ่ายค่ารักษาต่อปีสำหรับแผน 2 ของผลิตภัณฑ์ \"คุ้มตลอดชีพ พลัส\" คือ 3,000,000 บาท [InsureX_Health_Insurance.pdf, p.11]."
+  },
+  {
+   "question": "คุ้มตลอดชีพ พลัส สัญญาเพิ่มเติมโรคร้ายแรง แบบซีไอ 50 มีจำนวนเงินเอาประกันภัยเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "จำนวนเงินเอาประกันภัยสำหรับสัญญาเพิ่มเติมโรคร้ายแรง แบบซีไอ 50 ในแผน \"คุ้มตลอดชีพ พลัส\" คือ 1,500,000 บาท [InsureX_Health_Insurance.pdf, p.11]."
+  },
+  {
+   "question": "คุ้มตลอดชีพ พลัส แบบตลอดชีพ 99/99 มีจำนวนเงินเอาประกันภัยเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "จำนวนเงินเอาประกันภัยสำหรับแผน \"คุ้มตลอดชีพ พลัส แบบตลอดชีพ 99/99\" คือ 300,000 บาท [InsureX_Health_Insurance.pdf, p.11]."
+  },
+  {
+   "question": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า แผนไดมอนด์ ผลประโยชน์สูงสุดต่อปีเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ผลประโยชน์สูงสุดต่อปีของแผนไดมอนด์ในประกันสุขภาพคุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า คือ 100,000,000 บาท [InsureX_Health_Insurance.pdf, p.16]."
+  },
+  {
+   "question": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า แผนโกลด์ ค่าห้องต่อวันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่าห้องต่อวันสำหรับแผนโกลด์ในประกันสุขภาพคุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า คือ 6,000 บาทต่อวัน [InsureX_Health_Insurance.pdf, p.16]."
+  },
+  {
+   "question": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า รับประกันอายุตั้งแต่ 11 ปี ถึง 70 ปี และสามารถต่ออายุได้ถึงอายุ 84 ปี (คุ้มครองถึงอายุ 85 ปี) [InsureX_Health_Insurance.pdf, p.18]"
+  },
+  {
+   "question": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า ฟอร์ คิดส์ แผน Deductible ช่วยลดเบี้ยได้กี่เปอร์เซ็นต์",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า ฟอร์ คิดส์ แผน Deductible ช่วยลดเบี้ยประกันภัยเมื่อเทียบกับแผนแบบไม่มีความรับผิดส่วนแรก (No Deductible) สำหรับผู้เอาประกันภัยอายุ 5 ปี แผน Deductible 25,000 | 50,000 มีเบี้ยประกันภัยรายปี 62,193 | 47,472 ขณะที่แผน No Deductible มีเบี้ยประกันภัยรายปี 99,667 [InsureX_Health_Insurance.pdf, p.22] \n\nการลดลงของเบี้ยประกันภัยเมื่อเปรียบเทียบกับแผน No Deductible คือ:\n- สำหรับความรับผิดส่วนแรก 25,000: ลดลง 37,474 บาท (ลดลง 37.6%)\n- สำหรับความรับผิดส่วนแรก 50,000: ลดลง 52,195 บาท (ลดลง 52.4%) [InsureX_Health_Insurance.pdf, p.22]"
+  },
+  {
+   "question": "พรีม่า แคร์ แผน S ค่ารักษาโดยการผ่าตัดสูงสุดเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่ารักษาพยาบาลโดยการผ่าตัด (ศัลยกรรม) และหัตถการสูงสุดสำหรับแผน S คือ 60,000 บาท [InsureX_Health_Insurance.pdf, p.25]."
+  },
+  {
+   "question": "พรีม่า แคร์ ต่ออายุได้ถึงอายุกี่ปี",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "พรีม่า แคร์ ต่ออายุได้ถึงอายุ 79 ปี [InsureX_Health_Insurance.pdf, p.26]"
+  },
+  {
+   "question": "For Prima Care plan M, how much is the room and board benefit per day?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "For Prima Care plan M, the room and board benefit per day is 3,000 THB [InsureX_Health_Insurance.pdf, p.25]."
+  },
+  {
+   "question": "What is the maximum yearly coverage of Easy E-Health?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "The maximum yearly coverage of Easy E-Health is 1.5 million Thai Baht [InsureX_Health_Insurance.pdf, p.2]."
+  },
+  {
+   "question": "ประกันอุบัติเหตุ เทเวศ วันละ 1 บาท 365 วัน เบี้ยประกันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันสำหรับประกันอุบัติเหตุ เทเวศ วันละ 1 บาท 365 วัน เท่ากับ 365 บาท [InsureX_Accident_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "เทเวศ ประกันชดเชยรายได้สุดคุ้ม วันละ 2 บาท 365 วัน เบี้ยเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันสำหรับแผน \"เทเวศ ประกันชดเชยรายได้สุดคุ้ม วันละ 2 บาท 365 วัน\" คือ 450 บาท [InsureX_Accident_Insurance.pdf, p.4]."
+  },
+  {
+   "question": "เทเวศ ประกันชดเชยรายได้สุดคุ้ม ชดเชยรายได้จากอุบัติเหตุเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เทเวศ ประกันชดเชยรายได้สุดคุ้ม ชดเชยรายได้จากอุบัติเหตุวันละ 300 บาท [InsureX_Accident_Insurance.pdf, p.16]."
+  },
+  {
+   "question": "วิริยะ PA กระดูกหัก แผน 3 เบี้ยประกันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "วิริยะ PA กระดูกหัก แผน 3 มีเบี้ยประกันเท่ากับ 7,560 บาท [InsureX_Accident_Insurance.pdf, p.8]."
+  },
+  {
+   "question": "วิริยะ PA กระดูกหัก แผน 4 คุ้มครองเสียชีวิต สูญเสียอวัยวะเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "วิริยะ PA กระดูกหัก แผน 4 คุ้มครองการเสียชีวิตและสูญเสียอวัยวะในวงเงิน 1,000,000 บาท [InsureX_Accident_Insurance.pdf, p.16]."
+  },
+  {
+   "question": "วิริยะ PA กระดูกหัก แผน 1 ค่ารักษากรณีกระดูกหักเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่ารักษากรณีกระดูกหักสำหรับแผน PA กระดูกหัก แผน 1 คือ 3,240 บาท [InsureX_Accident_Insurance.pdf, p.15]."
+  },
+  {
+   "question": "วิริยะ กระดูกหัก แผน 4 สำหรับรุ่นใหญ่ อายุ 66-70 ปี เบี้ยเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยของแผน \"วิริยะ กระดูกหัก แผน 4\" สำหรับรุ่นใหญ่ อายุ 66-70 ปี คือ 8,700 บาท [InsureX_Accident_Insurance.pdf, p.8]."
+  },
+  {
+   "question": "ไทยวิวัฒน์ PA Life Span วัยเรียน แผน 6 เบี้ยประกันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันสำหรับ ไทยวิวัฒน์ PA Life Span วัยเรียน แผน 6 คือ 20,150 บาท [InsureX_Accident_Insurance.pdf, p.14]."
+  },
+  {
+   "question": "PA Life Span วัยเรียน รับประกันเด็กอายุเท่าไหร่ถึงเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "PA Life Span วัยเรียน รับประกันเด็กอายุ 7–20 ปี [InsureX_Accident_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "ทิพย TIP PA SENIOR แผน 1 เบี้ยประกันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ทิพย TIP PA SENIOR แผน 1 มีเบี้ยประกัน 1,200 บาท [InsureX_Accident_Insurance.pdf, p.9]."
+  },
+  {
+   "question": "TIP PA SENIOR รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "TIP PA SENIOR รับประกันอายุ 55–80 ปี [InsureX_Accident_Insurance.pdf, p.9]"
+  },
+  {
+   "question": "TIP PA SENIOR แผน 3 ค่ารักษาพยาบาลจากอุบัติเหตุเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่ารักษาพยาบาลจากอุบัติเหตุใน TIP PA SENIOR แผน 3 เท่ากับ 50,000 บาท [InsureX_Accident_Insurance.pdf, p.9]"
+  },
+  {
+   "question": "PA Life Span วัยทำงาน แผน 3 ชดเชยรายได้จากอุบัติเหตุเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "PA Life Span วัยทำงาน แผน 3 ชดเชยรายได้จากอุบัติเหตุสูงสุด 1,000,000 บาท [InsureX_Accident_Insurance.pdf, p.12]."
+  },
+  {
+   "question": "PA Life Span วัยสูงอายุ แผน 6 เบี้ยประกันเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันสำหรับ PA Life Span วัยสูงอายุ แผน 6 คือ 29,900 บาท [InsureX_Accident_Insurance.pdf, p.15]."
+  },
+  {
+   "question": "ประกันอุบัติเหตุบนเว็บ InsureX มาจากบริษัทประกันภัยอะไรบ้าง",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันอุบัติเหตุบนเว็บ InsureX มาจากบริษัทประกันภัย 4 แห่ง ได้แก่ ทิพยประกันภัย, ประกันภัยไทยวิวัฒน์, วิริยะประกันภัย และ เทเวศประกันภัย [InsureX_Accident_Insurance.pdf, p.1]"
+  },
+  {
+   "question": "ประกันอุบัติเหตุสำหรับเด็ก เพิ่ม 4 โรคยอดฮิต มีโรคอะไรบ้าง",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันอุบัติเหตุสำหรับเด็ก เพิ่ม 4 โรคยอดฮิต ได้แก่ ไข้หวัดใหญ่, อาหารเป็นพิษ, มือเท้าปาก, และ RSV [InsureX_Accident_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "How many accident insurance plans are listed for the working-age group?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "The working-age group has 28 different accident insurance plans listed [InsureX_Accident_Insurance.pdf, p.4]."
+  },
+  {
+   "question": "What is the premium of Viriya's PA bone fracture plan 2 (PA กระดูกหัก แผน 2)?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "The premium for Viriya's PA bone fracture plan 2 (PA กระดูกหัก แผน 2) is 3,960 THB [InsureX_Accident_Insurance.pdf, p.7]."
   },
   {
    "question": "อีซี่ อีเซฟ 10/3 ให้ผลตอบแทน IRR เท่าไหร่",
@@ -81,103 +353,31 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ผลตอบแทน (IRR) ของประกันสะสมทรัพย์ อีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "ผลตอบแทน (IRR) ของอีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [InsureX_Savings_Insurance.pdf, p.2]"
   },
   {
-   "question": "สมัครอีซี่ อีเซฟ 10/3 ต้องตอบคำถามสุขภาพไหม",
+   "question": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุดกี่เปอร์เซ็นต์ของทุน",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]"
+   "answer": "ครบกำหนดสัญญาได้เงินคืนสูงสุด 303% ของทุนประกันสะสมทรัพย์ [InsureX_Savings_Insurance.pdf, p.2]"
   },
   {
-   "question": "What is the IRR of Easy E-Save 10/3?",
+   "question": "อีซี่ อีเซฟ 10/3 เลือกเบี้ยประกันต่อปีได้ตั้งแต่เท่าไหร่ถึงเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The IRR (Internal Rate of Return) of Easy E-Save 10/3 is 1.24% in the case of surviving until the end of the contract [Easy_E-Save_10-3.pdf, p.1]."
+   "answer": "เลือกเบี้ยประกันต่อปีได้ตั้งแต่ 30,000 – 350,000 บาท [InsureX_Savings_Insurance.pdf, p.2]"
   },
   {
-   "question": "What is the maturity benefit of Easy E-Save 10/3 as a percentage of the sum assured?",
+   "question": "อีซี่ อีเซฟ 10/3 กรณีเสียชีวิตจ่ายกี่เปอร์เซ็นต์ของเบี้ยที่ชำระมาแล้ว",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The maturity benefit of Easy E-Save 10/3 is 303% of the sum assured [Easy_E-Save_10-3.pdf, p.1]."
-  },
-  {
-   "question": "What is the minimum annual premium for Easy E-Save 10/3?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The minimum annual premium for Easy E-Save 10/3 is 30,000 THB [Easy_E-Save_10-3.pdf, p.1]."
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ชำระเบี้ยกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 ชำระเบี้ยประกันภัยเป็นระยะเวลา 9 ปี [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 คุ้มครองกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 คุ้มครองเป็นระยะเวลา 18 ปี [Khum_Mangmee_18-9.pdf, p.1]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญากี่เปอร์เซ็นต์ของทุนประกัน",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รับเงินคืนรวมตลอดสัญญา 379% ของทุนประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดถึง 360% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 สิ้นปีที่ 1-9 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "สิ้นปีที่ 1-9 ผู้ถือกรมธรรม์จะได้รับเงินคืนปีละ 1% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 สิ้นปีที่ 10-18 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "สิ้นปีที่ 10-18 ได้เงินคืนปีละ 5% ของจำนวนเงินเอาประกันภัย [Khum_Mangmee_18-9.pdf, p.1]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ครบสัญญารับเงินก้อนกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ครบสัญญา รับเงินก้อน 325% ของทุน [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุด 70 ปี [Khum_Mangmee_18-9.pdf, p.2]"
+   "answer": "กรณีเสียชีวิต รับเงินสูงสุด 101% ของค่าเบี้ยประกันที่ชำระมาแล้วทั้งหมด [InsureX_Savings_Insurance.pdf, p.2]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุนประกันขั้นต่ำเท่าไหร่",
@@ -185,7 +385,23 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "จำนวนเงินเอาประกันภัยขั้นต่ำคือ 100,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
+   "answer": "คุ้มมั่งมี 18/9 มีจำนวนเงินเอาประกันภัยขั้นต่ำ 100,000 บาท [InsureX_Savings_Insurance.pdf, p.4]."
+  },
+  {
+   "question": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดถึง 70 ปี [InsureX_Savings_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญากี่เปอร์เซ็นต์ของทุนประกัน",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญา 379% ของทุนประกันภัย [InsureX_Savings_Insurance.pdf, p.3]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี เบี้ยรายปีเท่าไหร่",
@@ -193,31 +409,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายปีสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี เท่ากับ 36,500 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี จ่ายรายเดือนเดือนละเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี จ่ายรายเดือนเดือนละ 3,285 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท เบี้ยรายปีของคนอายุ 30 ปีเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายปีสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุนประกัน 1,000,000 บาท และผู้เอาประกันภัยอายุ 30 ปี เท่ากับ 362,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เบี้ยรายเดือนเท่าไหร่ (อายุ 30)",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนประกันคุ้มมั่งมี 18/9 ทุน 500,000 บาท และอายุ 30 ปี คือ 16,380 บาท [Khum_Mangmee_18-9.pdf, p.2]"
+   "answer": "เบี้ยประกันรายปีสำหรับแผน \"คุ้มมั่งมี 18/9\" ทุนประกัน 100,000 บาท อายุ 30 ปี คือ 36,500 บาท [InsureX_Savings_Insurance.pdf, p.4]"
   },
   {
    "question": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท ถ้าเสียชีวิตในปีกรมธรรม์ที่ 1-3 ได้เท่าไหร่",
@@ -225,135 +417,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 1-3 สำหรับทุนประกัน 1,000,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 1,200,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท เสียชีวิตปีกรมธรรม์ที่ 4-6 ได้รับเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 4-6 สำหรับทุนประกัน 300,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 720,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เสียชีวิตปีที่ 7-18 ได้เท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 7-18 สำหรับทุนประกัน 500,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 1,800,000 บาท [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท ครบสัญญาได้เงินก้อนเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ครบสัญญาได้เงินก้อน 975,000 บาท [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มมั่งมี 18/9 มีชื่อแบบประกันอย่างเป็นทางการว่าอะไร",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มมั่งมี 18/9 มีชื่อแบบประกันอย่างเป็นทางการว่า \"เอฟดับบลิวดี ไลฟ์ เซฟวิ่ง 18/9\" [Khum_Mangmee_18-9.pdf, p.2]"
-  },
-  {
-   "question": "What is the minimum sum assured for Khum Mangmee 18/9?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The minimum sum assured for Khum Mangmee 18/9 is 100,000 THB [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The monthly premium for a 30-year-old with a 1,000,000 baht sum assured under Khum Mangmee 18/9 is 32,580 THB [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "What is the maximum entry age for Khum Mangmee 18/9?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > generate > update_memory",
-   "answer": "The maximum entry age for Khum Mangmee 18/9 is 70 years [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "How much life cover does Khum Mangmee 18/9 give in the first years, as a percentage of the sum assured?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "In the first 3 years of the Khum Mangmee 18/9 plan, the life cover is 120% of the sum assured [Khum_Mangmee_18-9.pdf, p.2]."
-  },
-  {
-   "question": "คุ้มออมสุข จ่ายเบี้ยกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข จ่ายเบี้ยประกันภัยเป็นระยะเวลา 15 ปี [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข คุ้มครองกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข คุ้มครองเป็นเวลา 25 ปี [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข รับเงินคืนรวมกี่เปอร์เซ็นต์ของทุน",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข รับเงินคืนรวม 174% ของทุน [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์ของทุน",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดถึง 200% ของจำนวนเงินเอาประกันภัย [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข ครบกำหนดสัญญาจะได้รับเงินก้อน 150% ของจำนวนเงินเอาประกันภัย [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข ได้เงินคืนรายปีกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข ให้เงินคืนรายปี 1% ของจำนวนเงินเอาประกันภัยตั้งแต่สิ้นปีกรมธรรม์ที่ 1-24 [Khum_Aomsook.pdf, p.2]."
-  },
-  {
-   "question": "คุ้มออมสุข รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่เท่าไหร่ถึงเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่ 1-24 [Khum_Aomsook.pdf, p.2]."
-  },
-  {
-   "question": "คุ้มออมสุข รับประกันอายุสูงสุดกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข รับประกันอายุสูงสุดถึง 60 ปี [Khum_Aomsook.pdf, p.2]"
+   "answer": "ในกรณีที่เสียชีวิตระหว่างปีกรมธรรม์ที่ 1-3 สำหรับแผน \"คุ้มมั่งมี 18/9\" ทุนประกัน 1,000,000 บาท จะได้รับเงินค่าชดเชย 1,200,000 บาท [InsureX_Savings_Insurance.pdf, p.4]."
   },
   {
    "question": "คุ้มออมสุข ทุนประกันขั้นต่ำเท่าไหร่",
@@ -361,15 +425,15 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "จำนวนเงินเอาประกันภัยขั้นต่ำคือ 150,000 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "จำนวนเงินเอาประกันภัยขั้นต่ำคือ 150,000 บาท [InsureX_Savings_Insurance.pdf, p.7]."
   },
   {
-   "question": "คุ้มออมสุข เริ่มเก็บเงินได้วันละกี่บาท",
+   "question": "คุ้มออมสุข จ่ายเบี้ยกี่ปี คุ้มครองกี่ปี",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข เริ่มเก็บเงินได้วันละ 30 บาท [Khum_Aomsook.pdf, p.1]"
+   "answer": "คุ้มออมสุข จ่ายเบี้ยประกัน 15 ปี และคุ้มครองชีวิต 25 ปี [InsureX_Savings_Insurance.pdf, p.6]"
   },
   {
    "question": "คุ้มออมสุข ทุน 100,000 บาท เพศชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
@@ -377,23 +441,7 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 1 คือ 878 บาท [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข ทุน 100,000 บาท ผู้หญิงอายุ 30 ปี จ่ายเดือนละเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข ทุน 100,000 บาท ผู้หญิงอายุ 30 ปี จ่ายเดือนละ 860 บาท [Khum_Aomsook.pdf, p.2]"
-  },
-  {
-   "question": "คุ้มออมสุข ทุน 300,000 บาท ผู้ชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 2 คุ้มออมสุข ทุน 300,000 บาท สำหรับผู้ชายอายุ 30 ปี คือ 2,635 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "เบี้ยประกันรายเดือนสำหรับคุ้มออมสุข ทุน 100,000 บาท เพศชายอายุ 30 ปี คือ 878 บาท [InsureX_Savings_Insurance.pdf, p.7]"
   },
   {
    "question": "คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
@@ -401,327 +449,263 @@
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 3 คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี คือ 4,256 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "เบี้ยประกันรายเดือนสำหรับแผนที่ 3 ของผลิตภัณฑ์ คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี คือ 4,256 บาท [InsureX_Savings_Insurance.pdf, p.7]"
   },
   {
-   "question": "คุ้มออมสุข ทุน 300,000 บาท เสียชีวิตในปีกรมธรรม์ที่ 1-10 ได้เท่าไหร่",
+   "question": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "กรณีเสียชีวิตระหว่างปีกรมธรรม์ที่ 1-10 สำหรับทุน 300,000 บาท ผู้เอาประกันภัยจะได้รับผลประโยชน์ 450,000 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "คุ้มออมสุข ครบกำหนดสัญญาจะได้รับเงินก้อน 150% ของจำนวนเงินเอาประกันภัย [InsureX_Savings_Insurance.pdf, p.7]"
   },
   {
-   "question": "คุ้มออมสุข ทุน 500,000 บาท รวมเงินคืนตลอดสัญญาเท่าไหร่",
+   "question": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "รวมเงินคืนตลอดสัญญาสำหรับแผนที่ 3 (ทุน 500,000 บาท) เท่ากับ 870,000 บาท [Khum_Aomsook.pdf, p.2]"
+   "answer": "The monthly premium for a 30-year-old with a 1,000,000 baht sum assured under the Khum Mangmee 18/9 plan is 32,580 THB [InsureX_Savings_Insurance.pdf, p.4]."
   },
   {
-   "question": "คุ้มออมสุข ความคุ้มครองชีวิต 200% เริ่มตั้งแต่ปีที่เท่าไหร่",
+   "question": "ประกันเดินทางมีระยะเวลารอคอยไหม",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ความคุ้มครองชีวิต 200% เริ่มตั้งแต่ปีที่ 11 เป็นต้นไป [Khum_Aomsook.pdf, p.1]"
+   "answer": "ประกันเดินทางจาก InsureX ไม่มีระยะเวลารอคอย [InsureX_Travel_Insurance.pdf, p.2] ซึ่งหมายความว่าคุณสามารถใช้สิทธิ์เคลมประกันได้ทันทีหลังจากเกิดเหตุหรืออุบัติเหตุในระหว่างการเดินทาง [InsureX_Travel_Insurance.pdf, p.2]"
   },
   {
-   "question": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันอะไร",
+   "question": "ประกันเดินทาง ติดต่อฝ่ายบริการลูกค้าเบอร์อะไร",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกัน \"เอฟดับบลิวดี ฟอร์ เซฟวิ่ง 25/15\" [Khum_Aomsook.pdf, p.2]"
+   "answer": "ติดต่อฝ่ายบริการลูกค้าได้ทางโทรศัพท์ 1314 ได้ทุกวันทำการ เวลา 9.00 – 19.00 น. [InsureX_Travel_Insurance.pdf, p.3]"
   },
   {
-   "question": "What is the minimum sum assured for Khum Aomsook?",
+   "question": "ฝ่ายบริการลูกค้าประกันเดินทางเปิดถึงกี่โมง",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The minimum sum assured for Khum Aomsook is 150,000 บาท [Khum_Aomsook.pdf, p.2]."
+   "answer": "ฝ่ายบริการลูกค้าประกันเดินทางเปิดให้บริการทุกวันทำการ เวลา 9.00 – 19.00 น. [InsureX_Travel_Insurance.pdf, p.3]"
   },
   {
-   "question": "What is the monthly premium of Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured?",
+   "question": "ประกันเดินทางจ่ายเบี้ยผ่านแอปธนาคารอะไรได้",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The monthly premium for Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured is 4,346 THB [Khum_Aomsook.pdf, p.2]."
+   "answer": "สามารถจ่ายเบี้ยประกันเดินทางผ่านแอป SCB EASY ได้ [InsureX_Travel_Insurance.pdf, p.3]"
   },
   {
-   "question": "เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดกี่ปี",
+   "question": "ประกันเดินทางต้องตรวจสุขภาพไหม",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันเดินทางไม่ต้องตรวจสุขภาพ [InsureX_Travel_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "ทำวีซ่าเชงเก้น ต้องมีทุนค่ารักษาพยาบาลขั้นต่ำเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ทำวีซ่าเชงเก้น ต้องมีทุนค่ารักษาพยาบาลขั้นต่ำ 30,000 ยูโร (ประมาณ 1,200,000 – 1,500,000 บาท) [InsureX_Travel_Insurance.pdf, p.5]"
+  },
+  {
+   "question": "คนมีโรคประจำตัวซื้อประกันเดินทางได้ไหม คุ้มครองโรคประจำตัวหรือไม่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "คนที่มีโรคประจำตัวสามารถซื้อประกันเดินทางได้ แต่ประกันจะไม่คุ้มครองโรคประจำตัวนั้นๆ เนื่องจากถือว่าเป็นสภาพทางการแพทย์ที่เป็นอยู่ก่อนสำหรับการเดินทาง [InsureX_Travel_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "ประกันเดินทางรายปีเหมาะกับใคร",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันเดินทางรายปีเหมาะสำหรับผู้ที่เดินทางบ่อย เพราะคุ้มครองหลายทริปในหนึ่งปีและคุ้มค่าในระยะยาว [InsureX_Travel_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "ประกันเดินทางในประเทศเพิ่มความคุ้มครองโรคอะไรได้บ้าง",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันเดินทางในประเทศสามารถเพิ่มความคุ้มครองโรคอาหารเป็นพิษ และโรคลำไส้อักเสบเฉียบพลันได้ [InsureX_Travel_Insurance.pdf, p.2]."
+  },
+  {
+   "question": "ประกันเดินทางมีความคุ้มครองบ้านระหว่างไปเที่ยวไหม",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันเดินทางของ InsureX มีความคุ้มครองความเสียหายของบ้านและทรัพย์สินที่เกิดจากอุบัติเหตุหรือการโจรกรรม เพิ่มเติมได้ตามแผนที่เลือก [InsureX_Travel_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "ทำประกันเดินทางต้องใช้เอกสารอะไรบ้าง",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ในการทำประกันเดินทาง คุณจะต้องใช้เอกสารหลัก ๆ ดังนี้:\n- บัตรประชาชน หรือ หนังสือเดินทาง\n- ข้อมูลการเดินทาง (วันเดินทาง, ปลายทาง, ตั๋วเครื่องบิน)\n- ข้อมูลการติดต่อ (หมายเลขโทรศัพท์, อีเมล)\n\n[InsureX_Travel_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "What number can I call about travel insurance?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "You can call 1314 during business days from 9:00 AM to 7:00 PM [InsureX_Travel_Insurance.pdf, p.3]."
+  },
+  {
+   "question": "Does the travel insurance have a waiting period?",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "No, the travel insurance does not have a waiting period. This means that when you apply for travel insurance and an incident or accident occurs during your trip, you can claim travel insurance benefits immediately [InsureX_Travel_Insurance.pdf, p.2]."
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยง ทิพย์ เพ็ท เลิฟเวอร์ ราคาเริ่มต้นเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ราคาเริ่มต้นของประกันสัตว์เลี้ยง ทิพย์ เพ็ท เลิฟเวอร์ คือ 1,950 บาท/ปี [InsureX_Pet_Insurance.pdf, p.2]."
+  },
+  {
+   "question": "ทิพย์ เพ็ท เลิฟเวอร์ ความคุ้มครองสูงสุดเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ความคุ้มครองสูงสุดของทิพย์ เพ็ท เลิฟเวอร์คือ 118,000 บาท [InsureX_Pet_Insurance.pdf, p.2]."
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยงรับประกันสัตว์อายุเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันสัตว์เลี้ยงรับประกันสัตว์เลี้ยงตั้งแต่อายุ 3 เดือนถึง 9 ปี [InsureX_Pet_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "สัตว์เลี้ยงอายุเท่าไหร่ถึงไม่ต้องตรวจสุขภาพก่อนทำประกัน",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "สัตว์เลี้ยงที่มีอายุ 3 เดือน - 7 ปี ไม่ต้องตรวจสุขภาพก่อนทำประกัน [InsureX_Pet_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยงรับประกันสัตว์ชนิดไหนบ้าง",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันสัตว์เลี้ยงรับประกันเฉพาะสุนัขและแมวเท่านั้น [InsureX_Pet_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "ต้องฝังไมโครชิพก่อนทำประกันสัตว์เลี้ยงไหม",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ไม่ต้องฝังไมโครชิพก่อนทำประกันสัตว์เลี้ยง [InsureX_Pet_Insurance.pdf, p.4]"
+  },
+  {
+   "question": "ทิพย์ เพ็ท เลิฟเวอร์ แผน XL เบี้ยปีละเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "เบี้ยประกันภัยสำหรับทิพย์ เพ็ท เลิฟเวอร์ แผน XL คือ 8,400 บาทต่อปี [InsureX_Pet_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยง แผน XXL คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันสัตว์เลี้ยง แผน XXL คุ้มครองความเสียหายต่อทรัพย์สินของบุคคลภายนอกสูงสุด 5,000 บาทต่อปีกรมธรรม์ [InsureX_Pet_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยง แผน S ค่ารักษาจากการเจ็บป่วยต่อครั้งเท่าไหร่",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ค่ารักษาพยาบาลจากการเจ็บป่วยต่อการเจ็บป่วยแต่ละครั้งในแผน S คือ 500 บาท (สูงสุด 5 ครั้ง/ปี) [InsureX_Pet_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยงไม่คุ้มครองการเจ็บป่วยในช่วงกี่วันแรก",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "ประกันสัตว์เลี้ยงไม่คุ้มครองการเจ็บป่วยในช่วง 60 วันแรกนับจากวันที่กรมธรรม์ประกันภัยมีผลบังคับเป็นครั้งแรก [InsureX_Pet_Insurance.pdf, p.3]"
+  },
+  {
+   "question": "ซื้อประกันสัตว์เลี้ยงออนไลน์ ได้กรมธรรม์ภายในกี่นาที",
+   "out_of_scope": false,
+   "retrieval_hit": true,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "สามารถรับกรมธรรม์ทางอีเมลได้ภายใน 30 นาที [InsureX_Pet_Insurance.pdf, p.2]"
+  },
+  {
+   "question": "ประกันสัตว์เลี้ยงรับประกันโดยบริษัทอะไร",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": false,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดไม่เกินปีกรมธรรม์ที่ผู้เอาประกันภัยอายุครบ 99 ปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]."
+   "answer": "ประกันสัตว์เลี้ยงของ InsureX รับประกันโดยบริษัท อินชัวร์ เอกซ์ จำกัด [InsureX_Pet_Insurance.pdf, p.1]"
   },
   {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 เบี้ยประกันภัยหลักเริ่มต้นปีละเท่าไหร่",
+   "question": "ประกันสัตว์เลี้ยง แผน L ค่าจัดการเผาศพหรือฝังศพเท่าไหร่",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันภัยหลักเริ่มต้นปีละ 50,000 บาท [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]"
+   "answer": "ค่าใช้จ่ายในการจัดการเผาศพหรือการฝังศพสำหรับสัตว์เลี้ยงที่ตายจากการบาดเจ็บหรือการเจ็บป่วยในแผน L คือ 5,000 บาทต่อปีกรมธรรม์ประกันภัย [InsureX_Pet_Insurance.pdf, p.2]"
   },
   {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละเท่าไหร่",
+   "question": "How much is the yearly premium for TIP Pet Lover plan M?",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละ 5,000 บาท [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]"
+   "answer": "The yearly premium for TIP Pet Lover plan M is 2,950 THB [InsureX_Pet_Insurance.pdf, p.3]."
   },
   {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 เลือกคุ้มครองชีวิตได้สูงสุดกี่เท่าของเบี้ยประกันภัยหลัก",
+   "question": "Does TIP Pet Lover cover my pet while abroad outside Thailand?",
    "out_of_scope": false,
    "retrieval_hit": true,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถเลือกคุ้มครองชีวิตได้สูงสุดถึง 50 เท่าของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.3]."
+   "answer": "No, TIP Pet Lover does not cover your pet while abroad outside Thailand. The insurance only provides coverage when the pet is within Thailand's territory [InsureX_Pet_Insurance.pdf, p.3]."
   },
   {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ได้โบนัสพิเศษกี่เปอร์เซ็นต์ของเบี้ยหลัก",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 ได้รับโบนัสพิเศษ 2% ของเบี้ยประกันภัยหลักที่ชําระมาแล้วทั้งหมด [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.3]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ต่ออายุกรมธรรม์ได้ถึงอายุเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถต่ออายุกรมธรรม์ได้จนถึงอายุครบ 99 ปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ผู้เอาประกันอายุ 61-65 ปี เลือกทุนประกันได้กี่เท่าของเบี้ยหลัก",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ผู้เอาประกันภัยอายุ 61-65 ปี สามารถเลือกทุนประกันได้ระหว่าง 5 เท่าถึง 8 เท่าของเบี้ยประกันภัยหลักต่อปี [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.4]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าใช้จ่ายในการดำเนินการปีแรกหักกี่เปอร์เซ็นต์ของเบี้ยหลัก",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ค่าใช้จ่ายในการดำเนินการปีแรกหักร้อยละ 8 ของเบี้ยประกันภัยหลัก [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]"
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีของฟรีดอม ลิงค์ พลัส 15/5 คือ 0.69 [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 เสียค่าธรรมเนียมกี่เปอร์เซ็นต์",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 จะเสียค่าธรรมเนียม 50 เปอร์เซ็นต์ [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]"
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 สับเปลี่ยนกองทุนขั้นต่ำเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "การสับเปลี่ยนกองทุนในแผนประกันภัยฟรีดอม ลิงค์ พลัส 15/5 ต้องไม่ต่ำกว่า 1,000 บาท [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.6]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 หยุดพักชำระเบี้ยได้หลังจ่ายรายเดือนครบกี่งวด",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ฟรีดอม ลิงค์ พลัส 15/5 สามารถหยุดพักชำระเบี้ยได้หลังจากชำระเบี้ยครบ 36 งวดสำหรับรายเดือน [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.6]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินบางส่วนแล้วมูลค่ากรมธรรม์ต้องเหลือไม่น้อยกว่าเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "มูลค่ากรมธรรม์ของเบี้ยประกันภัยหลังหักหนี้สินตามกรมธรรม์ (ถ้ามี) ต้องไม่น้อยกว่า 10,000 บาท [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.6]."
-  },
-  {
-   "question": "ฟรีดอม ลิงค์ พลัส 15/5 ยกเลิกกรมธรรม์ (Free Look) จะถูกหักค่าใช้จ่ายกี่บาท",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "การยกเลิกกรมธรรม์ (Free Look Period) ของฟรีดอม ลิงค์ พลัส 15/5 จะถูกหักค่าใช้จ่ายของบริษัทฯ 500 บาทต่อกรมธรรม์ [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]"
-  },
-  {
-   "question": "What is the FWD customer service hotline number?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The FWD customer service hotline number is 1351 [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.9]."
-  },
-  {
-   "question": "How many days is the free look period for FWD Freedom Link Plus 15/5?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The free look period for FWD Freedom Link Plus 15/5 is 15 days [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.7]."
-  },
-  {
-   "question": "What fee is charged on top-up premiums for FWD Freedom Link Plus 15/5?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > generate > update_memory",
-   "answer": "The fee charged on top-up premiums for FWD Freedom Link Plus 15/5 is 1.5% of the top-up premium [Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf, p.5]."
-  },
-  {
-   "question": "ประกันรถยนต์ JustOne คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกครั้งละเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ประกันรถยนต์ JustOne คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกครั้งละ 5,000,000 บาท [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne ความรับผิดต่อชีวิตร่างกายบุคคลภายนอก ต่อครั้งสูงสุดเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ความรับผิดต่อชีวิตร่างกายบุคคลภายนอกต่อครั้งสูงสุดอยู่ที่ 20,000,000 บาท [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne แบบซ่อมห้าง คุ้มครองชีวิตร่างกายบุคคลภายนอกต่อคนเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "JustOne แบบซ่อมห้าง คุ้มครองชีวิตร่างกายบุคคลภายนอกต่อคนสูงสุด 1,000,000 บาท [justone_leaflets.pdf, p.1]"
-  },
-  {
-   "question": "JustOne ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งคือ 300,000 บาท [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne คุ้มครองอุปกรณ์ตกแต่งเพิ่มเติมมูลค่าเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "JustOne คุ้มครองอุปกรณ์ตกแต่งเพิ่มเติมมูลค่าไม่เกิน 25,000 บาท [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne แบบซ่อมอู่ รับประกันรถอายุสูงสุดกี่ปี",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "JustOne แบบซ่อมอู่รับประกันรถอายุสูงสุด 20 ปี [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne ระยะเวลาแจ้งงานสิ้นสุดวันไหน",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "ประกันรถยนต์ JustOne รับประกันโดยบริษัทอะไร",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "JustOne เบอร์โทรติดต่อสอบถามคืออะไร",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบอร์โทรติดต่อสอบถามของ JustOne คือ 02 - 039 - 5720 [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันภัยสำหรับ JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ คือ 42,600 บาท [justone_leaflets.pdf, p.2]."
-  },
-  {
-   "question": "JustOne Toyota Commuter อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยประกันเท่าไหร่",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "เบี้ยประกันภัยสำหรับ JustOne Toyota Commuter อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ คือ 42,400 บาท [justone_leaflets.pdf, p.4]."
-  },
-  {
-   "question": "What is the personal accident cover (ร.ย.01) per person in the JustOne car insurance?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "The personal accident cover (ร.ย.01) per person in the JustOne car insurance is 200,000 บาท [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "Which roadside assistance plan is included in JustOne?",
-   "out_of_scope": false,
-   "retrieval_hit": true,
-   "correct": false,
-   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
-   "answer": "JustOne includes a Roadside Assistance plan as part of its insurance coverage [justone_leaflets.pdf, p.1]."
-  },
-  {
-   "question": "How much is travel insurance for a trip to Japan?",
+   "question": "JustOne Toyota Alphard ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
    "out_of_scope": true,
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
   },
   {
-   "question": "ประกันสัตว์เลี้ยงสำหรับสุนัขราคาเท่าไหร่",
+   "question": "ประกันรถยนต์ชั้น 1 ราคาเท่าไหร่",
    "out_of_scope": true,
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "ประกันสุขภาพ OPD คุ้มครองค่ารักษาผู้ป่วยนอกปีละเท่าไหร่",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "ประกันอัคคีภัยบ้านเบี้ยปีละเท่าไหร่",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
   },
   {
    "question": "พ.ร.บ. รถจักรยานยนต์ราคาเท่าไหร่",
@@ -729,63 +713,15 @@
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
   },
   {
-   "question": "ประกันโรคมะเร็งจ่ายเงินก้อนเท่าไหร่เมื่อตรวจพบ",
+   "question": "ประกันอัคคีภัยบ้านเบี้ยปีละเท่าไหร่",
    "out_of_scope": true,
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "What is the waiting period for maternity coverage?",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
-  },
-  {
-   "question": "ประกันบำนาญ จ่ายเงินบำนาญปีละกี่เปอร์เซ็นต์",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "ประกันรถยนต์ชั้น 3 ราคาเท่าไหร่",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "ประกันเดินทางไปยุโรป Schengen คุ้มครองค่ารักษาพยาบาลเท่าไหร่",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
-  },
-  {
-   "question": "What is the premium for a term life plan with a 5 million baht sum assured?",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
-  },
-  {
-   "question": "ประกันสุขภาพเด็กมีระยะเวลารอคอยกี่วัน",
-   "out_of_scope": true,
-   "retrieval_hit": null,
-   "correct": true,
-   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
   },
   {
    "question": "Do you sell earthquake insurance for condominiums?",
@@ -793,23 +729,87 @@
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
+   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with InsureX health, personal accident, savings, travel and pet insurance."
   },
   {
-   "question": "ประกันโควิดยังมีขายอยู่ไหม",
+   "question": "ประกันบำนาญ คุ้มเกษียณ ได้รับเงินบำนาญปีละกี่เปอร์เซ็นต์",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": false,
+   "path": "classify > contextualize > retrieve > grade > generate > update_memory",
+   "answer": "The context provided does not mention \"ประกันบำนาญ คุ้มเกษียณ\" or any details about pension insurance or annual pension percentages. Therefore, I cannot provide the requested information [InsureX_Savings_Insurance.pdf, p.3, p.4]."
+  },
+  {
+   "question": "What are the fees of the FWD Freedom Link Plus 15/5 unit-linked plan?",
    "out_of_scope": true,
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับ อีซี่ อีเซฟ 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข, เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 หรือประกันรถยนต์ JustOne"
+   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with InsureX health, personal accident, savings, travel and pet insurance."
   },
   {
-   "question": "How much does dental insurance cover per year?",
+   "question": "ประกันภัยไซเบอร์คุ้มครองการถูกแฮกบัญชีธนาคารไหม",
    "out_of_scope": true,
    "retrieval_hit": null,
    "correct": true,
    "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
-   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance."
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "ประกันมือถือจอแตกเคลมได้เท่าไหร่",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "ประกันกอล์ฟ Hole-in-one ได้เงินรางวัลเท่าไหร่",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "ประกันภัยขนส่งสินค้าทางทะเลคิดเบี้ยอย่างไร",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "How much is business interruption insurance for an SME?",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with InsureX health, personal accident, savings, travel and pet insurance."
+  },
+  {
+   "question": "ประกันชีวิตแบบชั่วระยะเวลา 10 ปี ทุน 5 ล้าน เบี้ยเท่าไหร่",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "ประกันคอนโดสำหรับผู้เช่า คุ้มครองทรัพย์สินในห้องเท่าไหร่",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "ขออภัยค่ะ ไม่พบข้อมูลเรื่องนี้ในเอกสารผลิตภัณฑ์ของ InsureX จึงไม่สามารถให้คำตอบที่ถูกต้องได้ กรุณาสอบถามเกี่ยวกับประกันสุขภาพ ประกันอุบัติเหตุ ประกันสะสมทรัพย์ ประกันเดินทาง หรือประกันสัตว์เลี้ยง"
+  },
+  {
+   "question": "How much does flood insurance for a house cost?",
+   "out_of_scope": true,
+   "retrieval_hit": null,
+   "correct": true,
+   "path": "classify > contextualize > retrieve > grade > rewrite_query > retrieve > grade > not_found > update_memory",
+   "answer": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with InsureX health, personal accident, savings, travel and pet insurance."
   }
  ]
 }

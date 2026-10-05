@@ -47,16 +47,20 @@ THAI_PUA = {
 
 
 class PdfLoader:
-    """Extracts text page by page from every PDF in a folder, plus a title per document.
+    """Extracts text page by page from every PDF in a folder, plus a label per page.
 
     PyMuPDF is used because pypdf drops Thai tone marks and upper vowels. Text lines that share a baseline are
     joined, so a table row ("รายปี 36,500 109,500 ...") stays on one line instead of one line per cell.
-    The title (largest text on page 1, usually the product name) is used to label every chunk of the document."""
+    Each page is labelled "document title › section": the title is the largest text on page 1 and the section is the
+    latest heading (text at least SECTION_RATIO of the title size), carried over to later pages until the next one.
+    In a catalogue PDF with many products this tells every chunk which product it belongs to."""
 
     ROW_TOLERANCE = 3.0     # points: lines whose baselines differ by less than this belong to the same row
+    SECTION_RATIO = 0.6     # headings are at least 60% of the title's font size (16 pt vs 22 pt in the catalogues)
 
     def __init__(self):
         self.titles: dict[str, str] = {}
+        self.labels: dict[tuple[str, int], str] = {}
 
     @staticmethod
     def _lines(page: pymupdf.Page) -> list[tuple[float, float, float, str]]:
@@ -91,12 +95,18 @@ class PdfLoader:
         pages = []
         for pdf in pdfs:
             doc = pymupdf.open(pdf)
-            self.titles[pdf.name] = self.title(doc[0]) if len(doc) else ""
+            title = self.titles[pdf.name] = self.title(doc[0]) if len(doc) else ""
+            title_size = max((size for _, _, size, _ in self._lines(doc[0])), default=0) if len(doc) else 0
+            section = ""
             for number, page in enumerate(doc, start=1):
+                heads = [text for _, _, size, text in sorted(self._lines(page))
+                         if text != title and size >= self.SECTION_RATIO * title_size]
+                section = heads[0] if heads else section
+                self.labels[(pdf.name, number)] = f"{title} › {section}" if section else title
                 text = self.page_text(page).strip()
                 if text:
                     pages.append((pdf.name, number, text))
-            log.info("Loaded %s (title: %s)", pdf.name, self.titles[pdf.name])
+            log.info("Loaded %s (title: %s)", pdf.name, title)
         return pages
 
 
@@ -107,12 +117,13 @@ class TextChunker:
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=size, chunk_overlap=overlap,
                                                        separators=["\n\n", "\n", ". ", " ", ""])
 
-    def split(self, pages: list[tuple[str, int, str]], titles: dict[str, str] | None = None) -> list[Chunk]:
-        """With titles, each chunk starts with its document title, so a passage such as a premium table that never
-        names its product is still matched to (and read as) the right product."""
+    def split(self, pages: list[tuple[str, int, str]], titles: dict | None = None) -> list[Chunk]:
+        """With labels (keyed by (source, page) or by source), each chunk starts with its label, so a passage such as
+        a premium table that never names its product is still matched to (and read as) the right product."""
         chunks = []
+        titles = titles or {}
         for source, page, text in pages:
-            title = (titles or {}).get(source, "")
+            title = titles.get((source, page)) or titles.get(source, "")
             for piece in self.splitter.split_text(text):
                 if title and not piece.startswith(title):
                     piece = f"{title}\n{piece}"
@@ -170,7 +181,7 @@ class KnowledgeBase:
     def ingest(self) -> int:
         loader = PdfLoader()
         pages = loader.load(self.settings.knowledge_dir)
-        chunks = TextChunker(self.settings.chunk_size, self.settings.chunk_overlap).split(pages, loader.titles)
+        chunks = TextChunker(self.settings.chunk_size, self.settings.chunk_overlap).split(pages, loader.labels)
         log.info("Embedding %d chunks from %d pages with %s", len(chunks), len(pages), self.settings.embed_model)
         self.store.build(chunks)
         self.store.save(self.settings.index_dir)

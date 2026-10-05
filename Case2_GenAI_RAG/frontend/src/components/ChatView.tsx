@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Car, Menu, Moon, PanelRight, PiggyBank, Sparkles, Sun, UserPlus } from "lucide-react";
+import { ArrowUp, HeartPulse, Menu, Moon, PanelRight, PawPrint, ShieldPlus, Sun, UserPlus } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import type { Message } from "../types";
 
 const SUGGESTIONS = [
-  { icon: PiggyBank, title: "Savings plan", text: "How long do I pay premiums for Khum Aomsook, and how long is the cover?" },
-  { icon: Car, title: "Car insurance premium", text: "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่" },
-  { icon: Sparkles, title: "ถามเป็นภาษาไทย", text: "อีซี่ อีเซฟ 10/3 ได้เงินคืนเท่าไหร่ ต้องตอบคำถามสุขภาพไหม" },
-  { icon: UserPlus, title: "Capture a lead", text: "I'm interested in Khum Mangmee 18/9, can an agent call me?" },
+  { icon: HeartPulse, title: "Health plan", text: "What does Prima Care plan M pay for room and board per day?" },
+  { icon: ShieldPlus, title: "ประกันอุบัติเหตุ", text: "ประกันอุบัติเหตุ ทิพย TIP PA SENIOR แผน 1 เบี้ยเท่าไหร่" },
+  { icon: PawPrint, title: "ประกันสัตว์เลี้ยง", text: "ประกันสัตว์เลี้ยง แผน XL เบี้ยปีละเท่าไหร่" },
+  { icon: UserPlus, title: "Capture a lead", text: "I'm interested in travel insurance, can an agent call me?" },
 ];
 
 interface Props {
@@ -77,7 +77,7 @@ export function ChatView(p: Props) {
 
       <form className="composer glass" onSubmit={e => { e.preventDefault(); send(); }}>
         <textarea ref={input} rows={1} value={text} maxLength={2000}
-                  placeholder="Ask about Khum Aomsook, Easy E-Save, FWD Freedom Link, JustOne… (English or ภาษาไทย)"
+                  placeholder="Ask about health, accident, savings, travel or pet insurance… (English or ภาษาไทย)"
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
                   aria-label="Message" />

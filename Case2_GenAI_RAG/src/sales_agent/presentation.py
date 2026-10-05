@@ -186,27 +186,23 @@ class PresentationBuilder:
                         f"<td><code>{l['session_id']}</code></td></tr>" for l in sorted(demo["leads"], key=lambda x: x["lead_id"]))
         rag = by_kind.get("RAG answer", [0])
         n_correct = sum(r["correct"] for r in rows)
-        improvement = ""
-        baseline_file = self.s.logs_dir / "baseline" / "eval_results_before_fix.json"
-        if baseline_file.exists():                      # first run on the real PDFs, kept to show the effect of the fixes
-            b = json.loads(baseline_file.read_text(encoding="utf-8"))
-            b_correct = sum(r["correct"] for r in b["rows"])
-            bm = b["metrics"]
-            improvement = (
-                "<h3>Before and after the fixes</h3><table><tr><th>Run</th><th class='num'>Overall</th><th class='num'>Answers</th>"
-                "<th class='num'>Retrieval</th><th class='num'>Refusals</th></tr>"
-                f"<tr><td>First run on the real PDFs</td><td class='num'>{self._pct(b_correct, len(b['rows']))}</td>"
-                f"<td class='num'>{bm['answer_accuracy']:.0%}</td><td class='num'>{bm['retrieval_hit']:.0%}</td>"
-                f"<td class='num'>{bm['out_of_scope_refused']:.0%}</td></tr>"
-                f"<tr><td><b>After the fixes (current)</b></td><td class='num'><b>{self._pct(n_correct, len(rows))}</b></td>"
-                f"<td class='num'><b>{m['answer_accuracy']:.0%}</b></td><td class='num'>{m['retrieval_hit']:.0%}</td>"
-                f"<td class='num'>{m['out_of_scope_refused']:.0%}</td></tr></table>"
-                "<p>Fixes between the runs: every chunk labelled with its document title (premium tables and conditions no longer "
-                "get attributed to the wrong product), legacy Thai PUA characters mapped to standard Thai, and a routing rule so "
-                "that a product question mentioning \"สมัคร\" (apply) is answered instead of starting lead capture, plus a note in the answer "
-                "prompt that the car tables' \"Dealer\" / \"Insurer\" columns mean ซ่อมห้าง / ซ่อมอู่, and chunks enlarged from 700 to 1000 characters after a "
-                "comparison (logs/chunk_comparison.md). One answer "
-                "key was relaxed from \"1-24\" to \"24\" because the answer \"ปีที่ 1 ถึงปีที่ 24\" was correct.</p>")
+        # chunk-size comparison written by the tuning run: logs/chunk_comparison.json
+        # {"reason": str, "runs": [{"config": "1000/150", "chunks": n, "overall": n, "answers": n, "refused": n, "chosen": bool}]}
+        chunk_table, chunk_scores, chunk_reason = "", "", ""
+        cmp_file = self.s.logs_dir / "chunk_comparison.json"
+        if cmp_file.exists():
+            cmp = json.loads(cmp_file.read_text(encoding="utf-8"))
+            runs = cmp["runs"]
+            chunk_scores = ", ".join(f"{r['config']} → {r['overall']}" for r in runs)
+            chunk_reason = esc(cmp.get("reason", ""))
+            chunk_table = (
+                "<h3>Choosing the chunk size</h3><table><tr><th>Chunk / overlap (characters)</th><th class='num'>Chunks</th>"
+                "<th class='num'>Overall</th><th class='num'>Answers right</th><th class='num'>Refused correctly</th></tr>"
+                + "".join(f"<tr><td>{'<b>' if r.get('chosen') else ''}{r['config']}{' (chosen)</b>' if r.get('chosen') else ''}</td>"
+                          f"<td class='num'>{r['chunks']}</td><td class='num'>{r['overall']}/{len(rows)}</td>"
+                          f"<td class='num'>{r['answers']}/{m['answerable']}</td><td class='num'>{r['refused']}/{m['out_of_scope']}</td></tr>"
+                          for r in runs)
+                + f"</table><p>{chunk_reason}</p>")
         return dict(
             guide_css=(self.dir / "assets" / "guide.css").read_text(encoding="utf-8"),
             graph_svg=GraphDiagram().render(),
@@ -214,7 +210,7 @@ class PresentationBuilder:
             hit=f"{m['retrieval_hit']:.0%}", acc=f"{m['answer_accuracy']:.0%}", rej=f"{m['out_of_scope_refused']:.0%}",
             overall=self._pct(n_correct, len(rows)), n_correct=n_correct, n_fail=len(rows) - n_correct,
             n_answerable=m["answerable"], n_oos=m["out_of_scope"], n_eval=len(rows), eval_date=ev["generated"][:10],
-            doc_rows=doc_rows, fail_rows=fail_rows, improvement=improvement,
+            doc_rows=doc_rows, fail_rows=fail_rows, improvement=chunk_table, chunk_scores=chunk_scores, chunk_reason=chunk_reason,
             n_chunks=len(chunks), n_docs=len(per_doc_chunks), chunk_size=self.s.chunk_size, chunk_overlap=self.s.chunk_overlap,
             top_k=self.s.top_k, min_rel=self.s.min_relevance, window=self.s.history_window,
             summarize_after=self.s.summarize_after, keep_recent=self.s.keep_recent, n_nodes=14,

@@ -1,16 +1,16 @@
 {
- "generated": "2026-10-05T02:22:07",
+ "generated": "2026-10-05T11:21:27",
  "turns": [
   {
    "session_id": "alice",
    "user": "Hi there!",
-   "reply": "Hi there! Welcome to InsureX. How can I assist you today with our savings plans or car insurance?",
+   "reply": "Hi there! How can I assist you today? I'm here to help with health, personal accident, savings, travel, and pet insurance through InsureX.",
    "path": [
     "classify",
     "smalltalk",
     "update_memory"
    ],
-   "seconds": 2.1817872999235988,
+   "seconds": 1.9228048999793828,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -20,8 +20,8 @@
   },
   {
    "session_id": "alice",
-   "user": "How long do I pay premiums for Khum Aomsook, and how long is the cover?",
-   "reply": "For Khum Aomsook, you pay premiums for 15 years, and the coverage lasts for 25 years [Khum_Aomsook.pdf, p.2].",
+   "user": "What does Prima Care plan M pay for room and board per day?",
+   "reply": "Plan M of Prima Care pays up to 3,000 THB per day for room and board [InsureX_Health_Insurance.pdf, p.25].",
    "path": [
     "classify",
     "contextualize",
@@ -30,18 +30,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 6.786295800004154,
+   "seconds": 6.843719099997543,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "English question, answer with citation from a Thai document"
+   "purpose": "English question, answer with citation from a Thai catalogue (health)"
   },
   {
    "session_id": "alice",
-   "user": "And for a 30-year-old man with a 300,000 baht sum assured, how much is it per month?",
-   "reply": "For a 30-year-old man with a 300,000 THB sum assured, the monthly premium is 2,635 THB [Khum_Aomsook.pdf, p.2].",
+   "user": "And what about the ICU room on the same plan?",
+   "reply": "Plan M of Prima Care pays up to 6,000 THB per day for ICU room [InsureX_Health_Insurance.pdf, p.25].",
    "path": [
     "classify",
     "contextualize",
@@ -50,18 +50,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 6.8169628999894485,
+   "seconds": 4.805523700080812,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Follow-up resolved from memory ('it' = Khum Aomsook)"
+   "purpose": "Follow-up resolved from memory ('same plan' = Prima Care plan M)"
   },
   {
    "session_id": "alice",
-   "user": "Do you sell travel insurance?",
-   "reply": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with Easy E-Save 10/3, Khum Mangmee 18/9, Khum Aomsook, FWD Freedom Link Plus 15/5 and JustOne car insurance.",
+   "user": "Do you sell car insurance?",
+   "reply": "Sorry, I couldn't find this in the InsureX product documents, so I can't give a reliable answer. I can help with InsureX health, personal accident, savings, travel and pet insurance.",
    "path": [
     "classify",
     "contextualize",
@@ -73,7 +73,7 @@
     "not_found",
     "update_memory"
    ],
-   "seconds": 4.1606218999950215,
+   "seconds": 4.528663699980825,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -83,15 +83,15 @@
   },
   {
    "session_id": "alice",
-   "user": "I'm interested in Khum Aomsook. Can an agent contact me?",
-   "reply": "Great to hear you're interested in Khum Aomsook! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "user": "I'm interested in Prima Care. Can an agent contact me?",
+   "reply": "Great to hear you're interested in Prima Care! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "extract_lead",
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.6413555999752134,
+   "seconds": 1.5270571999717504,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -114,7 +114,7 @@
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 3.115185200003907,
+   "seconds": 1.3973027999745682,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -130,8 +130,8 @@
   },
   {
    "session_id": "alice",
-   "user": "Before that - is the premium fixed or does it go up with age?",
-   "reply": "The premium for Khum Aomsook does not increase with age; it remains fixed throughout the policy term [Khum_Aomsook.pdf, p.2].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
+   "user": "Before that - up to what age can I renew it?",
+   "reply": "For Prima Care, you can renew the policy up to age 79, with coverage continuing until age 80 [InsureX_Health_Insurance.pdf, p.26].\n\nTo continue with your application, could you share your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "contextualize",
@@ -140,7 +140,7 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 10.412841300014406,
+   "seconds": 11.343063000007533,
    "mode": "lead_collection",
    "lead": {
     "name": "Alice Wong",
@@ -157,14 +157,14 @@
   {
    "session_id": "alice",
    "user": "I earn about 32,000 baht a month, my number is 089-765-4321",
-   "reply": "Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Khum Aomsook shortly.",
+   "reply": "Thank you, Alice Wong! Your details are saved (lead #1). An InsureX agent will call you on 0897654321 about Prima Care shortly.",
    "path": [
     "classify",
     "extract_lead",
     "save_lead",
     "update_memory"
    ],
-   "seconds": 3.4095598000567406,
+   "seconds": 4.708032900001854,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -180,13 +180,13 @@
   {
    "session_id": "alice",
    "user": "What's my name, and what did I ask about first?",
-   "reply": "Your name is Alice Wong, and you first asked about the premium payment period and coverage duration for Khum Aomsook.",
+   "reply": "Your name is Alice Wong, and you first asked about Prima Care plan M's coverage for room and board.",
    "path": [
     "classify",
     "recall",
     "update_memory"
    ],
-   "seconds": 1.5984870999818668,
+   "seconds": 1.4986220999853685,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -201,8 +201,8 @@
   },
   {
    "session_id": "somchai",
-   "user": "อีซี่ อีเซฟ 10/3 ได้ผลตอบแทน IRR เท่าไหร่ ต้องตอบคำถามสุขภาพไหม",
-   "reply": "ผลตอบแทน (IRR) ของอีซี่ อีเซฟ 10/3 คือ 1.24% กรณีมีชีวิตอยู่จนครบสัญญา [Easy_E-Save_10-3.pdf, p.1]  \nไม่ต้องตอบคำถามสุขภาพ [Easy_E-Save_10-3.pdf, p.1]",
+   "user": "ประกันสัตว์เลี้ยง แผน XL เบี้ยปีละเท่าไหร่ และค่ารักษาจากการเจ็บป่วยต่อครั้งเท่าไหร่",
+   "reply": "เบี้ยประกันภัยสำหรับแผน XL คือ 8,400 บาท/ปี [InsureX_Pet_Insurance.pdf, p.3]  \nค่ารักษาพยาบาลจากการเจ็บป่วยต่อครั้งสำหรับแผน XL คือ 1,500 บาท (สูงสุด 10 ครั้ง/ปี) [InsureX_Pet_Insurance.pdf, p.2]",
    "path": [
     "classify",
     "contextualize",
@@ -211,18 +211,18 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 6.52148449991364,
+   "seconds": 7.523674599942751,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Thai question, two facts from one document"
+   "purpose": "Thai question, two facts from a plan table (pet)"
   },
   {
    "session_id": "somchai",
-   "user": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
-   "reply": "เบี้ยประกันภัยสำหรับ JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ คือ 42,600 บาท [justone_leaflets.pdf, p.2]",
+   "user": "ประกันอุบัติเหตุ ทิพย TIP PA SENIOR แผน 1 เบี้ยเท่าไหร่",
+   "reply": "เบี้ยประกันสำหรับประกันอุบัติเหตุ ทิพย TIP PA SENIOR แผน 1 คือ 1,200 บาท/ปี [InsureX_Accident_Insurance.pdf, p.7]",
    "path": [
     "classify",
     "contextualize",
@@ -231,13 +231,13 @@
     "generate",
     "update_memory"
    ],
-   "seconds": 8.060775400022976,
+   "seconds": 9.22393610002473,
    "mode": "qa",
    "lead": {},
    "missing": [],
    "lead_id": null,
    "error": null,
-   "purpose": "Car insurance premium table lookup"
+   "purpose": "Personal accident plan lookup among 38 plans"
   },
   {
    "session_id": "somchai",
@@ -249,7 +249,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.6950943000847474,
+   "seconds": 4.679173499927856,
    "mode": "qa",
    "lead": {
     "name": "สมชาย ใจดี",
@@ -264,15 +264,15 @@
   },
   {
    "session_id": "dave",
-   "user": "I'd like to apply for FWD Freedom Link Plus 15/5",
-   "reply": "Great to hear you're interested in FWD Freedom Link Plus 15/5! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
+   "user": "I'd like to apply for travel insurance",
+   "reply": "Great to hear you're interested in ประกันการเดินทาง! So an agent can contact you, could you share your full name, your occupation, your monthly income (THB) and a contact phone number?",
    "path": [
     "classify",
     "extract_lead",
     "ask_missing",
     "update_memory"
    ],
-   "seconds": 1.5949622000334784,
+   "seconds": 1.5257639999035746,
    "mode": "lead_collection",
    "lead": {},
    "missing": [
@@ -295,7 +295,7 @@
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.553756200009957,
+   "seconds": 2.803065299987793,
    "mode": "lead_collection",
    "lead": {
     "name": "Dave Miller",
@@ -312,14 +312,14 @@
   {
    "session_id": "dave",
    "user": "Sorry, it's 091-555-0123",
-   "reply": "Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about FWD Freedom Link Plus 15/5 shortly.",
+   "reply": "Thank you, Dave Miller! Your details are saved (lead #3). An InsureX agent will call you on 0915550123 about ประกันการเดินทาง shortly.",
    "path": [
     "classify",
     "extract_lead",
     "save_lead",
     "update_memory"
    ],
-   "seconds": 2.846752900048159,
+   "seconds": 2.946716899983585,
    "mode": "qa",
    "lead": {
     "name": "Dave Miller",
@@ -341,7 +341,7 @@
     "recall",
     "update_memory"
    ],
-   "seconds": 1.3937979000620544,
+   "seconds": 0.899710200028494,
    "mode": "qa",
    "lead": {},
    "missing": [],
@@ -351,14 +351,14 @@
   },
   {
    "session_id": "alice",
-   "user": "Can you remind me what the monthly premium was?",
-   "reply": "The monthly premium for a 30-year-old man with a 300,000 THB sum assured is 2,635 THB.",
+   "user": "Can you remind me what the room rate was?",
+   "reply": "The room rate for Prima Care plan M is up to 3,000 THB per day.",
    "path": [
     "classify",
     "recall",
     "update_memory"
    ],
-   "seconds": 1.9318245999747887,
+   "seconds": 2.8416784000582993,
    "mode": "qa",
    "lead": {
     "name": "Alice Wong",
@@ -379,9 +379,9 @@
    "occupation": "software developer",
    "monthly_income": 85000.0,
    "phone": "0915550123",
-   "interested_product": "FWD Freedom Link Plus 15/5",
+   "interested_product": "ประกันการเดินทาง",
    "session_id": "dave",
-   "created_at": "2026-10-05T02:22:01"
+   "created_at": "2026-10-05T11:21:21"
   },
   {
    "lead_id": 2,
@@ -389,9 +389,9 @@
    "occupation": "วิศวกร",
    "monthly_income": 50000.0,
    "phone": "0812345678",
-   "interested_product": "JustOne",
+   "interested_product": "ประกันสัตว์เลี้ยง (pet)",
    "session_id": "somchai",
-   "created_at": "2026-10-05T02:21:54"
+   "created_at": "2026-10-05T11:21:14"
   },
   {
    "lead_id": 1,
@@ -399,9 +399,9 @@
    "occupation": "nurse",
    "monthly_income": 32000.0,
    "phone": "0897654321",
-   "interested_product": "Khum Aomsook",
+   "interested_product": "Prima Care",
    "session_id": "alice",
-   "created_at": "2026-10-05T02:21:35"
+   "created_at": "2026-10-05T11:20:51"
   }
  ]
 }

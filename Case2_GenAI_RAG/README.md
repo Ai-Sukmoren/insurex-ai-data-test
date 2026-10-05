@@ -8,7 +8,7 @@ session**. Everything runs **locally**: the LLM and embeddings are served by **O
 |---|---|
 | Framework | LangChain + **LangGraph** state machine (12 nodes, conditional routing, retrieval **cycle**) |
 | Vector DB | **FAISS** (cosine similarity, persisted to `data/faiss_index/`) |
-| Knowledge base | 5 real PDFs in `knowledge_base/` (mostly Thai) → read with PyMuPDF → chunked (1000 chars, 150 overlap), each chunk labelled with its document title → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
+| Knowledge base | 5 InsureX category PDFs in `knowledge_base/` (mostly Thai) → read with PyMuPDF → chunked (1000 chars, 150 overlap), each chunk labelled "document › product section" → embedded with `bge-m3` (multilingual: Thai ⇄ English) |
 | Not-found handling | relevance floor + LLM grader → query rewrite → retry → polite fallback (never invents an answer) |
 | **Bonus 1** – lead collection | interest triggers `lead_collection` mode; name, occupation, income and phone are extracted into a **Pydantic** model over several turns, validated, and saved to **SQLite** via an **MCP server** (`save_lead`, `list_leads`) |
 | **Bonus 2** – sessions | LangGraph **SQLite checkpointer**, `thread_id = session_id`: separate memory per user that survives restarts; recent window plus a **running summary** of older messages (`update_memory` node); chats can be listed, renamed and deleted |
@@ -17,14 +17,19 @@ session**. Everything runs **locally**: the LLM and embeddings are served by **O
 
 | PDF | Content |
 |---|---|
-| `Easy_E-Save_10-3.pdf`, `Khum_Mangmee_18-9.pdf`, `Khum_Aomsook.pdf` | the 3 savings plans (ประกันสะสมทรัพย์) on insurex.co.th, scraped from the site's product data |
-| `Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf` | FWD's 9-page brochure for a unit-linked plan (fees, rights, warnings) |
-| `justone_leaflets.pdf` | Chubb "JustOne 2026" type 1 car insurance leaflet (cover limits, premium tables) |
+| `InsureX_Health_Insurance.pdf` | 7 health products (Easy E-Health, E-Health Mini, HB Plus, คุ้มตลอดชีพ พลัส, คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า and its kids version, Prima Care) with benefit tables |
+| `InsureX_Accident_Insurance.pdf` | 38 personal accident plans from 4 insurers (ทิพย, ไทยวิวัฒน์, วิริยะ, เทเวศ) for kids, working age and seniors |
+| `InsureX_Savings_Insurance.pdf` | 3 savings plans (Easy E-Save 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข) |
+| `InsureX_Travel_Insurance.pdf` | travel insurance: cover, optional extras, 28 FAQ answers |
+| `InsureX_Pet_Insurance.pdf` | TIP Pet Lover: plans S–XXL, conditions, exclusions, FAQ |
 
-Reading real Thai PDFs needed three fixes in `PdfLoader`: PyMuPDF instead of pypdf (pypdf dropped tone marks and
-upper vowels), joining text that shares a baseline so table rows stay on one line, and mapping legacy Thai
-Private Use Area glyphs (U+F700–U+F71A, used by the JustOne leaflet's font) back to standard Thai. To change documents,
-replace the PDFs and run `python main.py ingest`.
+Each PDF was generated from insurex.co.th: the product data in the category page plus the partner product pages it
+links to. Pages that build their content in the browser were rendered with Playwright (Edge), clicking "show more"
+and opening every FAQ answer. Reading them needed three fixes in `PdfLoader`: PyMuPDF instead of pypdf (pypdf dropped
+Thai tone marks and upper vowels), joining text that shares a baseline so table rows stay on one line, and labelling
+every chunk with its document title and current section heading, so a benefit table is tied to the right product.
+Legacy Thai Private Use Area glyphs (U+F700–U+F71A) are also mapped to standard Thai. To change documents, replace
+the PDFs and run `python main.py ingest`.
 
 ---
 
@@ -75,7 +80,7 @@ python main.py eval                   # RAG accuracy test (100 questions) → lo
 python main.py leads                  # list captured leads (through the MCP list_leads tool)
 python main.py graph                  # print the LangGraph structure (Mermaid)
 python main.py present                # presenter direction + cheat sheet PDF → output/ (after eval + demo)
-python -m pytest -q                   # 34 tests (the integration test is skipped if Ollama is off)
+python -m pytest -q                   # 36 tests (the integration test is skipped if Ollama is off)
 ```
 In chat, type `history` to see what the session remembers and `exit` to quit. Run `chat --session alice` again
 later and the conversation continues where it stopped.
@@ -154,32 +159,33 @@ The grader's default is "nothing relevant", so the agent refuses rather than gue
 
 ## 4. Results
 
-**Evaluation** (`python main.py eval`, report in `logs/eval_report.md`): 100 questions written from the real PDFs:
-85 answerable (Thai and English, every expected value checked against the source text) and 15 out of scope
-(travel, pet, health, fire, …). Each runs in a fresh session through the full graph.
+**Evaluation** (`python main.py eval`, report in `logs/eval_report.md`): 100 questions written from the 5 PDFs:
+85 answerable (24 health, 18 accident, 15 savings, 15 pet, 13 travel; Thai and English; every expected value checked
+against the source text) and 15 out of scope (car, home, pension, cyber, and the two products removed from the
+knowledge base). Each runs in a fresh session through the full graph. An expected value can list alternatives
+(`"3 แสน|300,000"`).
 
-| Metric | First run | Current |
-|---|---|---|
-| Overall (correct answers + correct refusals) | 80/100 | **96/100** |
-| Answer accuracy (expected fact present in the answer) | 76% | **95%** |
-| Retrieval hit rate (correct document in top 4) | 100% | **100%** |
-| Out-of-scope questions correctly refused | 100% | **100%** |
+| Metric | Result |
+|---|---|
+| Overall (correct answers + correct refusals) | **91/100** |
+| Answer accuracy (expected fact present in the answer) | **91%** (77/85) |
+| Retrieval hit rate (correct document in top 4) | **100%** |
+| Out-of-scope questions correctly refused | **93%** (14/15) |
 
-The first run is kept in `logs/baseline/`. Fixes between the runs: chunks labelled with their document title, Thai PUA
-mapping, a routing rule for product questions that mention "สมัคร", the Dealer/ซ่อมห้าง table terminology, and a
-larger chunk size. Three of the four remaining misses are on the JustOne leaflet. Results vary by about ±1 question
-between runs.
+Most misses are reading the wrong column of a plan table or confusing two similarly named plans (e.g. "PA กระดูกหัก
+แผน 3" and the seniors' "กระดูกหัก แผน 3"). The one refusal counted as a miss was a correct refusal worded by the model
+instead of the standard message. Results vary by about ±1 question between runs.
 
 **Chunk size** (1000 characters, 150 overlap) was chosen by testing, not by rule of thumb; see
-`logs/chunk_comparison.md`. A fast retrieval-only sweep over 13 settings picked the candidates, then each ran the
-full 100-question test: 700/120 → 91, **1000/150 → 96**, 1200/200 → 94, one chunk per page → 54 (whole pages almost
-always contain something loosely related, so off-topic questions stopped being refused).
+`logs/chunk_comparison.md`. A fast retrieval-only sweep over 13 settings found the answer in the top 4 for 81–85
+questions at every size, so four candidates ran the full 100-question test: 500/100 → 85, 700/120 → 82,
+**1000/150 → 91**, 1200/200 → 89.
 
 **Demo** (`python main.py demo`, see `logs/demo_transcript.md` and `logs/demo_run.log`) shows:
 - answers with citations, and follow-up questions resolved from memory
-- the retrieve → grade → rewrite → retrieve cycle ending in a safe fallback ("Do you sell travel insurance?")
+- the retrieve → grade → rewrite → retrieve cycle ending in a safe fallback ("Do you sell car insurance?")
 - lead mode with details given over several turns, plus a side question answered mid-collection
-- a Thai conversation (savings plan facts, a car insurance premium table lookup), with a full lead captured in one message
+- a Thai conversation (a pet plan table, one accident plan among 38), with a full lead captured in one message
 - an invalid phone rejected by the MCP tool's validation, then corrected
 - session separation (Bob cannot see Alice's chat) and memory surviving a restart
 - the final leads table read back through MCP
@@ -191,7 +197,7 @@ Typical latency on an RTX 4070 SUPER: 1–2 s for routing and lead turns, 2–6 
 Case2_GenAI_RAG/
 ├── main.py                      # CLI
 ├── requirements.txt · .env.example
-├── knowledge_base/              # the 5 real PDFs (not committed, see .gitignore)
+├── knowledge_base/              # the 5 InsureX category PDFs (not committed, see .gitignore)
 ├── eval/questions.json          # evaluation set: 85 answerable + 15 out-of-scope questions
 ├── src/sales_agent/
 │   ├── config.py                # Settings (env overridable)
@@ -209,7 +215,7 @@ Case2_GenAI_RAG/
 ├── frontend/                    # React + TypeScript UI (Vite); dist/ = built app served by FastAPI
 ├── presentation/                # presenter direction + cheat sheet template (python main.py present)
 ├── output/                      # Case 2 Presenter Direction and Cheat Sheet.pdf
-├── tests/                       # 34 pytest tests (unit, MCP over stdio, web API, sessions, integration)
-├── logs/                        # demo_run.log, demo_transcript.md, eval_report.md, baseline/ (first run before the fixes)
+├── tests/                       # 36 pytest tests (unit, MCP over stdio, web API, sessions, integration)
+├── logs/                        # demo_run.log, demo_transcript.md, eval_report.md, chunk_comparison.md
 └── data/                        # generated: faiss_index/, sessions.db, leads.db
 ```

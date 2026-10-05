@@ -1,615 +1,617 @@
 [
  {
-  "q": "อีซี่ อีเซฟ 10/3 ต้องจ่ายเบี้ยประกันกี่ปี",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "อีซี่ อี เฮลท์ วงเงินคุ้มครองค่ารักษาสูงสุดต่อปีเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
   "expect": [
-   "3"
+   "1.5 ล้าน|1,500,000"
   ]
  },
  {
-  "q": "อีซี่ อีเซฟ 10/3 คุ้มครองนานกี่ปี",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "อีซี่ อี เฮลท์ ถ้าไม่เคลม ได้ส่วนลดเบี้ยปีถัดไปกี่เปอร์เซ็นต์",
+  "source": "InsureX_Health_Insurance.pdf",
   "expect": [
-   "10"
+   "10%"
   ]
  },
  {
-  "q": "อีซี่ อีเซฟ 10/3 ได้เงินคืนทุกปีกี่เปอร์เซ็นต์",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "อีซี่ อี เฮลท์ ระยะเวลารอคอยทั่วไปกี่วัน",
+  "source": "InsureX_Health_Insurance.pdf",
   "expect": [
-   "3%"
+   "30"
   ]
  },
  {
-  "q": "อีซี่ อีเซฟ 10/3 รับเงินคืน 3% ในสิ้นปีกรมธรรม์ที่เท่าไหร่บ้าง",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "อีซี่ อี เฮลท์ ผ่าตัดต้อกระจกมีระยะเวลารอคอยกี่วัน",
+  "source": "InsureX_Health_Insurance.pdf",
   "expect": [
-   "1-9"
+   "120"
+  ]
+ },
+ {
+  "q": "อี เฮลท์ มินิ คุ้มครองค่ารักษาแบบเหมาจ่ายต่อครั้งสูงสุดเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "3 หมื่น|30,000"
+  ]
+ },
+ {
+  "q": "อี เฮลท์ มินิ วงเงินต่อปีกรมธรรม์สูงสุดเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "3 แสน|300,000"
+  ]
+ },
+ {
+  "q": "อี เฮลท์ มินิ มะเร็งระยะลุกลามมีระยะเวลารอคอยกี่วัน",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "90"
+  ]
+ },
+ {
+  "q": "เบี้ยประกันสุขภาพ อี เฮลท์ มินิ ลดหย่อนภาษีได้สูงสุดเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "25,000"
+  ]
+ },
+ {
+  "q": "สัญญาเพิ่มเติม เฮชบี พลัส รับประกันอายุสูงสุดกี่ปี",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "70"
+  ]
+ },
+ {
+  "q": "HB Plus 5000 ถ้านอนโรงพยาบาลแล้วมีการผ่าตัดใหญ่ ได้เงินก้อนเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "50,000"
+  ]
+ },
+ {
+  "q": "HB Plus 2000 ถ้านอนโรงพยาบาลด้วย 20 โรคร้ายแรง ได้เงินก้อนเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "40,000"
+  ]
+ },
+ {
+  "q": "HB Plus 1000 เบี้ยประกันต่อปีสำหรับคนอายุ 30 ปีเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "2,200"
+  ]
+ },
+ {
+  "q": "คุ้มตลอดชีพ พลัส รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "16",
+   "60"
+  ]
+ },
+ {
+  "q": "คุ้มตลอดชีพ พลัส แผน 2 วงเงินเหมาจ่ายค่ารักษาต่อปีเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "3,000,000"
+  ]
+ },
+ {
+  "q": "คุ้มตลอดชีพ พลัส สัญญาเพิ่มเติมโรคร้ายแรง แบบซีไอ 50 มีจำนวนเงินเอาประกันภัยเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "1,500,000|1.5 ล้าน"
+  ]
+ },
+ {
+  "q": "คุ้มตลอดชีพ พลัส แบบตลอดชีพ 99/99 มีจำนวนเงินเอาประกันภัยเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "300,000"
+  ]
+ },
+ {
+  "q": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า แผนไดมอนด์ ผลประโยชน์สูงสุดต่อปีเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "100,000,000"
+  ]
+ },
+ {
+  "q": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า แผนโกลด์ ค่าห้องต่อวันเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "6,000"
+  ]
+ },
+ {
+  "q": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "11",
+   "70"
+  ]
+ },
+ {
+  "q": "คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า ฟอร์ คิดส์ แผน Deductible ช่วยลดเบี้ยได้กี่เปอร์เซ็นต์",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "50%"
+  ]
+ },
+ {
+  "q": "พรีม่า แคร์ แผน S ค่ารักษาโดยการผ่าตัดสูงสุดเท่าไหร่",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "60,000"
+  ]
+ },
+ {
+  "q": "พรีม่า แคร์ ต่ออายุได้ถึงอายุกี่ปี",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "79"
+  ]
+ },
+ {
+  "q": "For Prima Care plan M, how much is the room and board benefit per day?",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "3,000"
+  ]
+ },
+ {
+  "q": "What is the maximum yearly coverage of Easy E-Health?",
+  "source": "InsureX_Health_Insurance.pdf",
+  "expect": [
+   "1.5|1,500,000"
+  ]
+ },
+ {
+  "q": "ประกันอุบัติเหตุ เทเวศ วันละ 1 บาท 365 วัน เบี้ยประกันเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "365"
+  ]
+ },
+ {
+  "q": "เทเวศ ประกันชดเชยรายได้สุดคุ้ม วันละ 2 บาท 365 วัน เบี้ยเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "450"
+  ]
+ },
+ {
+  "q": "เทเวศ ประกันชดเชยรายได้สุดคุ้ม ชดเชยรายได้จากอุบัติเหตุเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "300"
+  ]
+ },
+ {
+  "q": "วิริยะ PA กระดูกหัก แผน 3 เบี้ยประกันเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "5,820"
+  ]
+ },
+ {
+  "q": "วิริยะ PA กระดูกหัก แผน 4 คุ้มครองเสียชีวิต สูญเสียอวัยวะเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "1,000,000"
+  ]
+ },
+ {
+  "q": "วิริยะ PA กระดูกหัก แผน 1 ค่ารักษากรณีกระดูกหักเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "100,000"
+  ]
+ },
+ {
+  "q": "วิริยะ กระดูกหัก แผน 4 สำหรับรุ่นใหญ่ อายุ 66-70 ปี เบี้ยเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "8,700"
+  ]
+ },
+ {
+  "q": "ไทยวิวัฒน์ PA Life Span วัยเรียน แผน 6 เบี้ยประกันเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "20,150"
+  ]
+ },
+ {
+  "q": "PA Life Span วัยเรียน รับประกันเด็กอายุเท่าไหร่ถึงเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "7",
+   "20"
+  ]
+ },
+ {
+  "q": "ทิพย TIP PA SENIOR แผน 1 เบี้ยประกันเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "1,200"
+  ]
+ },
+ {
+  "q": "TIP PA SENIOR รับประกันอายุเท่าไหร่ถึงเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "55",
+   "80"
+  ]
+ },
+ {
+  "q": "TIP PA SENIOR แผน 3 ค่ารักษาพยาบาลจากอุบัติเหตุเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "50,000"
+  ]
+ },
+ {
+  "q": "PA Life Span วัยทำงาน แผน 3 ชดเชยรายได้จากอุบัติเหตุเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "3,000"
+  ]
+ },
+ {
+  "q": "PA Life Span วัยสูงอายุ แผน 6 เบี้ยประกันเท่าไหร่",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "29,900"
+  ]
+ },
+ {
+  "q": "ประกันอุบัติเหตุบนเว็บ InsureX มาจากบริษัทประกันภัยอะไรบ้าง",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "ทิพย",
+   "วิริยะ",
+   "เทเวศ",
+   "ไทยวิวัฒน์"
+  ]
+ },
+ {
+  "q": "ประกันอุบัติเหตุสำหรับเด็ก เพิ่ม 4 โรคยอดฮิต มีโรคอะไรบ้าง",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "RSV",
+   "มือ เท้า ปาก|มือเท้าปาก"
+  ]
+ },
+ {
+  "q": "How many accident insurance plans are listed for the working-age group?",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "28"
+  ]
+ },
+ {
+  "q": "What is the premium of Viriya's PA bone fracture plan 2 (PA กระดูกหัก แผน 2)?",
+  "source": "InsureX_Accident_Insurance.pdf",
+  "expect": [
+   "3,960"
+  ]
+ },
+ {
+  "q": "อีซี่ อีเซฟ 10/3 ให้ผลตอบแทน IRR เท่าไหร่",
+  "source": "InsureX_Savings_Insurance.pdf",
+  "expect": [
+   "1.24%"
   ]
  },
  {
   "q": "อีซี่ อีเซฟ 10/3 ครบกำหนดสัญญาได้เงินคืนสูงสุดกี่เปอร์เซ็นต์ของทุน",
-  "source": "Easy_E-Save_10-3.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "303%"
   ]
  },
  {
   "q": "อีซี่ อีเซฟ 10/3 เลือกเบี้ยประกันต่อปีได้ตั้งแต่เท่าไหร่ถึงเท่าไหร่",
-  "source": "Easy_E-Save_10-3.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "30,000",
    "350,000"
   ]
  },
  {
-  "q": "ถ้าเสียชีวิตระหว่างสัญญา อีซี่ อีเซฟ 10/3 จ่ายสูงสุดกี่เปอร์เซ็นต์ของทุนประกัน",
-  "source": "Easy_E-Save_10-3.pdf",
-  "expect": [
-   "300%"
-  ]
- },
- {
   "q": "อีซี่ อีเซฟ 10/3 กรณีเสียชีวิตจ่ายกี่เปอร์เซ็นต์ของเบี้ยที่ชำระมาแล้ว",
-  "source": "Easy_E-Save_10-3.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "101%"
   ]
  },
  {
-  "q": "อีซี่ อีเซฟ 10/3 ให้ผลตอบแทน IRR เท่าไหร่",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "คุ้มมั่งมี 18/9 ทุนประกันขั้นต่ำเท่าไหร่",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
-   "1.24%"
+   "100,000"
   ]
  },
  {
-  "q": "สมัครอีซี่ อีเซฟ 10/3 ต้องตอบคำถามสุขภาพไหม",
-  "source": "Easy_E-Save_10-3.pdf",
+  "q": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
-   "ไม่ต้อง"
-  ]
- },
- {
-  "q": "What is the IRR of Easy E-Save 10/3?",
-  "source": "Easy_E-Save_10-3.pdf",
-  "expect": [
-   "1.24%"
-  ]
- },
- {
-  "q": "What is the maturity benefit of Easy E-Save 10/3 as a percentage of the sum assured?",
-  "source": "Easy_E-Save_10-3.pdf",
-  "expect": [
-   "303%"
-  ]
- },
- {
-  "q": "What is the minimum annual premium for Easy E-Save 10/3?",
-  "source": "Easy_E-Save_10-3.pdf",
-  "expect": [
-   "30,000"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ชำระเบี้ยกี่ปี",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "9"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 คุ้มครองกี่ปี",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "18"
+   "70"
   ]
  },
  {
   "q": "คุ้มมั่งมี 18/9 รับเงินคืนรวมตลอดสัญญากี่เปอร์เซ็นต์ของทุนประกัน",
-  "source": "Khum_Mangmee_18-9.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "379%"
   ]
  },
  {
-  "q": "คุ้มมั่งมี 18/9 คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "360%"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 สิ้นปีที่ 1-9 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "1%"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 สิ้นปีที่ 10-18 ได้เงินคืนปีละกี่เปอร์เซ็นต์",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "5%"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ครบสัญญารับเงินก้อนกี่เปอร์เซ็นต์",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "325%"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 รับประกันอายุสูงสุดกี่ปี",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "70"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ทุนประกันขั้นต่ำเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "100,000"
-  ]
- },
- {
   "q": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี เบี้ยรายปีเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "36,500"
   ]
  },
  {
-  "q": "คุ้มมั่งมี 18/9 ทุน 100,000 บาท อายุ 30 ปี จ่ายรายเดือนเดือนละเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "3,285"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท เบี้ยรายปีของคนอายุ 30 ปีเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "362,000"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เบี้ยรายเดือนเท่าไหร่ (อายุ 30)",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "16,380"
-  ]
- },
- {
   "q": "คุ้มมั่งมี 18/9 ทุน 1,000,000 บาท ถ้าเสียชีวิตในปีกรมธรรม์ที่ 1-3 ได้เท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "1,200,000"
   ]
  },
  {
-  "q": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท เสียชีวิตปีกรมธรรม์ที่ 4-6 ได้รับเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "720,000"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ทุน 500,000 บาท เสียชีวิตปีที่ 7-18 ได้เท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "1,800,000"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 ทุน 300,000 บาท ครบสัญญาได้เงินก้อนเท่าไหร่",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "975,000"
-  ]
- },
- {
-  "q": "คุ้มมั่งมี 18/9 มีชื่อแบบประกันอย่างเป็นทางการว่าอะไร",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "เซฟวิ่ง18/9"
-  ]
- },
- {
-  "q": "What is the minimum sum assured for Khum Mangmee 18/9?",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "100,000"
-  ]
- },
- {
-  "q": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "32,580"
-  ]
- },
- {
-  "q": "What is the maximum entry age for Khum Mangmee 18/9?",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "70"
-  ]
- },
- {
-  "q": "How much life cover does Khum Mangmee 18/9 give in the first years, as a percentage of the sum assured?",
-  "source": "Khum_Mangmee_18-9.pdf",
-  "expect": [
-   "120%"
-  ]
- },
- {
-  "q": "คุ้มออมสุข จ่ายเบี้ยกี่ปี",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "15"
-  ]
- },
- {
-  "q": "คุ้มออมสุข คุ้มครองกี่ปี",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "25"
-  ]
- },
- {
-  "q": "คุ้มออมสุข รับเงินคืนรวมกี่เปอร์เซ็นต์ของทุน",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "174%"
-  ]
- },
- {
-  "q": "คุ้มออมสุข คุ้มครองชีวิตสูงสุดกี่เปอร์เซ็นต์ของทุน",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "200%"
-  ]
- },
- {
-  "q": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "150%"
-  ]
- },
- {
-  "q": "คุ้มออมสุข ได้เงินคืนรายปีกี่เปอร์เซ็นต์",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "1%"
-  ]
- },
- {
-  "q": "คุ้มออมสุข รับเงินคืน 1% ตั้งแต่สิ้นปีกรมธรรม์ที่เท่าไหร่ถึงเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "24"
-  ]
- },
- {
-  "q": "คุ้มออมสุข รับประกันอายุสูงสุดกี่ปี",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "60"
-  ]
- },
- {
   "q": "คุ้มออมสุข ทุนประกันขั้นต่ำเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "150,000"
   ]
  },
  {
-  "q": "คุ้มออมสุข เริ่มเก็บเงินได้วันละกี่บาท",
-  "source": "Khum_Aomsook.pdf",
+  "q": "คุ้มออมสุข จ่ายเบี้ยกี่ปี คุ้มครองกี่ปี",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
-   "30"
+   "15",
+   "25"
   ]
  },
  {
   "q": "คุ้มออมสุข ทุน 100,000 บาท เพศชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "878"
   ]
  },
  {
-  "q": "คุ้มออมสุข ทุน 100,000 บาท ผู้หญิงอายุ 30 ปี จ่ายเดือนละเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "860"
-  ]
- },
- {
-  "q": "คุ้มออมสุข ทุน 300,000 บาท ผู้ชายอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
-  "expect": [
-   "2,635"
-  ]
- },
- {
   "q": "คุ้มออมสุข ทุน 500,000 บาท ผู้หญิงอายุ 30 ปี เบี้ยรายเดือนเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
    "4,256"
   ]
  },
  {
-  "q": "คุ้มออมสุข ทุน 300,000 บาท เสียชีวิตในปีกรมธรรม์ที่ 1-10 ได้เท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "q": "คุ้มออมสุข ครบกำหนดสัญญาได้เงินก้อนกี่เปอร์เซ็นต์",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
-   "450,000"
+   "150%"
   ]
  },
  {
-  "q": "คุ้มออมสุข ทุน 500,000 บาท รวมเงินคืนตลอดสัญญาเท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "q": "For Khum Mangmee 18/9, what is the monthly premium for a 30-year-old with a 1,000,000 baht sum assured?",
+  "source": "InsureX_Savings_Insurance.pdf",
   "expect": [
-   "870,000"
+   "32,580"
   ]
  },
  {
-  "q": "คุ้มออมสุข ความคุ้มครองชีวิต 200% เริ่มตั้งแต่ปีที่เท่าไหร่",
-  "source": "Khum_Aomsook.pdf",
+  "q": "ประกันเดินทางมีระยะเวลารอคอยไหม",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "11"
+   "ไม่มี"
   ]
  },
  {
-  "q": "คุ้มออมสุข เป็นชื่อทางการตลาดของแบบประกันอะไร",
-  "source": "Khum_Aomsook.pdf",
+  "q": "ประกันเดินทาง ติดต่อฝ่ายบริการลูกค้าเบอร์อะไร",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "25/15"
+   "1314"
   ]
  },
  {
-  "q": "What is the minimum sum assured for Khum Aomsook?",
-  "source": "Khum_Aomsook.pdf",
+  "q": "ฝ่ายบริการลูกค้าประกันเดินทางเปิดถึงกี่โมง",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "150,000"
+   "19.00"
   ]
  },
  {
-  "q": "What is the monthly premium of Khum Aomsook for a 30-year-old man with a 500,000 baht sum assured?",
-  "source": "Khum_Aomsook.pdf",
+  "q": "ประกันเดินทางจ่ายเบี้ยผ่านแอปธนาคารอะไรได้",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "4,346"
+   "SCB EASY"
   ]
  },
  {
-  "q": "เอฟดับบลิวดี ฟรีดอม ลิงค์ พลัส 15/5 รับประกันอายุสูงสุดกี่ปี",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ประกันเดินทางต้องตรวจสุขภาพไหม",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "65"
+   "ไม่ต้อง"
   ]
  },
  {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 เบี้ยประกันภัยหลักเริ่มต้นปีละเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ทำวีซ่าเชงเก้น ต้องมีทุนค่ารักษาพยาบาลขั้นต่ำเท่าไหร่",
+  "source": "InsureX_Travel_Insurance.pdf",
   "expect": [
-   "50,000"
+   "30,000"
   ]
  },
  {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ชำระเบี้ยเพิ่มพิเศษ (Top up) ขั้นต่ำครั้งละเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "คนมีโรคประจำตัวซื้อประกันเดินทางได้ไหม คุ้มครองโรคประจำตัวหรือไม่",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "ไม่คุ้มครอง"
+  ]
+ },
+ {
+  "q": "ประกันเดินทางรายปีเหมาะกับใคร",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "บ่อย"
+  ]
+ },
+ {
+  "q": "ประกันเดินทางในประเทศเพิ่มความคุ้มครองโรคอะไรได้บ้าง",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "อาหารเป็นพิษ"
+  ]
+ },
+ {
+  "q": "ประกันเดินทางมีความคุ้มครองบ้านระหว่างไปเที่ยวไหม",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "โจรกรรม"
+  ]
+ },
+ {
+  "q": "ทำประกันเดินทางต้องใช้เอกสารอะไรบ้าง",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "หนังสือเดินทาง|พาสปอร์ต"
+  ]
+ },
+ {
+  "q": "What number can I call about travel insurance?",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "1314"
+  ]
+ },
+ {
+  "q": "Does the travel insurance have a waiting period?",
+  "source": "InsureX_Travel_Insurance.pdf",
+  "expect": [
+   "no waiting|ไม่มีระยะเวลารอคอย|not have a waiting|no waiting period"
+  ]
+ },
+ {
+  "q": "ประกันสัตว์เลี้ยง ทิพย์ เพ็ท เลิฟเวอร์ ราคาเริ่มต้นเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "1,950"
+  ]
+ },
+ {
+  "q": "ทิพย์ เพ็ท เลิฟเวอร์ ความคุ้มครองสูงสุดเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "118,000"
+  ]
+ },
+ {
+  "q": "ประกันสัตว์เลี้ยงรับประกันสัตว์อายุเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "3 เดือน|3เดือน",
+   "9"
+  ]
+ },
+ {
+  "q": "สัตว์เลี้ยงอายุเท่าไหร่ถึงไม่ต้องตรวจสุขภาพก่อนทำประกัน",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "7"
+  ]
+ },
+ {
+  "q": "ประกันสัตว์เลี้ยงรับประกันสัตว์ชนิดไหนบ้าง",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "สุนัข",
+   "แมว"
+  ]
+ },
+ {
+  "q": "ต้องฝังไมโครชิพก่อนทำประกันสัตว์เลี้ยงไหม",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "ไม่ต้อง"
+  ]
+ },
+ {
+  "q": "ทิพย์ เพ็ท เลิฟเวอร์ แผน XL เบี้ยปีละเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
+  "expect": [
+   "8,400"
+  ]
+ },
+ {
+  "q": "ประกันสัตว์เลี้ยง แผน XXL คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
    "5,000"
   ]
  },
  {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 เลือกคุ้มครองชีวิตได้สูงสุดกี่เท่าของเบี้ยประกันภัยหลัก",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "50"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ได้โบนัสพิเศษกี่เปอร์เซ็นต์ของเบี้ยหลัก",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "2%"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ต่ออายุกรมธรรม์ได้ถึงอายุเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "99"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ผู้เอาประกันอายุ 61-65 ปี เลือกทุนประกันได้กี่เท่าของเบี้ยหลัก",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "5",
-   "8"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าใช้จ่ายในการดำเนินการปีแรกหักกี่เปอร์เซ็นต์ของเบี้ยหลัก",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "8"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ค่าธรรมเนียมการบริหารกรมธรรม์ต่อปีเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "0.69"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินในปีกรมธรรม์ที่ 1 เสียค่าธรรมเนียมกี่เปอร์เซ็นต์",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "50"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 สับเปลี่ยนกองทุนขั้นต่ำเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "1,000"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 หยุดพักชำระเบี้ยได้หลังจ่ายรายเดือนครบกี่งวด",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "36"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ถอนเงินบางส่วนแล้วมูลค่ากรมธรรม์ต้องเหลือไม่น้อยกว่าเท่าไหร่",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
-  "expect": [
-   "10,000"
-  ]
- },
- {
-  "q": "ฟรีดอม ลิงค์ พลัส 15/5 ยกเลิกกรมธรรม์ (Free Look) จะถูกหักค่าใช้จ่ายกี่บาท",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ประกันสัตว์เลี้ยง แผน S ค่ารักษาจากการเจ็บป่วยต่อครั้งเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
    "500"
   ]
  },
  {
-  "q": "What is the FWD customer service hotline number?",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ประกันสัตว์เลี้ยงไม่คุ้มครองการเจ็บป่วยในช่วงกี่วันแรก",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "1351"
+   "60"
   ]
  },
  {
-  "q": "How many days is the free look period for FWD Freedom Link Plus 15/5?",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ซื้อประกันสัตว์เลี้ยงออนไลน์ ได้กรมธรรม์ภายในกี่นาที",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "15"
+   "30"
   ]
  },
  {
-  "q": "What fee is charged on top-up premiums for FWD Freedom Link Plus 15/5?",
-  "source": "Brochure_FWD_Freedom_Linked_Plus_15-5_030724.pdf",
+  "q": "ประกันสัตว์เลี้ยงรับประกันโดยบริษัทอะไร",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "1.5"
+   "ทิพย"
   ]
  },
  {
-  "q": "ประกันรถยนต์ JustOne คุ้มครองความเสียหายต่อทรัพย์สินบุคคลภายนอกครั้งละเท่าไหร่",
-  "source": "justone_leaflets.pdf",
+  "q": "ประกันสัตว์เลี้ยง แผน L ค่าจัดการเผาศพหรือฝังศพเท่าไหร่",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "5,000,000"
+   "5,000"
   ]
  },
  {
-  "q": "JustOne ความรับผิดต่อชีวิตร่างกายบุคคลภายนอก ต่อครั้งสูงสุดเท่าไหร่",
-  "source": "justone_leaflets.pdf",
+  "q": "How much is the yearly premium for TIP Pet Lover plan M?",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "20,000,000"
+   "2,950"
   ]
  },
  {
-  "q": "JustOne แบบซ่อมห้าง คุ้มครองชีวิตร่างกายบุคคลภายนอกต่อคนเท่าไหร่",
-  "source": "justone_leaflets.pdf",
+  "q": "Does TIP Pet Lover cover my pet while abroad outside Thailand?",
+  "source": "InsureX_Pet_Insurance.pdf",
   "expect": [
-   "1,000,000"
+   "ไม่คุ้มครอง|not cover|isn't covered|is not covered|does not cover|doesn't cover|no,"
   ]
  },
  {
-  "q": "JustOne ค่าประกันตัวผู้ขับขี่ (ร.ย.03) ต่อครั้งเท่าไหร่",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "300,000"
-  ]
- },
- {
-  "q": "JustOne คุ้มครองอุปกรณ์ตกแต่งเพิ่มเติมมูลค่าเท่าไหร่",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "25,000"
-  ]
- },
- {
-  "q": "JustOne แบบซ่อมอู่ รับประกันรถอายุสูงสุดกี่ปี",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "20"
-  ]
- },
- {
-  "q": "JustOne ระยะเวลาแจ้งงานสิ้นสุดวันไหน",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "24"
-  ]
- },
- {
-  "q": "ประกันรถยนต์ JustOne รับประกันโดยบริษัทอะไร",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "ชับบ"
-  ]
- },
- {
-  "q": "JustOne เบอร์โทรติดต่อสอบถามคืออะไร",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "02-039-5720"
-  ]
- },
- {
-  "q": "JustOne Toyota Alphard อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "42,600"
-  ]
- },
- {
-  "q": "JustOne Toyota Commuter อายุรถ 2-5 ปี ซ่อมห้าง (Dealer) ทะเบียนกรุงเทพ เบี้ยประกันเท่าไหร่",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "42,400"
-  ]
- },
- {
-  "q": "What is the personal accident cover (ร.ย.01) per person in the JustOne car insurance?",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "200,000"
-  ]
- },
- {
-  "q": "Which roadside assistance plan is included in JustOne?",
-  "source": "justone_leaflets.pdf",
-  "expect": [
-   "Gold"
-  ]
- },
- {
-  "q": "How much is travel insurance for a trip to Japan?",
+  "q": "JustOne Toyota Alphard ซ่อมห้าง ทะเบียนกรุงเทพ เบี้ยเท่าไหร่",
   "out_of_scope": true
  },
  {
-  "q": "ประกันสัตว์เลี้ยงสำหรับสุนัขราคาเท่าไหร่",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันสุขภาพ OPD คุ้มครองค่ารักษาผู้ป่วยนอกปีละเท่าไหร่",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันอัคคีภัยบ้านเบี้ยปีละเท่าไหร่",
+  "q": "ประกันรถยนต์ชั้น 1 ราคาเท่าไหร่",
   "out_of_scope": true
  },
  {
@@ -617,31 +619,7 @@
   "out_of_scope": true
  },
  {
-  "q": "ประกันโรคมะเร็งจ่ายเงินก้อนเท่าไหร่เมื่อตรวจพบ",
-  "out_of_scope": true
- },
- {
-  "q": "What is the waiting period for maternity coverage?",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันบำนาญ จ่ายเงินบำนาญปีละกี่เปอร์เซ็นต์",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันรถยนต์ชั้น 3 ราคาเท่าไหร่",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันเดินทางไปยุโรป Schengen คุ้มครองค่ารักษาพยาบาลเท่าไหร่",
-  "out_of_scope": true
- },
- {
-  "q": "What is the premium for a term life plan with a 5 million baht sum assured?",
-  "out_of_scope": true
- },
- {
-  "q": "ประกันสุขภาพเด็กมีระยะเวลารอคอยกี่วัน",
+  "q": "ประกันอัคคีภัยบ้านเบี้ยปีละเท่าไหร่",
   "out_of_scope": true
  },
  {
@@ -649,11 +627,43 @@
   "out_of_scope": true
  },
  {
-  "q": "ประกันโควิดยังมีขายอยู่ไหม",
+  "q": "ประกันบำนาญ คุ้มเกษียณ ได้รับเงินบำนาญปีละกี่เปอร์เซ็นต์",
   "out_of_scope": true
  },
  {
-  "q": "How much does dental insurance cover per year?",
+  "q": "What are the fees of the FWD Freedom Link Plus 15/5 unit-linked plan?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันภัยไซเบอร์คุ้มครองการถูกแฮกบัญชีธนาคารไหม",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันมือถือจอแตกเคลมได้เท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันกอล์ฟ Hole-in-one ได้เงินรางวัลเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันภัยขนส่งสินค้าทางทะเลคิดเบี้ยอย่างไร",
+  "out_of_scope": true
+ },
+ {
+  "q": "How much is business interruption insurance for an SME?",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันชีวิตแบบชั่วระยะเวลา 10 ปี ทุน 5 ล้าน เบี้ยเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "ประกันคอนโดสำหรับผู้เช่า คุ้มครองทรัพย์สินในห้องเท่าไหร่",
+  "out_of_scope": true
+ },
+ {
+  "q": "How much does flood insurance for a house cost?",
   "out_of_scope": true
  }
 ]

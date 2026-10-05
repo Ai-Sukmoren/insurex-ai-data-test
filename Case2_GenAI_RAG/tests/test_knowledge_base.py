@@ -2,7 +2,7 @@ from dataclasses import replace
 
 from conftest import FakeEmbeddings
 from sales_agent.config import Settings
-from sales_agent.knowledge_base import Chunk, FaissVectorStore, KnowledgeBase, PdfLoader, TextChunker
+from sales_agent.knowledge_base import THAI_PUA, Chunk, FaissVectorStore, KnowledgeBase, PdfLoader, TextChunker
 
 
 def test_loader_reads_all_pdfs_with_clean_thai():
@@ -10,18 +10,23 @@ def test_loader_reads_all_pdfs_with_clean_thai():
     pages = PdfLoader().load(folder)
     assert {source for source, _, _ in pages} == {p.name for p in folder.glob("*.pdf")}
     assert all(text for _, _, text in pages)
-    text = "\n".join(t for source, _, t in pages if source == "Khum_Mangmee_18-9.pdf")
+    text = "\n".join(t for source, _, t in pages if source == "InsureX_Savings_Insurance.pdf")
     assert "เบี้ยประกัน" in text                                       # tone mark kept (pypdf gave "เบี ย")
     assert "รายปี 36,500 109,500 182,000 362,000" in text               # table row kept on one line
-    leaflet = "\n".join(t for source, _, t in pages if source == "justone_leaflets.pdf")
-    assert "ซ่อมอู่" in leaflet and not any(0xF700 <= ord(ch) <= 0xF71F for ch in leaflet)   # legacy PUA marks mapped
 
 
-def test_loader_titles_are_product_names():
+def test_thai_pua_glyphs_are_mapped():
+    assert "ซ\uf70aอมอู\uf70a".translate(THAI_PUA) == "ซ่อมอู่"        # legacy font encoding -> standard Thai
+
+
+def test_loader_labels_pages_with_title_and_section():
     loader = PdfLoader()
     loader.load(Settings().knowledge_dir)
-    assert loader.titles["Khum_Aomsook.pdf"] == "คุ้มออมสุข"
-    assert loader.titles["Khum_Mangmee_18-9.pdf"] == "คุ้มมั่งมี 18/9"
+    assert loader.titles["InsureX_Health_Insurance.pdf"] == "ประกันสุขภาพ — InsureX"
+    # every product starts a new section, and a product that runs over several pages keeps its label
+    assert loader.labels[("InsureX_Health_Insurance.pdf", 24)] == "ประกันสุขภาพ — InsureX › สัญญาเพิ่มเติมคุ้มรักษาพรีม่า แคร์"
+    assert loader.labels[("InsureX_Health_Insurance.pdf", 25)] == "ประกันสุขภาพ — InsureX › สัญญาเพิ่มเติมคุ้มรักษาพรีม่า แคร์"
+    assert loader.labels[("InsureX_Savings_Insurance.pdf", 6)].endswith("คุ้มออมสุข")
 
 
 def test_chunker_prefixes_document_title():
@@ -55,3 +60,9 @@ def test_retrieve_applies_relevance_floor(tmp_path):
     kb.store = FaissVectorStore(FakeEmbeddings())
     kb.store.build([Chunk("PA Plus premium", "a.pdf", 1, 0), Chunk("tax rules", "b.pdf", 1, 1)])
     assert all(h.score >= 0.99 for h in kb.retrieve("tax"))
+
+
+def test_chunker_prefers_page_labels():
+    pages = [("a.pdf", 1, "x " * 50), ("a.pdf", 2, "y " * 50)]
+    chunks = TextChunker(size=500, overlap=0).split(pages, {("a.pdf", 2): "Doc › Plan B", "a.pdf": "Doc"})
+    assert chunks[0].text.startswith("Doc\n") and chunks[1].text.startswith("Doc › Plan B\n")
