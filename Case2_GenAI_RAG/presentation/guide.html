@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Case 2 Presenter Direction and Cheat Sheet</title>
+<title>Case 2 Presenter Guide</title>
 <style>
 $guide_css
 </style>
@@ -12,200 +12,292 @@ $guide_css
 
 <div class="cover">
   <div class="kicker">InsureX · AI Data Science · Test Case 2</div>
-  <h1>Presenter Direction &amp; Cheat Sheet</h1>
-  <p>How to present the InsureX RAG sales assistant on the <b>real product documents</b>: the running order, what to show,
-  what to say, the live demo script, and one-page facts and answers to keep next to you.</p>
+  <h1>Presenter Guide</h1>
+  <p>Everything you need to present the InsureX RAG sales assistant: one section per slide of <i>Case 2 Presentation.pdf</i>
+  with what to say and the numbers behind it, the live demo script, and a cheat sheet of facts and tough questions.</p>
 </div>
 
 <div class="kpis">
-  <div><b>$overall</b><span>overall accuracy on the $n_eval-question test ($n_correct/$n_eval)</span></div>
+  <div><b>$overall</b><span>overall on the $n_eval-question test ($n_correct/$n_eval)</span></div>
   <div><b>$acc</b><span>answer accuracy, $n_answerable answerable questions</span></div>
   <div><b>$hit</b><span>right document in the top $top_k results</span></div>
-  <div><b>$rej</b><span>$n_oos out-of-scope questions refused</span></div>
+  <div><b>$rej</b><span>$n_oos off-catalogue questions refused ($n_refused/$n_oos)</span></div>
 </div>
-<p style="font-size:11px;color:#7b8196">All numbers in this document come from the latest runs ($eval_date): <code>python main.py eval</code>,
-<code>python main.py demo</code> and <code>pytest</code>, with <code>$chat_model</code> + <code>$embed_model</code> on an RTX 4070 SUPER.</p>
+<p style="font-size:11px;color:#7b8196">Every number here and in the deck comes from the latest runs ($eval_date): <code>python main.py eval</code>,
+<code>python main.py demo</code> and <code>pytest</code>, with <code>$chat_model</code> + <code>$embed_model</code> on a local GPU. Rebuild both files with <code>python main.py present</code>.</p>
 
-<h2>What the panel grades</h2>
-<p>The brief grades four things. Tie every part of the talk back to one of them.</p>
+<h2>How to use this guide</h2>
+<ul>
+  <li><b>One section per slide</b>, in deck order. Each has the slide's <b>purpose</b>, what to <b>point at</b>, a <b>script</b>, the <b>numbers</b>, and <b>likely questions</b>.</li>
+  <li>The script boxes are a guide, not something to read aloud. Know the one message per slide (its title) and two or three numbers.</li>
+  <li>The <b>live demo</b> happens at slide 8. Slides 8–10 are screenshots and recordings of the same thing, so they are also your backup if the live app fails.</li>
+  <li>Part 2 is the <b>cheat sheet</b>: numbers, the full test results, product facts, tough questions and a glossary.</li>
+</ul>
+
+<h3>What the panel grades, and where you show it</h3>
 <table>
-  <tr><th>Criterion</th><th>Your evidence</th></tr>
-  <tr><td><b>RAG precision</b></td><td>$n_eval-question test on the real PDFs, citations on every fact, grader + retry + refusal path</td></tr>
-  <tr><td><b>Workflow logic</b></td><td>$n_nodes-node LangGraph: conditional routing, a retrieval cycle, typed state, checkpointed per session</td></tr>
-  <tr><td><b>Data integrity</b></td><td>Leads validated inside the MCP tool (Pydantic): Thai phone format, positive income, trimmed names</td></tr>
-  <tr><td><b>Code quality</b></td><td>Small single-purpose classes, one Settings object, all prompts in one file, $n_tests automated tests</td></tr>
+  <tr><th>Criterion</th><th>Your evidence</th><th>Slides</th></tr>
+  <tr><td><b>RAG precision</b></td><td>$n_eval-question test, citations on every fact, grader + retry + refusal path</td><td>7, 11, 12</td></tr>
+  <tr><td><b>Workflow logic</b></td><td>$n_nodes-node LangGraph: conditional routing, a retrieval cycle, typed state, checkpointed per session</td><td>5, 6</td></tr>
+  <tr><td><b>Data integrity</b></td><td>Leads validated inside the MCP tool (Pydantic): Thai phone format, positive income, trimmed names</td><td>9</td></tr>
+  <tr><td><b>Code quality</b></td><td>Small single-purpose classes, one Settings object, all prompts in one file, $n_tests automated tests</td><td>2, 5</td></tr>
 </table>
 
-<!-- ================================================================== PART 1 -->
-<p class="part">Part 1 · Direction</p>
-<h2 style="margin-top:4px">Before you start (10 minutes before)</h2>
+<h3>Timing plan (about 18 minutes + Q&amp;A)</h3>
+<table class="order">
+  <tr><th>Slides</th><th>Part</th><th class="num">Min</th><th>Goal</th></tr>
+  <tr><td>1–2</td><td>Opening and the brief</td><td class="num">2</td><td>Give the result first, show everything asked for is there</td></tr>
+  <tr><td>3–4</td><td>The real data and how it is read</td><td class="num">3</td><td>The hardest, most convincing engineering story</td></tr>
+  <tr><td>5–7</td><td>Architecture, LangGraph flow, not-found handling</td><td class="num">4</td><td>Workflow logic and RAG precision</td></tr>
+  <tr><td>8–10</td><td>Live demo, leads (bonus 1), memory (bonus 2)</td><td class="num">5</td><td>Prove it works, live</td></tr>
+  <tr><td>11–13</td><td>Results, tuning, honest limits</td><td class="num">3</td><td>Measured, not claimed</td></tr>
+  <tr><td>14</td><td>Close</td><td class="num">1</td><td>Three-line summary, invite questions</td></tr>
+</table>
+
+<h3>The story in 60 seconds</h3>
+<div class="box say">I built a sales assistant for InsureX that answers only from the company's product documents and cites the page for every fact.
+It runs on InsureX's own catalogue: five PDFs built from insurex.co.th, one per product category, mostly in Thai.
+It's a LangGraph state machine: it routes each message, searches a FAISS index, checks that the passages really answer the question, retries once with a better query,
+and if there's still nothing it says so instead of guessing. When a customer is interested it collects their details and saves a validated lead through an MCP tool,
+and every chat has its own memory. Everything runs locally. On a $n_eval-question test it got $n_correct right.</div>
+
+<h3>Before you start (10 minutes before)</h3>
 <ul class="check">
   <li>Ollama is running and both models are pulled: <code>ollama list</code> shows <code>$chat_model</code> and <code>$embed_model</code>.</li>
   <li>Double-click <code>start_chatbot.bat</code> (or <code>python main.py serve</code>) and open <code>http://127.0.0.1:8000</code>.</li>
-  <li>Send one warm-up question and delete that chat. The first answer loads the model (about 30 s); after that answers take a few seconds.</li>
-  <li>Open these in tabs: <code>logs/eval_report.md</code>, the folder <code>knowledge_base/</code> with one PDF open,
-      and VS Code on <code>src/sales_agent/agent.py</code> (method <code>build</code>), <code>knowledge_base.py</code> (<code>PdfLoader</code>) and <code>prompts.py</code>.</li>
+  <li>Send one warm-up question, then delete that chat. The first answer loads the model (about 20–30 s); after that answers take a few seconds.</li>
+  <li>Open in tabs: the deck PDF, the web chat, <code>logs/eval_report.md</code>, one PDF from <code>knowledge_base/</code>,
+      and VS Code on <code>src/sales_agent/agent.py</code> (method <code>build</code>) and <code>knowledge_base.py</code> (<code>PdfLoader</code>).</li>
   <li>Keep this guide on a second screen or printed. Close notifications.</li>
 </ul>
 
-<h2>Running order (about 17 minutes + Q&amp;A)</h2>
-<table class="order">
-  <tr><th>#</th><th>Part</th><th>Show on screen</th><th class="num">Min</th></tr>
-  <tr><td>1</td><td>Opening: the story in 60 seconds</td><td>Web chat, empty</td><td class="num">1</td></tr>
-  <tr><td>2</td><td>The brief and how it is covered</td><td>README table</td><td class="num">1.5</td></tr>
-  <tr><td>3</td><td>The real data and how it is read</td><td>The PDF folder, one PDF</td><td class="num">2.5</td></tr>
-  <tr><td>4</td><td>Architecture and the LangGraph flow</td><td>Diagram on the next page, <code>agent.py</code></td><td class="num">3</td></tr>
-  <tr><td>5</td><td>Live demo (includes both bonus tasks)</td><td>Web chat</td><td class="num">5</td></tr>
-  <tr><td>6</td><td>Results of the $n_eval-question test</td><td><code>logs/eval_report.md</code></td><td class="num">2</td></tr>
-  <tr><td>7</td><td>Lessons, next steps, close</td><td>Web chat or VS Code</td><td class="num">2</td></tr>
-</table>
+<!-- ============================================================ 1 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 1</span><h2>Title: a sales assistant that knows when to say "I don't know"</h2><span class="time">~45 s</span></div>
+<p><b>Purpose:</b> name the product and give the four headline numbers, so the panel knows the result before the detail.</p>
+<p class="lbl">The four numbers</p>
+<ul>
+  <li><b>$n_correct/$n_eval</b>: questions right on the accuracy test ($n_answerable with a known answer + $n_oos it should refuse).</li>
+  <li><b>$hit</b>: the right PDF was in the top $top_k results for every answerable question.</li>
+  <li><b>$n_refused/$n_oos</b>: questions about products InsureX doesn't sell that were refused rather than invented.</li>
+  <li><b>2/2</b>: both bonus tasks (lead collection via MCP, session memory) are done.</li>
+</ul>
+<div class="box say">Good morning. I built a sales assistant for InsureX agents. It answers customer questions only from InsureX's own product documents,
+cites the page for every fact, and when the answer isn't in the documents it says so. On a hundred-question test it got $n_correct right, and it refused every off-catalogue
+question but one. It also captures leads and remembers each conversation, which were the two bonus tasks.</div>
+</section>
 
-<!-- 1 -->
-<div class="g-head"><span class="num">1</span><h2>Opening: the story in 60 seconds</h2><span class="time">~1 min</span></div>
-<div class="box say">I built a sales assistant for InsureX that answers only from the company's product documents and cites the page for every fact.
-It runs on InsureX's own catalogue: five PDFs built from insurex.co.th, one per product category (health, accident, savings, travel and pet), mostly in Thai.
-It's a LangGraph state machine: it routes each message, searches a FAISS index, checks that the passages really answer the question, retries once with a better query,
-and if there's still nothing it says so instead of guessing. When a customer is interested it collects their details and saves a validated lead through an MCP tool,
-and every chat has its own memory. Everything runs locally. On a $n_eval-question test it scored $overall overall.</div>
-
-<!-- 2 -->
-<div class="g-head"><span class="num">2</span><h2>The brief and how it is covered</h2><span class="time">~1.5 min</span></div>
+<!-- ============================================================ 2 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 2</span><h2>Every requirement is covered, including both bonus tasks</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> tick off the brief quickly so the rest of the talk can go deep.</p>
 <ul>
   <li><b>Framework:</b> LangChain for models, prompts and splitting; LangGraph for the workflow (state, nodes, conditional edges, a cycle).</li>
-  <li><b>Vector DB:</b> FAISS, chosen over ChromaDB because it is an in-process library with no server, saved as one file. It is wrapped in my own <code>FaissVectorStore</code> class, so switching is one class.</li>
-  <li><b>Not-found handling:</b> similarity floor → LLM grader → query rewrite → retry → polite refusal. It never invents an answer.</li>
-  <li><b>Bonus 1</b> (lead collection via MCP) and <b>bonus 2</b> (session memory) are both done; you show them in the demo.</li>
+  <li><b>Vector DB:</b> FAISS, chosen over ChromaDB because it runs in-process with no server and saves to one file. It sits behind my own <code>FaissVectorStore</code> class, so switching is one class.</li>
+  <li><b>Not-found handling:</b> similarity floor → LLM grader → query rewrite → retry → polite refusal.</li>
+  <li><b>Extras</b> nobody asked for but that make it usable: the React web chat, the test set, and $n_tests automated tests.</li>
 </ul>
-<div class="box say">Here's the brief and how I covered it. Everything required is there and I did both bonus tasks. I'll go deeper on three things:
-how it avoids wrong answers, how the real Thai documents are read, and how leads and memory work.</div>
+<div class="box say">Here's the brief and how I covered it. Everything required is there and I did both bonus tasks. I'll spend the time on three things:
+how it avoids wrong answers, how the real Thai documents are read, and how leads and memory work. And every number I show comes from a test you can rerun.</div>
+<div class="qa"><div class="q">Why FAISS rather than ChromaDB?</div><div class="a">For $n_chunks chunks both are fine. FAISS needs no server and saves as one file, which suits a local tool. The store is wrapped in one class, so moving to Chroma or pgvector is a small change.</div></div>
+</section>
 
-<!-- 3 -->
-<div class="g-head"><span class="num">3</span><h2>The real data and how it is read</h2><span class="time">~2.5 min</span></div>
-<p><b>Show</b> the folder <code>knowledge_base/</code>: $n_docs PDFs → $n_chunks chunks ($chunk_size characters, $chunk_overlap overlap), embedded with $embed_model (multilingual, so English questions find Thai text).</p>
-<table>
-  <tr><th>Document</th><th>What it is</th></tr>
-  <tr><td>InsureX_Health_Insurance.pdf</td><td>7 health products: Easy E-Health, E-Health Mini, HB Plus, คุ้มตลอดชีพ พลัส, คุ้มรักษาเหมาจ่าย เอ็กซ์ตร้า (+ for kids), Prima Care; benefit tables with up to 10 plans side by side</td></tr>
-  <tr><td>InsureX_Accident_Insurance.pdf</td><td>38 personal accident plans from 4 insurers (ทิพย, ไทยวิวัฒน์, วิริยะ, เทเวศ) for kids, working age and seniors, with a coverage card per plan</td></tr>
-  <tr><td>InsureX_Savings_Insurance.pdf</td><td>3 savings plans: Easy E-Save 10/3, คุ้มมั่งมี 18/9, คุ้มออมสุข</td></tr>
-  <tr><td>InsureX_Travel_Insurance.pdf</td><td>Travel insurance: what it covers, optional extras and 28 FAQ answers</td></tr>
-  <tr><td>InsureX_Pet_Insurance.pdf</td><td>TIP Pet Lover: benefit table for plans S–XXL, conditions, exclusions, FAQ</td></tr>
-</table>
-<p class="lbl">How the data was collected</p>
-<p>Each PDF was generated from insurex.co.th: the product data embedded in the category page, plus the partner product pages it links to.
-Several of those pages build their content in the browser (the accident plan comparison, the online health, travel and pet pages), so they were
-loaded in Edge with Playwright, "show more" was clicked until every plan appeared, and the FAQ answers were expanded one by one.</p>
-<p class="lbl">Three reading problems you found and fixed (this is the strongest part of the story)</p>
+<!-- ============================================================ 3 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 3</span><h2>Five real InsureX product PDFs, one per category</h2><span class="time">~1.5 min</span></div>
+<p><b>Purpose:</b> show the data is real and non-trivial. <b>Point at</b> the chunk column: health and accident are most of the index, and they are also the hardest documents.</p>
+<p class="lbl">Key facts</p>
+<ul>
+  <li>$n_docs PDFs → $n_chunks chunks ($chunk_size characters, $chunk_overlap overlap), embedded with $embed_model (multilingual, so English questions find Thai text).</li>
+  <li>The PDFs come from insurex.co.th: the product data in each category page, plus the partner product pages it links to.</li>
+  <li>Pages that build their content in the browser (accident plan comparison, online health, travel and pet pages) were loaded in Edge with Playwright,
+      "show more" was clicked until every plan appeared, and every FAQ answer was opened.</li>
+</ul>
+<div class="box say">The brief's PDFs weren't provided, so I built the knowledge base from InsureX's own website: one PDF per category, health, accident, savings, travel and pet.
+That's harder than sample text. The health file alone has seven products and tables with ten plans side by side, and the accident file has 38 plans from four insurers.</div>
+<div class="qa"><div class="q">Is scraping the website allowed?</div><div class="a">It's public product information from InsureX's own site, used only for this test. In production the documents would come straight from the product team.</div></div>
+</section>
+
+<!-- ============================================================ 4 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 4</span><h2>Three problems in the real PDFs, each found by testing and fixed</h2><span class="time">~1.5 min</span></div>
+<p><b>Purpose:</b> this is the strongest engineering story. Each problem was found by a failing test question, not guessed in advance.</p>
 <ol>
-  <li><b>Thai text was broken.</b> pypdf dropped tone marks and upper vowels ("เบี ย" instead of "เบี้ย"). Switched the loader to <b>PyMuPDF</b>, which reads the text correctly.</li>
-  <li><b>Tables fell apart.</b> Each table cell came out on its own line, so a premium lost its row. The loader now <b>joins text that shares a baseline</b>, so "รายปี 36,500 109,500 182,000 362,000" stays one row.</li>
-  <li><b>A catalogue mixes many products.</b> A benefit table rarely repeats its product name, so "แผน M 3,000" could belong to any of seven health products.
-      Every chunk is now labelled <b>"document title › section"</b> (e.g. "ประกันสุขภาพ — InsureX › สัญญาเพิ่มเติมคุ้มรักษาพรีม่า แคร์"), taken from the headings and carried over to the next pages.</li>
+  <li><b>Thai text broken.</b> pypdf dropped tone marks and upper vowels ("เบี ย" for "เบี้ย"). Switched to <b>PyMuPDF</b>. Old fonts also put positioned tone marks in the Unicode
+      Private Use Area (U+F700–F71A); those are mapped back to standard Thai.</li>
+  <li><b>Tables fell apart.</b> Each cell came out on its own line, so a premium lost its row. The loader now <b>joins text that shares a baseline</b> (3 pt tolerance).</li>
+  <li><b>Which product is a table for?</b> A benefit table rarely repeats its product name. Every chunk is labelled <b>"document title › section"</b>, where the section is the
+      latest heading at least 60% of the title's font size, carried over to following pages.
+      Example: "ประกันสุขภาพ — InsureX › สัญญาเพิ่มเติมคุ้มรักษาพรีม่า แคร์".</li>
 </ol>
-<div class="box say">The documents are InsureX's own catalogue, and reading them well took work. The first PDF library lost the Thai tone marks, tables came out one cell per line,
-and because each PDF holds many products, a table on its own didn't say which product it was for. I fixed all three in the loader and wrote tests for each.</div>
-<div class="qa"><div class="q">What if a document is a scanned image?</div><div class="a">The loader only reads text layers. I'd add OCR (Tesseract with Thai, or a document-AI service) before chunking; the rest of the pipeline stays the same.</div></div>
+<div class="box say">Reading the documents well took the most work. The first PDF library lost Thai tone marks, tables came out one cell per line,
+and because each PDF holds many products, a table on its own didn't say which product it was for. I fixed all three in the loader, and each fix has a unit test.</div>
+<div class="qa"><div class="q">What if a document is a scanned image?</div><div class="a">The loader reads text layers only. I'd add OCR (Tesseract with Thai, or a document-AI service) before chunking; the rest of the pipeline stays the same.</div></div>
+</section>
 
-<!-- 4 -->
-<div class="g-head g-slide"><span class="num">4</span><h2>Architecture and the LangGraph flow</h2><span class="time">~3 min</span></div>
+<!-- ============================================================ 5 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 5</span><h2>One agent, three stores, everything on the local machine</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> the big picture before the graph. Go left to right: two front ends → FastAPI → the agent → three stores.</p>
+<ul>
+  <li><b>Front ends:</b> React 19 + TypeScript web chat (built with Vite, served by FastAPI, so Node isn't needed to run it) and a command line.</li>
+  <li><b>Service:</b> FastAPI with REST and server-sent events, so tokens and graph steps stream live.</li>
+  <li><b>Stores:</b> FAISS (knowledge), SQLite leads behind the MCP server, SQLite checkpointer (memory).</li>
+  <li><b>Models:</b> Ollama runs $chat_model (chat, tool calling) and $embed_model (embeddings). Both are one setting each.</li>
+</ul>
+<div class="box say">Customer data never leaves the machine, and there's no per-call cost. The key choice: the model classifies, grades and writes,
+but the control flow is code. So every turn's path is logged and I can unit-test the rules.</div>
+<div class="qa"><div class="q">Why a local model?</div><div class="a">Privacy (income and phone numbers stay on the machine) and cost. The model is one setting (<code>CHAT_MODEL</code>), so a hosted model is a configuration change.</div></div>
+<div class="qa"><div class="q">Why not a ReAct agent that picks its own tools?</div><div class="a">A free-form agent is harder to predict and test. Here rules like "never answer without relevant passages" are enforced by the graph, not by hoping the model follows a prompt.</div></div>
+</section>
+
+<!-- ============================================================ 6 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 6</span><h2>Every message is routed first, then takes one of three paths</h2><span class="time">~1.5 min</span></div>
 <div class="fig">$graph_svg</div>
 <p class="lbl">How to walk through it</p>
 <ol>
-  <li><b>classify</b> (LLM, structured output) picks the intent: question, interest, details, recall, decline or greeting. It sees the mode and recent history.</li>
-  <li><b>Question path:</b> contextualize (rewrites follow-ups using memory, in Thai, with the Thai product names) → retrieve (top $top_k, floor $min_rel) → grade → generate with citations.</li>
-  <li><b>The cycle:</b> if the grader keeps nothing, rewrite_query → retrieve once more, then not_found. The retry counter lives in the state, so it can't loop forever.</li>
-  <li><b>Lead path:</b> extract_lead → ask_missing (fields missing) or save_lead (complete, through the MCP server).</li>
-  <li><b>Memory:</b> recall answers questions about the chat itself; every turn ends at update_memory, which keeps a running summary.</li>
+  <li><b>classify</b> (LLM, structured output) picks the intent: question, interest, details, recall, decline or greeting. It sees the current mode and recent history.</li>
+  <li><b>Blue path, questions:</b> contextualize (rewrites follow-ups using memory, in Thai, with Thai product names) → retrieve (top $top_k, floor $min_rel) → grade → generate with citations.</li>
+  <li><b>The cycle:</b> if the grader keeps nothing, rewrite_query → retrieve once more, then not_found. The retry counter is in the state.</li>
+  <li><b>Orange path, leads:</b> extract_lead → ask_missing (fields missing) or save_lead (complete, through the MCP server).</li>
+  <li><b>Green, memory:</b> recall answers questions about the chat itself; every turn ends at update_memory, which keeps the running summary.</li>
 </ol>
-<p class="lbl">State (AgentState)</p>
+<p class="lbl">State (AgentState, saved after every step)</p>
 <p><code>messages</code> (add_messages reducer) · <code>mode</code> (qa / lead_collection, persists across turns) · <code>lead</code> (partial draft) ·
 <code>query</code>, <code>attempts</code>, <code>documents</code> (per turn) · <code>summary</code>, <code>summarized_upto</code> (memory).</p>
-<div class="box say">This is the heart of it. Every message goes to a router first. Questions take the RAG path: rewrite the question using memory, search, grade, answer with citations.
-The orange loop is the cycle: if nothing relevant comes back, it rephrases and searches once more before refusing. Interest switches the agent into lead mode, which persists in the state.
-The badges show which steps call the model; the routing itself is plain Python, which I unit-test.</div>
-<div class="qa"><div class="q">Why not a ReAct agent that picks its own tools?</div><div class="a">A free-form agent is harder to predict and test. Here the LLM classifies, grades and writes, but the control flow is code, so every turn's path is logged and rules like "never answer without relevant passages" are guaranteed.</div></div>
-<div class="qa"><div class="q">Why a local model?</div><div class="a">Customer income and phone numbers never leave the machine, and there's no per-call cost. The model is one setting (<code>CHAT_MODEL</code>), so a hosted model is a configuration change.</div></div>
+<div class="box say">This is the heart of it. Every message goes to a router first. Questions take the blue path. The orange loop is the cycle: if nothing relevant comes back,
+it rephrases and searches once more before refusing. Interest switches the agent into lead mode, which is stored in the state, so it keeps collecting details across turns.</div>
+<div class="qa"><div class="q">What if classify picks the wrong intent?</div><div class="a">It uses structured output with a fixed set of intents and, if the output can't be parsed after retries, falls back to "question" (or to "lead details" while collecting a lead). That is the safe path: the worst case is a grounded answer or a refusal.</div></div>
+</section>
 
-<!-- 5 -->
-<div class="g-head g-slide"><span class="num">5</span><h2>Live demo script</h2><span class="time">~5 min</span></div>
-<p>Type these messages in the web chat, in order. Point at the <b>source chips</b> and the <b>Agent pipeline</b> panel lighting up each node.
-The full recorded run is in the table that follows, so you know what each answer should look like.</p>
+<!-- ============================================================ 7 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 7</span><h2>Similar is not the same as relevant</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> explain why a grader is needed, using the recorded car-insurance turn on the slide.</p>
+<ul>
+  <li>Off-topic questions still get high cosine scores against insurance text, so the similarity floor ($min_rel) alone can't detect them.</li>
+  <li>The grader keeps only passages that <b>directly</b> answer. If none survive, one rewritten query, then a polite refusal that says what InsureX does offer.</li>
+  <li>The recorded path on the slide shows the retry: <code>$nf_path</code>.</li>
+</ul>
+<div class="box say">The classic RAG failure is answering from text that is similar but not relevant. A car insurance question scores high against accident insurance text.
+So the grader checks the passages first; if nothing fits, it tries one better query, and then it refuses. It never makes up a product.</div>
+<div class="qa"><div class="q">How do you know answers are grounded and not right by luck?</div><div class="a">Citations are required after each fact, the grader filters passages, and the test scores retrieval and the answer separately. Next I'd add an automatic "is every claim supported?" check.</div></div>
+</section>
 
+<!-- ============================================================ 8 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 8</span><h2>The product, and the live demo</h2><span class="time">~4 min with demo</span></div>
+<p><b>Purpose:</b> switch to the browser and show it working. If the live app fails, the screenshot on the slide shows the same two turns.</p>
+<p class="lbl">Live demo script (type these in order)</p>
 <div class="step"><div class="n">1</div><div><span class="msg">What does Prima Care plan M pay for room and board per day?</span><br>
-English question, Thai catalogue. Expect 3,000 baht per day with a citation to <code>InsureX_Health_Insurance.pdf</code>. Point at classify → contextualize → retrieve → grade → generate.</div></div>
+English question, Thai catalogue. Expect 3,000 baht per day with a source chip for the health PDF. Point at classify → contextualize → retrieve → grade → generate.</div></div>
 <div class="step"><div class="n">2</div><div><span class="msg">And what about the ICU room on the same plan?</span><br>
 <b>Memory:</b> "the same plan" is resolved to Prima Care plan M. Expect 6,000 baht.</div></div>
 <div class="step"><div class="n">3</div><div><span class="msg">Do you sell car insurance?</span><br>
-<b>Not-found path:</b> point at the orange retry (rewrite_query → retrieve) and the polite refusal. It doesn't invent a product.</div></div>
+<b>Not-found path:</b> point at the retry (rewrite_query → retrieve) in the pipeline panel and the polite refusal.</div></div>
 <div class="step"><div class="n">4</div><div><span class="msg">ประกันอุบัติเหตุ ทิพย TIP PA SENIOR แผน 1 เบี้ยเท่าไหร่</span><br>
-<b>Finding one plan among 38</b>, in Thai. Expect 1,200 baht a year.</div></div>
+<b>One plan among 38</b>, in Thai. Expect 1,200 baht a year.</div></div>
 <div class="step"><div class="n">5</div><div><span class="msg">I'm interested in Prima Care. Can an agent contact me?</span><br>
-<b>Bonus 1:</b> the lead badge appears and the progress ring starts at 0/4.</div></div>
+<b>Bonus 1:</b> the lead badge appears and the progress ring starts at 0/4. (Continue on slide 9.)</div></div>
 <div class="step"><div class="n">6</div><div><span class="msg">I'm Mai, a nurse, 30,000 a month, phone 12345</span><br>
 <b>Data integrity:</b> the MCP tool rejects the phone; name, job and income are kept. Then send <span class="msg">sorry, 081-234-5678</span>: the lead is saved, a toast appears, and it shows under Saved leads.</div></div>
 <div class="step"><div class="n">7</div><div>Click <b>New chat</b> and ask <span class="msg">What's my name?</span><br>
-<b>Bonus 2:</b> the new chat knows nothing about Mai (separate sessions). Go back to the first chat: its history is still there.</div></div>
-<div class="step"><div class="n">8</div><div>Hover the first chat and click <b>delete</b>. Say that this erases its memory, while the saved lead stays as a business record.</div></div>
+<b>Bonus 2:</b> the new chat knows nothing about Mai. Go back to the first chat: its history is still there. (Covered on slide 10.)</div></div>
+<div class="step"><div class="n">8</div><div>Hover the first chat and click <b>delete</b>: this erases its memory, while the saved lead stays as a business record.</div></div>
+<div class="box warn"><b>If something goes wrong live:</b> say "the model is local, so let me show the recorded run", and go on with slides 8–10, or open
+<code>logs/demo_transcript.md</code>. <code>python main.py demo</code> replays the scripted run. If Ollama stopped, restart it; chat history survives.</div>
+<div class="box say">Here it is running. I'll ask in English about a Thai document… it cites the page. Now a follow-up, "the same plan": it knows which plan from memory.
+On the right you can see each step of the graph as it runs.</div>
+</section>
 
-<div class="box warn"><b>If something goes wrong live:</b> say "the model is local, so let me show the recorded run", and open <code>logs/demo_transcript.md</code>
-or the table below. The same script replays with <code>python main.py demo</code>. If Ollama stopped, restart it; the chat history survives.</div>
+<!-- ============================================================ 9 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 9</span><h2>Bonus 1: interest turns the chat into lead capture</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> show multi-turn collection and that validation happens in the tool.</p>
+<ul>
+  <li>The lead mode is stored in the graph state. If the customer asks a product question in the middle, it is answered, and the missing fields are asked for again.</li>
+  <li>extract_lead uses structured output into a <b>Pydantic</b> <code>LeadDraft</code>, and the prompt forbids guessing values the customer didn't type.</li>
+  <li>The MCP server (<code>save_lead</code>, <code>list_leads</code>, stdio transport) validates again with the <code>Lead</code> model: Thai phone normalised to <code>0XXXXXXXXX</code>, positive income, trimmed name.
+      Invalid data returns <code>{"ok": false, "errors": [...]}</code>, and the agent asks again.</li>
+  <li>Recorded demo: $n_leads leads saved (in English and in Thai), one after a rejected phone.</li>
+</ul>
+<div class="box say">When a customer shows interest, the agent switches into lead mode and collects four details over as many turns as it takes. The checks live inside the MCP tool,
+not just in the prompt, so any client that calls the tool gets the same data integrity. Here the phone "12345" was rejected and asked for again.</div>
+<div class="qa"><div class="q">Why MCP and not a plain Python function?</div><div class="a">MCP is a standard interface: the same tool can be used by this agent, Claude Desktop or a CRM bot without rewriting it, and validation travels with the tool.</div></div>
+<div class="qa"><div class="q">Can it save a lead with wrong data?</div><div class="a">It only extracts what the customer typed, and the tool rejects invalid phones, empty names and non-positive income. A human agent calling back is the final check.</div></div>
+</section>
 
-<h3>Recorded demo run ($n_turns turns, $n_leads leads saved)</h3>
-<table class="demo-table">
-  <tr><th>Session</th><th>Customer</th><th>Assistant (shortened)</th><th>Path</th><th class="num">Time</th></tr>
-  $demo_rows
-</table>
-<h3>Leads saved in that run</h3>
-<table class="demo-table">
-  <tr><th>#</th><th>Name</th><th>Occupation</th><th class="num">Income</th><th>Phone</th><th>Product</th><th>Session</th></tr>
-  $lead_rows
-</table>
+<!-- ============================================================ 10 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 10</span><h2>Bonus 2: each customer gets a separate memory that survives restarts</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> show isolation, persistence and that long chats stay cheap. All three quotes on the slide are from the recorded demo.</p>
+<ul>
+  <li>LangGraph's SQLite checkpointer saves the state after every step under <code>thread_id = session_id</code>.</li>
+  <li>The last $window messages go to the LLM each turn. After $summarize_after unsummarised messages, older ones are folded into a running summary by the update_memory node; the last $keep_recent stay verbatim.</li>
+  <li>The recorded demo closes and re-creates the whole assistant before Alice's last question, to prove memory comes from disk.</li>
+</ul>
+<div class="box say">Each chat is its own thread. Alice's chat remembers her name and her first question; Bob's chat knows nothing about her. After a full restart, Alice's chat carries on.
+For long chats, older messages are summarised, so the prompt stays small.</div>
+<div class="qa"><div class="q">What happens when a chat is deleted?</div><div class="a">Its checkpoint thread is erased, so the memory is gone. Saved leads are kept, because they are business records, not conversation memory.</div></div>
+</section>
 
-<!-- 6 -->
-<div class="g-head g-slide"><span class="num">6</span><h2>Results of the $n_eval-question test</h2><span class="time">~2 min</span></div>
-<p><b>How the test works:</b> $n_answerable questions with a known answer from the PDFs (Thai and English, every expected value checked against the source text)
-plus $n_oos questions about products that aren't in the documents (car, home, pension, cyber, and the two products that were removed from the knowledge base). Each question runs in a fresh session through the full graph.
-A question passes if the expected fact appears in the answer, or, for out-of-scope questions, if the assistant refuses.</p>
+<!-- ============================================================ 11 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 11</span><h2>$n_correct of $n_eval questions right, right document every time</h2><span class="time">~1.5 min</span></div>
+<p><b>Purpose:</b> prove precision with numbers. <b>Point at</b> the bars: savings and travel are perfect; health and accident, the big table documents, are where misses are.</p>
+<p class="lbl">How the test works</p>
+<p>$n_answerable questions with a known answer (Thai and English, every expected value checked against the source text) plus $n_oos about products that aren't in the documents
+(car, home, pension, cyber…). Each question runs in a fresh session through the full graph. A question passes if the expected fact appears in the answer, or, for out-of-scope questions, if the assistant refuses.</p>
 <table>
   <tr><th>Document</th><th class="num">Chunks</th><th class="num">Questions</th><th class="num">Retrieval</th><th class="num">Correct</th></tr>
   $doc_rows
 </table>
-$improvement
-<h3>Questions that still fail ($n_fail)</h3>
+<div class="box say">I tested it on $n_eval questions written from the real documents, in Thai and English, plus $n_oos it should refuse. It found the right document every time and got $n_correct right.
+The misses are about reading the right cell of a big table, not about finding the document.</div>
+<div class="qa"><div class="q">Is $n_eval questions enough?</div><div class="a">It covers every document, both languages, tables and refusals, and every expected answer was checked against the source. For production I'd grow it with the sales team's real questions and run it on every change.</div></div>
+</section>
+
+<!-- ============================================================ 12 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 12</span><h2>The chunk size was chosen by the test</h2><span class="time">~45 s</span></div>
+<p><b>Purpose:</b> show engineering judgement: tuning with data.</p>
+$chunk_table
+<div class="box say">I didn't pick the chunk size by rule of thumb. A quick retrieval sweep over 13 settings picked the candidates, and the best four each ran the full test.
+$chunk_size characters with $chunk_overlap overlap won: about one benefit-table block per chunk, with its plan headings.</div>
+<div class="qa"><div class="q">Why did smaller chunks do worse?</div><div class="a">$chunk_reason</div></div>
+</section>
+
+<!-- ============================================================ 13 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 13</span><h2>The $n_fail misses, and what I'd do next</h2><span class="time">~1 min</span></div>
+<p><b>Purpose:</b> be honest about limits and show you know how to fix them. Pick one example from the table to mention.</p>
 <table class="demo-table">
-  <tr><th>#</th><th>Question</th><th>Expected</th><th>Retr.</th><th>Answer given</th></tr>
+  <tr><th>#</th><th>Question</th><th>Expected</th><th>Retr.</th><th>Answer given (shortened)</th></tr>
   $fail_rows
 </table>
-<div class="box say">I tested it on $n_eval questions written from the real documents, about a third in English and the rest in Thai, plus $n_oos it should refuse.
-It got $overall right overall. Every question that fails is listed, along with what I'd do next.</div>
+$oos_note
+<div class="box say">These are the questions it still gets wrong. Almost all are big-table lookups: the right document, but the number from the next column or a neighbouring field.
+The fix is to parse tables into rows and let the agent query them directly, plus hybrid search for exact plan names. Importantly, the misses are wrong cells, not invented products.</div>
+<div class="qa"><div class="q">The accident catalogue has 38 plans. Is RAG the right tool for comparing them?</div><div class="a">It works for single lookups. For "cheapest plan with fracture cover for a 70-year-old" the better design is a small plan table the agent queries with SQL, keeping RAG for the text.</div></div>
+</section>
 
-<!-- 7 -->
-<div class="g-head"><span class="num">7</span><h2>Lessons, next steps, close</h2><span class="time">~2 min</span></div>
-<p class="lbl">Lessons (show engineering judgement)</p>
-<ul>
-  <li><b>Similarity is not relevance.</b> Off-topic questions still get high cosine scores, so a grader and a retry cycle are needed before answering.</li>
-  <li><b>Real documents break assumptions.</b> Broken Thai extraction, split tables and legacy font encodings were only found by testing on the real PDFs.</li>
-  <li><b>Chunks need context.</b> A benefit table that never names its product can be mixed up with another product's table. Labelling every chunk with its document and section fixed that class of error.</li>
-  <li><b>Tune with the test set, not by rule of thumb.</b> Chunk size was picked by running all $n_eval questions on several settings:
-      $chunk_scores (see <code>logs/chunk_comparison.md</code>).</li>
-  <li><b>Measure, then change.</b> Every fix was checked against the same $n_eval questions, so improvements are numbers, not impressions.</li>
-</ul>
-<p class="lbl">Next steps</p>
-<ul>
-  <li>Build the test set with the sales team, and add LLM-as-judge scoring for answer quality.</li>
-  <li>Hybrid search (BM25 + vectors) and a reranker, which help with exact numbers and plan names.</li>
-  <li>Parse tables into structured rows (or a small SQL table) for premium lookups.</li>
-  <li>Log-in per agent, PDPA consent before collecting details, encrypted leads, CRM integration through the same MCP tool, Docker deployment.</li>
-</ul>
+<!-- ============================================================ 14 -->
+<section class="g-slide">
+<div class="g-head"><span class="num">Slide 14</span><h2>Summary: grounded, measurable and private</h2><span class="time">~45 s</span></div>
+<p><b>Purpose:</b> leave three ideas in the panel's heads, then invite questions. Offer to run any question they suggest live.</p>
 <div class="box say">To sum up: a LangGraph agent that answers only from InsureX's documents and refuses when it can't, reads real Thai PDFs correctly, captures validated leads through MCP,
-remembers each conversation, and runs entirely on the local machine. I'm happy to go into the code or try any question you like.</div>
+remembers each conversation, and runs entirely on the local machine. For production I'd add table-aware retrieval, the sales team's questions, PDPA consent and CRM integration
+through the same MCP tool. I'm happy to try any question you like, or go into the code.</div>
+</section>
 
 <!-- ================================================================== PART 2 -->
 <p class="part">Part 2 · Cheat sheet</p>
 <h2 style="margin-top:4px">Numbers</h2>
 <table class="facts">
   <tr><td>Models</td><td>$chat_model (chat, tool calling, thinking off) + $embed_model (embeddings, 1024-d, multilingual) via Ollama</td></tr>
-  <tr><td>Knowledge base</td><td>$n_docs real PDFs → $n_chunks chunks ($chunk_size chars, $chunk_overlap overlap), each labelled with its document and section</td></tr>
-  <tr><td>PDF reading</td><td>PyMuPDF; rows joined by baseline (3 pt tolerance); section = latest heading ≥ 60% of the title size; legacy Thai PUA glyphs mapped to standard Thai</td></tr>
+  <tr><td>Knowledge base</td><td>$n_docs PDFs → $n_chunks chunks ($chunk_size chars, $chunk_overlap overlap), each labelled with its document and section</td></tr>
+  <tr><td>PDF reading</td><td>PyMuPDF; rows joined by baseline (3 pt); section = latest heading ≥ 60% of the title size; legacy Thai PUA glyphs mapped to standard Thai</td></tr>
   <tr><td>Retrieval</td><td>FAISS inner product on L2-normalised vectors (= cosine), top $top_k, floor $min_rel, LLM grader, max 1 rewrite</td></tr>
   <tr><td>Graph</td><td>$n_nodes nodes, one cycle (rewrite_query → retrieve), recursion limit 25</td></tr>
   <tr><td>Memory</td><td>SQLite checkpointer, thread = session; last $window messages + running summary after $summarize_after (keep $keep_recent)</td></tr>
@@ -217,6 +309,17 @@ remembers each conversation, and runs entirely on the local machine. I'm happy t
 <table>
   <tr><th>Turn type</th><th class="num">Turns</th><th class="num">Average</th><th class="num">Range</th></tr>
   $latency_rows
+</table>
+
+<h3>Recorded demo run ($n_turns turns, $n_leads leads saved)</h3>
+<table class="demo-table">
+  <tr><th>Session</th><th>Customer</th><th>Assistant (shortened)</th><th>Path</th><th class="num">Time</th></tr>
+  $demo_rows
+</table>
+<h3>Leads saved in that run</h3>
+<table class="demo-table">
+  <tr><th>#</th><th>Name</th><th>Occupation</th><th class="num">Income</th><th>Phone</th><th>Product</th><th>Session</th></tr>
+  $lead_rows
 </table>
 
 <h2>Product facts (in case the panel asks)</h2>
@@ -239,19 +342,13 @@ remembers each conversation, and runs entirely on the local machine. I'm happy t
   Plans S–XXL: 1,950 / 2,950 / 5,400 / 8,400 / 12,000 baht a year, up to 118,000 cover. Illness in the first 60 days and anything outside Thailand are not covered.</td></tr>
 </table>
 
-<h2>Tough questions</h2>
-<div class="qa"><div class="q">How do you know the answer is grounded and not right by luck?</div><div class="a">Citations are required after each fact, the grader filters passages, and the test checks retrieval and the answer separately. Next I'd add an automatic "is every claim supported?" check.</div></div>
-<div class="qa"><div class="q">Why $chunk_size characters with $chunk_overlap overlap?</div><div class="a">I tested it on these documents. A fast retrieval sweep over 13 settings picked the candidates,
-then each ran the full $n_eval-question test: $chunk_scores. $chunk_reason</div></div>
-<div class="qa"><div class="q">Is $n_eval questions enough?</div><div class="a">It covers every document, both languages, tables and refusals, and every expected answer was checked against the source text. For production I'd grow it with the sales team's real questions and track it on every change.</div></div>
-<div class="qa"><div class="q">Why not just put the whole document in the prompt?</div><div class="a">Five documents would fit today, but not a real product catalogue. Retrieval keeps prompts small and fast, and citations show exactly where each fact came from.</div></div>
-<div class="qa"><div class="q">The accident catalogue has 38 plans. Is RAG the right tool for comparing them?</div><div class="a">It works for single lookups ("what does plan 3 cost?"). For "cheapest plan with fracture cover for a 70-year-old" the better design is to load the plan table into a small database and let the agent query it, keeping RAG for the text.</div></div>
-<div class="qa"><div class="q">Where did the knowledge base come from?</div><div class="a">The brief's PDFs weren't provided, so I built one PDF per product category from insurex.co.th. Pages that load their data in the browser were rendered in Edge with Playwright, and every plan count was checked against the site's own totals.</div></div>
-<div class="qa"><div class="q">Can the agent save a lead with wrong data?</div><div class="a">It only extracts what the customer typed (the prompt forbids guessing), and the MCP tool rejects invalid phones, empty names and non-positive income. A human agent calling back is the final check.</div></div>
+<h2>More tough questions</h2>
+<div class="qa"><div class="q">Why not just put the whole document in the prompt?</div><div class="a">Five documents would fit today, but not a real catalogue. Retrieval keeps prompts small and fast, and citations show exactly where each fact came from.</div></div>
 <div class="qa"><div class="q">What about prompt injection inside a document?</div><div class="a">The documents are company-controlled; the answer prompt treats context as facts only; the graph, not the LLM, decides the flow; and the only write action uses validated fields.</div></div>
 <div class="qa"><div class="q">How would it scale?</div><div class="a">FAISS handles millions of vectors (IVF/HNSW index); move the checkpointer to Postgres, run several API workers, serve the model with vLLM or a hosted endpoint. The graph code doesn't change.</div></div>
 <div class="qa"><div class="q">What happens if Ollama crashes mid-chat?</div><div class="a">The service catches it, returns "the model service is not reachable", logs it, and the session carries on when Ollama is back.</div></div>
 <div class="qa"><div class="q">PDPA?</div><div class="a">In production: a consent line before collecting details, encrypted leads, retention rules. Deleting a chat already erases its conversation memory.</div></div>
+<div class="qa"><div class="q">How long did the test take to run?</div><div class="a">About 12 minutes for $n_eval questions on one local GPU, which is why the chunk comparison used a fast retrieval-only sweep first.</div></div>
 
 <h2>Glossary</h2>
 <table class="facts">

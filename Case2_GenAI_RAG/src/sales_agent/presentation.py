@@ -1,11 +1,12 @@
 """
-Builds the Case 2 presenter direction and cheat sheet (HTML -> PDF) from real run data:
+Builds the Case 2 slide deck (16:9) and its presenter guide (A4), HTML -> PDF, from real run data:
 logs/eval_results.json, logs/demo_results.json, eval/questions.json, the FAISS index metadata and the test suite.
 
 Run `python main.py eval` and `python main.py demo` first, then `python main.py present`.
 """
 from __future__ import annotations
 
+import base64
 import html
 import json
 import re
@@ -103,10 +104,36 @@ class GraphDiagram:
         return f'<svg viewBox="0 0 980 486" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif" role="img" aria-label="LangGraph flow">{defs}{body}</svg>'
 
 
-class PresentationBuilder:
-    """Renders presentation/guide.html (presenter direction + cheat sheet) with numbers from the latest runs."""
+class BarChart:
+    """Horizontal single-series bar chart as inline SVG: one hue, value labels in ink, a highlighted bar for the chosen item."""
 
-    STEM = "Case 2 Presenter Direction and Cheat Sheet"
+    def __init__(self, rows: list[tuple[str, float, str]], max_value: float, highlight: str | None = None, width: int = 620):
+        self.rows, self.max, self.highlight, self.w = rows, max_value, highlight, width  # rows: (label, value, value text)
+
+    def render(self) -> str:
+        label_w, value_w, bar_h, gap = 150, 70, 30, 16
+        plot_w = self.w - label_w - value_w
+        h = len(self.rows) * (bar_h + gap)
+        parts = []
+        for i, (label, value, text) in enumerate(self.rows):
+            y = i * (bar_h + gap)
+            bw = max(4, plot_w * value / self.max)
+            on = self.highlight is None or label == self.highlight
+            fill = "#2f6fe8" if on else "#b9cdf6"
+            weight = 700 if label == self.highlight else 400
+            parts.append(
+                f'<rect x="{label_w}" y="{y}" width="{plot_w}" height="{bar_h}" rx="4" fill="#f4f6fb"/>'
+                f'<rect x="{label_w}" y="{y}" width="{bw:.1f}" height="{bar_h}" rx="4" fill="{fill}"/>'
+                f'<text x="{label_w - 12}" y="{y + bar_h / 2 + 5}" text-anchor="end" font-size="15" font-weight="{weight}" fill="#12162a">{esc(label)}</text>'
+                f'<text x="{label_w + plot_w + 10}" y="{y + bar_h / 2 + 5}" font-size="15" font-weight="700" fill="#12162a">{esc(text)}</text>')
+        return (f'<svg viewBox="0 0 {self.w} {h - gap}" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif" '
+                f'role="img" aria-label="bar chart">{"".join(parts)}</svg>')
+
+
+class PresentationBuilder:
+    """Renders presentation/slides.html (deck) and presentation/guide.html (presenter guide) with numbers from the latest runs."""
+
+    OUTPUTS = {"slides.html": "Case 2 Presentation", "guide.html": "Case 2 Presenter Guide"}
 
     def __init__(self, settings: Settings):
         self.s = settings
@@ -146,6 +173,29 @@ class PresentationBuilder:
     @staticmethod
     def _pct(part: int, whole: int) -> str:
         return f"{part / whole:.0%}" if whole else "–"
+
+    @staticmethod
+    def _doc_label(doc: str) -> str:
+        """InsureX_Health_Insurance.pdf -> Health; anything else (the out-of-scope group) -> Off-catalogue."""
+        m = re.match(r"InsureX_(\w+?)_Insurance\.pdf", doc)
+        return m.group(1) if m else "Off-catalogue"
+
+    def _image(self, name: str) -> str:
+        """Screenshot as a data URI, so the built HTML in output/ is self-contained."""
+        data = (self.dir / "assets" / name).read_bytes()
+        return "data:image/png;base64," + base64.b64encode(data).decode()
+
+    @staticmethod
+    def _turns(turns: list[dict]) -> dict:
+        """Picks the recorded demo turns quoted on the slides: the not-found turn and the memory / isolation / restart turns."""
+        nf = next(t for t in turns if "not_found" in t["path"])
+        recalls = [t for t in turns if "recall" in t["path"]]
+        mem = recalls[0]
+        iso = next(t for t in recalls if t["session_id"] != mem["session_id"])
+        restart = recalls[-1]
+        return dict(nf_user=esc(nf["user"]), nf_reply=esc(nf["reply"]), nf_path=esc(" → ".join(nf["path"])),
+                    mem_user=esc(mem["user"]), mem_reply=esc(mem["reply"]), iso_user=esc(iso["user"]), iso_reply=esc(iso["reply"]),
+                    restart_user=esc(restart["user"]), restart_reply=esc(restart["reply"]))
 
     def context(self) -> dict:
         ev, demo = self._json("eval_results.json"), self._json("demo_results.json")
@@ -188,7 +238,7 @@ class PresentationBuilder:
         n_correct = sum(r["correct"] for r in rows)
         # chunk-size comparison written by the tuning run: logs/chunk_comparison.json
         # {"reason": str, "runs": [{"config": "1000/150", "chunks": n, "overall": n, "answers": n, "refused": n, "chosen": bool}]}
-        chunk_table, chunk_scores, chunk_reason = "", "", ""
+        chunk_table, chunk_scores, chunk_reason, runs = "", "", "", []
         cmp_file = self.s.logs_dir / "chunk_comparison.json"
         if cmp_file.exists():
             cmp = json.loads(cmp_file.read_text(encoding="utf-8"))
@@ -203,14 +253,33 @@ class PresentationBuilder:
                           f"<td class='num'>{r['answers']}/{m['answerable']}</td><td class='num'>{r['refused']}/{m['out_of_scope']}</td></tr>"
                           for r in runs)
                 + f"</table><p>{chunk_reason}</p>")
+        doc_chart = BarChart([(self._doc_label(doc), sum(r["correct"] for r in rs) / len(rs),
+                               f"{sum(r['correct'] for r in rs)}/{len(rs)}") for doc, rs in per_doc.items()], max_value=1).render()
+        chunk_chart, chunk_best = "", ""
+        if cmp_file.exists():
+            best = next(r for r in runs if r.get("chosen"))
+            chunk_chart = BarChart([(r["config"], r["overall"], f"{r['overall']}/{len(rows)}") for r in runs],
+                                   max_value=len(rows), highlight=best["config"]).render()
+            chunk_best = f"{best['overall']}/{len(rows)} ({best['answers']}/{m['answerable']} answers, {best['refused']}/{m['out_of_scope']} refusals)"
+        oos_fails = [r for r in rows if r["out_of_scope"] and not r["correct"]]
+        oos_note = ("<p class='lbl'>Note on the out-of-scope miss</p><p>The test counts a refusal only when it uses the fallback wording. "
+                    + " ".join(f"For “{esc(r['question'])}” the answer was “{esc(self._short(r['answer'], 160))}”." for r in oos_fails)
+                    + " It invented nothing, but didn't use the standard refusal, so it is counted as a miss.</p>") if oos_fails else ""
+        n_refused = sum(r["correct"] for r in rows if r["out_of_scope"])
+        doc_chunks = {self._doc_label(d).lower(): n for d, n in per_doc_chunks.items()}
         return dict(
+            deck_css=(self.dir / "assets" / "deck.css").read_text(encoding="utf-8"),
+            doc_chart=doc_chart, chunk_chart=chunk_chart, chunk_best=chunk_best, oos_note=oos_note, n_refused=n_refused,
+            shot_rag=self._image("web_rag.png"), shot_lead=self._image("web_lead.png"),
+            **{f"chunks_{k}": doc_chunks.get(k, 0) for k in ("health", "accident", "savings", "travel", "pet")},
+            **self._turns(turns),
             guide_css=(self.dir / "assets" / "guide.css").read_text(encoding="utf-8"),
             graph_svg=GraphDiagram().render(),
             chat_model=self.s.chat_model, embed_model=self.s.embed_model,
             hit=f"{m['retrieval_hit']:.0%}", acc=f"{m['answer_accuracy']:.0%}", rej=f"{m['out_of_scope_refused']:.0%}",
             overall=self._pct(n_correct, len(rows)), n_correct=n_correct, n_fail=len(rows) - n_correct,
             n_answerable=m["answerable"], n_oos=m["out_of_scope"], n_eval=len(rows), eval_date=ev["generated"][:10],
-            doc_rows=doc_rows, fail_rows=fail_rows, improvement=chunk_table, chunk_scores=chunk_scores, chunk_reason=chunk_reason,
+            doc_rows=doc_rows, fail_rows=fail_rows, improvement=chunk_table, chunk_table=chunk_table, chunk_scores=chunk_scores, chunk_reason=chunk_reason,
             n_chunks=len(chunks), n_docs=len(per_doc_chunks), chunk_size=self.s.chunk_size, chunk_overlap=self.s.chunk_overlap,
             top_k=self.s.top_k, min_rel=self.s.min_relevance, window=self.s.history_window,
             summarize_after=self.s.summarize_after, keep_recent=self.s.keep_recent, n_nodes=14,
@@ -221,12 +290,14 @@ class PresentationBuilder:
     # ------------------------------------------------------------ output
     def build(self, export_pdf: bool = True) -> list[Path]:
         self.out.mkdir(exist_ok=True)
-        html_path = self.out / f"{self.STEM}.html"
-        html_path.write_text(Template((self.dir / "guide.html").read_text(encoding="utf-8")).substitute(self.context()),
-                             encoding="utf-8")
-        files = [html_path]
-        if export_pdf and self._export(html_path):
-            files.append(html_path.with_suffix(".pdf"))
+        ctx = self.context()
+        files = []
+        for template, stem in self.OUTPUTS.items():
+            html_path = self.out / f"{stem}.html"
+            html_path.write_text(Template((self.dir / template).read_text(encoding="utf-8")).substitute(ctx), encoding="utf-8")
+            files.append(html_path)
+            if export_pdf and self._export(html_path):
+                files.append(html_path.with_suffix(".pdf"))
         return files
 
     @staticmethod

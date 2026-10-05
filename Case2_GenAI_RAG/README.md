@@ -79,7 +79,7 @@ python main.py demo                   # scripted demo → logs/demo_run.log + lo
 python main.py eval                   # RAG accuracy test (100 questions) → logs/eval_report.md
 python main.py leads                  # list captured leads (through the MCP list_leads tool)
 python main.py graph                  # print the LangGraph structure (Mermaid)
-python main.py present                # presenter direction + cheat sheet PDF → output/ (after eval + demo)
+python main.py present                # slide deck + presenter guide PDFs → output/ (after eval + demo)
 python -m pytest -q                   # 36 tests (the integration test is skipped if Ollama is off)
 ```
 In chat, type `history` to see what the session remembers and `exit` to quit. Run `chat --session alice` again
@@ -213,8 +213,8 @@ Case2_GenAI_RAG/
 │   ├── demo.py · evaluation.py  # DemoRunner, RagEvaluator
 │   └── logging_setup.py
 ├── frontend/                    # React + TypeScript UI (Vite); dist/ = built app served by FastAPI
-├── presentation/                # presenter direction + cheat sheet template (python main.py present)
-├── output/                      # Case 2 Presenter Direction and Cheat Sheet.pdf
+├── presentation/                # deck + presenter guide templates, screenshots (python main.py present)
+├── output/                      # Case 2 Presentation.pdf (16:9) + Case 2 Presenter Guide.pdf (A4)
 ├── tests/                       # 36 pytest tests (unit, MCP over stdio, web API, sessions, integration)
 ├── logs/                        # demo_run.log, demo_transcript.md, eval_report.md, chunk_comparison.md
 └── data/                        # generated: faiss_index/, sessions.db, leads.db
