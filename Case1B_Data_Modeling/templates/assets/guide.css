@@ -32,3 +32,8 @@ th, td { padding: 4px 8px; }
 .calendar td.pass, .calendar td.fail { min-width: 70px; padding: 3px 4px; }
 pre { font-size: 10.5px; }
 .state { max-width: 460px; }
+table.sample { font-size: 11px; }
+table.sample th, table.sample td { padding: 3px 5px; }
+table.sample.kpi { font-size: 10px; table-layout: auto; }
+table.sample.kpi th { font-size: 9px; white-space: normal; vertical-align: bottom; }
+table.sample.kpi th, table.sample.kpi td { padding: 3px 4px; }

@@ -7,7 +7,7 @@ runnable, verified demo.
 | File | What it is |
 |---|---|
 | `output/Answer Case 1B.pdf` / `.html` | Full answer: requirement, assumptions, state diagram, ERD, table definitions, process, verification, KPI calendar, SQL |
-| `output/Case 1B Presentation.pdf` | 14-slide 16:9 deck for presenting |
+| `output/Case 1B Presentation.pdf` | 16-slide 16:9 deck for presenting |
 | `output/Case 1B Presenter Guide.pdf` | Slide-by-slide guide: how to read each diagram, script, design reasoning, Q&A, glossary |
 
 ## Business rule

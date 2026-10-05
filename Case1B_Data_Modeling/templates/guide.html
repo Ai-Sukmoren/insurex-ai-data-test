@@ -24,14 +24,16 @@ $guide_css
   <li>Case 1B is a <b>design</b> task, so the panel will judge your <b>reasoning</b>: why each table exists, and how the design handles change and edge cases. The "Design reasoning" and "Tough questions" sections at the end matter most.</li>
 </ul>
 
-<h3>Timing plan (about 12 minutes + Q&amp;A)</h3>
+<h3>Timing plan (about 14 minutes + Q&amp;A)</h3>
 <table>
   <tr><th>Slides</th><th>Part</th><th class="num">Minutes</th></tr>
   <tr><td>1–3</td><td>Problem and assumptions</td><td class="num">2.5</td></tr>
-  <tr><td>4–7</td><td>The design: tables, ERD, core table, monthly process</td><td class="num">4.5</td></tr>
-  <tr><td>8–9</td><td>Worked example and demo</td><td class="num">2</td></tr>
-  <tr><td>10–12</td><td>Edge cases, verification, reporting</td><td class="num">2.5</td></tr>
-  <tr><td>13–14</td><td>Extensibility and close</td><td class="num">1</td></tr>
+  <tr><td>4–5</td><td>The design: tables and ER diagram</td><td class="num">2</td></tr>
+  <tr><td>6–7</td><td>Sample data: what the rows look like</td><td class="num">2</td></tr>
+  <tr><td>8–9</td><td>Core table and monthly process</td><td class="num">2.5</td></tr>
+  <tr><td>10–11</td><td>Worked example and demo</td><td class="num">2</td></tr>
+  <tr><td>12–14</td><td>Edge cases, verification, reporting</td><td class="num">2.5</td></tr>
+  <tr><td>15–16</td><td>Extensibility and close</td><td class="num">1</td></tr>
 </table>
 
 <h3>The story in 60 seconds</h3>
@@ -127,7 +129,48 @@ $guide_css
 
 <!-- 6 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 6</span><h2>Core table: agent_monthly_kpi</h2><span class="time">~1 min</span></div>
+  <div class="g-head"><span class="num">Slide 6</span><h2>Sample data: agents, the rule and the sales</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> make the design concrete. Panels follow examples more easily than column lists. Every row here is real output from <code>output/agent_kpi_demo.db</code>, so you can open the file if asked.</p>
+  <div class="lbl">agent: one row per agent</div>
+  $sample_agent
+  <p><code>termination_date = NULL</code> means the agent still works here. <code>current_contract_type</code> is the contract in force today, a shortcut copy of the open row in the history table.</p>
+  <div class="lbl">kpi_rule: one row per rule version</div>
+  $sample_rule
+  <p>When the KPI changes, this row gets <code>effective_to</code> = the change date and a new rule row is inserted. Months already evaluated keep pointing to rule 1.</p>
+  <div class="lbl">policy: one row per policy sold</div>
+  $sample_policy
+  <p>The KPI is calculated from these rows. A <code>CANCELLED</code> policy stays in the table for the record but is not counted.</p>
+  <div class="box say">Here's what the data actually looks like. Four agents, two on salary and two on commission. One rule row holding 15,000 baht, five policies and three months. And the sales: Anan's seven policies in January add up to 25,000 baht, and that becomes one row in the monthly KPI table on the next slide.</div>
+  <div class="qa"><div class="q">Why is premium_amount 3,571.43 rather than a round number?</div><div class="a">The demo spreads each agent's monthly target (for example 25,000 over 7 policies) evenly across the policies. Real data would have real amounts; only the monthly total matters for the KPI.</div></div>
+  <div class="qa"><div class="q">Where would product_type matter?</div><div class="a">Not for this KPI, which counts all products. It's there so a future rule can be product-specific, for example a Life-only target, without changing the table.</div></div>
+</section>
+
+<!-- 7 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 7</span><h2>Sample data: agent $sample_agent_code in the result tables</h2><span class="time">~1 min</span></div>
+  <p><b>Purpose:</b> show that one agent's rows tell the whole story, and that the two result tables link up. Follow the bold numbers down the streak columns.</p>
+  <div class="lbl">agent_monthly_kpi: one row per agent per month</div>
+  $sample_kpi
+  <div class="lbl">agent_contract_history: one row per contract period</div>
+  $sample_history
+  <div class="lbl">How to walk through it</div>
+  <ol>
+    <li><b>Feb–Apr:</b> 9,000 THB and 3 policies fail both conditions; the fail streak counts 1, 2, <b>3</b>.</li>
+    <li>April's row sets <b>TO_COMMISSION</b>. The history table closes the salary period on 1 May and opens a commission period from <b>1 May</b>, with <code>trigger_kpi_month = 2026-04-01</code>.</li>
+    <li><b>May–Jul:</b> three passes; the pass streak reaches 3 in July → <b>TO_SALARY</b>, salary again from <b>1 August</b>.</li>
+    <li>The open period has <code>effective_to = NULL</code>: that's the contract in force now.</li>
+  </ol>
+  <div class="lbl">Boundary rows (agent $sample_boundary_code): why there are two separate pass flags</div>
+  $sample_kpi_boundary
+  <p>Exactly 15,000 THB fails the premium condition; exactly 5 policies fails the count condition. The flags show which one failed.</p>
+  <div class="box say">This is one agent through eight months. Three fails in a row and the April row says "to commission". The history table opens a commission contract from the first of May and points back to April as the reason. Three passes later, July's row says "to salary", and she's back on salary from August. So any question like "why was I moved?" is answered by one history row and the monthly row it points to.</div>
+  <div class="qa"><div class="q">The streak keeps counting after the switch (pass streak 4 in August). Is that a problem?</div><div class="a">No. The switch only fires from the opposite contract (salary + 3 fails, or commission + 3 passes), so a long streak can't trigger a second change. If the business wants a "fresh start" after a change, it's one CASE expression.</div></div>
+  <div class="qa"><div class="q">Why both contract_type_before and contract_type_after?</div><div class="a">Before is the contract the agent was judged under that month; after is what applies from next month. Keeping both makes each row self-explanatory without joining the history table.</div></div>
+</section>
+
+<!-- 8 -->
+<section class="g-slide">
+  <div class="g-head"><span class="num">Slide 8</span><h2>Core table: agent_monthly_kpi</h2><span class="time">~1 min</span></div>
   <div class="lbl">The four groups of columns</div>
   <table>
     <tr><th>Group</th><th>Columns</th><th>Question it answers</th></tr>
@@ -141,9 +184,9 @@ $guide_css
   <div class="qa"><div class="q">Why both is_pass and the two condition flags?</div><div class="a"><code>is_pass</code> is what the rule uses; the condition flags explain it. Storing the result rather than recomputing it also keeps history correct if a rule changes later.</div></div>
 </section>
 
-<!-- 7 -->
+<!-- 9 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 7</span><h2>Monthly process</h2><span class="time">~1.5 min</span></div>
+  <div class="g-head"><span class="num">Slide 9</span><h2>Monthly process</h2><span class="time">~1.5 min</span></div>
   <div class="lbl">The four steps</div>
   <ol>
     <li><b>Evaluate</b>: for every agent employed in the month, sum the premium and count the new policies (excluding cancelled ones), then compare with the rule whose dates cover the month.</li>
@@ -162,9 +205,9 @@ $guide_css
   <div class="box say">Once a month, after month-end, one SQL job runs in four steps: evaluate, update streaks, decide, apply. Everything runs in a single transaction, so it's all or nothing, and the engine refuses to run a month twice or out of order, because either would corrupt the streaks.</div>
 </section>
 
-<!-- 8 -->
+<!-- 10 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 8</span><h2>Worked example: agent A002</h2><span class="time">~1 min</span></div>
+  <div class="g-head"><span class="num">Slide 10</span><h2>Worked example: agent A002</h2><span class="time">~1 min</span></div>
   <div class="g-fig">$calendar_example</div>
   <div class="lbl">How to read the calendar</div>
   <ul>
@@ -184,9 +227,9 @@ $guide_css
   <div class="box say">Let's follow one agent. A002 passes in January, then fails three months in a row. You can see the fail streak count 1, 2, 3, and in April the job decides to switch them to commission from May. Then they pass three months in a row, and in July they're switched back to salary from August.</div>
 </section>
 
-<!-- 9 -->
+<!-- 11 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 9</span><h2>Demo results: four agents</h2><span class="time">~1 min</span></div>
+  <div class="g-head"><span class="num">Slide 11</span><h2>Demo results: four agents</h2><span class="time">~1 min</span></div>
   <div class="g-fig">$calendar</div>
   <div class="lbl">What each agent proves</div>
   $scenarios
@@ -194,22 +237,22 @@ $guide_css
   <div class="qa"><div class="q">Is this real data?</div><div class="a">No. It's synthetic data designed to hit every rule. No agent data was provided for 1B; the task was the design. The same SQL runs unchanged on real data.</div></div>
 </section>
 
-<!-- 10 -->
+<!-- 12 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 10</span><h2>Edge cases</h2><span class="time">~45 s</span></div>
+  <div class="g-head"><span class="num">Slide 12</span><h2>Edge cases</h2><span class="time">~45 s</span></div>
   <p><b>Purpose:</b> show you thought about what breaks systems in real life. Pick 2–3 to mention; don't read the whole table.</p>
   <ul>
     <li><b>Boundaries</b> (exactly 15,000 / exactly 5) are where rules usually get implemented wrong.</li>
     <li><b>No sales</b>: an agent who sells nothing must still fail; otherwise the worst performers escape evaluation.</li>
-    <li><b>Mid-month hire</b>: found by the verification (slide 11).</li>
+    <li><b>Mid-month hire</b>: found by the verification (slide 13).</li>
     <li><b>Re-runs and skipped months</b>: operational mistakes, blocked by the engine.</li>
   </ul>
   <div class="box say">I wrote a test for every tricky case: the exact boundary values, an agent with no sales, cancelled policies, a broken streak, an agent who keeps failing on commission, mid-month hires, and running a month twice or out of order. All 25 tests pass.</div>
 </section>
 
-<!-- 11 -->
+<!-- 13 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 11</span><h2>Verification</h2><span class="time">~1 min</span></div>
+  <div class="g-head"><span class="num">Slide 13</span><h2>Verification</h2><span class="time">~1 min</span></div>
   <div class="lbl">The idea</div>
   <p>I implemented the same rules twice: once in <b>SQL</b> (the production job) and once in <b>plain Python</b> (<code>ReferenceKpiEngine</code>), written separately. Both run on the same input and every output column is compared.</p>
   <div class="lbl">The numbers</div>
@@ -224,9 +267,9 @@ $guide_css
   <div class="qa"><div class="q">Couldn't both implementations share the same mistake?</div><div class="a">They could if I misunderstood the rule itself, which is why the assumptions are stated explicitly for the business to confirm. But they can't share an <i>implementation</i> bug, because they're written in different languages with different logic (set-based SQL vs a row-by-row loop).</div></div>
 </section>
 
-<!-- 12 -->
+<!-- 14 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 12</span><h2>Reporting view</h2><span class="time">~45 s</span></div>
+  <div class="g-head"><span class="num">Slide 14</span><h2>Reporting view</h2><span class="time">~45 s</span></div>
   <div class="lbl">What the view returns</div>
   <p>For each agent: the current contract, the last evaluated month and result, both streaks, <b>months_to_change</b> (3 minus the relevant streak) and a <b>status</b>:</p>
   <ul>
@@ -239,9 +282,9 @@ $guide_css
   <div class="box say">For the business I added a view that answers the question managers actually ask: who is about to lose their salary contract? One simple query lists agents at risk and how many months they have left, which makes it a coaching tool, not just a record.</div>
 </section>
 
-<!-- 13 -->
+<!-- 15 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 13</span><h2>Extensibility &amp; next steps</h2><span class="time">~45 s</span></div>
+  <div class="g-head"><span class="num">Slide 15</span><h2>Extensibility &amp; next steps</h2><span class="time">~45 s</span></div>
   <ul>
     <li><b>Rule changes</b>: insert a new <code>kpi_rule</code> with <code>effective_from</code> and close the old one. Each monthly row stores its <code>rule_id</code>, so history stays correct.</li>
     <li><b>Scale</b>: about 24,000 rows a year for 2,000 agents, which is trivial for any database. Indexes are on (agent_id, issue_date) for policy and (agent_id, kpi_month) via the primary key.</li>
@@ -251,9 +294,9 @@ $guide_css
   <div class="box say">The design is built to change. When the KPI changes again, it's a new rule row, not new code. It scales easily. And the natural next steps are early-warning alerts, handling late cancellations, and connecting it to payroll.</div>
 </section>
 
-<!-- 14 -->
+<!-- 16 -->
 <section class="g-slide">
-  <div class="g-head"><span class="num">Slide 14</span><h2>Close</h2><span class="time">rest</span></div>
+  <div class="g-head"><span class="num">Slide 16</span><h2>Close</h2><span class="time">rest</span></div>
   <div class="box say">To sum up: one row per agent per month with stored streaks, rules as data, a full contract history, and logic proven by two independent implementations. Happy to take questions or open the SQL.</div>
   <p><b>Demo tip:</b> open <code>output/agent_kpi_demo.db</code> in a SQLite browser (e.g. DB Browser for SQLite) and run <code>SELECT * FROM v_agent_kpi_status;</code> live.</p>
 </section>

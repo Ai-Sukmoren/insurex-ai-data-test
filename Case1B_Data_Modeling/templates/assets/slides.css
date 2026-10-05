@@ -56,3 +56,12 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
 .slide.cover .stats { display: flex; gap: 52px; margin-top: 44px; }
 .slide.cover .stats div { font-size: 15px; color: #cde2fb; }
 .slide.cover .stats b { display: block; font-size: 34px; color: #fff; }
+.sample-stack { display: flex; flex-direction: column; gap: 10px; }
+.sample-stack .tname { font-size: 14px; font-weight: 700; margin: 0 0 2px; }
+.sample-stack .tname code { color: var(--pa); }
+.sample-stack .tname span { font-weight: 400; color: var(--muted); font-size: 13px; }
+table.sample { font-size: 13px; margin: 0; }
+table.sample th, table.sample td { padding: 4px 8px; }
+table.sample.kpi { font-size: 12.5px; }
+table.sample.kpi th, table.sample.kpi td { padding: 4px 5px; }
+table.sample.kpi th { font-size: 10px; vertical-align: bottom; }

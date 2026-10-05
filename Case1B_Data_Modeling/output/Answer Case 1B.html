@@ -101,6 +101,15 @@ footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
   pre { break-inside: auto; }
 }
 
+/* sample rows (deck slides 6-7, presenter guide) */
+table.sample th { font-family: Consolas, ui-monospace, monospace; font-size: 0.86em; font-weight: 600; white-space: nowrap; }
+table.sample td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.sample td.more { color: var(--muted); font-style: italic; white-space: normal; }
+table.sample .null { color: var(--muted); font-family: Consolas, ui-monospace, monospace; font-size: 0.9em; }
+table.sample .chip { display: inline-block; min-width: 22px; text-align: center; border-radius: 4px; font-weight: 700; }
+table.sample .chip.pass { background: var(--good-wash); color: var(--good-ink); }
+table.sample .chip.fail { background: var(--bad-wash); color: var(--bad-ink); }
+
 </style>
 </head>
 <body>

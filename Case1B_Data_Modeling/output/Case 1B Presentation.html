@@ -100,6 +100,15 @@ footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
   pre { break-inside: auto; }
 }
 
+/* sample rows (deck slides 6-7, presenter guide) */
+table.sample th { font-family: Consolas, ui-monospace, monospace; font-size: 0.86em; font-weight: 600; white-space: nowrap; }
+table.sample td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.sample td.more { color: var(--muted); font-style: italic; white-space: normal; }
+table.sample .null { color: var(--muted); font-family: Consolas, ui-monospace, monospace; font-size: 0.9em; }
+table.sample .chip { display: inline-block; min-width: 22px; text-align: center; border-radius: 4px; font-weight: 700; }
+table.sample .chip.pass { background: var(--good-wash); color: var(--good-ink); }
+table.sample .chip.fail { background: var(--bad-wash); color: var(--bad-ink); }
+
 /* 16:9 slide deck - 1280 x 720 px per page. Tokens come from styles.css (forced light theme). */
 @page { size: 1280px 720px; margin: 0; }
 html, body { background: #e9e8e4; }
@@ -158,6 +167,15 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
 .slide.cover .stats { display: flex; gap: 52px; margin-top: 44px; }
 .slide.cover .stats div { font-size: 15px; color: #cde2fb; }
 .slide.cover .stats b { display: block; font-size: 34px; color: #fff; }
+.sample-stack { display: flex; flex-direction: column; gap: 10px; }
+.sample-stack .tname { font-size: 14px; font-weight: 700; margin: 0 0 2px; }
+.sample-stack .tname code { color: var(--pa); }
+.sample-stack .tname span { font-weight: 400; color: var(--muted); font-size: 13px; }
+table.sample { font-size: 13px; margin: 0; }
+table.sample th, table.sample td { padding: 4px 8px; }
+table.sample.kpi { font-size: 12.5px; }
+table.sample.kpi th, table.sample.kpi td { padding: 4px 5px; }
+table.sample.kpi th { font-size: 10px; vertical-align: bottom; }
 
 </style>
 </head>
@@ -332,6 +350,31 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
 
 <!-- 6 -->
 <section class="slide">
+  <div class="kicker">Sample data · inputs</div>
+  <h2>What the rows look like: agents, the rule and the sales</h2>
+  <p class="lede">Real rows from the demo database (<code>output/agent_kpi_demo.db</code>)</p>
+  <div class="sample-stack">
+    <div><p class="tname"><code>agent</code> <span>· 1 row per agent · termination_date NULL = still employed</span></p><table class="sample"><tr><th class="">agent_<wbr>id</th><th class="">agent_<wbr>code</th><th class="">agent_<wbr>name</th><th class="">hire_<wbr>date</th><th class="">termination_<wbr>date</th><th class="">current_<wbr>contract_<wbr>type</th></tr><tr><td class="">1</td><td class="">A001</td><td class="">Anan</td><td class="">2025-06-01</td><td class=""><span class="null">NULL</span></td><td class="">SALARY</td></tr><tr><td class="">2</td><td class="">A002</td><td class="">Busaba</td><td class="">2025-06-01</td><td class=""><span class="null">NULL</span></td><td class="">SALARY</td></tr><tr><td class="">3</td><td class="">A003</td><td class="">Chai</td><td class="">2025-06-01</td><td class=""><span class="null">NULL</span></td><td class="">COMMISSION</td></tr><tr><td class="">4</td><td class="">A004</td><td class="">Duang</td><td class="">2025-06-01</td><td class=""><span class="null">NULL</span></td><td class="">COMMISSION</td></tr></table></div>
+    <div><p class="tname"><code>kpi_rule</code> <span>· 1 row per rule version · a KPI change closes this row and inserts a new one</span></p><table class="sample"><tr><th class="">rule_<wbr>id</th><th class="">rule_<wbr>name</th><th class="num">min_<wbr>total_<wbr>premium</th><th class="num">min_<wbr>new_<wbr>policy_<wbr>count</th><th class="num">consecutive_<wbr>months</th><th class="">effective_<wbr>from</th><th class="">effective_<wbr>to</th></tr><tr><td class="">1</td><td class="">Sales KPI 2026</td><td class="num">15,000</td><td class="num">5</td><td class="num">3</td><td class="">2026-01-01</td><td class=""><span class="null">NULL</span></td></tr></table></div>
+    <div><p class="tname"><code>policy</code> <span>· 1 row per policy sold · cancelled policies stay here but don't count</span></p><table class="sample"><tr><th class="">policy_<wbr>id</th><th class="">policy_<wbr>no</th><th class="">agent_<wbr>id</th><th class="">product_<wbr>type</th><th class="">issue_<wbr>date</th><th class="num">premium_<wbr>amount</th><th class="">policy_<wbr>status</th></tr><tr><td class="">1</td><td class="">POL00001</td><td class="">1</td><td class="">PA</td><td class="">2026-01-01</td><td class="num">3,571.43</td><td class="">ACTIVE</td></tr><tr><td class="">2</td><td class="">POL00002</td><td class="">1</td><td class="">LIFE</td><td class="">2026-01-02</td><td class="num">3,571.43</td><td class="">ACTIVE</td></tr><tr><td class="">3</td><td class="">POL00003</td><td class="">1</td><td class="">PA</td><td class="">2026-01-03</td><td class="num">3,571.43</td><td class="">ACTIVE</td></tr><tr><td class="">4</td><td class="">POL00004</td><td class="">1</td><td class="">LIFE</td><td class="">2026-01-04</td><td class="num">3,571.43</td><td class="">ACTIVE</td></tr><tr><td colspan="7" class="more">… A001 has 7 policies in 2026-01 totalling 25,000 THB (→ one agent_monthly_kpi row) · 174 policies in the demo</td></tr></table></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>6</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Sample data · results</div>
+  <h2>Agent A002 in the two result tables: a fail streak, then a pass streak</h2>
+  <p class="lede">The streak reaching 3 sets the action; the history row opens from the 1st of the next month and points back to that month</p>
+  <div class="sample-stack">
+    <div><p class="tname"><code>agent_monthly_kpi</code> <span>· 1 row per agent per month · Jan–Aug 2026</span></p><table class="sample kpi"><tr><th class="">kpi_<wbr>month</th><th class="num">rule_<wbr>id</th><th class="num">total_<wbr>premium</th><th class="num">new_<wbr>policy_<wbr>count</th><th class="">is_<wbr>premium_<wbr>pass</th><th class="">is_<wbr>policy_<wbr>pass</th><th class="">is_<wbr>pass</th><th class="num">consecutive_<wbr>pass</th><th class="num">consecutive_<wbr>fail</th><th class="">contract_<wbr>type_<wbr>before</th><th class="">contract_<wbr>action</th><th class="">contract_<wbr>type_<wbr>after</th></tr><tr><td class="">2026-01</td><td class="num">1</td><td class="num">25,000</td><td class="num">7</td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class="num">1</td><td class="num">0</td><td class="">SALARY</td><td class="">NONE</td><td class="">SALARY</td></tr><tr><td class="">2026-02</td><td class="num">1</td><td class="num">9,000</td><td class="num">3</td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class="num">0</td><td class="num">1</td><td class="">SALARY</td><td class="">NONE</td><td class="">SALARY</td></tr><tr><td class="">2026-03</td><td class="num">1</td><td class="num">9,000</td><td class="num">3</td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class="num">0</td><td class="num">2</td><td class="">SALARY</td><td class="">NONE</td><td class="">SALARY</td></tr><tr><td class="">2026-04</td><td class="num">1</td><td class="num">9,000</td><td class="num">3</td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class=""><span class="chip fail">✗</span></td><td class="num">0</td><td class="num"><b>3</b></td><td class="">SALARY</td><td class=""><b>TO_COMMISSION</b></td><td class="">COMMISSION</td></tr><tr><td class="">2026-05</td><td class="num">1</td><td class="num">25,000</td><td class="num">7</td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class="num">1</td><td class="num">0</td><td class="">COMMISSION</td><td class="">NONE</td><td class="">COMMISSION</td></tr><tr><td class="">2026-06</td><td class="num">1</td><td class="num">25,000</td><td class="num">7</td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class="num">2</td><td class="num">0</td><td class="">COMMISSION</td><td class="">NONE</td><td class="">COMMISSION</td></tr><tr><td class="">2026-07</td><td class="num">1</td><td class="num">25,000</td><td class="num">7</td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class="num"><b>3</b></td><td class="num">0</td><td class="">COMMISSION</td><td class=""><b>TO_SALARY</b></td><td class="">SALARY</td></tr><tr><td class="">2026-08</td><td class="num">1</td><td class="num">25,000</td><td class="num">7</td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class=""><span class="chip pass">✓</span></td><td class="num"><b>4</b></td><td class="num">0</td><td class="">SALARY</td><td class="">NONE</td><td class="">SALARY</td></tr></table></div>
+    <div><p class="tname"><code>agent_contract_history</code> <span>· 1 row per contract period · effective_to NULL = current contract</span></p><table class="sample"><tr><th class="">contract_<wbr>id</th><th class="">agent_<wbr>id</th><th class="">contract_<wbr>type</th><th class="">effective_<wbr>from</th><th class="">effective_<wbr>to</th><th class="">change_<wbr>reason</th><th class="">trigger_<wbr>kpi_<wbr>month</th></tr><tr><td class="">2</td><td class="">2</td><td class="">SALARY</td><td class="">2025-06-01</td><td class="">2026-05-01</td><td class="">INITIAL</td><td class=""><span class="null">NULL</span></td></tr><tr><td class="">5</td><td class="">2</td><td class="">COMMISSION</td><td class="">2026-05-01</td><td class="">2026-08-01</td><td class="">FAIL_3_CONSECUTIVE</td><td class="">2026-04-01</td></tr><tr><td class="">8</td><td class="">2</td><td class="">SALARY</td><td class="">2026-08-01</td><td class=""><span class="null">NULL</span></td><td class="">PASS_3_CONSECUTIVE</td><td class="">2026-07-01</td></tr></table></div>
+  </div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>7</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
   <div class="kicker">Core table</div>
   <h2><code style="font-size:28px">agent_monthly_kpi</code>: one row explains the whole decision</h2>
   <p class="lede">Primary key (agent_id, kpi_month) guarantees exactly one result per agent per month</p>
@@ -342,10 +385,10 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
     <div class="group"><h4>4 · What did we decide?</h4><code>contract_type_before<br>contract_action<br>contract_type_after</code><p>NONE / TO_COMMISSION / TO_SALARY, fully explainable from one row.</p></div>
   </div>
   <div class="takeaway"><b>Why store streaks instead of recalculating?</b> The decision depends on unbroken runs of months; storing the running count makes each month a simple, fast, auditable step.</div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>6</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>8</span></div>
 </section>
 
-<!-- 7 -->
+<!-- 9 -->
 <section class="slide">
   <div class="kicker">Monthly process</div>
   <h2>A four-step job runs once a month, safely</h2>
@@ -366,10 +409,10 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
       <li>The current contract has <code>effective_to = NULL</code>.</li>
       <li>Any past date can be answered: "which contract was in force on X?"</li></ul></div>
   </div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>7</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>9</span></div>
 </section>
 
-<!-- 8 -->
+<!-- 10 -->
 <section class="slide">
   <div class="kicker">Worked example</div>
   <h2>One agent, eight months: two contract changes</h2>
@@ -385,20 +428,20 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
       <li>July decision: <b>TO_SALARY</b>, effective <b>1 August</b>.</li>
     </ul>
   </div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>8</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>10</span></div>
 </section>
 
-<!-- 9 -->
+<!-- 11 -->
 <section class="slide">
   <div class="kicker">Demo results</div>
   <h2>Four agents chosen to exercise every rule</h2>
   <p class="lede">Real output of the monthly SQL job, Jan–Aug 2026</p>
   <table class="calendar"><tr><th></th><th></th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th></tr><tr><th rowspan="2" class="agent">A001<span>Anan</span></th><td class="rowlbl">KPI</td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 4</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 5</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 6</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 7</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 8</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td></tr><tr><th rowspan="2" class="agent">A002<span>Busaba</span></th><td class="rowlbl">KPI</td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 4</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission<em>→ Salary</em></td><td class="c-salary">Salary</td></tr><tr><th rowspan="2" class="agent">A003<span>Chai</span></th><td class="rowlbl">KPI</td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td><td class="c-commission">Commission</td><td class="c-commission">Commission</td></tr><tr><th rowspan="2" class="agent">A004<span>Duang</span></th><td class="rowlbl">KPI</td><td class="fail" title="premium"><b>✗ FAIL</b><span>15.0k · 6 pol</span><span class="streak">streak 1</span></td><td class="fail" title="policies"><b>✗ FAIL</b><span>30.0k · 5 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 1</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 2</span></td><td class="pass" title=""><b>✓ PASS</b><span>25.0k · 7 pol</span><span class="streak">streak 3</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 1</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 2</span></td><td class="fail" title="premium · policies"><b>✗ FAIL</b><span>9.0k · 3 pol</span><span class="streak">streak 3</span></td></tr><tr class="contract-row"><td class="rowlbl">Contract</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission</td><td class="c-commission">Commission<em>→ Salary</em></td><td class="c-salary">Salary</td><td class="c-salary">Salary</td><td class="c-salary">Salary<em>→ Commission</em></td></tr></table>
   <div class="takeaway"><b>A003:</b> a single pass in March resets the fail streak, so no change until Apr–Jun. <b>A004:</b> exactly 15,000 THB (Jan) and exactly 5 policies (Feb) both fail.</div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>9</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>11</span></div>
 </section>
 
-<!-- 10 -->
+<!-- 12 -->
 <section class="slide">
   <div class="kicker">Edge cases</div>
   <h2>The tricky cases are handled and tested</h2>
@@ -414,10 +457,10 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
     <tr><td>Same month run twice / month skipped</td><td>Rejected with a clear error</td><td>✓ tested</td></tr>
     <tr><td>KPI month not the 1st</td><td>Rejected</td><td>✓ tested</td></tr>
   </table>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>10</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>12</span></div>
 </section>
 
-<!-- 11 -->
+<!-- 13 -->
 <section class="slide">
   <div class="kicker">Verification</div>
   <h2>Two independent implementations give identical results</h2>
@@ -434,10 +477,10 @@ pre.q { font: 13px/1.5 Consolas, ui-monospace, monospace; background: var(--code
     </ul>
     <div class="takeaway" style="margin-top:0"><b>It caught a real bug:</b> agents hired mid-month were silently skipped in their first month, because the job looked for a contract in force on the 1st. It's now fixed and has a test.</div>
   </div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>11</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>13</span></div>
 </section>
 
-<!-- 12 -->
+<!-- 14 -->
 <section class="slide">
   <div class="kicker">Reporting</div>
   <h2>One query answers "who is about to lose their salary contract?"</h2>
@@ -457,10 +500,10 @@ ORDER  BY months_to_change;</pre>
     </div>
     <div><div class="fig-title">Demo output after the August run</div><table><tr><th class="">Agent</th><th class="">Contract</th><th class="">Last month</th><th class="">Result</th><th class="num">Pass streak</th><th class="num">Fail streak</th><th class="num">Months to change</th><th class="num">Status</th></tr><tr><td class="">A001</td><td class="">SALARY</td><td class="">2026-08</td><td class="">PASS</td><td class="num">8</td><td class="num">0</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A002</td><td class="">SALARY</td><td class="">2026-08</td><td class="">PASS</td><td class="num">4</td><td class="num">0</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A003</td><td class="">COMMISSION</td><td class="">2026-08</td><td class="">FAIL</td><td class="num">0</td><td class="num">1</td><td class="num">3</td><td class="num">STABLE</td></tr><tr><td class="">A004</td><td class="">COMMISSION</td><td class="">2026-08</td><td class="">FAIL</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">STABLE</td></tr></table></div>
   </div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>12</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>14</span></div>
 </section>
 
-<!-- 13 -->
+<!-- 15 -->
 <section class="slide">
   <div class="kicker">Extensibility &amp; next steps</div>
   <h2>Built to change: new rules, more agents, more uses</h2>
@@ -477,15 +520,15 @@ ORDER  BY months_to_change;</pre>
       <li><b>Integration:</b> feed contract changes to HR and payroll; add a manager dashboard.</li>
     </ul>
   </div>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>13</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>15</span></div>
 </section>
 
-<!-- 14 -->
+<!-- 16 -->
 <section class="slide cover">
   <div class="kicker">Thank you</div>
   <h1>Questions?</h1>
   <p>Full answer document: <b>Answer Case 1B.pdf</b> · SQL: <b>sql/</b> · demo database: <b>output/agent_kpi_demo.db</b> · run: <b>python main.py</b></p>
-  <div class="foot"><span>InsureX · Test Case 1B</span><span>14</span></div>
+  <div class="foot"><span>InsureX · Test Case 1B</span><span>16</span></div>
 </section>
 
 </div>

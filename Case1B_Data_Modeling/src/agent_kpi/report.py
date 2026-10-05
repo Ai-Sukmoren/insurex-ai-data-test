@@ -150,6 +150,93 @@ def html_table(headers: list[str], rows: list[list], num_from: int = 99) -> str:
     return f"<table><tr>{th}</tr>{trs}</table>"
 
 
+class SampleTables:
+    """Real rows from each table of the demo database, rendered as small HTML tables for the deck and the guide.
+    The example agent's rows tell the full story; the boundary agent's rows show a fail at exactly the threshold."""
+
+    def __init__(self, db: Database, example_agent: str = "A002", boundary_agent: str = "A004", policy_rows: int = 4):
+        self.db, self.example, self.boundary, self.policy_rows = db, example_agent, boundary_agent, policy_rows
+
+    @staticmethod
+    def _table(headers: list[str], rows: list[list], num_cols: set[int] = frozenset(), extra: str = "") -> str:
+        # <wbr> lets long column names wrap at underscores where the page is narrow (the A4 guide)
+        th = "".join(f'<th class="{"num" if i in num_cols else ""}">{h.replace("_", "_<wbr>")}</th>' for i, h in enumerate(headers))
+        trs = "".join("<tr>" + "".join(f'<td class="{"num" if i in num_cols else ""}">{c}</td>' for i, c in enumerate(r)) + "</tr>"
+                      for r in rows)
+        return f'<table class="sample">{"<tr>" + th + "</tr>"}{trs}{extra}</table>'
+
+    @staticmethod
+    def _null(v) -> str:
+        return '<span class="null">NULL</span>' if v is None else esc(str(v))
+
+    @staticmethod
+    def _flag(v) -> str:
+        return '<span class="chip pass">✓</span>' if v else '<span class="chip fail">✗</span>'
+
+    @staticmethod
+    def _month(v: str) -> str:
+        return v[:7]
+
+    def agent(self) -> str:
+        rows = self.db.query("SELECT agent_id, agent_code, agent_name, hire_date, termination_date, current_contract_type "
+                             "FROM agent ORDER BY agent_id")
+        return self._table(["agent_id", "agent_code", "agent_name", "hire_date", "termination_date", "current_contract_type"],
+                           [[r[0], r[1], esc(r[2]), r[3], self._null(r[4]), r[5]] for r in rows])
+
+    def kpi_rule(self) -> str:
+        rows = self.db.query("SELECT * FROM kpi_rule ORDER BY rule_id")
+        return self._table(["rule_id", "rule_name", "min_total_premium", "min_new_policy_count", "consecutive_months",
+                            "effective_from", "effective_to"],
+                           [[r["rule_id"], esc(r["rule_name"]), f'{r["min_total_premium"]:,.0f}', r["min_new_policy_count"],
+                             r["consecutive_months"], r["effective_from"], self._null(r["effective_to"])] for r in rows], {2, 3, 4})
+
+    def policy(self) -> str:
+        first = self.db.query("SELECT p.agent_id, a.agent_code, substr(p.issue_date, 1, 7) AS m FROM policy p "
+                              "JOIN agent a USING (agent_id) ORDER BY p.policy_id LIMIT 1")[0]
+        month = self.db.query("SELECT COUNT(*) AS n, SUM(premium_amount) AS total FROM policy WHERE agent_id = ? "
+                              "AND substr(issue_date, 1, 7) = ? AND policy_status <> 'CANCELLED'", (first["agent_id"], first["m"]))[0]
+        total = self.db.query("SELECT COUNT(*) AS n FROM policy")[0]["n"]
+        rows = self.db.query("SELECT policy_id, policy_no, agent_id, product_type, issue_date, premium_amount, policy_status "
+                             "FROM policy ORDER BY policy_id LIMIT ?", (self.policy_rows,))
+        dots = '<tr><td colspan="7" class="more">… ' + (
+            f'{first["agent_code"]} has {month["n"]} policies in {first["m"]} totalling {month["total"]:,.0f} THB '
+            f'(→ one agent_monthly_kpi row) · {total} policies in the demo</td></tr>')
+        return self._table(["policy_id", "policy_no", "agent_id", "product_type", "issue_date", "premium_amount", "policy_status"],
+                           [[r[0], r[1], r[2], r[3], r[4], f"{r[5]:,.2f}", r[6]] for r in rows], {5}, dots)
+
+    def _kpi_rows(self, code: str, limit: int | None = None) -> list:
+        sql = ("SELECT k.* FROM agent_monthly_kpi k JOIN agent a USING (agent_id) WHERE a.agent_code = ? ORDER BY k.kpi_month"
+               + (f" LIMIT {int(limit)}" if limit else ""))
+        return self.db.query(sql, (code,))
+
+    def monthly_kpi(self, code: str | None = None, limit: int | None = None) -> str:
+        rows = self._kpi_rows(code or self.example, limit)
+        rule_n = self.db.query("SELECT MAX(consecutive_months) AS n FROM kpi_rule")[0]["n"]
+        action = lambda a: f"<b>{a}</b>" if a != "NONE" else a
+        streak = lambda n: f"<b>{n}</b>" if n >= rule_n else str(n)
+        return self._table(
+            ["kpi_month", "rule_id", "total_premium", "new_policy_count", "is_premium_pass", "is_policy_pass", "is_pass",
+             "consecutive_pass", "consecutive_fail", "contract_type_before", "contract_action", "contract_type_after"],
+            [[self._month(r["kpi_month"]), r["rule_id"], f'{r["total_premium"]:,.0f}', r["new_policy_count"],
+              self._flag(r["is_premium_pass"]), self._flag(r["is_policy_pass"]), self._flag(r["is_pass"]),
+              streak(r["consecutive_pass"]), streak(r["consecutive_fail"]), r["contract_type_before"],
+              action(r["contract_action"]), r["contract_type_after"]] for r in rows], {1, 2, 3, 7, 8}
+        ).replace('class="sample"', 'class="sample kpi"', 1)
+
+    def contract_history(self) -> str:
+        rows = self.db.query("SELECT h.* FROM agent_contract_history h JOIN agent a USING (agent_id) WHERE a.agent_code = ? "
+                             "ORDER BY h.effective_from", (self.example,))
+        return self._table(["contract_id", "agent_id", "contract_type", "effective_from", "effective_to", "change_reason",
+                            "trigger_kpi_month"],
+                           [[r["contract_id"], r["agent_id"], r["contract_type"], r["effective_from"], self._null(r["effective_to"]),
+                             r["change_reason"], self._null(r["trigger_kpi_month"])] for r in rows])
+
+    def context(self) -> dict:
+        return dict(sample_agent=self.agent(), sample_rule=self.kpi_rule(), sample_policy=self.policy(),
+                    sample_kpi=self.monthly_kpi(), sample_kpi_boundary=self.monthly_kpi(self.boundary, limit=2),
+                    sample_history=self.contract_history(), sample_agent_code=self.example, sample_boundary_code=self.boundary)
+
+
 @dataclass
 class Verification:
     scenario_agent_months: int
@@ -197,6 +284,7 @@ class DocumentRenderer:
             schema_sql=esc((self.sql_dir / "schema.sql").read_text(encoding="utf-8")),
             job_sql=esc((self.sql_dir / "monthly_kpi_job.sql").read_text(encoding="utf-8")),
             views_sql=esc((self.sql_dir / "views.sql").read_text(encoding="utf-8")),
+            **SampleTables(db, example_agent).context(),
         )
 
 
